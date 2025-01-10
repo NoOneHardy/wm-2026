@@ -1,0 +1,21 @@
+{
+  "name": "wm-2026-proxy",
+  "version": "1.0.0",
+  "description": "A node proxy to route requests to backend and frontend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "build": "npx tsc"
+  },
+  "author": "NoOneHardy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "http-proxy": "^1.18.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/http-proxy": "^1.17.15",
+    "typescript": "^5.7.3"
+  }
+}

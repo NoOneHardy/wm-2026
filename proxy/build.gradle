@@ -1,0 +1,23 @@
+plugins {
+    id 'base'
+    id 'com.github.node-gradle.node' version '7.1.0'
+}
+
+tasks.register('installNodeModules', NpmTask) {
+    description 'Install npm dependencies'
+    group 'lifecycle'
+    args = ['install']
+}
+
+tasks.register('compile', NpxTask) {
+    description 'Builds proxy files'
+    group 'lifecycle'
+    dependsOn installNodeModules
+    command = 'tsc'
+}
+
+tasks.register('remove', Delete) {
+    description 'Removes generated files'
+    group 'lifecycle'
+    delete 'dist'
+}

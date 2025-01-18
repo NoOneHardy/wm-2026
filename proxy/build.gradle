@@ -21,3 +21,11 @@ tasks.register('remove', Delete) {
     group 'lifecycle'
     delete 'dist'
 }
+
+tasks.register('lint', NpxTask) {
+    description 'Lints project'
+    group 'lifecycle'
+    dependsOn installNodeModules
+    command = 'eslint'
+    args = ['src']
+}

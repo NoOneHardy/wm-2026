@@ -29,3 +29,10 @@ tasks.register('test', NpmTask) {
   dependsOn installNodeModules
   args = ['run', 'test-ci']
 }
+
+tasks.register('ngBuild', NpmTask) {
+  description 'Build frontend'
+  group 'lifecycle'
+  dependsOn installNodeModules
+  args = ['run', 'build']
+}

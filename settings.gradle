@@ -7,4 +7,4 @@
 
 rootProject.name = 'wm-2026'
 
-include('proxy', 'frontend')
+include('proxy', 'frontend', 'backend')

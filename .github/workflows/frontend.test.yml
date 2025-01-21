@@ -5,24 +5,19 @@ name: Test frontend
 
 on:
   push:
-  pull_request:
-    branches: [ "develop" ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        sparse-checkout: |
-          frontend
-          gradle
-    - name: Set up gradle
-      uses: gradle/actions/setup-gradle@v4
-    - name: Grant execute permission to gradlew
-      run: chmod +x ./gradlew
-    - name: Build gradle
-      run: ./gradlew build
-    - run: ./gradlew -q projects
-    - name: 'Test frontend'
-      run: ./gradlew :frontend:test
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            frontend
+            gradle
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+      - name: 'Test frontend'
+        run: ./gradlew :frontend:test

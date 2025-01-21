@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel target="23">
+    <bytecodeTargetLevel target="17">
       <module name="backend" target="23" />
       <module name="backend.main" target="23" />
       <module name="backend.test" target="23" />

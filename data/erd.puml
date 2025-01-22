@@ -1,0 +1,128 @@
+@startuml erd
+
+title ERD WM 2026
+
+entity user {
+    * **id: int**
+    * username: string
+    * password: string
+    * email: string
+    * firstname: string
+    * lastname: string
+    * created_at: datetime = now
+    * is_active: boolean = false
+    * points: int = 0
+    last_reviewed_rank: points
+    avatar: string
+    confirmed_at: datetime
+    updated_at: datetime
+    deleted_at: datetime
+}
+
+entity confirmation_codes {
+    * **id: int**
+    * {static} fk_user_id: int
+    * code: string
+    * created_at: datetime = now
+}
+
+entity reset_codes {
+    * **id: int**
+    * {static} fk_user_id: int
+    * code: string
+    * created_at: datetime = now
+}
+
+entity session {
+    * **id: int**
+    {static} fk_user_id: int
+    * last_activity: datetime
+    * payload: string
+}
+
+entity role {
+    * **id: int**
+    * name: string
+    * created_at: datetime = new
+    * updated_at: datetime
+    deleted_at: datetime
+}
+
+entity user_role {
+    * **id: int**
+    * {static} fk_user_id: int
+    * {static} fk_role_id: int
+    * created_at: datetime = new
+}
+
+entity game {
+    * **id: int**
+    * {static} fk_home_team_id: int
+    * {static} fk_guest_team_id: int
+    * {static} fk_group_id: int
+    * timestamp: datetime
+    * created_at: datetime = now
+    * updated_at: datetime
+    deleted_at: datetime
+    goals_home: int
+    goals_guest: int
+}
+
+entity team {
+    * **id: int**
+    * name: string
+    * {static} fk_group_id: int
+    * points: int = 0
+}
+
+entity group {
+    * **id: int**
+    * name: string
+    * knockout: boolean = false
+}
+
+entity tip {
+    * **id: int**
+    * {static} fk_game_id: int
+    * {static} fk_tip_card_id: int
+    * goals_home: int
+    * goals_guest: int
+    * created_at: datetime = now
+    updated_at: datetime
+}
+
+entity tip_card {
+    * **id: int**
+    * {static} fk_user_id: int
+    * created_at: datetime
+    updated_at: datetime
+}
+
+entity email_settings {
+    * **id: int**
+    * name: string
+}
+
+entity user_email_settings {
+    * **id: int**
+    * {static} fk_email_settings_id: int
+    * {static} fk_user_id: int
+    * created_at: datetime = now
+}
+
+user ||--o| confirmation_codes
+user ||--o| reset_codes
+user |o--o| session
+user ||--o{ user_role
+role ||--o{ user_role
+team ||--|{ game
+team ||--|{ game
+group ||--|{ game
+group ||--|{ team
+game ||--o{ tip
+tip_card ||--o{ tip
+user ||--o{ tip_card
+email_settings ||--o{ user_email_settings
+user ||--o{ user_email_settings
+
+@enduml

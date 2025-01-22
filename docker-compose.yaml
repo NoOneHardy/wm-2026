@@ -1,0 +1,18 @@
+name: wm-2026
+services:
+  data:
+    container_name: wm-2026-mysql
+    hostname: wm-2026-mysql
+    image: mysql:8.3.0
+    ports:
+      - '26006:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    env_file:
+      - ./data/.env
+    environment:
+      MYSQL_DATABASE: wm
+    restart: unless-stopped
+volumes:
+  mysql_data:
+    name: wm-2026-mysql-data

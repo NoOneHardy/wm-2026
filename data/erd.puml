@@ -12,10 +12,10 @@ entity user {
     * created_at: datetime = now
     * is_active: boolean = false
     * points: int = 0
-    last_reviewed_rank: points
+    * updated_at: datetime = now
+    last_reviewed_points: int
     avatar: string
     confirmed_at: datetime
-    updated_at: datetime
     deleted_at: datetime
 }
 
@@ -43,8 +43,8 @@ entity session {
 entity role {
     * **id: int**
     * name: string
-    * created_at: datetime = new
-    * updated_at: datetime
+    * created_at: datetime = now
+    * updated_at: datetime = now
     deleted_at: datetime
 }
 
@@ -52,7 +52,7 @@ entity user_role {
     * **id: int**
     * {static} fk_user_id: int
     * {static} fk_role_id: int
-    * created_at: datetime = new
+    * created_at: datetime = now
 }
 
 entity game {
@@ -62,7 +62,7 @@ entity game {
     * {static} fk_group_id: int
     * timestamp: datetime
     * created_at: datetime = now
-    * updated_at: datetime
+    * updated_at: datetime = now
     deleted_at: datetime
     goals_home: int
     goals_guest: int
@@ -88,14 +88,14 @@ entity tip {
     * goals_home: int
     * goals_guest: int
     * created_at: datetime = now
-    updated_at: datetime
+    * updated_at: datetime = now
 }
 
 entity tip_card {
     * **id: int**
     * {static} fk_user_id: int
-    * created_at: datetime
-    updated_at: datetime
+    * created_at: datetime = now
+    * updated_at: datetime = now
 }
 
 entity email_settings {

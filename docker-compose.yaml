@@ -14,6 +14,17 @@ services:
     environment:
       MYSQL_DATABASE: wm
     restart: unless-stopped
+  proxy:
+    container_name: wm-2026-proxy
+    hostname: wm-2026-proxy
+    build:
+      dockerfile: ./Dockerfile
+      context: ./proxy
+    volumes:
+      - ./proxy/.env:/app/.env
+    ports:
+      - '26000:80'
+    restart: unless-stopped
 volumes:
   mysql_data:
     name: wm-2026-mysql-data

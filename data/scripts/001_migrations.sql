@@ -112,8 +112,8 @@ CREATE TABLE team
 CREATE TABLE game
 (
     id               INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    fk_home_team_id  INT                            NOT NULL,
-    fk_guest_team_id INT                            NOT NULL,
+    fk_home_team_id  INT,
+    fk_guest_team_id INT,
     fk_group_id      INT                            NOT NULL,
     timestamp        DATETIME                       NOT NULL,
     created_at       DATETIME                       NOT NULL DEFAULT NOW(),

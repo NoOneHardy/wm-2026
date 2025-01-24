@@ -9,6 +9,8 @@ const frontend = process.env.FRONTEND_HOST
 const backendUrl = /^\/api\/.*/
 
 if (!backendUrl || !frontend) {
+  console.log('Backend:', backend)
+  console.log('Frontend:', frontend)
   console.error('BACKEND_HOST or FRONTEND_HOST not found')
   process.exit(1)
 }

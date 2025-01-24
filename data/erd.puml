@@ -57,8 +57,8 @@ entity user_role {
 
 entity game {
     * **id: int**
-    * {static} fk_home_team_id: int
-    * {static} fk_guest_team_id: int
+    {static} fk_home_team_id: int
+    {static} fk_guest_team_id: int
     * {static} fk_group_id: int
     * timestamp: datetime
     * created_at: datetime = now

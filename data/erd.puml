@@ -73,12 +73,14 @@ entity team {
     * name: string
     * {static} fk_group_id: int
     * points: int = 0
+    deleted_at: datetime
 }
 
 entity group {
     * **id: int**
     * name: string
     * knockout: boolean = false
+    deleted_at: datetime
 }
 
 entity tip {
@@ -89,6 +91,8 @@ entity tip {
     * goals_guest: int
     * created_at: datetime = now
     * updated_at: datetime = now
+    * joker: int = 1
+    deleted_at: datetime
 }
 
 entity tip_card {
@@ -96,11 +100,13 @@ entity tip_card {
     * {static} fk_user_id: int
     * created_at: datetime = now
     * updated_at: datetime = now
+    deleted_at: datetime
 }
 
 entity email_settings {
     * **id: int**
     * name: string
+    deleted_at: datetime
 }
 
 entity user_email_settings {

@@ -1,0 +1,21 @@
+<header class="header">
+  <nav class="nav">
+    <a [routerLink]="user() ? '/dashboard' : '/'" class="home-link">WM 2026</a>
+    @if (user()) {
+      <wm-nav-item displayName="Dashboard" icon="home" route="/dashboard"/>
+      <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/tip-card"/>
+    } @else {
+      <wm-nav-item displayName="Home" icon="home" route="/"/>
+    }
+    <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/ranking"/>
+    <wm-nav-item displayName="Resultate" icon="scoreboard" route="results"/>
+  </nav>
+  <div class="user-actions">
+    @if (user(); as user) {
+      <wm-user-menu/>
+    } @else {
+      <a class="login" routerLink="/login">Anmelden</a>
+      <a class="sign-up" routerLink="/sign-up">Registrieren</a>
+    }
+  </div>
+</header>

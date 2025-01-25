@@ -1,0 +1,81 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  height: 3.75em;
+  background-color: #fff;
+  box-shadow: .125em .125em 1.25em 0 #000000bf;
+  overflow: hidden;
+
+  .nav {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .home-link {
+      display: block;
+      margin: 0 calc(1.25em / 1.5);
+      color: transparent;
+      background-image: var(--wm-gradient-primary);
+      background-clip: text;
+      font-size: 1.5em;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    wm-nav-item {
+      height: 100%;
+    }
+  }
+
+  .user-actions {
+    display: flex;
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 0 1.5em;
+      color: #000;
+      background-image: var(--wm-gradient-primary);
+      font-size: 1em;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+
+      &.login {
+        color: transparent;
+        background-clip: text;
+
+        &:after {
+          content: 'Anmelden';
+          background-clip: text;
+        }
+      }
+
+      &.sign-up {
+        box-shadow: 0 0 1em 0 #0000008f;
+      }
+
+      &:after {
+        content: '';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-weight: 600;
+        transition: background-color .25s ease;
+      }
+
+      &:hover {
+        &:after {
+          background-color: #0000003D;
+        }
+      }
+    }
+  }
+}

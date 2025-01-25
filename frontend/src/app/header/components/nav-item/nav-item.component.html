@@ -1,0 +1,4 @@
+<a class="nav-item" [routerLink]="route()" routerLinkActive="active">
+  <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>
+  <span class="display-name">{{ displayName() }}</span>
+</a>

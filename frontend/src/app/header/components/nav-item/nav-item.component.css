@@ -1,0 +1,47 @@
+.nav-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 .875em;
+  color: #000;
+  background-color: #fff;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background-color .25s ease;
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    display: block;
+    height: .125em;
+    width: 0;
+    background-color: var(--wm-color-primary);
+    box-shadow: 0 0 .25em 0 var(--wm-color-primary);
+    transition: width .25s ease;
+  }
+
+  .display-name {
+    font-size: 1.125em;
+  }
+
+  &:hover {
+    background-color: var(--wm-color-gray-050);
+
+    &:after {
+      width: 100%;
+    }
+  }
+
+  &.active {
+    &:after {
+      width: 100%;
+    }
+
+    .icon {
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+}

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
-
-import { NavItemComponent } from './nav-item.component'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {NavItemComponent} from './nav-item.component'
+import {provideRouter, RouterLinkActive} from '@angular/router'
 
 describe('NavItemComponent', () => {
   let component: NavItemComponent
@@ -8,7 +8,8 @@ describe('NavItemComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NavItemComponent]
+      imports: [NavItemComponent, RouterLinkActive],
+      providers: [provideRouter([])]
     })
     .compileComponents()
 

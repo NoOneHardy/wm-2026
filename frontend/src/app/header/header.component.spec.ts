@@ -23,4 +23,27 @@ describe('HeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy()
   })
+
+  it('should default user to null', () => {
+    expect(component.user()).toBeNull()
+  })
+
+  it('should show login and signup if user is null', () => {
+    expect(component.user()).toBeNull()
+    const compiled = fixture.nativeElement as HTMLElement
+    expect(compiled.querySelector('a.login')?.textContent).toContain('Anmelden')
+    expect(compiled.querySelector('a.sign-up')?.textContent).toContain('Registrieren')
+  })
+
+  it('should not show dashboard if user is null', () => {
+    expect(component.user()).toBeNull()
+    const compiled = fixture.nativeElement as HTMLElement
+    expect(compiled.querySelector('nav')?.textContent).not.toContain('Dashboard')
+  })
+
+  it('should show home if user is null', () => {
+    expect(component.user()).toBeNull()
+    const compiled = fixture.nativeElement as HTMLElement
+    expect(compiled.querySelector('wm-nav-item')?.textContent).toContain('Home')
+  })
 })

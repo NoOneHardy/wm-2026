@@ -8,7 +8,7 @@ export interface User {
   isActive: boolean
   points: number
   updatedAt: Date
-  lastReviewedRank: number
-  avatar: string
-  confirmedAt: Date
+  lastReviewedRank?: number | null
+  avatar?: string | null
+  confirmedAt?: Date | null
 }

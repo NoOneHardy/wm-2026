@@ -1,4 +1,5 @@
-import { Component } from '@angular/core'
+import {Component, input} from '@angular/core'
+import {User} from '../../../model/user/user'
 
 @Component({
   selector: 'wm-user-menu',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core'
   styleUrl: './user-menu.component.css'
 })
 export class UserMenuComponent {
-
+  user = input<User | null>()
 }

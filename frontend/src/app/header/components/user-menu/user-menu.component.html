@@ -1,1 +1,5 @@
-<p>user-menu works!</p>
+@if (user(); as user) {
+  <div class="dropdown">
+    {{ user.username }}
+  </div>
+}

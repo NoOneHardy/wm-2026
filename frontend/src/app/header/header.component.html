@@ -1,8 +1,8 @@
 <header class="header">
   <nav class="nav">
-    <a [routerLink]="user() ? '/dashboard' : '/'" class="home-link">WM 2026</a>
+    <a routerLink="/" class="home-link">WM 2026</a>
     @if (user()) {
-      <wm-nav-item displayName="Dashboard" icon="home" route="/dashboard"/>
+      <wm-nav-item displayName="Dashboard" icon="home" route="/"/>
       <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/tip-card"/>
     } @else {
       <wm-nav-item displayName="Home" icon="home" route="/"/>
@@ -12,7 +12,7 @@
   </nav>
   <div class="user-actions">
     @if (user(); as user) {
-      <wm-user-menu/>
+      <wm-user-menu [user]="user"/>
     } @else {
       <a class="login" routerLink="/login">Anmelden</a>
       <a class="sign-up" routerLink="/sign-up">Registrieren</a>

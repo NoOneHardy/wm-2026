@@ -4,7 +4,6 @@
   height: 3.75em;
   background-color: #fff;
   box-shadow: .125em .125em 1.25em 0 #000000bf;
-  overflow: hidden;
 
   .nav {
     display: flex;
@@ -73,7 +72,7 @@
 
       &:hover {
         &:after {
-          background-color: #0000003D;
+          background-color: #0000002D;
         }
       }
     }

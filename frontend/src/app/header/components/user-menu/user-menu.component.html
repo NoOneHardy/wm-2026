@@ -1,5 +1,21 @@
 @if (user(); as user) {
-  <div class="dropdown">
-    {{ user.username }}
+  <div class="user-menu">
+    <button class="notifications" [class.-nudge]="hasNotifications">
+      <span class="material-symbols-rounded">notifications</span>
+    </button>
+    <div class="dropdown">
+      <button class="dropdown-toggle" (click)="toggleDropdown()">{{ user.username }}</button>
+      <div class="dropdown-content" *ngIf="isDropdownExpanded()">
+        <a routerLink="settings">
+          <span class="material-symbols-rounded">settings</span>
+          <span class="text">Einstellungen</span>
+        </a>
+
+        <a (click)="logout()" (keyup.space)="logout()" (keyup.enter)="logout()" (touchend)="logout()" tabindex="0">
+          <span class="material-symbols-rounded">logout</span>
+          <span class="text">Abmelden</span>
+        </a>
+      </div>
+    </div>
   </div>
 }

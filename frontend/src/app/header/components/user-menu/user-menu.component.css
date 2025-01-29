@@ -1,0 +1,109 @@
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  height: 100%;
+
+  .notifications {
+    position: relative;
+    display: block;
+    height: 1.5em;
+    width: 1.5em;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1em;
+
+    &.-nudge {
+      &:after {
+        content: '';
+        position: absolute;
+        top: .125em;
+        right: .125em;
+        display: block;
+        height: .25em;
+        width: .25em;
+        border-radius: 50%;
+        font-size: 1em;
+        background-image: var(--wm-gradient-primary);
+      }
+    }
+  }
+
+  .dropdown {
+    display: block;
+    position: relative;
+    height: 100%;
+    font-size: 1em;
+
+    .dropdown-toggle {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      min-width: 9.75em;
+      padding: 0 1.5em;
+      border: none;
+      background-image: var(--wm-gradient-primary);
+      font-size: 1em;
+      font-weight: 600;
+      cursor: pointer;
+
+      &:after {
+        content: '';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        font-weight: 600;
+        transition: background-color .25s ease;
+      }
+
+      &:hover {
+        &:after {
+          background-color: #0000002D;
+        }
+      }
+    }
+
+    .dropdown-content {
+      position: absolute;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      min-width: 9.25em;
+      margin-top: .5em;
+      background-color: #fff;
+      box-shadow: .125em .125em 1.25em 0 #0000005f;
+      z-index: 10;
+      font-size: 1em;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: .125em;
+        height: 2.25em;
+        padding: 0 1.25em;
+        text-decoration: none;
+        color: #000;
+        cursor: pointer;
+        transition: background-color .25s ease;
+
+        .material-symbols-rounded {
+          font-size: 1em;
+        }
+
+        .text {
+          font-size: .8125em;
+        }
+
+        &:hover {
+          background-color: var(--wm-color-gray-100);
+        }
+      }
+    }
+  }
+}

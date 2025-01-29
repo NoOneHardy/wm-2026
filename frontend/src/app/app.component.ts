@@ -13,7 +13,7 @@ import {User} from './model/user/user'
 export class AppComponent {
   mockUser: User = {
     id: 0,
-    username: 'NoOneHardy aber viiiiel länger',
+    username: 'NoOneHardy',
     email: 'silas.hardegger@outlook.com',
     firstname: 'Silas',
     lastname: 'Hardegger',

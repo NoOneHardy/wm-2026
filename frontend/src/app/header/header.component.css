@@ -28,53 +28,5 @@
 
   .user-actions {
     display: flex;
-
-    a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      padding: 0 1.5em;
-      color: #000;
-      background-image: var(--wm-gradient-primary);
-      font-size: 1em;
-      font-weight: 600;
-      text-decoration: none;
-      cursor: pointer;
-
-      &.login {
-        color: transparent;
-        background-clip: text;
-
-        &:after {
-          content: 'Anmelden';
-          background-clip: text;
-        }
-      }
-
-      &.sign-up {
-        box-shadow: 0 0 1em 0 #0000008f;
-      }
-
-      &:after {
-        content: '';
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        font-weight: 600;
-        transition: background-color .25s ease;
-      }
-
-      &:hover {
-        &:after {
-          background-color: #0000002D;
-        }
-      }
-    }
   }
 }

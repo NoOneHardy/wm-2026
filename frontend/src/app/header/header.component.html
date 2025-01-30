@@ -14,8 +14,8 @@
     @if (user(); as user) {
       <wm-user-menu [user]="user"/>
     } @else {
-      <a class="login" routerLink="/login">Anmelden</a>
-      <a class="sign-up" routerLink="/sign-up">Registrieren</a>
+      <wm-user-button route="/login" secondary content="Anmelden"/>
+      <wm-user-button route="/sign-up" content="Registrieren"/>
     }
   </div>
 </header>

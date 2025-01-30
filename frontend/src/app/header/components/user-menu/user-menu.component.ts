@@ -2,13 +2,15 @@ import {Component, input, signal} from '@angular/core'
 import {User} from '../../../model/user/user'
 import {RouterLink} from '@angular/router'
 import {NgIf} from '@angular/common'
+import {UserButtonComponent} from '../user-button/user-button.component'
 
 @Component({
   selector: 'wm-user-menu',
   standalone: true,
   imports: [
     RouterLink,
-    NgIf
+    NgIf,
+    UserButtonComponent
   ],
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.css'

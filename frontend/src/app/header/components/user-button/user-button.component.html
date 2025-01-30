@@ -1,0 +1,10 @@
+@if (route(); as route) {
+  <a tabindex="0" (click)="clickButton.emit()" (keyup.space)="clickButton.emit()"
+     [class.secondary]="secondary()" (keyup.enter)="clickButton.emit()"
+     (touchend)="clickButton.emit()" [routerLink]="route" class="button"
+     [attr.data-content]="content()">{{ content() }}</a>
+} @else {
+  <button (click)="clickButton.emit()" [class.secondary]="secondary()" class="button"
+          [attr.data-content]="content()">{{ content() }}
+  </button>
+}

@@ -4,7 +4,7 @@
       <span class="material-symbols-rounded">notifications</span>
     </button>
     <div class="dropdown">
-      <button class="dropdown-toggle" (click)="toggleDropdown()">{{ user.username }}</button>
+      <wm-user-button (clickButton)="toggleDropdown()" [content]="user.username"/>
       <div class="dropdown-content" *ngIf="isDropdownExpanded()">
         <a routerLink="settings">
           <span class="material-symbols-rounded">settings</span>

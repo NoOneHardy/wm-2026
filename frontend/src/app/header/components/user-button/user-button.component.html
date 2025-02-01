@@ -5,6 +5,5 @@
      [attr.data-content]="content()">{{ content() }}</a>
 } @else {
   <button (click)="clickButton.emit()" [class.secondary]="secondary()" class="button"
-          [attr.data-content]="content()">{{ content() }}
-  </button>
+          [attr.data-content]="content()">{{ content() }}</button>
 }

@@ -1,12 +1,12 @@
 import {Component} from '@angular/core'
 import {RouterOutlet} from '@angular/router'
-import {HeaderComponent} from './shared/material-api'
+import {FormFieldComponent, HeaderComponent} from './shared/material-api'
 import {User} from './model/user/user'
 
 @Component({
   selector: 'wm-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent],
+  imports: [RouterOutlet, HeaderComponent, FormFieldComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

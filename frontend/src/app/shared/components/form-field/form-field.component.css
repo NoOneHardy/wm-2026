@@ -1,0 +1,37 @@
+wm-form-field {
+  .form-field {
+    position: relative;
+
+    &:has(input:not(:placeholder-shown)), &:focus-within {
+      label {
+        top: .5em;
+        left: 1.25em;
+        font-size: .5em;
+      }
+    }
+
+    label {
+      position: absolute;
+      top: 50%;
+      left: calc(2em / 3);
+      color: var(--wm-color-gray-300);
+      font-size: 1.125em;
+      font-weight: 600;
+      transform: translateY(-50%);
+      transition: font-size .2s ease, top .2s ease, left .2s ease;
+    }
+
+    input {
+      height: 2.5em;
+      background-color: var(--wm-color-gray-100);
+      border: none;
+      border-radius: calc(2em / 9);
+      outline: none;
+      padding: 0 calc(2em / 3);
+      font-size: 1.125em;
+      font-weight: 500;
+      color: var(--wm-color-gray);
+      box-shadow: 0 calc(1em / 9) calc(2em / 9) 0 #0000001a inset;
+    }
+  }
+}

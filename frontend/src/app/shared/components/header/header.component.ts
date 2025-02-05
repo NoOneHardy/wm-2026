@@ -1,5 +1,5 @@
 import {Component, input} from '@angular/core'
-import {User} from '../model/user/user'
+import {User} from '../../../model/user/user'
 import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {RouterLink} from '@angular/router'

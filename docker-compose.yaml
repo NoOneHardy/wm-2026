@@ -17,11 +17,12 @@ services:
   proxy:
     container_name: wm-2026-proxy
     hostname: wm-2026-proxy
-    build:
-      dockerfile: ./Dockerfile
-      context: ./proxy
+    image: nginx
     volumes:
-      - ./proxy/.env:/app/.env
+      - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
+    environment:
+      FRONTEND_HOST: 'http://host.docker.internal:4200'
+      BACKEND_HOST: 'http://host.docker.internal:8080'
     ports:
       - '26000:80'
     restart: unless-stopped

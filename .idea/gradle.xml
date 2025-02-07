@@ -5,13 +5,11 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleJvm" value="#JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/backend" />
             <option value="$PROJECT_DIR$/frontend" />
-            <option value="$PROJECT_DIR$/proxy" />
           </set>
         </option>
       </GradleProjectSettings>

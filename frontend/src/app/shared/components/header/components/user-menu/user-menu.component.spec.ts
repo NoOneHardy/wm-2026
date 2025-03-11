@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { UserMenuComponent } from './user-menu.component'
-import {User} from '../../../model/user/user'
+import {User} from '../../../../../model/user/user'
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent

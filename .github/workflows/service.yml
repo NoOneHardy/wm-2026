@@ -1,0 +1,53 @@
+name: Service
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '23'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            service
+            gradle
+      - name: Java version
+        run: java -version
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+      - name: Testing
+        run: ./gradlew :service:test
+  build:
+    if: github.ref_name == 'develop'
+    needs: [test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '23'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            service
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - name: Set tag for docker image
+        run: echo "TAG=$(echo '${{ github.sha }}' | cut -c 1-7 )-${{ env.NOW }}" >> $GITHUB_ENV
+      - name: Build docker image
+        run: docker build -t docker.no1hardy.ch/wm-2026-service:${{ env.TAG }} -f service/Dockerfile ./service
+      - name: Tag docker image
+        run: docker tag docker.no1hardy.ch/wm-2026-service:${{ env.TAG }} docker.no1hardy.ch/wm-2026-service:latest
+      - name: Push docker image
+        run: docker push docker.no1hardy.ch/wm-2026-service:${{ env.TAG }}
+      - name: Push latest docker image
+        run: docker push docker.no1hardy.ch/wm-2026-service:latest

@@ -15,5 +15,5 @@ RUN npm run build --prod
 
 FROM nginx:1.27.0-alpine AS final
 
-COPY --from=build /src/dist/frontend/browser /usr/local/apache2/htdocs
+COPY --from=build /app/dist/frontend/browser /usr/share/nginx/html
 COPY ./nginx.conf /etc/nginx/conf.d/default.conf

@@ -1,0 +1,25 @@
+name: Proxy
+on:
+  push:
+jobs:
+  build:
+    if: github.ref_name == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            proxy
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - name: Set tag for docker image
+        run: echo "TAG=$( echo '${{ github.sha }}' | cut -c 1-7 )-${{ env.NOW }}" >> $GITHUB_ENV
+      - name: Build docker image
+        run: docker build -t docker.no1hardy.ch/wm-2026-proxy:${{ env.TAG }} -f proxy/Dockerfile ./proxy
+      - name: Tag docker image
+        run: docker tag docker.no1hardy.ch/wm-2026-proxy:${{ env.TAG }} docker.no1hardy.ch/wm-2026-proxy:latest
+      - name: Push docker image
+        run: docker push docker.no1hardy.ch/wm-2026-proxy:${{ env.TAG }}
+      - name: Push latest docker image
+        run: docker push docker.no1hardy.ch/wm-2026-proxy:latest

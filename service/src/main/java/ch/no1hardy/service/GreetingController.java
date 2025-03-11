@@ -1,4 +1,4 @@
-package ch.no1hardy.backend;
+package ch.no1hardy.service;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

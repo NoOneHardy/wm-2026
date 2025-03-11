@@ -1,21 +1,19 @@
-FROM node:22 AS build
+FROM node:20 AS build
 
-COPY /src /src/src
-COPY /public /src/public
-COPY ./angular.json /src/angular.json
-COPY ./eslint.config.js /src/eslint.config.js
-COPY ./package.json /src/package.json
-COPY ./package-lock.json /src/package-lock.json
-COPY ./tsconfig.json /src/tsconfig.json
-COPY ./tsconfig.app.json /src/tsconfig.app.json
-COPY ./tsconfig.spec.json /src/tsconfig.spec.json
+COPY ./src /app/src
+COPY ./package.json /app/package.json
+COPY ./package-lock.json /app/package-lock.json
+COPY ./angular.json /app/angular.json
+COPY ./tsconfig.json /app/tsconfig.json
+COPY ./tsconfig.app.json /app/tsconfig.app.json
 
-WORKDIR /src
+WORKDIR /app
 
 RUN npm ci
 
 RUN npm run build --prod
 
-FROM httpd:2-alpine AS final
+FROM nginx:1.27.0-alpine AS final
 
 COPY --from=build /src/dist/frontend/browser /usr/local/apache2/htdocs
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf

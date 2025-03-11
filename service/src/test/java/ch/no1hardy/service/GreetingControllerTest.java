@@ -1,4 +1,4 @@
-package ch.no1hardy.backend;
+package ch.no1hardy.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

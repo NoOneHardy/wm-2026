@@ -26,7 +26,7 @@ jobs:
         run: ./gradlew :service:test
   build:
     if: github.ref_name == 'develop'
-    needs: [test]
+    needs: [ test ]
     runs-on: ubuntu-latest
     steps:
       - name: Install Java
@@ -43,6 +43,8 @@ jobs:
         run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Set tag for docker image
         run: echo "TAG=$(echo '${{ github.sha }}' | cut -c 1-7 )-${{ env.NOW }}" >> $GITHUB_ENV
+      - name: Enable gradle
+        run: chmod +x service/gradlew
       - name: Build docker image
         run: docker build -t docker.no1hardy.ch/wm-2026-service:${{ env.TAG }} -f service/Dockerfile ./service
       - name: Tag docker image

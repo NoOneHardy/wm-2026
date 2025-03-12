@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, inject} from '@angular/core'
+import {AfterViewInit, Component, effect, ElementRef, inject, signal} from '@angular/core'
 import {NgIf} from '@angular/common'
 
 @Component({
@@ -12,24 +12,30 @@ import {NgIf} from '@angular/common'
 })
 export class FormFieldComponent implements AfterViewInit {
   private el = inject(ElementRef)
-  private input: HTMLInputElement | null = null
+  private input = signal<HTMLInputElement | null>(null)
 
   isPassword = false
   isPasswordVisible = false
 
-  ngAfterViewInit() {
-    this.input = this.el.nativeElement.querySelector('input')
+  constructor() {
+    effect(() => {
+      const input = this.input()
+      if (input) {
+        input.placeholder = ''
+        this.isPassword = input.type === 'password'
+      }
+    })
+  }
 
-    if (this.input) {
-      this.input.placeholder = ''
-      this.isPassword = this.input.type === 'password'
-    }
+  ngAfterViewInit() {
+    this.input.set(this.el.nativeElement.querySelector('input'))
   }
 
   togglePasswordVisibility() {
-    if (this.input) {
+    const input = this.input()
+    if (input) {
       this.isPasswordVisible = !this.isPasswordVisible
-      this.input.type = this.isPasswordVisible ? 'text' : 'password'
+      input.type = this.isPasswordVisible ? 'text' : 'password'
     }
   }
 }

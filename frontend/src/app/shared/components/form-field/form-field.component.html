@@ -1,3 +1,6 @@
 <div class="form-field">
   <ng-content/>
+  <button *ngIf="isPassword" class="show-password-icon" (click)="togglePasswordVisibility()">
+    <span class="material-symbols-rounded">visibility{{isPasswordVisible ? '_off' : ''}}</span>
+  </button>
 </div>

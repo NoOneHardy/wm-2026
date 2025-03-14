@@ -31,4 +31,16 @@ describe('FormFieldComponent', () => {
 
     expect(fixture.nativeElement.querySelector('button.show-password-icon')).toBeTruthy()
   })
+
+  it('should toggle password visibility', async () => {
+    [fixture, component] = await configureTestHost({
+      imports: [FormFieldComponent],
+      template: '<wm-form-field><input type="password"></wm-form-field>'
+    })
+
+    expect(fixture.nativeElement.querySelector('button.show-password-icon')).toBeTruthy()
+    fixture.nativeElement.querySelector('button.show-password-icon').click()
+    fixture.detectChanges()
+    expect(fixture.nativeElement.querySelector('input').type).toBe('text')
+  })
 })

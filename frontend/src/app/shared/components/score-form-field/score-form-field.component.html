@@ -1,0 +1,14 @@
+<button class="material-symbols-rounded"
+        [class.-disabled]="this.value === 0 || !this.value"
+        (click)="decrement()" *ngIf="!isDisabled">remove
+</button>
+
+<wm-form-field class="form-field">
+  <label>000</label>
+  <input type="number" min="0" max="999" [(ngModel)]="value" [disabled]="isDisabled" (blur)="onTouch()">
+</wm-form-field>
+
+<button class="material-symbols-rounded"
+        [class.-disabled]="this.value === 999"
+        (click)="increment()" *ngIf="!isDisabled">add
+</button>

@@ -73,6 +73,10 @@ wm-form-field {
           margin: 0;
         }
       }
+
+      &:disabled {
+        box-shadow: none;
+      }
     }
   }
 }

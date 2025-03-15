@@ -1,15 +1,17 @@
-<button class="material-symbols-rounded"
-        [class.-disabled]="this.value === 0 || !this.value"
-        (click)="decrement()" *ngIf="!isDisabled">remove
-</button>
+<div class="form-control" [class.-large]="isLarge()">
+  <button class="material-symbols-rounded"
+          [class.-disabled]="this.value === 0 || !this.value"
+          (click)="decrement()" *ngIf="!isDisabled">remove
+  </button>
 
-<wm-form-field class="form-field">
-  <label>000</label>
-  <input type="number" min="0" max="999" [value]="value" (input)="onInput(input.value)"
-         [disabled]="isDisabled" (blur)="onTouch()" #input>
-</wm-form-field>
+  <wm-form-field class="form-field">
+    <label>000</label>
+    <input type="number" min="0" max="999" [value]="value" (input)="onInput(input.value)"
+           [disabled]="isDisabled" (blur)="onTouch()" #input>
+  </wm-form-field>
 
-<button class="material-symbols-rounded"
-        [class.-disabled]="this.value === 999"
-        (click)="increment()" *ngIf="!isDisabled">add
-</button>
+  <button class="material-symbols-rounded"
+          [class.-disabled]="this.value === 999"
+          (click)="increment()" *ngIf="!isDisabled">add
+  </button>
+</div>

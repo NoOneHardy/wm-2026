@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, input} from '@angular/core'
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
 import {FormFieldComponent} from '../form-field/form-field.component'
@@ -23,6 +23,11 @@ import {NgIf} from '@angular/common'
 export class ScoreFormFieldComponent implements ControlValueAccessor {
   onChange: OnChangeFn<number | null> = EMPTY_METHOD
   onTouch: OnTouchFn = EMPTY_METHOD
+
+  isLarge = input<boolean, boolean | ''>(false, {
+    transform: (v) => v === '' || v,
+    alias: 'large'
+  })
 
   value: number | null = null
   isDisabled = false

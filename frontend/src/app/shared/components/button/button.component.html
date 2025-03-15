@@ -1,0 +1,9 @@
+<button [tabindex]="tabindex()"
+        [class.secondary]="secondary()"
+        [disabled]="disabled()"
+        (click)="click($event)"
+        (touchend)="click($event)"
+        (keyup.enter)="click($event)"
+        (keyup.space)="click($event)">
+  <ng-content></ng-content>
+</button>

@@ -20,6 +20,7 @@
   --wm-color-gray: #535353ff;
   --wm-color-gray-050: #f7f7f7ff;
   --wm-color-gray-100: #eeeeeeff;
+  --wm-color-gray-200: #ddddddff;
   --wm-color-gray-300: #a7a7a7ff;
 
   --wm-gradient-primary: linear-gradient(to bottom, var(--wm-color-primary) 0%, var(--wm-color-secondary) 90%);

@@ -2,12 +2,12 @@ import {Component} from '@angular/core'
 import {RouterOutlet} from '@angular/router'
 import {HeaderComponent} from './shared/material-api'
 import {User} from './model/user/user'
-import {ScoreFormFieldComponent} from './shared/components/score-form-field/score-form-field.component'
+import {ButtonComponent} from './shared/components/button/button.component'
 
 @Component({
   selector: 'wm-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, ScoreFormFieldComponent],
+  imports: [RouterOutlet, HeaderComponent, ButtonComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

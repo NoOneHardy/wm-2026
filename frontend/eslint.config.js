@@ -34,7 +34,8 @@ module.exports = tseslint.config(
       '@stylistic/semi': [
         'error',
         'never'
-      ]
+      ],
+      '@angular-eslint/no-input-rename': 'off'
     },
   },
   {

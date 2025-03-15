@@ -21,13 +21,13 @@ import {NgIf} from '@angular/common'
   styleUrl: './score-form-field.component.css'
 })
 export class ScoreFormFieldComponent implements ControlValueAccessor {
-  onChange: OnChangeFn<number> = EMPTY_METHOD
+  onChange: OnChangeFn<number | null> = EMPTY_METHOD
   onTouch: OnTouchFn = EMPTY_METHOD
 
   value: number | null = null
   isDisabled = false
 
-  registerOnChange(fn: OnChangeFn<number>): void {
+  registerOnChange(fn: OnChangeFn<number | null>): void {
     this.onChange = fn
   }
 
@@ -39,7 +39,7 @@ export class ScoreFormFieldComponent implements ControlValueAccessor {
     this.isDisabled = isDisabled
   }
 
-  writeValue(value: number): void {
+  writeValue(value: number | null): void {
     this.value = value
     this.onChange(this.value)
   }
@@ -50,5 +50,10 @@ export class ScoreFormFieldComponent implements ControlValueAccessor {
 
   decrement(): void {
     if (this.value && this.value > 0) this.writeValue(this.value - 1)
+  }
+
+  onInput(value: string | number): void {
+    if (value === '') return this.writeValue(null)
+    this.writeValue(Number(value))
   }
 }

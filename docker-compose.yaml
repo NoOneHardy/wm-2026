@@ -22,7 +22,7 @@ services:
       - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
     environment:
       FRONTEND_HOST: 'http://host.docker.internal:4200'
-      BACKEND_HOST: 'http://host.docker.internal:8080'
+      BACKEND_HOST: 'http://host.docker.internal:26010'
     ports:
       - '26000:80'
     restart: unless-stopped

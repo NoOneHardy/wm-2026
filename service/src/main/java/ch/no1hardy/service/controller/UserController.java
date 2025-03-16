@@ -23,9 +23,33 @@ public class UserController {
         return this.service.list();
     }
 
+    @GetMapping("/all")
+    public List<UserRes> listAll() {
+        logger.info("GET /user/all");
+        return this.service.listAll();
+    }
+
+    @GetMapping("/{id}")
+    public UserRes get(@PathVariable String id) {
+        logger.info("GET /user/{}", id);
+        return this.service.get(id);
+    }
+
     @PostMapping()
     public UserRes create(@RequestBody UserReq dto) {
         logger.info("POST /user");
         return this.service.create(dto);
+    }
+
+    @PutMapping("/{id}")
+    public UserRes update(@PathVariable String id, @RequestBody UserReq dto) {
+        logger.info("PUT /user/{}", id);
+        return this.service.update(id, dto);
+    }
+
+    @DeleteMapping("/{id}")
+    public UserRes delete(@PathVariable String id) {
+        logger.info("DELETE /user/{}", id);
+        return this.service.delete(id);
     }
 }

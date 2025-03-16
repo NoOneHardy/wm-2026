@@ -5,11 +5,13 @@ import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.mapper.UserMapperImpl;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
+import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Service
@@ -37,6 +39,8 @@ public class UserService {
 
     public UserRes create(UserReq dto) {
         User entity = mapper.toEntity(dto);
+        String password = Hashing.sha256().hashString(entity.getPassword(), StandardCharsets.UTF_8).toString();
+        entity.setPassword(password);
         return mapper.toDto(repository.save(entity));
     }
 

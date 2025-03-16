@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.mapper.UserMapperImpl;
@@ -34,7 +35,9 @@ public class UserService {
     }
 
     public UserRes get(String id) {
-        return mapper.toDto(repository.findById(id).orElse(null));
+        User entity = repository.findById(id).orElse(null);
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
+        return mapper.toDto(entity);
     }
 
     public UserRes create(UserReq dto) {
@@ -46,14 +49,14 @@ public class UserService {
 
     public UserRes update(String id, UserReq dto) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) return null;
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
         mapper.update(dto, entity);
         return mapper.toDto(repository.save(entity));
     }
 
     public UserRes delete(String id) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) return null;
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
         entity.delete();
         return mapper.toDto(repository.save(entity));
     }

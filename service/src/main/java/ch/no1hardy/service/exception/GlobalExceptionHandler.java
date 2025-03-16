@@ -13,4 +13,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getStatus())
                 .body(new ApiError(ex.getMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ApiError> handleBadRequest(BadRequestException ex) {
+        return ResponseEntity.status(ex.getStatus())
+                .body(new ApiError(ex.getMessage(), ex.getStatus().value(), LocalDateTime.now()));
+    }
 }

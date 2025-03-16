@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.UserReq;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 @Data
@@ -61,6 +63,15 @@ public class UserService {
         User entity = mapper.toEntity(dto);
         String password = Hashing.sha256().hashString(entity.getPassword(), StandardCharsets.UTF_8).toString();
         entity.setPassword(password);
+
+        String username = entity.getUsername();
+        String email = entity.getEmail();
+
+        if (!isEmailAvailable(email)) throw new BadRequestException("Email " + email + " is already taken");
+        if (!isUsernameAvailable(username)) throw new BadRequestException("Username " + username + " is already taken");
+
+        if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches()) throw new BadRequestException("Invalid email format");
+
         return mapper.toDto(repository.save(entity));
     }
 

@@ -15,6 +15,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ public class UserService {
     private final UserMapperImpl mapper;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public List<UserRes> list() {
         return mapper.toDto(repository.findAll()
@@ -101,5 +104,11 @@ public class UserService {
                 )
         );
         return mapper.toDto(repository.findByUsername(dto.getUsername()).orElseThrow());
+    }
+
+    public UserRes getLoggedInUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = (User) authentication.getPrincipal();
+        return mapper.toDto(currentUser);
     }
 }

@@ -3,6 +3,7 @@ package ch.no1hardy.service.service;
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.user.CheckRes;
+import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.mapper.UserMapperImpl;
@@ -13,6 +14,10 @@ import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -26,6 +31,8 @@ import java.util.regex.Pattern;
 public class UserService {
     private final UserRepository repository;
     private final UserMapperImpl mapper;
+    private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserRes> list() {
         return mapper.toDto(repository.findAll()
@@ -70,7 +77,8 @@ public class UserService {
         if (!isEmailAvailable(email)) throw new BadRequestException("Email " + email + " is already taken");
         if (!isUsernameAvailable(username)) throw new BadRequestException("Username " + username + " is already taken");
 
-        if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches()) throw new BadRequestException("Invalid email format");
+        if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches())
+            throw new BadRequestException("Invalid email format");
 
         return mapper.toDto(repository.save(entity));
     }
@@ -87,5 +95,15 @@ public class UserService {
         if (entity == null) throw new NotFoundException("User with id " + id + " not found");
         entity.delete();
         return mapper.toDto(repository.save(entity));
+    }
+
+    public UserRes login(LoginReq dto) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.getUsername(),
+                        dto.getPassword()
+                )
+        );
+        return mapper.toDto(repository.findByUsername(dto.getUsername()).orElseThrow());
     }
 }

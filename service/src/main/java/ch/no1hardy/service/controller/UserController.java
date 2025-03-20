@@ -44,6 +44,12 @@ public class UserController {
         return this.service.get(id);
     }
 
+    @GetMapping("/me")
+    public UserRes get() {
+        logger.info("GET /me");
+        return this.service.getLoggedInUser();
+    }
+
     @PostMapping("/signup")
     public UserRes create(@RequestBody UserReq dto) {
         logger.info("POST /user");

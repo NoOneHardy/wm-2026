@@ -18,6 +18,8 @@ jobs:
             gradle
       - name: Java version
         run: java -version
+      - name: Get configuration
+        run: echo "${{ secrets.SERVICE_CONF }}" > service/.env
       - name: Set up gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -43,6 +45,8 @@ jobs:
         run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Set tag for docker image
         run: echo "TAG=$(echo '${{ github.sha }}' | cut -c 1-7 )-${{ env.NOW }}" >> $GITHUB_ENV
+      - name: Get configuration
+        run: echo "${{ secrets.SERVICE_CONF }}" > service/.env
       - name: Enable gradle
         run: chmod +x service/gradlew
       - name: Build docker image

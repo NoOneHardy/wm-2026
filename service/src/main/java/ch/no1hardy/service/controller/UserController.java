@@ -1,8 +1,7 @@
 package ch.no1hardy.service.controller;
 
-import ch.no1hardy.service.front.user.CheckRes;
-import ch.no1hardy.service.front.user.UserReq;
-import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.user.*;
+import ch.no1hardy.service.service.JwtService;
 import ch.no1hardy.service.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -16,6 +15,7 @@ import java.util.List;
 public class UserController {
     private final UserService service;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final JwtService jwtService;
 
     @GetMapping("/user")
     public List<UserRes> list() {
@@ -44,10 +44,22 @@ public class UserController {
         return this.service.get(id);
     }
 
-    @PostMapping("/user")
+    @PostMapping("/signup")
     public UserRes create(@RequestBody UserReq dto) {
         logger.info("POST /user");
         return this.service.create(dto);
+    }
+
+    @PostMapping("/login")
+    public LoginRes login(@RequestBody LoginReq dto) {
+        logger.info("POST /login");
+        UserRes user = this.service.login(dto);
+        String jwtToken = jwtService.generateToken(user.getUsername());
+
+        return LoginRes.builder()
+                .token(jwtToken)
+                .expiresIn(jwtService.getJwtExpiration())
+                .build();
     }
 
     @PutMapping("/user/{id}")

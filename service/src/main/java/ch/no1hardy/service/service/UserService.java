@@ -46,11 +46,11 @@ public class UserService {
     }
 
     public Boolean isUsernameAvailable(String username) {
-        return repository.findByUsername(username).isEmpty();
+        return repository.findByUsername(username).stream().noneMatch(User::isActive);
     }
 
     public Boolean isEmailAvailable(String email) {
-        return repository.findByEmail(email).isEmpty();
+        return repository.findByEmail(email).stream().noneMatch(User::isActive);
     }
 
     public UserRes get(String id) {

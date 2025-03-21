@@ -30,7 +30,7 @@ public class User extends BaseEntity {
     private String lastname;
 
     @NotNull
-    private Boolean isActive = false;
+    private Boolean isActivated = false;
 
     @NotNull
     private Integer points = 0;

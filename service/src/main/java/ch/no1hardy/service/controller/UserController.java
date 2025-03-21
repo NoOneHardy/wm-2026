@@ -6,6 +6,7 @@ import ch.no1hardy.service.service.UserService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +45,7 @@ public class UserController {
         return this.service.get(id);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
     public UserRes get() {
         logger.info("GET /me");

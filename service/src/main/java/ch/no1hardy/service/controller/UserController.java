@@ -33,12 +33,14 @@ public class UserController {
         return service.check(username, email);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/user/all")
     public List<UserRes> listAll() {
         logger.info("GET /user/all");
         return this.service.listAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/user/{id}")
     public UserRes get(@PathVariable String id) {
         logger.info("GET /user/{}", id);
@@ -70,12 +72,14 @@ public class UserController {
                 .build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/user/{id}")
     public UserRes update(@PathVariable String id, @RequestBody UserReq dto) {
         logger.info("PUT /user/{}", id);
         return this.service.update(id, dto);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/user/{id}")
     public UserRes delete(@PathVariable String id) {
         logger.info("DELETE /user/{}", id);

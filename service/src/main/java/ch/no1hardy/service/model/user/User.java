@@ -1,13 +1,12 @@
 package ch.no1hardy.service.model.user;
 
 import ch.no1hardy.service.model.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
@@ -40,6 +39,9 @@ public class User extends BaseEntity implements UserDetails {
     @NotNull
     private Integer points = 0;
 
+    @NotNull
+    private Role role = Role.UNCONFIRMED_USER;
+
     private Integer lastReviewedPoints = 0;
 
     private String avatarUrl;
@@ -49,7 +51,8 @@ public class User extends BaseEntity implements UserDetails {
     @Override
     @Transient
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + role.name());
+        return List.of(authority);
     }
 
     @Override

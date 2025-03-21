@@ -1,5 +1,6 @@
 package ch.no1hardy.service.front.user;
 
+import ch.no1hardy.service.model.user.Role;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ public class UserRes {
     private Integer points;
     private Integer lastReviewedPoints;
     private String avatarUrl;
+    private Role role;
     private LocalDateTime confirmedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

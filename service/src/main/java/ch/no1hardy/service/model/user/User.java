@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "user")
+@Table(name = "wm-user")
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity {
     @NotNull

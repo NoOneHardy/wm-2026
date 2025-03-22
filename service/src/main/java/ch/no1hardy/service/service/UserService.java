@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 public class UserService {
-    protected final UserRepository repository;
-    protected final UserMapperImpl mapper;
+    private final UserRepository repository;
+    private final UserMapperImpl mapper;
 
     public List<UserRes> list() {
         return mapper.toDto(repository.findAll()

@@ -1,1 +1,11 @@
-<p>user-management-panel works!</p>
+<div class="panel">
+  <h2>{{ title() }}</h2>
+
+  <div class="content">
+    <ng-content select="[wm-content]"/>
+  </div>
+
+  <div class="actions">
+    <ng-content select="[wm-actions]"/>
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, input} from '@angular/core'
 
 @Component({
   selector: 'wm-user-management-panel',
@@ -8,5 +8,5 @@ import {Component} from '@angular/core'
   styleUrl: './user-management-panel.component.css'
 })
 export class UserManagementPanelComponent {
-
+  title = input<string | null>(null)
 }

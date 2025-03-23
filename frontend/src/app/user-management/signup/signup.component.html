@@ -1,3 +1,43 @@
-<wm-user-management-panel>
+<wm-user-management-panel title="Konto erstellen">
+  <ng-container wm-content>
+    <form [formGroup]="formGroup">
+      <wm-form-field>
+        <label>Username</label>
+        <input formControlName="username"/>
+      </wm-form-field>
+      <wm-form-field>
+        <label>E-Mail</label>
+        <input formControlName="email"/>
+      </wm-form-field>
 
+      <wm-form-field>
+        <label>Vorname</label>
+        <input formControlName="firstname"/>
+      </wm-form-field>
+      <wm-form-field>
+        <label>Nachname</label>
+        <input formControlName="lastname"/>
+      </wm-form-field>
+
+      <ng-container formGroupName="password">
+        <wm-form-field>
+          <label>Passwort</label>
+          <input formControlName="password" type="password"/>
+        </wm-form-field>
+        <wm-form-field>
+          <label>Passwort bestätigen</label>
+          <input formControlName="confirmPassword" type="password"/>
+        </wm-form-field>
+      </ng-container>
+    </form>
+  </ng-container>
+
+  <ng-container wm-actions>
+    <div class="login">
+      <p>Bereits ein Konto?</p>
+      <a href="/login">Anmelden</a>
+    </div>
+
+    <wm-button>Weiter</wm-button>
+  </ng-container>
 </wm-user-management-panel>

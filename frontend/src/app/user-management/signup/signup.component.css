@@ -1,0 +1,21 @@
+form {
+  display: grid;
+  grid-template-columns: 18em 18em;
+  grid-gap: 1.25em 2.375em;
+}
+
+.login {
+  display: flex;
+  gap: calc(.5em / .75);
+  font-size: .75em;
+
+  a {
+    color: var(--wm-color-secondary);
+    text-decoration: none;
+    transition: color .25s ease;
+
+    &:hover {
+      color: var(--wm-color-secondary-hover);
+    }
+  }
+}

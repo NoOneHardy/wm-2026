@@ -33,7 +33,7 @@ describe('HeaderComponent', () => {
     expect(component.user()).toBeNull()
     const compiled = fixture.nativeElement as HTMLElement
     expect(compiled.querySelector('wm-user-button[route="/login"]')?.textContent).toContain('Anmelden')
-    expect(compiled.querySelector('wm-user-button[route="/sign-up"]')?.textContent).toContain('Registrieren')
+    expect(compiled.querySelector('wm-user-button[route="/signup"]')?.textContent).toContain('Registrieren')
   })
 
   it('should not show dashboard if user is null', () => {

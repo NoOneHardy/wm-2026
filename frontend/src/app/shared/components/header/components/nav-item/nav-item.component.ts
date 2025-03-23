@@ -17,4 +17,7 @@ export class NavItemComponent {
   icon = input<string | null>(null)
   displayName = input<string | null>(null)
   route = input<string>('/')
+  exact = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
 }

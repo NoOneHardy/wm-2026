@@ -32,15 +32,17 @@
       <ng-container formGroupName="passwords">
         <wm-form-field>
           <label>Passwort</label>
-          <input formControlName="password" type="password"/>
+          <input formControlName="password" type="password" [class.ng-invalid]="hasError(formGroup.controls.passwords, 'passwordMatch')"/>
           <span *ngIf="hasError(formGroup.controls.passwords.controls.password, 'required')">Pflichtfeld</span>
           <span *ngIf="hasError(formGroup.controls.passwords.controls.password, 'minlength')">Min. 8 Zeichen</span>
+          <span *ngIf="hasError(formGroup.controls.passwords, 'passwordMatch') && !hasError(formGroup.controls.passwords.controls.password)">Passwörter müssen übereinstimmen</span>
         </wm-form-field>
         <wm-form-field>
           <label>Passwort bestätigen</label>
-          <input formControlName="confirmPassword" type="password"/>
+          <input formControlName="confirmPassword" type="password" [class.ng-invalid]="hasError(formGroup.controls.passwords, 'passwordMatch')"/>
           <span *ngIf="hasError(formGroup.controls.passwords.controls.confirmPassword, 'required')">Pflichtfeld</span>
           <span *ngIf="hasError(formGroup.controls.passwords.controls.confirmPassword, 'minlength')">Min. 8 Zeichen</span>
+          <span *ngIf="hasError(formGroup.controls.passwords, 'passwordMatch') && !hasError(formGroup.controls.passwords.controls.confirmPassword)">Passwörter müssen übereinstimmen</span>
         </wm-form-field>
       </ng-container>
     </form>

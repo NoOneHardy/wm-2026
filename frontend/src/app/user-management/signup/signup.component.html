@@ -6,12 +6,14 @@
         <input formControlName="username"/>
         <span *ngIf="hasError(formGroup.controls.username, 'required')">Pflichtfeld</span>
         <span *ngIf="hasError(formGroup.controls.username, 'minlength')">Min. 5 Zeichen</span>
+        <span *ngIf="hasError(formGroup.controls.username, 'usernameAvailable')">Username wird bereits verwendet</span>
       </wm-form-field>
       <wm-form-field>
         <label>E-Mail</label>
         <input formControlName="email"/>
         <span *ngIf="hasError(formGroup.controls.email, 'required')">Pflichtfeld</span>
         <span *ngIf="hasError(formGroup.controls.email, 'email')">Ungültiges Format</span>
+        <span *ngIf="hasError(formGroup.controls.email, 'emailAvailable')">E-Mail wird bereits verwendet</span>
       </wm-form-field>
 
       <wm-form-field>

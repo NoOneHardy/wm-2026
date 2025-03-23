@@ -5,6 +5,7 @@ import {FormFieldComponent} from '../../shared/components/form-field/form-field.
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
+import {UserValidatorService} from './validators/user-validator.service'
 
 @Component({
   selector: 'wm-signup',
@@ -21,13 +22,17 @@ import {hasError} from '../../shared/helper/form-field-error'
 })
 export class SignupComponent {
   private fb = inject(FormBuilder)
+  private userValidatorService = inject(UserValidatorService)
 
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(5)
+        Validators.minLength(5),
+      ],
+      asyncValidators: [
+        this.userValidatorService.usernameAvailable()
       ]
     }),
     email: this.fb.control<string>('', {
@@ -35,6 +40,9 @@ export class SignupComponent {
       validators: [
         Validators.required,
         Validators.email
+      ],
+      asyncValidators: [
+        this.userValidatorService.emailAvailable()
       ]
     }),
     firstname: this.fb.control<string>('', {

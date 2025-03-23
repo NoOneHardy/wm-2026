@@ -6,6 +6,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {UserValidatorService} from './validators/user-validator.service'
+import {passwordMatch} from './validators/password-validator'
 
 @Component({
   selector: 'wm-signup',
@@ -74,6 +75,8 @@ export class SignupComponent {
           Validators.minLength(8)
         ]
       })
+    }, {
+      validators: [passwordMatch()]
     })
   })
 

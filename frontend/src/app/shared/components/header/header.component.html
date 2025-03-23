@@ -2,10 +2,10 @@
   <nav class="nav">
     <a routerLink="/" class="home-link">WM 2026</a>
     @if (user()) {
-      <wm-nav-item displayName="Dashboard" icon="home" route="/"/>
+      <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
       <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/tip-card"/>
     } @else {
-      <wm-nav-item displayName="Home" icon="home" route="/"/>
+      <wm-nav-item displayName="Home" icon="home" route="/" exact/>
     }
     <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/ranking"/>
     <wm-nav-item displayName="Resultate" icon="scoreboard" route="results"/>
@@ -15,7 +15,7 @@
       <wm-user-menu [user]="user"/>
     } @else {
       <wm-user-button route="/login" secondary content="Anmelden"/>
-      <wm-user-button route="/sign-up" content="Registrieren"/>
+      <wm-user-button route="/signup" content="Registrieren"/>
     }
   </div>
 </header>

@@ -2,13 +2,14 @@ wm-form-field {
   --wm-form-field-font-size: 1em;
 
   display: block;
+  margin-bottom: calc(var(--wm-form-field-font-size) * 1.5 / 1.125);
 
   .form-field {
     position: relative;
 
     &:has(input:not(:placeholder-shown)), &:focus-within {
       label {
-        top: .5em;
+        top: .3em;
         left: 1.25em;
         font-size: calc(var(--wm-form-field-font-size) * .5);
       }
@@ -28,6 +29,21 @@ wm-form-field {
       }
     }
 
+    &:has(input.ng-invalid.ng-touched) {
+      label, .show-password-icon {
+        color: var(--wm-color-red-500);
+      }
+
+      input {
+        background-color: var(--wm-color-red-200);
+        color: var(--wm-color-red);
+      }
+
+      span {
+        opacity: 1;
+      }
+    }
+
     .show-password-icon {
       position: absolute;
       top: 50%;
@@ -37,17 +53,18 @@ wm-form-field {
       transform: translateY(-50%);
       cursor: pointer;
       color: var(--wm-color-gray-300);
+      background-color: transparent;
+      transition: color .2s ease;
     }
 
     label {
       position: absolute;
-      top: 50%;
+      top: .5em;
       left: calc(2em / 3);
       color: var(--wm-color-gray-300);
       font-size: calc(var(--wm-form-field-font-size) * 1.125);
       font-weight: 600;
-      transform: translateY(-50%);
-      transition: font-size .2s ease, top .2s ease, left .2s ease;
+      transition: font-size .2s ease, top .2s ease, left .2s ease, color .2s ease;
       pointer-events: none;
     }
 
@@ -58,11 +75,12 @@ wm-form-field {
       border: none;
       border-radius: calc(2em / 9);
       outline: none;
-      padding: 0 calc(2em / 3);
+      padding: calc(2em / 3) calc(2em / 3) calc(1em / 3);
       font-size: calc(var(--wm-form-field-font-size) * 1.125);
       font-weight: 500;
       color: var(--wm-color-gray);
       box-shadow: 0 calc(1em / 9) calc(2em / 9) 0 #0000001a inset;
+      transition: color .2s ease, background-color .2s ease;
 
       &[type="number"] {
         font-weight: 600;
@@ -80,6 +98,18 @@ wm-form-field {
       &:disabled {
         box-shadow: none;
       }
+    }
+
+    span {
+      position: absolute;
+      display: block;
+      opacity: 0;
+      width: 100%;
+      font-size: .75em;
+      margin-top: calc(.125em / .75);
+      margin-left: calc(.125em / .75);
+      color: var(--wm-color-red-500);
+      transition: opacity .2s ease;
     }
   }
 }

@@ -1,5 +1,5 @@
 export interface User {
-  id: number
+  id: string
   username: string
   email: string
   firstname: string
@@ -11,4 +11,12 @@ export interface User {
   lastReviewedRank?: number | null
   avatar?: string | null
   confirmedAt?: Date | null
+}
+
+export interface NewUser {
+  username: string
+  email: string
+  firstname: string
+  lastname: string
+  password: string
 }

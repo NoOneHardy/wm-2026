@@ -18,7 +18,7 @@ describe('UserMenuComponent', () => {
     component = fixture.componentInstance
     fixture.detectChanges()
     user = {
-      id: 0,
+      id: '',
       username: 'NoOneHardy',
       email: 'silas.hardegger@outlook.com',
       firstname: 'Silas',

@@ -7,6 +7,8 @@ import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {UserValidatorService} from './validators/user-validator.service'
 import {passwordMatch} from './validators/password-validator'
+import {UserService} from '../user.service'
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'wm-signup',
@@ -24,7 +26,10 @@ import {passwordMatch} from './validators/password-validator'
 export class SignupComponent {
   private fb = inject(FormBuilder)
   private userValidatorService = inject(UserValidatorService)
+  private userService = inject(UserService)
+  private router = inject(Router)
 
+  loading = false
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
       nonNullable: true,
@@ -82,9 +87,18 @@ export class SignupComponent {
 
   submit(): void {
     this.formGroup.markAllAsTouched()
+    if (this.formGroup.invalid) return
 
     const value = this.formGroup.getRawValue()
-    console.log(value)
+    this.loading = true
+
+    this.userService.createUser({
+      ...value,
+      password: value.passwords.password,
+    }).subscribe(() => {
+      this.router.navigateByUrl('/').then()
+      this.loading = false
+    })
   }
 
   protected readonly hasError = hasError

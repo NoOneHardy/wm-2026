@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core'
+import {Component, inject, Signal} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
@@ -7,8 +7,9 @@ import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {UserValidatorService} from './validators/user-validator.service'
 import {passwordMatch} from './validators/password-validator'
-import {UserService} from '../user.service'
-import {Router} from '@angular/router'
+import {Store} from '@ngrx/store'
+import {createUser} from '../store/user.actions'
+import {selectIsLoading} from '../store/user.feature'
 
 @Component({
   selector: 'wm-signup',
@@ -26,10 +27,9 @@ import {Router} from '@angular/router'
 export class SignupComponent {
   private fb = inject(FormBuilder)
   private userValidatorService = inject(UserValidatorService)
-  private userService = inject(UserService)
-  private router = inject(Router)
+  private store = inject(Store)
 
-  loading = false
+  isLoading: Signal<boolean> = this.store.selectSignal(selectIsLoading)
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
       nonNullable: true,
@@ -90,15 +90,13 @@ export class SignupComponent {
     if (this.formGroup.invalid) return
 
     const value = this.formGroup.getRawValue()
-    this.loading = true
 
-    this.userService.createUser({
-      ...value,
-      password: value.passwords.password,
-    }).subscribe(() => {
-      this.router.navigateByUrl('/').then()
-      this.loading = false
-    })
+    this.store.dispatch(createUser({
+      user: {
+        ...value,
+        password: value.passwords.password
+      }
+    }))
   }
 
   protected readonly hasError = hasError

@@ -54,6 +54,6 @@
       <a href="/login">Anmelden</a>
     </div>
 
-    <wm-button (clickEvent)="submit()" [disabled]="loading">Weiter</wm-button>
+    <wm-button (clickEvent)="submit()" [disabled]="isLoading()">Weiter</wm-button>
   </ng-container>
 </wm-user-management-panel>

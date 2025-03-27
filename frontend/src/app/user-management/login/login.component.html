@@ -1,0 +1,19 @@
+<wm-user-management-panel heading="Anmelden">
+  <ng-container wm-content>
+    <form [formGroup]="formGroup">
+      <wm-form-field>
+        <label>Username</label>
+        <input formControlName="username">
+      </wm-form-field>
+
+      <wm-form-field>
+        <label>Password</label>
+        <input formControlName="password" type="password">
+      </wm-form-field>
+    </form>
+  </ng-container>
+  <ng-container wm-actions>
+    <a>Passwort vergessen?</a>
+    <wm-button (clickEvent)="login()">Anmelden</wm-button>
+  </ng-container>
+</wm-user-management-panel>

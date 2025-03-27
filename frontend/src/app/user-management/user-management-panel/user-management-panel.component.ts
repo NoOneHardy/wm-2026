@@ -8,5 +8,5 @@ import {Component, input} from '@angular/core'
   styleUrl: './user-management-panel.component.css'
 })
 export class UserManagementPanelComponent {
-  title = input<string | null>(null)
+  heading = input<string | null>(null)
 }

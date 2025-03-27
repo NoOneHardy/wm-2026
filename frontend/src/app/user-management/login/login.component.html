@@ -1,6 +1,6 @@
 <wm-user-management-panel heading="Anmelden">
   <ng-container wm-content>
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="login()">
       <wm-form-field>
         <label>Username</label>
         <input formControlName="username">

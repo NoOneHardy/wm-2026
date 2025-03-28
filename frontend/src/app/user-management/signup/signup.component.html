@@ -1,6 +1,6 @@
 <wm-user-management-panel title="Konto erstellen">
   <ng-container wm-content>
-    <form [formGroup]="formGroup">
+    <form [formGroup]="formGroup" (ngSubmit)="submit()">
       <wm-form-field>
         <label>Username</label>
         <input formControlName="username"/>

@@ -1,12 +1,16 @@
-import { TestBed } from '@angular/core/testing'
+import {TestBed} from '@angular/core/testing'
 
-import { AuthHttpService } from './auth-http.service'
+import {AuthHttpService} from './auth-http.service'
+import {provideMockStore} from '@ngrx/store/testing'
+import {provideHttpClient} from '@angular/common/http'
 
 describe('AuthHttpService', () => {
   let service: AuthHttpService
 
   beforeEach(() => {
-    TestBed.configureTestingModule({})
+    TestBed.configureTestingModule({
+      providers: [provideMockStore(), provideHttpClient()]
+    })
     service = TestBed.inject(AuthHttpService)
   })
 

@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { UserMenuComponent } from './user-menu.component'
 import {User} from '../../../../../model/user/user'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent
@@ -10,9 +11,9 @@ describe('UserMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserMenuComponent]
-    })
-    .compileComponents()
+      imports: [UserMenuComponent],
+      providers: [provideMockStore()]
+    }).compileComponents()
 
     fixture = TestBed.createComponent(UserMenuComponent)
     component = fixture.componentInstance

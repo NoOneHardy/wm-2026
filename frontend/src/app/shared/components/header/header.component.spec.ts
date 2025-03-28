@@ -4,6 +4,8 @@ import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {provideRouter} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
+import {provideMockStore} from '@ngrx/store/testing'
+import {selectUser} from '../../../user-management/store/user.feature'
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent
@@ -12,7 +14,14 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent, NavItemComponent, UserMenuComponent, UserButtonComponent],
-      providers: [provideRouter([])]
+      providers: [provideRouter([]), provideMockStore({
+        initialState: {
+          user: null
+        },
+        selectors: [
+          {selector: selectUser, value: null}
+        ]
+      })]
     })
       .compileComponents()
 

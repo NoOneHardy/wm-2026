@@ -4,6 +4,8 @@ import {ButtonComponent, FormFieldComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
+import {Store} from '@ngrx/store'
+import {userLogin} from '../store/user.actions'
 
 @Component({
   selector: 'wm-login',
@@ -20,6 +22,7 @@ import {hasError} from '../../shared/helper/form-field-error'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder)
+  private store = inject(Store)
 
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
@@ -36,7 +39,8 @@ export class LoginComponent {
     this.formGroup.markAllAsTouched()
     if (this.formGroup.invalid) return
 
-    console.log(this.formGroup.getRawValue())
+    const data = this.formGroup.getRawValue()
+    this.store.dispatch(userLogin(data))
   }
 
   protected readonly hasError = hasError

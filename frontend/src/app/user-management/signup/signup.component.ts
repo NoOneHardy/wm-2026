@@ -90,7 +90,6 @@ export class SignupComponent {
     if (this.formGroup.invalid) return
 
     const value = this.formGroup.getRawValue()
-
     this.store.dispatch(createUser({
       user: {
         ...value,

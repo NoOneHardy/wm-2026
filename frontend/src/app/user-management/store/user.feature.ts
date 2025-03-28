@@ -1,6 +1,6 @@
 import {User} from '../../model/user/user'
 import {createFeature, createReducer, on} from '@ngrx/store'
-import {createUser, fetchUserInfo, userCreated, userInfoFetched, userLoggedIn, userLogin} from './user.actions'
+import {createUser, fetchUserInfo, logout, userCreated, userInfoFetched, userLoggedIn, userLogin} from './user.actions'
 
 interface UserState {
   user: User | null
@@ -55,7 +55,8 @@ export const userFeature = createFeature({
         isLoading: false,
         user: action.user
       }
-    })
+    }),
+    on(logout, () => initialState)
   )
 })
 

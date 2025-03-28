@@ -4,45 +4,45 @@
       <wm-form-field>
         <label>Username</label>
         <input formControlName="username"/>
-        <span *ngIf="hasError(formGroup.controls.username, 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.controls.username, 'minlength')">Min. 5 Zeichen</span>
-        <span *ngIf="hasError(formGroup.controls.username, 'usernameAvailable')">Username wird bereits verwendet</span>
+        <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('username'), 'minlength')">Min. 5 Zeichen</span>
+        <span *ngIf="hasError(formGroup.get('username'), 'usernameAvailable')">Username wird bereits verwendet</span>
       </wm-form-field>
       <wm-form-field>
         <label>E-Mail</label>
         <input formControlName="email"/>
-        <span *ngIf="hasError(formGroup.controls.email, 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.controls.email, 'email')">Ungültiges Format</span>
-        <span *ngIf="hasError(formGroup.controls.email, 'emailAvailable')">E-Mail wird bereits verwendet</span>
+        <span *ngIf="hasError(formGroup.get('email'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('email'), 'email')">Ungültiges Format</span>
+        <span *ngIf="hasError(formGroup.get('email'), 'emailAvailable')">E-Mail wird bereits verwendet</span>
       </wm-form-field>
 
       <wm-form-field>
         <label>Vorname</label>
         <input formControlName="firstname"/>
-        <span *ngIf="hasError(formGroup.controls.firstname, 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.controls.firstname, 'minlength')">Min. 2 Zeichen</span>
+        <span *ngIf="hasError(formGroup.get('firstname'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('firstname'), 'minlength')">Min. 2 Zeichen</span>
       </wm-form-field>
       <wm-form-field>
         <label>Nachname</label>
         <input formControlName="lastname"/>
-        <span *ngIf="hasError(formGroup.controls.lastname, 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.controls.lastname, 'minlength')">Min. 2 Zeichen</span>
+        <span *ngIf="hasError(formGroup.get('lastname'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('lastname'), 'minlength')">Min. 2 Zeichen</span>
       </wm-form-field>
 
       <ng-container formGroupName="passwords">
         <wm-form-field>
           <label>Passwort</label>
-          <input formControlName="password" type="password" [class.ng-invalid]="hasError(formGroup.controls.passwords, 'passwordMatch')"/>
-          <span *ngIf="hasError(formGroup.controls.passwords.controls.password, 'required')">Pflichtfeld</span>
-          <span *ngIf="hasError(formGroup.controls.passwords.controls.password, 'minlength')">Min. 8 Zeichen</span>
-          <span *ngIf="hasError(formGroup.controls.passwords, 'passwordMatch') && !hasError(formGroup.controls.passwords.controls.password)">Passwörter müssen übereinstimmen</span>
+          <input formControlName="password" type="password" [class.ng-invalid]="hasError(formGroup.get('passwords.password')) || hasError(formGroup.get('passwords'), 'passwordMatch')"/>
+          <span *ngIf="hasError(formGroup.get('passwords.password'), 'required')">Pflichtfeld</span>
+          <span *ngIf="hasError(formGroup.get('passwords.password'), 'minlength')">Min. 8 Zeichen</span>
+          <span *ngIf="hasError(formGroup.get('passwords'), 'passwordMatch') && !hasError(formGroup.get('passwords.password'))">Passwörter müssen übereinstimmen</span>
         </wm-form-field>
         <wm-form-field>
           <label>Passwort bestätigen</label>
-          <input formControlName="confirmPassword" type="password" [class.ng-invalid]="hasError(formGroup.controls.passwords, 'passwordMatch')"/>
-          <span *ngIf="hasError(formGroup.controls.passwords.controls.confirmPassword, 'required')">Pflichtfeld</span>
-          <span *ngIf="hasError(formGroup.controls.passwords.controls.confirmPassword, 'minlength')">Min. 8 Zeichen</span>
-          <span *ngIf="hasError(formGroup.controls.passwords, 'passwordMatch') && !hasError(formGroup.controls.passwords.controls.confirmPassword)">Passwörter müssen übereinstimmen</span>
+          <input formControlName="confirmPassword" type="password" [class.ng-invalid]="hasError(formGroup.get('passwords.confirmPassword')) || hasError(formGroup.get('passwords'), 'passwordMatch')"/>
+          <span *ngIf="hasError(formGroup.get('passwords.confirmPassword'), 'required')">Pflichtfeld</span>
+          <span *ngIf="hasError(formGroup.get('passwords.confirmPassword'), 'minlength')">Min. 8 Zeichen</span>
+          <span *ngIf="hasError(formGroup.get('passwords'), 'passwordMatch') && !hasError(formGroup.get('passwords.confirmPassword'))">Passwörter müssen übereinstimmen</span>
         </wm-form-field>
       </ng-container>
     </form>

@@ -1,15 +1,14 @@
-import {inject, Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {AvailabilityCheck} from './model/availability-check'
 import {NewUser, User} from '../model/user/user'
+import {LoginData, LoginResponse} from './model/login'
+import {AuthHttpService} from '../shared/services/auth-http.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private http = inject(HttpClient)
-
+export class UserService extends AuthHttpService {
   checkUsername(username?: string): Observable<AvailabilityCheck> {
     const params = new URLSearchParams()
     if (username) params.set('username', username)
@@ -24,5 +23,13 @@ export class UserService {
 
   createUser(user: NewUser): Observable<User> {
     return this.http.post<User>('/api/signup', user)
+  }
+
+  login(data: LoginData): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>('/api/login', data)
+  }
+
+  fetchUserInfo(): Observable<User> {
+    return this.get<User>('/api/me')
   }
 }

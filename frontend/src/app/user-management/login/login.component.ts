@@ -2,6 +2,8 @@ import {Component, inject} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {ButtonComponent, FormFieldComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
+import {NgIf} from '@angular/common'
+import {hasError} from '../../shared/helper/form-field-error'
 
 @Component({
   selector: 'wm-login',
@@ -10,7 +12,8 @@ import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
     UserManagementPanelComponent,
     FormFieldComponent,
     ButtonComponent,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgIf
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
@@ -35,4 +38,6 @@ export class LoginComponent {
 
     console.log(this.formGroup.getRawValue())
   }
+
+  protected readonly hasError = hasError
 }

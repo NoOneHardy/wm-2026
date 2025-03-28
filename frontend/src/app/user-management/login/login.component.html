@@ -4,11 +4,13 @@
       <wm-form-field>
         <label>Username</label>
         <input formControlName="username">
+        <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
       </wm-form-field>
 
       <wm-form-field>
         <label>Password</label>
         <input formControlName="password" type="password">
+        <span *ngIf="hasError(formGroup.get('password'), 'required')">Pflichtfeld</span>
       </wm-form-field>
     </form>
   </ng-container>

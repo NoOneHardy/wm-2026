@@ -1,0 +1,14 @@
+wm-form-field {
+  width: 18em;
+}
+
+a {
+  color: var(--wm-color-secondary);
+  text-decoration: none;
+  transition: color .2s ease;
+  font-size: .75em;
+
+  &:hover {
+    color: var(--wm-color-secondary-hover);
+  }
+}

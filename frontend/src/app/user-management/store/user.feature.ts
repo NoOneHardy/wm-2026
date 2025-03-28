@@ -61,5 +61,6 @@ export const userFeature = createFeature({
 
 export const {
   selectIsLoading,
-  selectToken
+  selectToken,
+  selectUser
 } = userFeature

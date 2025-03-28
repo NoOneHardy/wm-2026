@@ -1,9 +1,10 @@
-import {Component, input} from '@angular/core'
-import {User} from '../../../model/user/user'
+import {Component, inject} from '@angular/core'
 import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {RouterLink} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
+import {Store} from '@ngrx/store'
+import {selectUser} from '../../../user-management/store/user.feature'
 
 @Component({
   selector: 'wm-header',
@@ -18,5 +19,6 @@ import {UserButtonComponent} from './components/user-button/user-button.componen
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  user = input<User | null>(null)
+  private store = inject(Store)
+  user = this.store.selectSignal(selectUser)
 }

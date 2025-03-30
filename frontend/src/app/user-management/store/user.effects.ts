@@ -5,6 +5,7 @@ import {createUser, fetchUserInfo, userCreated, userInfoFetched, userLoggedIn, u
 import {exhaustMap, map} from 'rxjs'
 import {Router} from '@angular/router'
 
+// noinspection JSUnusedGlobalSymbols
 @Injectable({
   providedIn: 'root'
 })
@@ -17,10 +18,18 @@ export class UserEffects {
     ofType(createUser),
     exhaustMap(action => {
       return this.userService.createUser(action.user).pipe(map(() => {
-          return userCreated()
+          return userCreated({
+            username: action.user.username,
+            password: action.user.password
+          })
         })
       )
     })
+  ))
+
+  userCreated = createEffect(() => this.actions$.pipe(
+    ofType(userCreated),
+    map((data) => userLogin(data))
   ))
 
   login = createEffect(() => this.actions$.pipe(

@@ -1,0 +1,3 @@
+<div class="wrapper" *ngIf="messages().length > 0">
+  <wm-snackbar *ngFor="let message of messages()" [message]="message"/>
+</div>

@@ -9,5 +9,10 @@ import {SnackbarMessage} from './model/snackbar-message'
   styleUrl: './snackbar.component.css'
 })
 export class SnackbarComponent {
-  message = input.required<SnackbarMessage>()
+  message = input.required<SnackbarMessage, SnackbarMessage>({
+    transform: v => ({
+      ...v,
+      type: v.type ?? 'success'
+    })
+  })
 }

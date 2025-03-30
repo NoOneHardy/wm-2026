@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 
 import { SnackbarDisplayComponent } from './snackbar-display.component'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('SnackbarDisplayComponent', () => {
   let component: SnackbarDisplayComponent
@@ -8,7 +9,8 @@ describe('SnackbarDisplayComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SnackbarDisplayComponent]
+      imports: [SnackbarDisplayComponent],
+      providers: [provideMockStore()]
     })
     .compileComponents()
 

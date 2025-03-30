@@ -1,0 +1,31 @@
+.snackbar {
+  --wm-snackbar-background-color: var(--wm-color-primary-600);
+  --wm-snackbar-color: var(--wm-color-secondary);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  padding: .375em .75em;
+  border-radius: .5em;
+  box-shadow: 0 0 1em 0 #0000003D;
+  color: var(--wm-snackbar-color);
+  font-weight: 500;
+  background-color: var(--wm-snackbar-background-color);
+  animation: wm-snackbar-pop-up .2s ease;
+
+  &.-error {
+    --wm-snackbar-background-color: var(--wm-color-red-200);
+    --wm-snackbar-color: var(--wm-color-red);
+  }
+}
+
+@keyframes wm-snackbar-pop-up {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}

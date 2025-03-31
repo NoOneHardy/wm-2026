@@ -2,8 +2,9 @@ import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {createUser, fetchUserInfo, userCreated, userInfoFetched, userLoggedIn, userLogin} from './user.actions'
-import {exhaustMap, map} from 'rxjs'
+import {exhaustMap, map, tap} from 'rxjs'
 import {Router} from '@angular/router'
+import {SnackbarService} from '../../shared/services/snackbar.service'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -12,6 +13,7 @@ import {Router} from '@angular/router'
 export class UserEffects {
   private actions$ = inject(Actions)
   private userService = inject(UserService)
+  private snackbarService = inject(SnackbarService)
   private router = inject(Router)
 
   signup = createEffect(() => this.actions$.pipe(
@@ -29,6 +31,9 @@ export class UserEffects {
 
   userCreated = createEffect(() => this.actions$.pipe(
     ofType(userCreated),
+    tap(() => this.snackbarService.addMessage({
+      message: 'Benutzer erfolgreich erstellt',
+    })),
     map((data) => userLogin(data))
   ))
 

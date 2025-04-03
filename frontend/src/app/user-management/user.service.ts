@@ -30,6 +30,6 @@ export class UserService extends AuthHttpService {
   }
 
   fetchUserInfo(): Observable<User> {
-    return this.get<User>('/api/me')
+    return this.http.get<User>('/api/me')
   }
 }

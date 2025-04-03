@@ -1,8 +1,13 @@
 package ch.no1hardy.service.controller;
 
-import ch.no1hardy.service.front.user.*;
+import ch.no1hardy.service.front.user.CheckRes;
+import ch.no1hardy.service.front.user.LoginReq;
+import ch.no1hardy.service.front.user.UserReq;
+import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.service.JwtService;
 import ch.no1hardy.service.service.UserService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +66,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public LoginRes login(@RequestBody LoginReq dto) {
+    @ResponseBody
+    public UserRes login(@RequestBody LoginReq dto, HttpServletResponse response) {
         logger.info("POST /login");
         UserRes user = this.service.login(dto);
-        String jwtToken = jwtService.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername());
 
-        return LoginRes.builder()
-                .token(jwtToken)
-                .expiresIn(jwtService.getJwtExpiration())
-                .build();
+        Cookie cookie = new Cookie("jwt", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+
+        response.addCookie(cookie);
+        return user;
     }
 
     @PreAuthorize("hasRole('ADMIN')")

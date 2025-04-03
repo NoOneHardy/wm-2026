@@ -52,7 +52,6 @@ public class UserController {
         return this.service.get(id);
     }
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
     public UserRes get() {
         logger.info("GET /me");
@@ -79,6 +78,21 @@ public class UserController {
 
         response.addCookie(cookie);
         return user;
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/log-out")
+    @ResponseBody
+    public void logout(HttpServletResponse response) {
+        logger.info("POST /log-out");
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
+        response.setStatus(204);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

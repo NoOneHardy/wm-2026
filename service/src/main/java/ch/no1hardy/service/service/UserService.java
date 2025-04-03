@@ -108,6 +108,9 @@ public class UserService {
 
     public UserRes getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication.getPrincipal().equals("anonymousUser")) {
+            return new UserRes();
+        }
         User currentUser = (User) authentication.getPrincipal();
         return mapper.toDto(currentUser);
     }

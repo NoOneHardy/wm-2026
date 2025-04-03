@@ -2,10 +2,12 @@ package ch.no1hardy.service.front.user;
 
 import ch.no1hardy.service.model.user.Role;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
 public class UserRes {
     private String id;
     private String username;

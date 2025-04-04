@@ -59,7 +59,7 @@ export const userFeature = createFeature({
       return {
         ...state,
         isLoading: false,
-        user: action.user
+        user: action.user.id ? action.user : null
       }
     }),
     on(logout, (state): UserState => {

@@ -1,9 +1,11 @@
-import {Component} from '@angular/core'
+import {Component, inject, OnInit} from '@angular/core'
 import {RouterOutlet} from '@angular/router'
 import {HeaderComponent} from './shared/material-api'
 import {
   SnackbarDisplayComponent
 } from './shared/components/snackbar/components/snackbar-display/snackbar-display.component'
+import {Store} from '@ngrx/store'
+import {fetchUserInfo} from './user-management/store/user.actions'
 
 @Component({
   selector: 'wm-root',
@@ -12,5 +14,10 @@ import {
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  private store = inject(Store)
+
+  ngOnInit(): void {
+    this.store.dispatch(fetchUserInfo())
+  }
 }

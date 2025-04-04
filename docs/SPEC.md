@@ -101,9 +101,32 @@ Automatically logs in user after signup and redirects to the dashboard.
 
 #### Form fields
 
-| # | Name     | Type   | Description         | Validation                                                             |
-|---|----------|--------|---------------------|------------------------------------------------------------------------|
-| 1 | username | string | The user's username | <ul><li>required</li><li>minLength(5)</li><li>usernameUnique</li></ul> |
-| 2 | email    | email  | The user's email    | <ul><li>required</li><li>email<li>emailUnique</li></ul>                |
+| # | Name      | Type   | Description          | Validation                                                             |
+|---|-----------|--------|----------------------|------------------------------------------------------------------------|
+| 1 | username  | string | The user's username  | <ul><li>required</li><li>minLength(5)</li><li>usernameUnique</li></ul> |
+| 2 | email     | email  | The user's email     | <ul><li>required</li><li>email<li>emailUnique</li></ul>                |
+| 3 | firstname | string | The user's firstname | <ul><li>required</li><li>minLength(2)</li></ul>                        |
+| 4 | lastname  | string | The user's lastname  | <ul><li>required</li><li>minLength(2)</li></ul>                        |
+| 5 | password  | string | The user's password  | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul>          |
+| 6 | confirm   | string | Repeat the password  | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul>          |
+| 7 | terms     | bool   | Accept terms         | <ul><li>required</li></ul>                                             |
 
+### 2.2 Terms and Conditions
 
+#### Description
+
+A link to the page with the terms and conditions of the application.
+
+| URL        | Display name                               |
+|------------|--------------------------------------------|
+| ```/agb``` | Ich habe die *AGB* gelesen und akzeptiert. |
+
+### 2.3 Redirect to Login
+
+#### Description
+
+A link to redirect the user to the login page.
+
+| URL          | Display name                  |
+|--------------|-------------------------------|
+| ```/login``` | Bereits ein Konto? *Anmelden* |

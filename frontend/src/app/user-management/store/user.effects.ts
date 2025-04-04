@@ -1,10 +1,20 @@
 import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
-import {createUser, fetchUserInfo, userCreated, userInfoFetched, userLoggedIn, userLogin} from './user.actions'
+import {
+  createUser,
+  fetchUserInfo,
+  loggedOut,
+  logout,
+  userCreated,
+  userInfoFetched,
+  userLoggedIn,
+  userLogin
+} from './user.actions'
 import {exhaustMap, map, tap} from 'rxjs'
 import {Router} from '@angular/router'
 import {SnackbarService} from '../../shared/services/snackbar.service'
+import {noAction} from '../../shared/store/global.actions'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -48,10 +58,30 @@ export class UserEffects {
 
   loggedIn = createEffect(() => this.actions$.pipe(
     ofType(userLoggedIn),
-    map(() => {
+    tap(() => {
       this.router.navigateByUrl('/').then()
-      return fetchUserInfo()
+    }),
+    map(() => noAction())
+  ))
+
+  logout = createEffect(() => this.actions$.pipe(
+    ofType(logout),
+    exhaustMap(() => {
+      return this.userService.logout().pipe(map(() => {
+        return loggedOut()
+      }))
     })
+  ))
+
+  loggedOut = createEffect(() => this.actions$.pipe(
+    ofType(loggedOut),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Erfolgreich abgemeldet',
+      })
+      this.router.navigateByUrl('/').then()
+    }),
+    map(() => noAction())
   ))
 
   fetchUserInfo = createEffect(() => this.actions$.pipe(

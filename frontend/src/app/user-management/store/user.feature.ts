@@ -1,16 +1,22 @@
 import {User} from '../../model/user/user'
 import {createFeature, createReducer, on} from '@ngrx/store'
-import {createUser, fetchUserInfo, logout, userCreated, userInfoFetched, userLoggedIn, userLogin} from './user.actions'
+import {
+  createUser,
+  fetchUserInfo,
+  loggedOut, logout,
+  userCreated,
+  userInfoFetched,
+  userLoggedIn,
+  userLogin
+} from './user.actions'
 
 interface UserState {
   user: User | null
   isLoading: boolean
-  token: string | null
 }
 
 const initialState: UserState = {
   user: null,
-  token: null,
   isLoading: false
 }
 
@@ -39,7 +45,7 @@ export const userFeature = createFeature({
     on(userLoggedIn, (state, action): UserState => {
       return {
         ...state,
-        token: action.token,
+        user: action,
         isLoading: false
       }
     }),
@@ -56,12 +62,23 @@ export const userFeature = createFeature({
         user: action.user
       }
     }),
-    on(logout, () => initialState)
+    on(logout, (state): UserState => {
+      return {
+        ...state,
+        isLoading: true
+      }
+    }),
+    on(loggedOut, (state) => {
+      return {
+        ...state,
+        isLoading: false,
+        user: null
+      }
+    })
   )
 })
 
 export const {
   selectIsLoading,
-  selectToken,
   selectUser
 } = userFeature

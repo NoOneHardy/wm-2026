@@ -1,14 +1,16 @@
-import {Injectable} from '@angular/core'
+import {inject, Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {AvailabilityCheck} from './model/availability-check'
 import {NewUser, User} from '../model/user/user'
-import {LoginData, LoginResponse} from './model/login'
-import {AuthHttpService} from '../shared/services/auth-http.service'
+import {LoginData} from './model/login'
+import {HttpClient} from '@angular/common/http'
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService extends AuthHttpService {
+export class UserService {
+  private http = inject(HttpClient)
+
   checkUsername(username?: string): Observable<AvailabilityCheck> {
     const params = new URLSearchParams()
     if (username) params.set('username', username)
@@ -25,8 +27,12 @@ export class UserService extends AuthHttpService {
     return this.http.post<User>('/api/signup', user)
   }
 
-  login(data: LoginData): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>('/api/login', data)
+  login(data: LoginData): Observable<User> {
+    return this.http.post<User>('/api/login', data)
+  }
+
+  logout(): Observable<void> {
+    return this.http.post<void>('/api/log-out', {})
   }
 
   fetchUserInfo(): Observable<User> {

@@ -2,29 +2,30 @@
 
 ## Table of Contents
 
-| #  | Name          | Description         |
-|----|---------------|---------------------|
-| 1  | Login         | User login          |
-| 2  | Signup        | User signup         |
-| 3  | Bet placement | User places a bet   |
-| 4  | Bet history   | User bet history    |
-| 5  | Leaderboard   | Overall ranking     |
-| 6  | Profile       | User profile        |
-| 7  | Settings      | User settings       |
-| 8  | Results       | Game results        |
-| 9  | Notifications | User notifications  |
-| 10 | Email         | Email notifications |
-| 11 | Dashboard     | User dashboard      |
-| 12 | Admin         | Admin panel         |
+| #  | Name                              | Description         |
+|----|-----------------------------------|---------------------|
+| 1  | [Login](#1-login)                 | User login          |
+| 2  | [Signup](#2-signup)               | User signup         |
+| 3  | [Bet placement](#3-bet-placement) | User places a bet   |
+| 4  | [Bet history](#4-bet-history)     | User bet history    |
+| 5  | [Leaderboard](#5-leaderboard)     | Overall ranking     |
+| 6  | [Settings](#6-settings)           | User settings       |
+| 7  | [Results](#7-results)             | Game results        |
+| 8  | [Notifications](#8-notifications) | User notifications  |
+| 9  | [Email](#9-email)                 | Email notifications |
+| 10 | [Dashboard](#10-dashboard)        | User dashboard      |
+| 11 | [Admin](#11-admin)                | Admin panel         |
 
-## 1. Login
+()
 
-| # | Name            | Description                                            |
-|---|-----------------|--------------------------------------------------------|
-| 1 | Login Form      | A form for users to enter their credentials to log in. |
-| 2 | Forgot Password | A link to reset the password if the user forgets it.   |
-| 3 | User Menu       | A menu in the header with user options                 |
-| 4 | Header          | A header with the app logo and navigation links        |
+## 1 Login
+
+| # | Name                                   | Description                                            |
+|---|----------------------------------------|--------------------------------------------------------|
+| 1 | [Login Form](#11-login-form)           | A form for users to enter their credentials to log in. |
+| 2 | [Forgot Password](#12-forgot-password) | A link to reset the password if the user forgets it.   |
+| 3 | [User Menu](#13-user-menu)             | A menu in the header with user options                 |
+| 4 | [Header](#14-header)                   | A header with the app logo and navigation links        |
 
 ### 1.1 Login Form
 
@@ -34,10 +35,10 @@ Redirects to the dashboard if the user is logged in.
 
 #### Form fields
 
-| # | Name     | Type   | Description         | Validation |
-|---|----------|--------|---------------------|------------|
-| 1 | username | string | The user's username | required   |
-| 2 | password | string | The user's password | required   |
+| # | Name     | Type   | Validation | Note |
+|---|----------|--------|------------|------|
+| 1 | username | string | required   |      |
+| 2 | password | string | required   |      |
 
 ### 1.2 Forgot Password
 
@@ -50,12 +51,12 @@ If the ID matches with an entry in the database, the user can reset the password
 
 #### Form fields
 
-| # | Name     | Type   | Description             | Validation                                                    |
-|---|----------|--------|-------------------------|---------------------------------------------------------------|
-| 1 | password | string | The new password        | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul> |
-| 2 | confirm  | string | Repeat the new password | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul> |
+| # | Name     | Type   | Validation                                                    |
+|---|----------|--------|---------------------------------------------------------------|
+| 1 | password | string | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul> |
+| 2 | confirm  | string | <ul><li>required</li><li>minLength(8)</li><li>match</li></ul> |
 
-<h3 id="user-menu">1.3 User Menu</h3>
+### 1.3 User Menu
 
 #### Description
 
@@ -73,25 +74,26 @@ The menu is a context menu and is triggered when hovering over the username in t
 
 #### Navigation Items
 
-| # | Name          | Route                                    | Condition     | Important |
-|---|---------------|------------------------------------------|---------------|-----------|
-| 1 | Home          | ```/```                                  | not logged in |           |
-| 2 | Dashboard     | ```/```                                  | logged in     |           |
-| 3 | Leaderboard   | ```/leaderboard```                       |               |           |
-| 4 | Results       | ```/results```                           |               |           |
-| 5 | Bets          | ```/bets```                              | logged in     |           |
-| 6 | Notifications | Opens Context menu with notifications    | logged in     | Icon      |
-| 7 | Login         | ```/login```                             | not logged in |           |
-| 8 | Signup        | ```/signup```                            | not logged in |           |
-| 9 | Username      | Opens <a href="#user-menu">User Menu</a> | logged in     |           |
+| # | Name          | Route                                    | Condition     | Note |
+|---|---------------|------------------------------------------|---------------|------|
+| 1 | Home          | ```/```                                  | not logged in |      |
+| 2 | Dashboard     | ```/```                                  | logged in     |      |
+| 3 | Leaderboard   | ```/leaderboard```                       |               |      |
+| 4 | Results       | ```/results```                           |               |      |
+| 5 | Bets          | ```/bets```                              | logged in     |      |
+| 6 | Notifications | Opens Context menu with notifications    | logged in     | Icon |
+| 7 | Login         | ```/login```                             | not logged in |      |
+| 8 | Signup        | ```/signup```                            | not logged in |      |
+| 9 | Username      | Opens <a href="#user-menu">User Menu</a> | logged in     |      |
 
-## Signup
+## 2 Signup
 
-| # | Name                 | Description                                             |
-|---|----------------------|---------------------------------------------------------|
-| 1 | Signup Form          | A form for users to enter their credentials to sign up. |
-| 2 | Terms and Conditions | A link to the terms and conditions of the application.  |
-| 3 | Redirect to Login    | A link to redirect the user to the login page.          |
+| # | Name                                             | Description                                             |
+|---|--------------------------------------------------|---------------------------------------------------------|
+| 1 | [Signup Form](#21-signup-form)                   | A form for users to enter their credentials to sign up. |
+| 2 | [Terms and Conditions](#22-terms-and-conditions) | A link to the terms and conditions of the application.  |
+| 3 | [Redirect to Login](#23-redirect-to-login)       | A link to redirect the user to the login page.          |
+| 4 | [Email confirmation](#24-email-confirmation)     | A link to redirect the user to the login page.          |
 
 ### 2.1 Signup Form
 
@@ -130,3 +132,105 @@ A link to redirect the user to the login page.
 | URL          | Display name                  |
 |--------------|-------------------------------|
 | ```/login``` | Bereits ein Konto? *Anmelden* |
+
+### 2.4 Email confirmation
+
+#### Description
+
+The application sends a mail to the user's email address with a code to confirm the email address.  
+The code is generated by the application and stored in the database for 10 minutes.
+
+#### Form fields
+
+| # | Name | Type   | Validation                                   | Note |
+|---|------|--------|----------------------------------------------|------|
+| 1 | code | string | <ul><li>required</li><li>length(5)</li></ul> |      |
+
+## 3 Bet placement
+
+| # | Name                                         | Description                                          |
+|---|----------------------------------------------|------------------------------------------------------|
+| 1 | [knockout tree](#31-knockout-tree)           | A graph of the teams in knockout phase               |
+| 2 | [Overview](#32-overview)                     | Overview of the groups and knockout phases           |
+| 3 | [Group view](#33-group-view)                 | Overview of the games in one group                   |
+| 4 | [Result preview](#34-result-preview)         | Preview of the result of a game                      |
+| 5 | [Bet placement form](#35-bet-placement-form) | A form to place a bet on a game                      |
+| 6 | [Knockout view](#36-knockout-view)           | Overview of the games in a knockout phase            |
+| 7 | [Game history](#37-game-history)             | Games played by one of the teams in a knockout phase |
+
+## 3.1 Knockout tree
+
+#### Description
+
+A graph of the teams in knockout phase.  
+It is displayed as soon as the teams of a knockout phase are defined.  
+The more teams there are the further the tree is displayed.  
+It is just a preview of the knockout phase and does not provide any functionality.
+
+### 3.2 Overview
+
+#### Description
+
+An overview of the groups and knockout phases.  
+A group is displayed as a card and shows how many percentages of the games have been bet on.  
+There is a card for each group and knockout phase. Additionally, there is a card for all groups.  
+A card contains a link to the group view or knockout view.  
+It is located under the following URL: ```/bets```.
+
+### 3.3 Group view
+
+### 3.4 Result preview
+
+### 3.5 Bet placement form
+
+### 3.6 Knockout view
+
+### 3.7 Game history
+
+## 4 Bet history
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 5 Leaderboard
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 6 Settings
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 7 Results
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 8 Notifications
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 9 Email
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 10 Dashboard
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |
+
+## 11 Admin
+
+| # | Name | Description |
+|---|------|-------------|
+| 1 |      |             |

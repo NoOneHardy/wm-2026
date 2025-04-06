@@ -15,6 +15,7 @@
 | 9  | [Email](#9-email)                 | Email notifications |
 | 10 | [Dashboard](#10-dashboard)        | User dashboard      |
 | 11 | [Admin](#11-admin)                | Admin panel         |
+| 12 | [Home](#12-home)                  | Home screen         |
 
 ## 1 Login
 
@@ -319,36 +320,134 @@ The top 3 games from the bet history of the user are displayed in the leaderboar
 
 ## 6 Settings
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                                             | Description                                        |
+|---|--------------------------------------------------|----------------------------------------------------|
+| 1 | [Password](#61-password)                         | User should be able to change their password       |
+| 2 | [Avatar](#62-avatar)                             | User should be able to change their avatar         |
+| 3 | [Email](#63-email)                               | User should be able to change their email          |
+| 4 | [Username](#64-username)                         | User should be able to change their username       |
+| 5 | [Delete account](#65-delete-account)             | User should be able to delete their account        |
+| 6 | [In-App notifications](#66-in-app-notifications) | User should be able to toggle in-app notifications |
+| 7 | [Email notifications](#67-email-notifications)   | User should be able to toggle email notifications  |
+
+### 6.1 Password
+
+### 6.2 Avatar
+
+### 6.3 Email
+
+### 6.4 Username
+
+### 6.5 Delete account
+
+### 6.6 In-App notifications
+
+### 6.7 Email notifications
 
 ## 7 Results
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                               | Description                                          |
+|---|------------------------------------|------------------------------------------------------|
+| 1 | [Knockout tree](#71-knockout-tree) | A graph of the teams in knockout phase               |
+| 2 | [Overview](#72-overview)           | Overview of the groups and knockout phases           |
+| 3 | [Group view](#73-group-view)       | Overview of the games in one group                   |
+| 4 | [Knockout view](#74-knockout-view) | Overview of the games in a knockout phase            |
+| 5 | [Game history](#75-game-history)   | Games played by one of the teams in a knockout phase |
+
+### 7.1 Knockout tree
+
+### 7.2 Overview
+
+### 7.3 Group view
+
+### 7.4 Knockout view
+
+### 7.5 Game history
 
 ## 8 Notifications
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                           | Description                                  |
+|---|--------------------------------|----------------------------------------------|
+| 1 | [New results](#81-new-results) | When results have been uploaded              |
+| 2 | [Open bet](#82-open-bet)       | If the user has any open bets                |
+| 3 | [Descending](#83-descending)   | If the user has descended in the leaderboard |
+| 4 | [Ascending](#84-ascending)     | If the user has ascended in the leaderboard  |
+
+### 8.1 New results
+
+### 8.2 Open bet
+
+### 8.3 Descending
+
+### 8.4 Ascending
 
 ## 9 Email
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                                         | Description                                   |
+|---|----------------------------------------------|-----------------------------------------------|
+| 1 | [Confirmation email](#91-confirmation-email) | The email sent to the user after registration |
+| 2 | [Notifications](#92-notifications)           | If the user has any notifications             |
+| 3 | [Thank you](#93-thank-you)                   | Thank you email for playing                   |
+
+### 9.1 Confirmation email
+
+### 9.2 Notifications
+
+### 9.3 Thank you
 
 ## 10 Dashboard
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                                            | Description                       |
+|---|-------------------------------------------------|-----------------------------------|
+| 1 | [Leaderboard preview](#101-leaderboard-preview) | A preview of the user's position  |
+| 2 | [Personal statistics](#102-personal-statistics) | Personal statistics of the user   |
+| 3 | [Global statistics](#103-global-statistics)     | Global statistics                 |
+| 4 | [Open bets](#104-open-bets)                     | Open bets of the user             |
+| 5 | [Bet history](#105-bet-history)                 | Bet history of the user           |
+| 6 | [Summary](#106-summary)                         | Summary of the user's information |
+| 7 | [Greeting](#107-greeting)                       | Greeting message                  |
+
+### 10.1 Leaderboard preview
+
+### 10.2 Personal statistics
+
+### 10.3 Global statistics
+
+### 10.4 Open bets
+
+### 10.5 Bet history
+
+### 10.6 Summary
+
+### 10.7 Greeting
 
 ## 11 Admin
 
-| # | Name | Description |
-|---|------|-------------|
-| 1 |      |             |
+| # | Name                                        | Description      |
+|---|---------------------------------------------|------------------|
+| 1 | [User management](#111-user-management)     | Accept new users |
+| 2 | [Result management](#112-result-management) | Upload results   |
+
+### 11.1 User management
+
+### 11.2 Result management
+
+## 12 Home
+
+| # | Name                            | Description           |
+|---|---------------------------------|-----------------------|
+| 1 | [Greeting](#121-greeting)       | Greeting message      |
+| 2 | [Rules](#122-rules)             | Rules of the game     |
+| 3 | [How to play](#123-how-to-play) | How to play the game  |
+| 4 | [About](#124-about)             | About the application |
+| 5 | [Contact](#125-contact)         | Contact information   |
+
+### 12.1 Greeting
+
+### 12.2 Rules
+
+### 12.3 How to play
+
+### 12.4 About
+
+### 12.5 Contact

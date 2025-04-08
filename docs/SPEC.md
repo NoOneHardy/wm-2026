@@ -605,17 +605,114 @@ TBD
 
 ### 10.1 Leaderboard preview
 
+#### Description
+
+The user's current position in the ranking as an entry like in the [leaderboard](#52-user-position).  
+It also shows the positions of the users one rank higher and lower.  
+That way the user sees how many points are required to move up or how many points he is away from moving down.
+
 ### 10.2 Personal statistics
+
+#### Description
+
+The application collects data of the user and displays them in the dashboard.
+
+#### Types
+
+| # | Name          | Note                                                               |
+|---|---------------|--------------------------------------------------------------------|
+| 1 | goals bet     | The amount of goals the user bet in total                          |
+| 2 | correct games | The amount of games the user guessed correctly                     |
+| 3 | jokers wasted | The amount of jokers used on a game that ended up scoring 0 points | 
 
 ### 10.3 Global statistics
 
+#### Description
+
+The dashboard shows data of all users together.
+
+| # | Name          | Note                                                               |
+|---|---------------|--------------------------------------------------------------------|
+| 1 | points        | The points the users scored in total                               |
+| 2 | correct games | The amount of games the user guessed correctly                     |
+| 3 | jokers wasted | The amount of jokers used on a game that ended up scoring 0 points |
+
 ### 10.4 Open bets
+
+#### Description
+
+A list of bets that are still open.  
+Bets that are due in less than 24 hours are prioritized and highlighted.  
+If no open bets are available it shows the top 3 games.  
+The games contain a link to the betting form of the game.  
+There is a link below that leads the user to the betting view.
+
+#### Fields to display
+
+| # | Name  | Note                                   |
+|---|-------|----------------------------------------|
+| 1 | group | The group of the game                  |
+| 2 | date  | The date of the game                   |
+| 3 | time  | The time of the game                   |
+| 4 | team1 | The first team of the game             |
+| 5 | team2 | The second team of the game            |
+| 6 | link  | A link to the betting form of the game |
 
 ### 10.5 Bet history
 
+#### Description
+
+The results of the latest games. A maximum of 4 games are displayed.  
+If no history is available this section is hidden.  
+The games contain a link to the result view of the game.  
+There is a link below that leads the user to the result view.
+
+#### Fields to display
+
+| #  | Name        | Note                                   |
+|----|-------------|----------------------------------------|
+| 1  | group       | The group of the game                  |
+| 2  | date        | The date of the game                   |
+| 3  | points      | The points scored with the game        |
+| 3  | joker       | The joker set on the game              |
+| 4  | team1       | The first team of the game             |
+| 5  | team2       | The second team of the game            |
+| 6  | bet_team1   | The points the user bet on team 1      |
+| 7  | bet_team2   | The points the user bet on team 2      |
+| 8  | link        | A link to the betting form of the game |
+| 9  | score_team1 | The points team 1 actually scored      |
+| 10 | score_team2 | The points team 2 actually scored      |
+
 ### 10.6 Summary
 
+#### Description
+
+The summary is a small collection of information about the users bets.  
+It is display as a series of information in the top right corner of the dashboard.
+
+#### Fields to display
+
+| # | Name     | Description                           | Note              |
+|---|----------|---------------------------------------|-------------------|
+| 1 | points   | The points the user scored            |                   |
+| 2 | rank     | The users position in the leaderboard |                   |
+| 3 | champion | The users world champion              | Only if available |
+
 ### 10.7 Greeting
+
+#### Description
+
+A greeting that automatically adjusts to the time of day.
+
+#### Scenarios
+
+| # | Name      | Start time | End time | Greeting                        |
+|---|-----------|------------|----------|---------------------------------|
+| 1 | Night     | 23:00      | 05:00    | Gute Nacht ***username***       |
+| 2 | Morning   | 05:00      | 10:00    | Guten Morgen ***username***     |
+| 3 | Day       | 10:00      | 14:00    | Hallo ***username***            |
+| 4 | Afternoon | 14:00      | 18:00    | Guten Nachmittag ***username*** |
+| 5 | Evening   | 18:00      | 23:00    | Guten Abend ***username***      |
 
 ## 11 Admin
 

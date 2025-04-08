@@ -424,13 +424,37 @@ Additionally there is a slide toggle to turn of all email notifications.
 
 ### 7.1 Knockout tree
 
+#### Description
+
+The same [knockout tree](#31-knockout-tree) as in the bet placement view.
+
 ### 7.2 Overview
+
+#### Description
+
+The same [overview](#32-overview) as in the bet placement view.  
+But the percentages of the groups are showing the amount of games played.
 
 ### 7.3 Group view
 
+#### Description
+
+The same [group view](#33-group-view) as in the bet placement view.  
+But instead of the bet placement form the results are displayed.
+
 ### 7.4 Knockout view
 
+#### Description
+
+The same [knockout view](#36-knockout-view) as in the bet placement view.
+But instead of the bet placement form the results are displayed.
+
 ### 7.5 Game history
+
+#### Description
+
+In the knockout view the user can see the game history of both of the teams.
+It is the same as in [bet placement](#37-game-history).
 
 ## 8 Notifications
 

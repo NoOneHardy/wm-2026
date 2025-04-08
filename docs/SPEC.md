@@ -773,6 +773,14 @@ Same as [betting view](#3-bet-placement) but for uploading results.
 
 ### 12.1 Greeting
 
+#### Content
+
+| # | Name             | Note            |
+|---|------------------|-----------------|
+| 1 | Heading          |                 |
+| 2 | Image            |                 |
+| 3 | Link for sign up | Jetzt mitmachen |
+
 ### 12.2 Rules
 
 ### 12.3 How to play

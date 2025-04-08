@@ -467,28 +467,129 @@ It is the same as in [bet placement](#37-game-history).
 
 ### 8.1 New results
 
+#### Description
+
+The user gets a notification when results have been uploaded.
+
+#### Fields to display
+
+| # | Name   | Note                          |
+|---|--------|-------------------------------|
+| 1 | game   | The game that has been played |
+| 2 | date   | The date of the game          |
+| 3 | team1  | The first team                |
+| 4 | team2  | The second team               |
+| 5 | result | The result of the game        |
+| 6 | points | The points gained             |
+
 ### 8.2 Open bet
+
+#### Description
+
+The user gets a notification when they have any open bets that are due in 24 hours.
+
+#### Fields to display
+
+| # | Name  | Note                 |
+|---|-------|----------------------|
+| 1 | game  | The game that is due |
+| 2 | date  | The date of the game |
+| 3 | time  | The time of the game |
+| 4 | team1 | The first team       |
+| 5 | team2 | The second team      |
 
 ### 8.3 Descending
 
+#### Description
+
+The user gets a notification when they have descended in the leaderboard.
+
+#### Fields to display
+
+| # | Name        | Note                         |
+|---|-------------|------------------------------|
+| 1 | position    | The new position of the user |
+| 2 | ranks moved | The ranks moved down         |
+
 ### 8.4 Ascending
+
+#### Description
+
+The user gets a notification when they have ascended in the leaderboard.
+
+#### Fields to display
+
+| # | Name        | Note                         |
+|---|-------------|------------------------------|
+| 1 | position    | The new position of the user |
+| 2 | ranks moved | The ranks moved up           |
 
 ## 9 Email
 
-| # | Name                                         | Description                                   |
-|---|----------------------------------------------|-----------------------------------------------|
-| 1 | [Confirmation email](#91-confirmation-email) | The email sent to the user after registration |
-| 2 | [Notifications](#92-notifications)           | If the user has any notifications             |
-| 3 | [Thank you](#93-thank-you)                   | Thank you email for playing                   |
-| 3 | [Account deletion](#94-account-deletion)     | The email after the account has been deleted  |
+| # | Name                                         | Description                                                                            |
+|---|----------------------------------------------|----------------------------------------------------------------------------------------|
+| 1 | [Confirmation email](#91-confirmation-email) | The email sent to the user after registration                                          |
+| 2 | [Notifications](#92-notifications)           | If the user has any notifications                                                      |
+| 3 | [Thank you](#93-thank-you)                   | Thank you email for playing                                                            |
+| 4 | [Account deletion](#94-account-deletion)     | The email after the account has been deleted                                           |
+| 5 | [Welcome email](#95-welcome-email)           | After the user payed the participation fee and has been confirmed by one of the admins |
 
 ### 9.1 Confirmation email
 
+The application sends a mail to the user's email address with a code to confirm the email address.  
+It contains a welcome message and a link to the application.  
+The code is a random number 6 digits long.
+
+#### Content
+
+```html
+TBD
+```
+
 ### 9.2 Notifications
+
+The application sends a mail to the user's email address with a notification.  
+It contains the same information as the in-app notification.  
+The email is sent to the user when the notification is created.  
+The user can toggle email notifications in the [settings view](#67-email-notifications).
+
+#### Content
+
+```html
+TBD
+```
 
 ### 9.3 Thank you
 
+The application sends an email to the user's email address after the tournament is finished.  
+It contains a thank you message and invites them to play again in the EM 2028.
+
+#### Content
+
+```html
+TBD
+```
+
 ### 9.4 Account deletion
+
+The application sends an email to the user's email address after their account has been deleted.
+
+#### Content
+
+```html
+TBD
+```
+
+### 9.5 Welcome email
+
+The application sends an email to the user's email address after their account has been confirmed.  
+Accounts are confirmed when an admin receives the participation fee and accepts the account.
+
+#### Content
+
+```html
+TBD
+```
 
 ## 10 Dashboard
 

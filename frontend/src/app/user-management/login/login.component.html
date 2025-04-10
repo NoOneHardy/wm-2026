@@ -1,9 +1,9 @@
-<wm-user-management-panel heading="Anmelden">
-  <ng-container wm-content>
-    <form [formGroup]="formGroup" (ngSubmit)="login()">
+<form [formGroup]="formGroup" (ngSubmit)="login()">
+  <wm-user-management-panel heading="Anmelden">
+    <ng-container wm-content>
       <wm-form-field>
         <label>Username</label>
-        <input formControlName="username">
+        <input formControlName="username" autofocus>
         <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
       </wm-form-field>
 
@@ -12,10 +12,10 @@
         <input formControlName="password" type="password">
         <span *ngIf="hasError(formGroup.get('password'), 'required')">Pflichtfeld</span>
       </wm-form-field>
-    </form>
-  </ng-container>
-  <ng-container wm-actions>
-    <a>Passwort vergessen?</a>
-    <wm-button (clickEvent)="login()">Anmelden</wm-button>
-  </ng-container>
-</wm-user-management-panel>
+    </ng-container>
+    <ng-container wm-actions>
+      <a>Passwort vergessen?</a>
+      <wm-button (clickEvent)="login()" submit>Anmelden</wm-button>
+    </ng-container>
+  </wm-user-management-panel>
+</form>

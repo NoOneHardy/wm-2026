@@ -62,7 +62,7 @@ export const userFeature = createFeature({
       return {
         ...state,
         isLoading: false,
-        error: 'Username oder Password ungültig'
+        error: 'Username oder Passwort ungültig'
       }
     }),
     on(fetchUserInfo, (state): UserState => {

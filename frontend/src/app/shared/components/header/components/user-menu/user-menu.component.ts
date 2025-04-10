@@ -1,4 +1,4 @@
-import {Component, inject, input, signal} from '@angular/core'
+import {Component, ElementRef, inject, input, signal} from '@angular/core'
 import {User} from '../../../../../model/user/user'
 import {RouterLink} from '@angular/router'
 import {NgIf} from '@angular/common'
@@ -9,6 +9,9 @@ import {logout} from '../../../../../user-management/store/user.actions'
 @Component({
   selector: 'wm-user-menu',
   standalone: true,
+  host: {
+    '(document:click)': 'closeDropdownOnBlur($event)',
+  },
   imports: [
     RouterLink,
     NgIf,
@@ -19,6 +22,8 @@ import {logout} from '../../../../../user-management/store/user.actions'
 })
 export class UserMenuComponent {
   private store = inject(Store)
+  private el = inject(ElementRef)
+
   user = input<User | null>()
   hasNotifications = false
 
@@ -26,6 +31,12 @@ export class UserMenuComponent {
 
   toggleDropdown(): void {
     this.isDropdownExpanded.update(isExpanded => !isExpanded)
+  }
+
+  closeDropdownOnBlur(e: MouseEvent): void {
+    if (!this.el.nativeElement.contains(e.target)) {
+      this.isDropdownExpanded.set(false)
+    }
   }
 
   logout(): void {

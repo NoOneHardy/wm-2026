@@ -8,6 +8,7 @@
   display: flex;
   justify-content: space-between;
   height: 3.75em;
+  width: 100%;
   background-color: #fff;
   box-shadow: .125em .125em 1.25em 0 #000000bf;
   z-index: 1;

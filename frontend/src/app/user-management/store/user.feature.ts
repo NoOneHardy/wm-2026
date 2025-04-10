@@ -3,7 +3,7 @@ import {createFeature, createReducer, on} from '@ngrx/store'
 import {
   createUser,
   fetchUserInfo,
-  loggedOut, logout,
+  loggedOut, logout, rejectLogin, resetError,
   userCreated,
   userInfoFetched,
   userLoggedIn,
@@ -13,11 +13,13 @@ import {
 interface UserState {
   user: User | null
   isLoading: boolean
+  error: string | null
 }
 
 const initialState: UserState = {
   user: null,
-  isLoading: false
+  isLoading: false,
+  error: null
 }
 
 export const userFeature = createFeature({
@@ -36,10 +38,17 @@ export const userFeature = createFeature({
         isLoading: false
       }
     }),
+    on(resetError, (state): UserState => {
+      return {
+        ...state,
+        error: null
+      }
+    }),
     on(userLogin, (state): UserState => {
       return {
         ...state,
-        isLoading: true
+        isLoading: true,
+        error: null
       }
     }),
     on(userLoggedIn, (state, action): UserState => {
@@ -47,6 +56,13 @@ export const userFeature = createFeature({
         ...state,
         user: action,
         isLoading: false
+      }
+    }),
+    on(rejectLogin, (state): UserState => {
+      return {
+        ...state,
+        isLoading: false,
+        error: 'Username oder Password ungültig'
       }
     }),
     on(fetchUserInfo, (state): UserState => {
@@ -80,5 +96,6 @@ export const userFeature = createFeature({
 
 export const {
   selectIsLoading,
-  selectUser
+  selectUser,
+  selectError
 } = userFeature

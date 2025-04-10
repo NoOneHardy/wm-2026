@@ -1,11 +1,12 @@
-import {Component, inject} from '@angular/core'
+import {Component, inject, OnInit} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {ButtonComponent, FormFieldComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {Store} from '@ngrx/store'
-import {userLogin} from '../store/user.actions'
+import {resetError, userLogin} from '../store/user.actions'
+import {selectError} from '../store/user.feature'
 
 @Component({
   selector: 'wm-login',
@@ -20,9 +21,11 @@ import {userLogin} from '../store/user.actions'
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   private fb = inject(FormBuilder)
   private store = inject(Store)
+
+  userError = this.store.selectSignal(selectError)
 
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
@@ -34,6 +37,12 @@ export class LoginComponent {
       validators: Validators.required
     })
   })
+
+  ngOnInit(): void {
+    this.formGroup.valueChanges.subscribe(() => {
+      this.store.dispatch(resetError())
+    })
+  }
 
   login(): void {
     this.formGroup.markAllAsTouched()

@@ -12,6 +12,7 @@
         <input formControlName="password" type="password">
         <span *ngIf="hasError(formGroup.get('password'), 'required')">Pflichtfeld</span>
       </wm-form-field>
+      <span class="login-error" *ngIf="userError() as error">{{error}}</span>
     </ng-container>
     <ng-container wm-actions>
       <a>Passwort vergessen?</a>

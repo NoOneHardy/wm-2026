@@ -5,13 +5,13 @@ import {
   createUser,
   fetchUserInfo,
   loggedOut,
-  logout,
+  logout, rejectLogin,
   userCreated,
   userInfoFetched,
   userLoggedIn,
   userLogin
 } from './user.actions'
-import {exhaustMap, map, tap} from 'rxjs'
+import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
 import {SnackbarService} from '../../shared/services/snackbar.service'
 import {noAction} from '../../shared/store/global.actions'
@@ -50,9 +50,14 @@ export class UserEffects {
   login = createEffect(() => this.actions$.pipe(
     ofType(userLogin),
     exhaustMap(action => {
-      return this.userService.login(action).pipe(map((res) => {
-        return userLoggedIn(res)
-      }))
+      return this.userService.login(action).pipe(
+        map((res) => {
+          return userLoggedIn(res)
+        }),
+        catchError(() => {
+          return of(rejectLogin())
+        })
+      )
     })
   ))
 

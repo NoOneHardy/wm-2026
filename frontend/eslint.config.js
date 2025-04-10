@@ -45,7 +45,8 @@ module.exports = tseslint.config(
       ...angular.configs.templateAccessibility,
     ],
     rules: {
-      "@angular-eslint/template/label-has-associated-control": "off"
+      '@angular-eslint/template/label-has-associated-control': 'off',
+      '@angular-eslint/template/no-autofocus': 'off'
     },
   }
 );

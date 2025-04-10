@@ -1,6 +1,7 @@
 <button [tabindex]="tabindex()"
         [class.secondary]="secondary()"
         [disabled]="disabled()"
+        [type]="submit() ? 'submit' : 'button'"
         (click)="click($event)"
         (touchend)="click($event)"
         (keyup.enter)="click($event)"

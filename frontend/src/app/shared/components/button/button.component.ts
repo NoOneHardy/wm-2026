@@ -15,6 +15,9 @@ export class ButtonComponent {
   disabled = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+  submit = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
 
   clickEvent = output<void>()
 

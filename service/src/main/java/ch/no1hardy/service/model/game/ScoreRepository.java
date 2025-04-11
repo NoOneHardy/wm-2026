@@ -4,6 +4,5 @@ import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface GameRepository extends ListCrudRepository<Game, String> {
-    Game getById(String id);
+public interface ScoreRepository extends ListCrudRepository<Score, String> {
 }

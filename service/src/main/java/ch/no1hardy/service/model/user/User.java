@@ -1,6 +1,7 @@
 package ch.no1hardy.service.model.user;
 
 import ch.no1hardy.service.model.BaseEntity;
+import ch.no1hardy.service.model.game.Bet;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -47,6 +48,9 @@ public class User extends BaseEntity implements UserDetails {
     private String avatarUrl;
 
     private LocalDateTime confirmedAt;
+
+    @OneToMany(mappedBy = "user")
+    private List<Bet> bets = List.of();
 
     @Override
     @Transient

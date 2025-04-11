@@ -55,7 +55,7 @@ public class UserController {
     @GetMapping("/me")
     public UserRes get() {
         logger.info("GET /me");
-        return this.service.getLoggedInUser();
+        return this.service.getLoggedInUserRes();
     }
 
     @PostMapping("/signup")

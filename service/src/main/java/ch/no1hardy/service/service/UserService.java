@@ -106,12 +106,18 @@ public class UserService {
         return mapper.toDto(repository.findByUsername(dto.getUsername()).orElseThrow());
     }
 
-    public UserRes getLoggedInUser() {
+    public UserRes getLoggedInUserRes() {
+        User currentUser = getLoggedInUser();
+        return currentUser == null ? new UserRes() : mapper.toDto(currentUser);
+    }
+
+    @Nullable
+    public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal().equals("anonymousUser")) {
-            return new UserRes();
+            return null;
         }
         User currentUser = (User) authentication.getPrincipal();
-        return mapper.toDto(currentUser);
+        return repository.findById(currentUser.getId()).orElse(null);
     }
 }

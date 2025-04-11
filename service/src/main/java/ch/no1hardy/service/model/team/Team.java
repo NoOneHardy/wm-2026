@@ -2,9 +2,7 @@ package ch.no1hardy.service.model.team;
 
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Game;
-import ch.no1hardy.service.model.group.Group;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
@@ -24,14 +22,11 @@ public class Team extends BaseEntity {
     @NotNull
     private String flag;
 
-    @OneToMany(mappedBy = "homeTeam")
+    @OneToMany(mappedBy = "teamHome")
     private List<Game> gamesHome = List.of();
 
-    @OneToMany(mappedBy = "guestTeam")
+    @OneToMany(mappedBy = "teamGuest")
     private List<Game> gamesGuest = List.of();
-
-    @ManyToOne
-    private Group group;
 
     @Transient
     public List<Game> games() {

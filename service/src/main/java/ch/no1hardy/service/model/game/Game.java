@@ -5,12 +5,14 @@ import ch.no1hardy.service.model.group.Group;
 import ch.no1hardy.service.model.team.Team;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -25,12 +27,15 @@ public class Game extends BaseEntity {
 
     @NotNull
     @ManyToOne
-    private Team homeTeam;
+    private Team teamHome;
 
     @NotNull
     @ManyToOne
-    private Team guestTeam;
+    private Team teamGuest;
 
     @OneToOne
-    private Score score;
+    private Score result;
+
+    @OneToMany(mappedBy = "game")
+    private List<Bet> bets = List.of();
 }

@@ -1,10 +1,19 @@
 package ch.no1hardy.service.front.game;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
+import java.time.LocalDateTime;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class BetRes extends ScoreRes {
+@Builder
+public class BetRes {
+    private String id;
+    private String gameId;
+    private Integer scoreTeamHome;
+    private Integer scoreTeamGuest;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private LocalDateTime deletedAt;
     private Integer joker;
 }

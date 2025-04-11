@@ -1,25 +1,31 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetGameRes;
+import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.GameReq;
 import ch.no1hardy.service.front.game.ScoreReq;
 import ch.no1hardy.service.mapper.GameMapperImpl;
-import ch.no1hardy.service.model.game.Game;
-import ch.no1hardy.service.model.game.GameRepository;
-import ch.no1hardy.service.model.game.Score;
-import ch.no1hardy.service.model.game.ScoreRepository;
+import ch.no1hardy.service.mapper.UserHelper;
+import ch.no1hardy.service.model.game.*;
+import ch.no1hardy.service.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
 public class GameService {
     private final GameRepository repository;
     private final ScoreRepository scoreRepository;
+    private final BetRepository betRepository;
+    private final UserService userService;
     private final GameMapperImpl mapper;
+    private final UserHelper userHelper;
 
     public List<BetGameRes> listAll() {
         return repository.findAll().stream().filter(Game::isActive).map(mapper::toDto).toList();
@@ -44,6 +50,30 @@ public class GameService {
             result = scoreRepository.save(mapper.toEntity(dto));
         }
         game.setResult(result);
+        return mapper.toDto(repository.save(game));
+    }
+
+    public BetGameRes uploadBet(String id, BetReq dto) {
+        Game game = repository.findById(id).orElse(null);
+        User user = userService.getLoggedInUser();
+        if (game == null) throw new NotFoundException("Game " + id + " not found");
+        if (user == null) throw new BadRequestException("User not logged in");
+
+        dto.clampJoker();
+        dto.setGame(id);
+        dto.setUser(user.getId());
+        Bet bet;
+        Bet existingBet = userHelper.getUserBet(game.getBets());
+        if (existingBet != null) {
+            mapper.update(dto, existingBet);
+            bet = existingBet;
+        } else {
+            bet = betRepository.save(mapper.toEntity(dto));
+        }
+        List<Bet> oldBets = game.getBets().stream().filter(b -> !Objects.equals(b.getUser().getId(), bet.getUser().getId())).toList();
+        List<Bet> bets = new ArrayList<>(oldBets);
+        bets.add(bet);
+        game.setBets(bets);
         return mapper.toDto(repository.save(game));
     }
 }

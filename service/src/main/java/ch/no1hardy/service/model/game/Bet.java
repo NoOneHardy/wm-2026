@@ -5,7 +5,6 @@ import ch.no1hardy.service.model.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -14,7 +13,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class Bet extends BaseEntity {
     @NotNull
-    @Pattern(regexp = "^[123]$")
     private Integer joker;
 
     @NotNull

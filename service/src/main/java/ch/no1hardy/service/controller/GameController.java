@@ -1,6 +1,7 @@
 package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.game.BetGameRes;
+import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.GameReq;
 import ch.no1hardy.service.front.game.ScoreReq;
 import ch.no1hardy.service.service.GameService;
@@ -31,5 +32,11 @@ public class GameController {
     @PreAuthorize("hasRole('ADMIN')")
     public BetGameRes uploadResult(@PathVariable("id") String id, @RequestBody ScoreReq dto) {
         return service.uploadResult(id, dto);
+    }
+
+    @PutMapping("{id}/bet")
+    @PreAuthorize("isAuthenticated()")
+    public BetGameRes uploadBet(@PathVariable("id") String id, @RequestBody BetReq dto) {
+        return service.uploadBet(id, dto);
     }
 }

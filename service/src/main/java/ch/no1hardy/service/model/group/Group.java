@@ -14,12 +14,13 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "wm-group")
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Group extends BaseEntity {
     @NotNull
     private String name;
 
     @OneToMany(mappedBy = "group")
+    @EqualsAndHashCode.Exclude
     private List<Game> games = List.of();
 
     @NotNull

@@ -9,10 +9,11 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Score extends BaseEntity {
     @NotNull
     @OneToOne
+    @EqualsAndHashCode.Exclude
     private Game game;
 
     @NotNull

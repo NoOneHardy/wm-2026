@@ -50,6 +50,7 @@ public class User extends BaseEntity implements UserDetails {
     private LocalDateTime confirmedAt;
 
     @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
     private List<Bet> bets = List.of();
 
     @Override

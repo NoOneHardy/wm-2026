@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Bet extends BaseEntity {
     @NotNull
     private Integer joker;

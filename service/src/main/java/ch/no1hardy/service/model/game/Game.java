@@ -16,7 +16,7 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Game extends BaseEntity {
     @NotNull
     private LocalDateTime timestamp;
@@ -37,5 +37,6 @@ public class Game extends BaseEntity {
     private Score result;
 
     @OneToMany(mappedBy = "game")
+    @EqualsAndHashCode.Exclude
     private List<Bet> bets = List.of();
 }

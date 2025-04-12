@@ -74,6 +74,11 @@ public class GameService {
         List<Bet> bets = new ArrayList<>(oldBets);
         bets.add(bet);
         game.setBets(bets);
+
+        List<Bet> oldUserBets = user.getBets().stream().filter(b -> !Objects.equals(b.getGame().getId(), bet.getGame().getId())).toList();
+        List<Bet> userBets = new ArrayList<>(oldUserBets);
+        userBets.add(bet);
+        user.setBets(userBets);
         return mapper.toDto(repository.save(game));
     }
 }

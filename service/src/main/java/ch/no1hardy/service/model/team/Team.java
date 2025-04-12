@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class Team extends BaseEntity {
     @NotNull
     private String name;
@@ -23,9 +23,11 @@ public class Team extends BaseEntity {
     private String flag;
 
     @OneToMany(mappedBy = "teamHome")
+    @EqualsAndHashCode.Exclude
     private List<Game> gamesHome = List.of();
 
     @OneToMany(mappedBy = "teamGuest")
+    @EqualsAndHashCode.Exclude
     private List<Game> gamesGuest = List.of();
 
     @Transient

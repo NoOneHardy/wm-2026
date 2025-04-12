@@ -55,6 +55,8 @@
       }
 
       .thumbnail {
+        --group-progress: 0%;
+
         display: grid;
         place-items: center;
         position: relative;
@@ -64,6 +66,7 @@
         border-radius: 50%;
         box-shadow: 0 0 .5em 0 #0000003d;
         margin-bottom: .5em;
+        transition: --group-progress .2s ease;
 
         &::before {
           content: '';

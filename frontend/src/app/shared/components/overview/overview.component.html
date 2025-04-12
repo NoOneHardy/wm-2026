@@ -1,8 +1,19 @@
-<h1>Mein Tippschein</h1>
-@if (percentage() > 0) {
-  <p>Du hast bereits <span class="percentage">{{ percentage() | number:'1.0-2' }}%</span> der Tipps ausgefüllt!</p>
+@if (mode() === 'bet') {
+  <h1>Mein Tippschein</h1>
+  @if (totalPercentage() > 0) {
+    <p>Du hast bereits <span class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Tipps ausgefüllt!
+    </p>
+  } @else {
+    <p>Bereit deinen ersten Tipp abzugeben?</p>
+  }
 } @else {
-  <p>Bereit deinen ersten Tipp abzugeben?</p>
+  <h1>Resultatübersicht</h1>
+  @if (totalPercentage() > 0) {
+    <p>Es wurden bereits <span class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!
+    </p>
+  } @else {
+    <p>Hier wurden noch keine Spiele gespielt.</p>
+  }
 }
 
 <h2>Gruppenphase</h2>

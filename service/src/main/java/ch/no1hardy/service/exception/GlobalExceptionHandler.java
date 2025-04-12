@@ -1,5 +1,6 @@
 package ch.no1hardy.service.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
@@ -46,5 +47,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiError> handleDisabledException() {
         return ResponseEntity.status(403)
                 .body(new ApiError("This account has been disabled", 403, LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ApiError> handleExpiredEntity(ExpiredJwtException ex) {
+        return ResponseEntity.status(403).body(new ApiError(ex.getMessage(), 403, LocalDateTime.now()));
     }
 }

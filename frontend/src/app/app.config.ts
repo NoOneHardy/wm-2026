@@ -7,6 +7,8 @@ import {provideState, provideStore} from '@ngrx/store'
 import {userFeature} from './user-management/store/user.feature'
 import {provideEffects} from '@ngrx/effects'
 import {UserEffects} from './user-management/store/user.effects'
+import {TournamentEffects} from './shared/store/tournament.effects'
+import {tournamentFeature} from './shared/store/tournament.feature'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideStore(),
     provideState(userFeature),
-    provideEffects(UserEffects)
+    provideState(tournamentFeature),
+    provideEffects(UserEffects, TournamentEffects),
   ]
 }

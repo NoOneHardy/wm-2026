@@ -1,5 +1,5 @@
 import {Injectable, signal} from '@angular/core'
-import {SnackbarMessage} from '../components/snackbar/model/snackbar-message'
+import {SnackbarMessage} from '../../components/snackbar/model/snackbar-message'
 
 @Injectable({
   providedIn: 'root'

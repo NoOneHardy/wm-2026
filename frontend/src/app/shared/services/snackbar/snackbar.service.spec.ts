@@ -2,7 +2,7 @@ import {TestBed} from '@angular/core/testing'
 
 import {SnackbarService} from './snackbar.service'
 import {provideMockStore} from '@ngrx/store/testing'
-import {SnackbarMessage} from '../components/snackbar/model/snackbar-message'
+import {SnackbarMessage} from '../../components/snackbar/model/snackbar-message'
 
 describe('SnackbarService', () => {
   let service: SnackbarService

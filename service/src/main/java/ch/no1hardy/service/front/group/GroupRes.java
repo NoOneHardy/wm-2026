@@ -13,7 +13,9 @@ public class GroupRes {
     private String id;
     private String name;
     private Double percentage;
+    private Double percentageResult;
     private LocalDateTime lastSavedAt;
+    private LocalDateTime lastSavedAtResult;
     @Builder.Default
     private List<BetGameRes> games = List.of();
     @Builder.Default

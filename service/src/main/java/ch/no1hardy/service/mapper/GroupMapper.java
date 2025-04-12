@@ -1,13 +1,16 @@
 package ch.no1hardy.service.mapper;
 
+import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.group.Group;
+import ch.no1hardy.service.model.team.Team;
 import org.mapstruct.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,6 +28,11 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
     @Mapping(target = "lastSavedAtResult", source = "games", qualifiedByName = "getLastSavedAtResult")
     GroupRes toDto(Group entity);
 
+    @Mapping(target = "percentage", source = "games", qualifiedByName = "getPercentage")
+    @Mapping(target = "percentageResult", source = "games", qualifiedByName = "getPercentageResult")
+    @Mapping(target = "thumbnail", source = "games", qualifiedByName = "getThumbnail")
+    CardGroupRes toCard(Group entity);
+
     @Named("getPercentageResult")
     default Double getPercentageResult(List<Game> games) {
         double betCount = games.stream().map(Game::getResult).filter(Objects::nonNull).toList().size();
@@ -40,5 +48,22 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
                 .map(Score::getUpdatedAt)
                 .max(LocalDateTime::compareTo)
                 .orElse(null);
+    }
+
+    @Named("getThumbnail")
+    default List<String> getThumbnail(List<Game> games) {
+        if (games.isEmpty()) return List.of();
+        if (games.getFirst().getGroup().getIsKnockout()) return List.of();
+
+        List<Team> teams = new ArrayList<>();
+        for (Game game : games) {
+            if (game.getTeamHome() != null && !teams.contains(game.getTeamHome())) {
+                teams.add(game.getTeamHome());
+            }
+            if (game.getTeamGuest() != null && !teams.contains(game.getTeamGuest())) {
+                teams.add(game.getTeamGuest());
+            }
+        }
+        return teams.stream().map(Team::getFlag).toList();
     }
 }

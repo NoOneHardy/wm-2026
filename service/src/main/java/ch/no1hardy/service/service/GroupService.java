@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetReq;
+import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.mapper.GroupMapperImpl;
@@ -44,5 +45,9 @@ public class GroupService {
             }
         }
         return mapper.toDto(group);
+    }
+
+    public List<CardGroupRes> getCardGroups() {
+        return repository.findAll().stream().map(mapper::toCard).toList();
     }
 }

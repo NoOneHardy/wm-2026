@@ -1,0 +1,38 @@
+<h1>Mein Tippschein</h1>
+@if (percentage() > 0) {
+  <p>Du hast bereits <span class="percentage">{{ percentage() | number:'1.0-2' }}%</span> der Tipps ausgefüllt!</p>
+} @else {
+  <p>Bereit deinen ersten Tipp abzugeben?</p>
+}
+
+<h2>Gruppenphase</h2>
+<div class="groups">
+  <div class="group" *ngFor="let group of defaultGroups()">
+    <h3>{{ group.name }}</h3>
+    <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
+      <div class="thumbnail-progress">
+        <div class="flag" *ngFor="let flag of group.thumbnail">
+          <img [ngSrc]="flag" alt="Flag" fill/>
+        </div>
+      </div>
+    </div>
+    <p class="">{{ group.percentage | number:'1.0-2' }}%</p>
+    <wm-button full-width>Bearbeiten</wm-button>
+  </div>
+</div>
+
+<h2>Finalspiele</h2>
+<div class="groups">
+  <div class="group" *ngFor="let group of knockoutGroups()">
+    <h3>{{ group.name }}</h3>
+    <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
+      <div class="thumbnail-progress">
+        <div class="flag" *ngFor="let flag of group.thumbnail">
+          <img [ngSrc]="flag" alt="Flag" fill/>
+        </div>
+      </div>
+    </div>
+    <p>{{ group.percentage | number:'1.0-2' }}%</p>
+    <wm-button full-width>Bearbeiten</wm-button>
+  </div>
+</div>

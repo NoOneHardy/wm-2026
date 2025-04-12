@@ -4,6 +4,9 @@ import {Component, input, output} from '@angular/core'
   selector: 'wm-button',
   standalone: true,
   imports: [],
+  host: {
+    '[style]': 'getWidth()'
+  },
   templateUrl: './button.component.html',
   styleUrl: './button.component.css'
 })
@@ -18,6 +21,10 @@ export class ButtonComponent {
   submit = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+  fullWidth = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v,
+    alias: 'full-width'
+  })
 
   clickEvent = output<void>()
 
@@ -25,5 +32,9 @@ export class ButtonComponent {
     event.stopPropagation()
     event.preventDefault()
     this.clickEvent.emit()
+  }
+
+  getWidth(): string {
+    return this.fullWidth() ? 'width: 100%' : ''
   }
 }

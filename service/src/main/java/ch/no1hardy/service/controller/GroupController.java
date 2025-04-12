@@ -1,6 +1,7 @@
 package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.game.BetReq;
+import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.service.GroupService;
@@ -15,6 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupController {
     private final GroupService service;
+
+    @GetMapping()
+    public List<CardGroupRes> getGroups() {
+        return service.getCardGroups();
+    }
 
     @GetMapping("/{id}")
     public GroupRes getGroup(@PathVariable("id") String id) {

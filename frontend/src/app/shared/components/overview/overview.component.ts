@@ -1,7 +1,9 @@
-import {Component, computed, input} from '@angular/core'
-import {CardGroup} from '../../../model/group/card-group'
+import {Component, computed, inject, input, OnInit} from '@angular/core'
 import {DecimalPipe, NgForOf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
+import {Store} from '@ngrx/store'
+import {selectGroups} from '../../store/tournament.feature'
+import {getOverviewGroups} from '../../store/tournament.actions'
 
 @Component({
   selector: 'wm-overview',
@@ -15,9 +17,12 @@ import {ButtonComponent} from '../button/button.component'
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
+  private store = inject(Store)
+
+  groups = this.store.selectSignal(selectGroups)
+
   mode = input<'bet' | 'result' | 'admin'>('bet')
-  groups = input<CardGroup[]>([])
   totalPercentage = computed(() => {
     const groups = this.groups()
 
@@ -32,6 +37,10 @@ export class OverviewComponent {
       return totalResults / total
     }
   })
+
+  ngOnInit(): void {
+    this.store.dispatch(getOverviewGroups())
+  }
 
   defaultGroups = computed(() => {
     const groups = this.groups()

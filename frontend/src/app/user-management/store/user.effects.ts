@@ -13,7 +13,7 @@ import {
 } from './user.actions'
 import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
-import {SnackbarService} from '../../shared/services/snackbar.service'
+import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {noAction} from '../../shared/store/global.actions'
 
 // noinspection JSUnusedGlobalSymbols

@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {SnackbarDisplayComponent} from './snackbar-display.component'
 import {provideMockStore} from '@ngrx/store/testing'
-import {SnackbarService} from '../../../../services/snackbar.service'
+import {SnackbarService} from '../../../../services/snackbar/snackbar.service'
 
 describe('SnackbarDisplayComponent', () => {
   let component: SnackbarDisplayComponent

@@ -2,7 +2,7 @@ import {Component, inject, Signal} from '@angular/core'
 import {NgForOf, NgIf} from '@angular/common'
 import {SnackbarMessage} from '../../model/snackbar-message'
 import {SnackbarComponent} from '../../snackbar.component'
-import {SnackbarService} from '../../../../services/snackbar.service'
+import {SnackbarService} from '../../../../services/snackbar/snackbar.service'
 
 @Component({
   selector: 'wm-snackbar-display',

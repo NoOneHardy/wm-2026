@@ -102,6 +102,30 @@
             box-shadow: inset 0 0 .25em 0 #0000003d;
             overflow: hidden;
           }
+
+          .custom-thumbnail, .material-symbols-rounded {
+            display: grid;
+            place-items: center;
+            position: relative;
+            color: var(--wm-color-gray-500);
+          }
+
+          .custom-thumbnail {
+            top: calc(.5em / 3);
+            left: calc(.5em / 3);
+            height: 2.5em;
+            width: 2.5em;
+            font-size: 3em;
+            font-weight: 700;
+            border-radius: 50%;
+            background-color: var(--wm-color-gray-100);
+          }
+
+          .material-symbols-rounded {
+            width: 100%;
+            height: 100%;
+            font-size: 8.25em;
+          }
         }
       }
 

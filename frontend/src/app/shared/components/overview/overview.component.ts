@@ -55,7 +55,7 @@ export class OverviewComponent implements OnInit {
         ...group,
         percentage: this.mode() === 'bet' ? group.percentage : group.percentageResult
       }
-    })
+    }).sort((a, b) => a.name > b.name ? 1 : -1)
   })
 
   knockoutGroups = computed(() => {
@@ -65,6 +65,6 @@ export class OverviewComponent implements OnInit {
         ...group,
         percentage: this.mode() === 'bet' ? group.percentage : group.percentageResult
       }
-    })
+    }).sort((a, b) => a.order - b.order)
   })
 }

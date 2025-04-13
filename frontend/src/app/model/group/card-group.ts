@@ -4,6 +4,7 @@ export interface CardGroup {
   percentage: number
   percentageResult: number
   thumbnail: string[]
+  order: number
   isKnockout: boolean
   createdAt: Date
   updatedAt: Date

@@ -12,9 +12,9 @@
   @case ('result') {
     <h1>Resultatübersicht</h1>
     @if (!isLoading()) {
-    <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
-      class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!</p>
-    <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Spiele gespielt.</p>
+      <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
+        class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!</p>
+      <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Spiele gespielt.</p>
     } @else {
       <p>Resultate werden geladen...</p>
     }
@@ -22,9 +22,9 @@
   @case ('admin') {
     <h1>Resultat Management</h1>
     @if (!isLoading()) {
-    <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
-      class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Resultate hochgeladen!</p>
-    <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Resultate hochgeladen.</p>
+      <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
+        class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Resultate hochgeladen!</p>
+      <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Resultate hochgeladen.</p>
     } @else {
       <p>Resultate werden geladen...</p>
     }
@@ -55,9 +55,14 @@
     <h3>{{ group.name }}</h3>
     <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
       <div class="thumbnail-progress">
-        <div class="flag" *ngFor="let flag of group.thumbnail">
-          <img [ngSrc]="flag" alt="Flag" fill/>
-        </div>
+        @let thumbnail = group.thumbnail.length > 0 ? group.thumbnail[0] : '';
+        @if (thumbnail.startsWith('icon{')) {
+          @let icon = thumbnail.split('{')[1];
+          @let color = thumbnail.split('{')[2];
+          <div class="material-symbols-rounded" [style]="{color: color}">{{ icon }}</div>
+        } @else {
+          <div class="custom-thumbnail">{{thumbnail}}</div>
+        }
       </div>
     </div>
     <p>{{ group.percentage | number:'1.0-2' }}%</p>

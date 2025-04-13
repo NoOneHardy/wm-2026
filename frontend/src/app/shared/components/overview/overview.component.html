@@ -1,22 +1,38 @@
-@if (mode() === 'bet') {
-  <h1>Mein Tippschein</h1>
-  @if (totalPercentage() > 0) {
-    <p>Du hast bereits <span class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Tipps ausgefüllt!
-    </p>
-  } @else {
-    <p>Bereit deinen ersten Tipp abzugeben?</p>
+@switch (mode()) {
+  @case ('bet') {
+    <h1>Mein Tippschein</h1>
+    @if (!isLoading()) {
+      <p *ngIf="totalPercentage() > 0">Du hast bereits <span class="percentage">{{ totalPercentage() }}%</span> der
+        Tipps ausgefüllt!</p>
+      <p *ngIf="totalPercentage() <= 0">Bereit deinen ersten Tipp abzugeben?</p>
+    } @else {
+      <p>Tipps werden geladen...</p>
+    }
   }
-} @else {
-  <h1>Resultatübersicht</h1>
-  @if (totalPercentage() > 0) {
-    <p>Es wurden bereits <span class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!
-    </p>
-  } @else {
-    <p>Hier wurden noch keine Spiele gespielt.</p>
+  @case ('result') {
+    <h1>Resultatübersicht</h1>
+    @if (!isLoading()) {
+    <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
+      class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!</p>
+    <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Spiele gespielt.</p>
+    } @else {
+      <p>Resultate werden geladen...</p>
+    }
+  }
+  @case ('admin') {
+    <h1>Resultat Management</h1>
+    @if (!isLoading()) {
+    <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
+      class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Resultate hochgeladen!</p>
+    <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Resultate hochgeladen.</p>
+    } @else {
+      <p>Resultate werden geladen...</p>
+    }
   }
 }
 
 <h2>Gruppenphase</h2>
+<wm-spinner *ngIf="isLoading()"/>
 <div class="groups">
   <div class="group" *ngFor="let group of defaultGroups()">
     <h3>{{ group.name }}</h3>
@@ -33,6 +49,7 @@
 </div>
 
 <h2>Finalspiele</h2>
+<wm-spinner *ngIf="isLoading()"/>
 <div class="groups">
   <div class="group" *ngFor="let group of knockoutGroups()">
     <h3>{{ group.name }}</h3>

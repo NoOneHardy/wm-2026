@@ -12,13 +12,13 @@ import {
 
 interface UserState {
   user: User | null
-  isLoading: boolean
+  isUserLoading: boolean
   error: string | null
 }
 
 const initialState: UserState = {
   user: null,
-  isLoading: false,
+  isUserLoading: false,
   error: null
 }
 
@@ -29,13 +29,13 @@ export const userFeature = createFeature({
     on(createUser, (state): UserState => {
       return {
         ...state,
-        isLoading: true
+        isUserLoading: true
       }
     }),
     on(userCreated, (state): UserState => {
       return {
         ...state,
-        isLoading: false
+        isUserLoading: false
       }
     }),
     on(resetError, (state): UserState => {
@@ -47,7 +47,7 @@ export const userFeature = createFeature({
     on(userLogin, (state): UserState => {
       return {
         ...state,
-        isLoading: true,
+        isUserLoading: true,
         error: null
       }
     }),
@@ -55,39 +55,39 @@ export const userFeature = createFeature({
       return {
         ...state,
         user: action,
-        isLoading: false
+        isUserLoading: false
       }
     }),
     on(rejectLogin, (state): UserState => {
       return {
         ...state,
-        isLoading: false,
+        isUserLoading: false,
         error: 'Username oder Passwort ungültig'
       }
     }),
     on(fetchUserInfo, (state): UserState => {
       return {
         ...state,
-        isLoading: true
+        isUserLoading: true
       }
     }),
     on(userInfoFetched, (state, action): UserState => {
       return {
         ...state,
-        isLoading: false,
+        isUserLoading: false,
         user: action.user.id ? action.user : null
       }
     }),
     on(logout, (state): UserState => {
       return {
         ...state,
-        isLoading: true
+        isUserLoading: true
       }
     }),
-    on(loggedOut, (state) => {
+    on(loggedOut, (state): UserState => {
       return {
         ...state,
-        isLoading: false,
+        isUserLoading: false,
         user: null
       }
     })
@@ -95,7 +95,7 @@ export const userFeature = createFeature({
 })
 
 export const {
-  selectIsLoading,
+  selectIsUserLoading,
   selectUser,
   selectError
 } = userFeature

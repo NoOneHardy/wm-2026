@@ -2,6 +2,7 @@ package ch.no1hardy.service.model.group;
 
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Game;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -25,4 +26,10 @@ public class Group extends BaseEntity {
 
     @NotNull
     private Boolean isKnockout = false;
+
+    @NotNull
+    @Column(name = "sort-order")
+    private Integer order = 0;
+
+    private String thumbnail;
 }

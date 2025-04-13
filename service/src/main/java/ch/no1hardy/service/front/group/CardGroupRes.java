@@ -14,6 +14,8 @@ public class CardGroupRes {
     private Double percentageResult;
     private List<String> thumbnail;
     private Boolean isKnockout;
+    @Builder.Default
+    private Integer order = 0;
     private String createdAt;
     private String updatedAt;
     private String deletedAt;

@@ -6,6 +6,7 @@ import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.group.Group;
+import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.team.Team;
 import org.mapstruct.*;
 
@@ -30,8 +31,8 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
 
     @Mapping(target = "percentage", source = "games", qualifiedByName = "getPercentage")
     @Mapping(target = "percentageResult", source = "games", qualifiedByName = "getPercentageResult")
-    @Mapping(target = "thumbnail", source = "games", qualifiedByName = "getThumbnail")
-    CardGroupRes toCard(Group entity);
+    @Mapping(target = "thumbnail", source = "id", qualifiedByName = "getThumbnail")
+    CardGroupRes toCard(Group entity, @Context GroupRepository groupRepository);
 
     @Named("getPercentageResult")
     default Double getPercentageResult(List<Game> games) {
@@ -51,9 +52,16 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
     }
 
     @Named("getThumbnail")
-    default List<String> getThumbnail(List<Game> games) {
+    default List<String> getThumbnail(String id, @Context GroupRepository groupRepository) {
+        Group group = groupRepository.findById(id).orElse(null);
+        if (group == null) return List.of();
+
+        if (group.getIsKnockout() && group.getThumbnail() != null) {
+            return List.of(group.getThumbnail());
+        }
+
+        List<Game> games = group.getGames();
         if (games.isEmpty()) return List.of();
-        if (games.getFirst().getGroup().getIsKnockout()) return List.of();
 
         List<Team> teams = new ArrayList<>();
         for (Game game : games) {

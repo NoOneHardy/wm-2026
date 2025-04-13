@@ -48,6 +48,6 @@ public class GroupService {
     }
 
     public List<CardGroupRes> getCardGroups() {
-        return repository.findAll().stream().map(mapper::toCard).toList();
+        return repository.findAll().stream().map(group -> mapper.toCard(group, repository)).toList();
     }
 }

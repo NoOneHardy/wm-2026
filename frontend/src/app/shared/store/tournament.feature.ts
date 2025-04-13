@@ -3,13 +3,13 @@ import {CardGroup} from '../../model/group/card-group'
 import {getOverviewGroups, overviewGroupsLoaded} from './tournament.actions'
 
 interface TournamentState {
-  isLoading: boolean
+  isTournamentLoading: boolean
   groups: CardGroup[]
   activeGroup: CardGroup | null
 }
 
 const initialState: TournamentState = {
-  isLoading: false,
+  isTournamentLoading: false,
   groups: [],
   activeGroup: null
 }
@@ -21,13 +21,13 @@ export const tournamentFeature = createFeature({
     on(getOverviewGroups, (state): TournamentState => {
       return {
         ...state,
-        isLoading: true
+        isTournamentLoading: true
       }
     }),
     on(overviewGroupsLoaded, (state, action): TournamentState => {
       return {
         ...state,
-        isLoading: false,
+        isTournamentLoading: false,
         groups: action.groups
       }
     })
@@ -35,6 +35,6 @@ export const tournamentFeature = createFeature({
 })
 
 export const {
-  selectIsLoading,
+  selectIsTournamentLoading,
   selectGroups
 } = tournamentFeature

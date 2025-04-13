@@ -1,9 +1,12 @@
 import {Component, computed, inject, input, OnInit} from '@angular/core'
-import {DecimalPipe, NgForOf, NgOptimizedImage} from '@angular/common'
+import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
-import {selectGroups} from '../../store/tournament.feature'
+import {selectGroups, selectIsTournamentLoading} from '../../store/tournament.feature'
 import {getOverviewGroups} from '../../store/tournament.actions'
+import {SpinnerComponent} from '../spinner/spinner.component'
+
+type Mode = 'bet' | 'result' | 'admin'
 
 @Component({
   selector: 'wm-overview',
@@ -12,7 +15,9 @@ import {getOverviewGroups} from '../../store/tournament.actions'
     NgForOf,
     NgOptimizedImage,
     DecimalPipe,
-    ButtonComponent
+    ButtonComponent,
+    NgIf,
+    SpinnerComponent
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
@@ -21,8 +26,9 @@ export class OverviewComponent implements OnInit {
   private store = inject(Store)
 
   groups = this.store.selectSignal(selectGroups)
+  isLoading = this.store.selectSignal(selectIsTournamentLoading)
 
-  mode = input<'bet' | 'result' | 'admin'>('bet')
+  mode = input<Mode>('bet', {alias: 'mode'})
   totalPercentage = computed(() => {
     const groups = this.groups()
 

@@ -9,7 +9,7 @@ import {UserValidatorService} from './validators/user-validator.service'
 import {passwordMatch} from './validators/password-validator'
 import {Store} from '@ngrx/store'
 import {createUser} from '../store/user.actions'
-import {selectIsLoading} from '../store/user.feature'
+import {selectIsUserLoading} from '../store/user.feature'
 
 @Component({
   selector: 'wm-signup',
@@ -29,7 +29,7 @@ export class SignupComponent {
   private userValidatorService = inject(UserValidatorService)
   private store = inject(Store)
 
-  isLoading: Signal<boolean> = this.store.selectSignal(selectIsLoading)
+  isLoading: Signal<boolean> = this.store.selectSignal(selectIsUserLoading)
   formGroup = this.fb.group({
     username: this.fb.control<string>('', {
       nonNullable: true,

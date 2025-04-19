@@ -2,31 +2,32 @@
   @case ('bet') {
     <h1>Mein Tippschein</h1>
     @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0">Du hast bereits <span class="percentage">{{ totalPercentage() }}%</span> der
+      <p *ngIf="totalPercentage() > 0" class="sub-heading">Du hast bereits <span
+        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der
         Tipps ausgefüllt!</p>
-      <p *ngIf="totalPercentage() <= 0">Bereit deinen ersten Tipp abzugeben?</p>
+      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
     } @else {
-      <p>Tipps werden geladen...</p>
+      <p class="sub-heading">Tipps werden geladen...</p>
     }
   }
   @case ('result') {
     <h1>Resultatübersicht</h1>
     @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
-        class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Spiele gespielt!</p>
-      <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Spiele gespielt.</p>
+      <p *ngIf="totalPercentage() > 0" class="sub-heading">Es wurden bereits <span
+        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der Spiele gespielt!</p>
+      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Es wurde noch keine Spiele gespielt.</p>
     } @else {
-      <p>Resultate werden geladen...</p>
+      <p class="sub-heading">Resultate werden geladen...</p>
     }
   }
   @case ('admin') {
     <h1>Resultat Management</h1>
     @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0">Es wurden bereits <span
-        class="percentage">{{ totalPercentage() | number:'1.0-2' }}%</span> der Resultate hochgeladen!</p>
-      <p *ngIf="totalPercentage() <= 0">Es wurde noch keine Resultate hochgeladen.</p>
+      <p *ngIf="totalPercentage() > 0" class="sub-heading">Es wurden bereits <span
+        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der Resultate hochgeladen!</p>
+      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Es wurde noch keine Resultate hochgeladen.</p>
     } @else {
-      <p>Resultate werden geladen...</p>
+      <p class="sub-heading">Resultate werden geladen...</p>
     }
   }
 }
@@ -43,7 +44,7 @@
         </div>
       </div>
     </div>
-    <p class="">{{ group.percentage | number:'1.0-2' }}%</p>
+    <p>{{ group.percentage | number:'1.0-2' }}%</p>
     <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
   </div>
 </div>

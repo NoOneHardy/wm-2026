@@ -7,8 +7,8 @@ export interface BetGame {
   timestamp: Date
   teamHome: Team
   teamGuest: Team
-  result: Score
-  bet: Bet
+  result: Score | null
+  bet: Bet | null
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null

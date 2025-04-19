@@ -1,12 +1,69 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {OverviewComponent} from './overview.component'
-import {provideMockStore} from '@ngrx/store/testing'
+import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectGroups} from '../../store/tournament.feature'
+import {CardGroup} from '../../../model/group/card-group'
 
 describe('OverviewComponent', () => {
+  let mockStore: MockStore
   let component: OverviewComponent
   let fixture: ComponentFixture<OverviewComponent>
+
+  const loadMockGroups = (groups: CardGroup[] = [
+    {
+      name: 'Group B',
+      percentage: 60,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isKnockout: false,
+      percentageResult: 33,
+      deletedAt: null,
+      id: 'group-b',
+      order: 0,
+      thumbnail: []
+    },
+    {
+      name: 'Group A',
+      percentage: 50,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isKnockout: false,
+      percentageResult: 0,
+      deletedAt: null,
+      id: 'group-a',
+      order: 0,
+      thumbnail: []
+    },
+    {
+      name: 'Final',
+      percentage: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isKnockout: true,
+      percentageResult: 100,
+      deletedAt: null,
+      id: 'final',
+      order: 1,
+      thumbnail: []
+    },
+    {
+      name: 'Semi-Final',
+      percentage: 20,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      isKnockout: true,
+      percentageResult: 0,
+      deletedAt: null,
+      id: 'semi-final',
+      order: 0,
+      thumbnail: []
+    },
+  ]) => {
+    mockStore.overrideSelector(selectGroups, groups)
+    mockStore.refreshState()
+    fixture.detectChanges()
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -19,6 +76,7 @@ describe('OverviewComponent', () => {
     })
       .compileComponents()
 
+    mockStore = TestBed.inject(MockStore)
     fixture = TestBed.createComponent(OverviewComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
@@ -26,5 +84,40 @@ describe('OverviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  it('should default totalPercentage to 0', () => {
+    const totalPercentage = component.totalPercentage()
+    expect(totalPercentage).toBe(0)
+  })
+
+  it('should return percentage of bets for bet mode', () => {
+    loadMockGroups()
+    expect(component.totalPercentage()).toBe(32.5)
+  })
+
+  it('should return percentage of results for result mode', () => {
+    loadMockGroups()
+    fixture.componentRef.setInput('mode', 'result')
+
+    expect(component.totalPercentage()).toBe(33.25)
+  })
+
+  it('should separate knockout groups', () => {
+    loadMockGroups()
+    expect(component.knockoutGroups()).toHaveSize(2)
+    expect(component.defaultGroups()).toHaveSize(2)
+  })
+
+  it('should sort default groups', () => {
+    loadMockGroups()
+    expect(component.defaultGroups()[0].id).toBe('group-a')
+    expect(component.defaultGroups()[1].id).toBe('group-b')
+  })
+
+  it('should sort knockout groups', () => {
+    loadMockGroups()
+    expect(component.knockoutGroups()[0].id).toBe('semi-final')
+    expect(component.knockoutGroups()[1].id).toBe('final')
   })
 })

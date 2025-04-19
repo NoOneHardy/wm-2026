@@ -1,0 +1,27 @@
+<form [formGroup]="formGroup" *ngIf="game() as game">
+  <h2>{{ game.timestamp | date:'dd.MM.YYYY' }}</h2>
+  <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
+  <div class="flag-team-home flag">
+    <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+  </div>
+  <h3 class="team-home">{{ game.teamHome.name }}</h3>
+  <wm-score-form-field class="score-team-home" formControlName="scoreTeamHome"/>
+  <div class="joker-form">
+    <div class="joker" *ngFor="let joker of [1, 2, 3]">
+      <input name="joker" formControlName="joker"
+             [id]="game.id + '-joker-' + joker"
+             [value]="joker" type="radio"/>
+      <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
+             [class.-fill]="fillJoker(joker)">star</label>
+    </div>
+  </div>
+  <div class="result" *ngIf="game.result as result">
+    <h4>Resultat</h4>
+    <p>{{ result.scoreTeamHome }} : {{ result.scoreTeamGuest }}</p>
+  </div>
+  <div class="flag-team-guest flag">
+    <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
+  </div>
+  <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
+  <wm-score-form-field class="score-team-guest" formControlName="scoreTeamGuest"/>
+</form>

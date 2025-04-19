@@ -1,0 +1,104 @@
+form {
+    display: grid;
+    place-items: center;
+    grid-template-areas:
+        'date date date'
+        'time time time'
+        'flag-team-home . flag-team-guest'
+        'team-home joker team-guest'
+        'score-team-home result score-team-guest';
+    grid-template-columns: 10.5em 5em 10.5em;
+    width: 31em;
+    padding: 1.5em 2.5em 3em;
+    border-radius: 1em;
+    background-color: #fff;
+    box-shadow: 0 0 .5em 0 #0000003d;
+    column-gap: .5em;
+
+    .flag {
+        position: relative;
+        height: 8em;
+        width: 8em;
+        border-radius: 50%;
+        box-shadow: var(--wm-shadow-flag);
+        overflow: hidden;
+        margin-bottom: .625em;
+    }
+
+    h2 {
+        grid-area: date;
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
+    .time {
+        grid-area: time;
+        font-size: 1.25em;
+        font-weight: 500;
+        color: var(--wm-color-gray-500);
+        margin-bottom: .8em;
+    }
+
+    h3 {
+        font-size: 1.5em;
+        width: 100%;
+        text-align: center;
+    }
+
+    .flag-team-home {
+        grid-area: flag-team-home;
+    }
+
+    .team-home {
+        grid-area: team-home;
+    }
+
+    .score-team-home {
+        grid-area: score-team-home;
+    }
+
+    .joker-form {
+        grid-area: joker;
+        display: flex;
+        place-self: end;
+        gap: .25em;
+
+        .joker {
+            display: block;
+            height: 1.5em;
+            width: 1.5em;
+
+            input {
+                display: none;
+            }
+
+            label {
+                font-variation-settings: 'FILL' 1;
+                color: var(--wm-color-gray-300);
+                transition: color .2s ease;
+                cursor: pointer;
+                user-select: none;
+
+                &.-fill {
+                    color: var(--wm-color-orange);
+                }
+            }
+        }
+    }
+
+    .result {
+        grid-area: result;
+    }
+
+    .flag-team-guest {
+        grid-area: flag-team-guest;
+    }
+
+    .team-guest {
+        grid-area: team-guest;
+    }
+
+    .score-team-guest {
+        grid-area: score-team-guest;
+    }
+}

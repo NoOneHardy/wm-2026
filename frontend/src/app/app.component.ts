@@ -7,11 +7,12 @@ import {
 import {Store} from '@ngrx/store'
 import {fetchUserInfo} from './user-management/store/user.actions'
 import {OverviewComponent} from './shared/components/overview/overview.component'
+import {GroupViewComponent} from './shared/components/group-view/group-view.component'
 
 @Component({
   selector: 'wm-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, OverviewComponent],
+  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, OverviewComponent, GroupViewComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

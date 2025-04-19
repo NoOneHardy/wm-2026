@@ -44,7 +44,7 @@
       </div>
     </div>
     <p class="">{{ group.percentage | number:'1.0-2' }}%</p>
-    <wm-button full-width>Bearbeiten</wm-button>
+    <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
   </div>
 </div>
 
@@ -61,11 +61,11 @@
           @let color = thumbnail.split('{')[2];
           <div class="material-symbols-rounded" [style]="{color: color}">{{ icon }}</div>
         } @else {
-          <div class="custom-thumbnail">{{thumbnail}}</div>
+          <div class="custom-thumbnail">{{ thumbnail }}</div>
         }
       </div>
     </div>
     <p>{{ group.percentage | number:'1.0-2' }}%</p>
-    <wm-button full-width>Bearbeiten</wm-button>
+    <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
   </div>
 </div>

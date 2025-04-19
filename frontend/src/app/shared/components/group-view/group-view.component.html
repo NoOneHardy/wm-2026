@@ -1,0 +1,9 @@
+@if (!isLoading()) {
+  @if (group(); as group) {
+    <h1>{{ group.name }}</h1>
+  }
+} @else {
+  <wm-spinner/>
+  <p>Wird geladen...</p>
+}
+

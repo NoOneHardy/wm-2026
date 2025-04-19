@@ -3,10 +3,9 @@ import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
 import {selectGroups, selectIsTournamentLoading} from '../../store/tournament.feature'
-import {getOverviewGroups} from '../../store/tournament.actions'
+import {getOverviewGroups, selectGroup} from '../../store/tournament.actions'
 import {SpinnerComponent} from '../spinner/spinner.component'
-
-type Mode = 'bet' | 'result' | 'admin'
+import {Mode} from '../../../model/mode'
 
 @Component({
   selector: 'wm-overview',
@@ -67,4 +66,8 @@ export class OverviewComponent implements OnInit {
       }
     }).sort((a, b) => a.order - b.order)
   })
+
+  selectGroup(groupId: string): void {
+    this.store.dispatch(selectGroup({groupId}))
+  }
 }

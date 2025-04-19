@@ -1,0 +1,26 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: 5em;
+
+  h2 {
+    text-align: center;
+    font-size: 2em;
+    margin-bottom: calc(1.5em / 2);
+
+    ~ p {
+      font-size: 1.5em;
+    }
+  }
+
+  p.sub-heading {
+    margin-bottom: calc(.5em / 2.25);
+  }
+
+  p.additional-info {
+    text-align: center;
+    color: var(--wm-color-gray-500);
+    margin-bottom: 5em;
+  }
+}
+

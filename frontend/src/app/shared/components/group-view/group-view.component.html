@@ -1,9 +1,41 @@
-@if (!isLoading()) {
-  @if (group(); as group) {
-    <h1>{{ group.name }}</h1>
+@if (group(); as group) {
+  <h1>{{ group.name }}</h1>
+  @switch (mode()) {
+    @case ('bet') {
+      @if (isLoading()) {
+        <p class="sub-heading">Tipps werden geladen...</p>
+      } @else {
+        <p *ngIf="group.percentage > 0" class="sub-heading">Du hast bereits <span
+          class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
+        <p *ngIf="group.percentage <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
+        <p class="additional-info">Zuletzt gespeichert am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</p>
+      }
+    }
+    @case ('result') {
+      @if (isLoading()) {
+        <p class="sub-heading">Resultate werden geladen...</p>
+      } @else {
+        <p *ngIf="group.percentageResult > 0" class="sub-heading">In dieser Gruppe wurden bereits <span
+          class="highlight">{{ group.percentageResult | number:'1.1-1' }}%</span> der Spiele gespielt!</p>
+        <p *ngIf="group.percentageResult <= 0" class="sub-heading">In dieser Gruppe wurden noch keine Spiele
+          gespielt.</p>
+        <p class="additional-info">Zuletzt geändert am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
+      }
+    }
+    @case ('admin') {
+      @if (isLoading()) {
+        <p class="sub-heading">Resultate werden geladen...</p>
+      } @else {
+        <p class="additional-info">Zuletzt geändert am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
+      }
+    }
   }
-} @else {
-  <wm-spinner/>
-  <p>Wird geladen...</p>
-}
 
+  <div class="games">
+    <div class="game" *ngFor="let game of group.games">{{ game.teamHome.name }} - {{ game.teamGuest.name }}</div>
+  </div>
+
+} @else {
+  <h2>Es ist ein Fehler aufgetreten</h2>
+  <p class="sub-heading">Bitte laden Sie die Seite neu oder kehren Sie zur Übersicht zurück.</p>
+}

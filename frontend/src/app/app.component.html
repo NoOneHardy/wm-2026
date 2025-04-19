@@ -1,8 +1,6 @@
 <wm-header/>
 <wm-snackbar-display/>
 
-<form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <wm-bet-form formControlName="bet" [game]="mockGame"/>
-  <button type="submit">Submit</button>
-</form>
+<wm-overview/>
+<wm-group-view/>
 <router-outlet/>

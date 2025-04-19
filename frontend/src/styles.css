@@ -36,3 +36,26 @@
 
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
 }
+
+h1 {
+  font-size: 3em;
+  font-weight: 500;
+  text-align: center;
+  background-image: var(--wm-gradient-primary);
+  background-clip: text;
+  color: transparent;
+  margin-bottom: calc(1em / 3);
+}
+
+p.sub-heading {
+  font-size: 2.25em;
+  text-align: center;
+  color: var(--wm-color-gray-300);
+  font-weight: 500;
+  margin-bottom: calc(2.5em / 2.25);
+
+  .highlight {
+    font-weight: 600;
+    color: var(--wm-color-primary);
+  }
+}

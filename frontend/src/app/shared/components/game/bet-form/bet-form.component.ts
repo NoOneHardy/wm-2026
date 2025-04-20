@@ -30,11 +30,16 @@ import {toSignal} from '@angular/core/rxjs-interop'
 })
 export class BetFormComponent implements ControlValueAccessor {
   game = input.required<BetGame>()
+  highlight = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
   hasStarted = computed(() => {
-    return new Date(this.game().timestamp) <= new Date()
+    return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
   })
 
-  isDisabled = false
+  get isDisabled(): boolean {
+    return this.formGroup.disabled
+  }
 
   formGroup = new FormGroup({
     scoreTeamHome: new FormControl<number | null>(null),
@@ -50,21 +55,12 @@ export class BetFormComponent implements ControlValueAccessor {
   constructor() {
     effect(() => {
       const game = this.game()
-      if (game.result) {
-        this.setDisabledState(true)
-        this.writeValue({
-          joker: 1,
-          scoreTeamHome: game.result.scoreTeamHome,
-          scoreTeamGuest: game.result.scoreTeamGuest
-        })
-      } else {
-        this.setDisabledState(this.hasStarted())
-        this.writeValue({
-          joker: game.bet?.joker ?? 1,
-          scoreTeamHome: game.bet?.scoreTeamHome ?? null,
-          scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
-        })
-      }
+      this.setDisabledState(!!game.result || this.hasStarted())
+      this.writeValue({
+        joker: game.bet?.joker ?? 1,
+        scoreTeamHome: game.bet?.scoreTeamHome ?? null,
+        scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
+      })
     })
 
     effect(() => {
@@ -101,7 +97,8 @@ export class BetFormComponent implements ControlValueAccessor {
   }
 
   setDisabledState(isDisabled: boolean) {
-    this.isDisabled = isDisabled
+    if (isDisabled) this.formGroup.disable()
+    else this.formGroup.enable()
   }
 
   fillJoker(value: number): boolean {

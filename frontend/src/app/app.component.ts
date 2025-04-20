@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
 
   mockGame: BetGame = {
     id: 'b48112fe-38d9-4ba8-b96b-bcb96c623c26',
-    timestamp: new Date('2025-06-23T21:00:00'),
+    timestamp: new Date('2025-03-23T21:00:00'),
     teamHome: {
       id: '3237d31d-f994-4a12-8014-32548246aa2a',
       name: 'Deutschland',
@@ -40,7 +40,15 @@ export class AppComponent implements OnInit {
       updatedAt: new Date('2025-04-13T17:37:44.985522'),
       deletedAt: null
     },
-    result: null,
+    result: {
+      id: 'asdf-1',
+      scoreTeamHome: 3,
+      scoreTeamGuest: 2,
+      gameId: 'b48112fe-38d9-4ba8-b96b-bcb96c623c26',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      deletedAt: null
+    },
     bet: {
       id: 'asdf-1',
       scoreTeamHome: 3,

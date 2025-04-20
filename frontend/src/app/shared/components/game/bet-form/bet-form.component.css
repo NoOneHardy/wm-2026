@@ -1,104 +1,146 @@
 form {
-    display: grid;
-    place-items: center;
-    grid-template-areas:
+  display: grid;
+  place-items: center;
+  grid-template-areas:
         'date date date'
         'time time time'
         'flag-team-home . flag-team-guest'
         'team-home joker team-guest'
         'score-team-home result score-team-guest';
-    grid-template-columns: 10.5em 5em 10.5em;
-    width: 31em;
-    padding: 1.5em 2.5em 3em;
-    border-radius: 1em;
-    background-color: #fff;
-    box-shadow: 0 0 .5em 0 #0000003d;
-    column-gap: .5em;
+  grid-template-columns: 10.5em 5em 10.5em;
+  width: 31em;
+  padding: 1.5em 2.5em 3em;
+  border-radius: 1em;
+  background-color: #fff;
+  box-shadow: 0 0 .5em 0 #0000003d;
+  column-gap: .5em;
 
-    .flag {
-        position: relative;
-        height: 8em;
-        width: 8em;
-        border-radius: 50%;
-        box-shadow: var(--wm-shadow-flag);
-        overflow: hidden;
-        margin-bottom: .625em;
-    }
+  &.-highlight {
+    animation: wm-highlight 5s ease;
+  }
 
-    h2 {
-        grid-area: date;
-        font-size: 1.5em;
-        font-weight: 700;
-    }
+  &.-disabled {
+    background-color: var(--wm-color-gray-050);
+  }
 
-    .time {
-        grid-area: time;
-        font-size: 1.25em;
-        font-weight: 500;
-        color: var(--wm-color-gray-500);
-        margin-bottom: .8em;
-    }
+  .flag {
+    position: relative;
+    height: 8em;
+    width: 8em;
+    border-radius: 50%;
+    box-shadow: var(--wm-shadow-flag);
+    overflow: hidden;
+    margin-bottom: .625em;
+  }
 
-    h3 {
-        font-size: 1.5em;
-        width: 100%;
-        text-align: center;
-    }
+  h2 {
+    grid-area: date;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
 
-    .flag-team-home {
-        grid-area: flag-team-home;
-    }
+  .time {
+    grid-area: time;
+    font-size: 1.25em;
+    font-weight: 500;
+    color: var(--wm-color-gray-500);
+    margin-bottom: .8em;
+  }
 
-    .team-home {
-        grid-area: team-home;
-    }
+  h3 {
+    --font-size: 1.5;
 
-    .score-team-home {
-        grid-area: score-team-home;
-    }
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(2em / var(--font-size));
+    width: 100%;
+    font-size: calc(1em * var(--font-size));
+    margin-bottom: calc(1em / var(--font-size));
+  }
 
-    .joker-form {
-        grid-area: joker;
-        display: flex;
-        place-self: end;
-        gap: .25em;
+  wm-score-form-field {
 
-        .joker {
-            display: block;
-            height: 1.5em;
-            width: 1.5em;
+  }
 
-            input {
-                display: none;
-            }
+  .flag-team-home {
+    grid-area: flag-team-home;
+  }
 
-            label {
-                font-variation-settings: 'FILL' 1;
-                color: var(--wm-color-gray-300);
-                transition: color .2s ease;
-                cursor: pointer;
-                user-select: none;
+  .team-home {
+    grid-area: team-home;
+  }
 
-                &.-fill {
-                    color: var(--wm-color-orange);
-                }
-            }
+  .score-team-home {
+    grid-area: score-team-home;
+  }
+
+  .joker-form {
+    grid-area: joker;
+    display: flex;
+    align-items: center;
+    align-self: start;
+    gap: .25em;
+    height: 2em;
+
+    .joker {
+      display: block;
+      height: 1.5em;
+      width: 1.5em;
+
+      input {
+        display: none;
+      }
+
+      label {
+        font-variation-settings: 'FILL' 1;
+        color: var(--wm-color-gray-300);
+        transition: color .2s ease;
+        cursor: pointer;
+        user-select: none;
+
+        &.-fill {
+          color: var(--wm-color-orange);
         }
+      }
+    }
+  }
+
+  .result {
+    grid-area: result;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .375em;
+
+    h4 {
+      font-size: .75em;
+      font-weight: 600;
+      color: var(--wm-color-gray);
+      text-align: center;
     }
 
-    .result {
-        grid-area: result;
+    p {
+      font-weight: 600;
     }
+  }
 
-    .flag-team-guest {
-        grid-area: flag-team-guest;
-    }
+  .flag-team-guest {
+    grid-area: flag-team-guest;
+  }
 
-    .team-guest {
-        grid-area: team-guest;
-    }
+  .team-guest {
+    grid-area: team-guest;
+  }
 
-    .score-team-guest {
-        grid-area: score-team-guest;
-    }
+  .score-team-guest {
+    grid-area: score-team-guest;
+  }
+}
+
+@keyframes wm-highlight {
+  10%, 90% {
+    background-color: var(--wm-color-primary-200);
+  }
 }

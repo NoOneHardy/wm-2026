@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" *ngIf="game() as game">
+<form [formGroup]="formGroup" *ngIf="game() as game" [class.-highlight]="highlight()" [class.-disabled]="isDisabled">
   <h2>{{ game.timestamp | date:'dd.MM.YYYY' }}</h2>
   <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
   <div class="flag-team-home flag">
@@ -15,9 +15,13 @@
              [class.-fill]="fillJoker(joker)">star</label>
     </div>
   </div>
-  <div class="result" *ngIf="game.result as result">
-    <h4>Resultat</h4>
-    <p>{{ result.scoreTeamHome }} : {{ result.scoreTeamGuest }}</p>
+  <div class="result" *ngIf="formGroup.disabled">
+    @if (game.result; as result) {
+      <h4>Resultat</h4>
+      <p>{{ result.scoreTeamHome }} : {{ result.scoreTeamGuest }}</p>
+    } @else {
+      <h4>Resultat folgt</h4>
+    }
   </div>
   <div class="flag-team-guest flag">
     <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>

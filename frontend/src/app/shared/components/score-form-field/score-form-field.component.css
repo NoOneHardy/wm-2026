@@ -39,5 +39,10 @@
 
   .form-field {
     width: 5.5em;
+    margin-bottom: 0;
+
+    input {
+      padding: 0;
+    }
   }
 }

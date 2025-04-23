@@ -13,6 +13,7 @@ import ch.no1hardy.service.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +59,7 @@ public class GameService {
         User user = userService.getLoggedInUser();
         if (game == null) throw new NotFoundException("Game " + id + " not found");
         if (user == null) throw new BadRequestException("User not logged in");
+        if (game.getTimestamp().isBefore(LocalDateTime.now())) return mapper.toDto(game);
 
         dto.clampJoker();
         dto.setGame(id);

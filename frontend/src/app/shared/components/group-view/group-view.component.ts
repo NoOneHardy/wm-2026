@@ -5,6 +5,7 @@ import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
 import {selectGroup} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common'
+import {BetFormComponent} from '../game/bet-form/bet-form.component'
 
 @Component({
   selector: 'wm-group-view',
@@ -13,7 +14,8 @@ import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common'
     DecimalPipe,
     NgIf,
     DatePipe,
-    NgForOf
+    NgForOf,
+    BetFormComponent
   ],
   templateUrl: './group-view.component.html',
   styleUrl: './group-view.component.css'

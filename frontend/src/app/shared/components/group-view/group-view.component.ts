@@ -11,6 +11,7 @@ import {BetForm} from '../../../model/game/bet-form'
 import {ButtonComponent} from '../button/button.component'
 import {RouterLink} from '@angular/router'
 import {SpinnerComponent} from '../spinner/spinner.component'
+import {BetGame} from '../../../model/game/bet-game'
 
 @Component({
   selector: 'wm-group-view',
@@ -44,11 +45,9 @@ export class GroupViewComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const games = this.group()?.games ?? []
-
       this.form.reset()
 
-      games.forEach((game) => {
+      this.games.forEach((game) => {
         this.form.controls.bets.push(new FormControl<BetForm>({
           game: game.id,
           joker: game.bet?.joker ?? 1,
@@ -56,6 +55,12 @@ export class GroupViewComponent implements OnInit {
           scoreTeamGuest: game.bet?.scoreTeamGuest ?? null,
         }, {nonNullable: true}), {emitEvent: false})
       })
+    })
+  }
+
+  get games(): BetGame[] {
+    return [...(this.group()?.games ?? [])].sort((a, b) => {
+      return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
     })
   }
 

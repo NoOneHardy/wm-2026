@@ -39,8 +39,9 @@ public class GroupService {
         List<Game> games = group.getGames();
         if (games.isEmpty()) throw new NotFoundException("Group " + id + " has no games");
 
-        for (BetReq bet : bets) {
+        for (BetReq bet : bets.stream().filter(BetReq::isValid).toList()) {
             if (games.stream().map(Game::getId).toList().contains(bet.getGame())) {
+                if (bet.getScoreTeamHome() == null || bet.getScoreTeamGuest() == null) continue;
                 gameService.uploadBet(bet.getGame(), bet);
             }
         }

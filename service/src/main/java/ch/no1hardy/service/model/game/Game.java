@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Game extends BaseEntity {
 
     @ManyToOne
     @NotNull
+    @ToString.Exclude
     private Group group;
 
     @NotNull
@@ -35,5 +37,6 @@ public class Game extends BaseEntity {
 
     @OneToMany(mappedBy = "game")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Bet> bets = List.of();
 }

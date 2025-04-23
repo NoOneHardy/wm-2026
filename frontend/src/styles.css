@@ -59,3 +59,15 @@ p.sub-heading {
     color: var(--wm-color-primary);
   }
 }
+
+a.wm-link {
+  position: relative;
+  color: var(--wm-color-secondary);
+  font-weight: 500;
+  text-decoration: none;
+  transition: color .2s ease;
+
+  &:hover {
+    color: var(--wm-color-secondary-hover);
+  }
+}

@@ -18,9 +18,16 @@
   }
 
   p.additional-info {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: .5em;
+    align-items: center;
     color: var(--wm-color-gray-500);
     margin-bottom: 5em;
+
+    .is-saving {
+      font-size: 1em;
+    }
   }
 }
 
@@ -31,5 +38,24 @@
   flex-wrap: wrap;
   gap: 4em;
   margin-top: 5em;
+}
+
+.actions {
+  position: fixed;
+  bottom: 4em;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: .75em 1.5em;
+  border-radius: .5em;
+  background-color: #fff;
+  box-shadow: 0 .25em 1em 0 #0000003d;
+
+  .wm-link {
+    text-align: center;
+    padding: 0 1em;
+  }
 }
 

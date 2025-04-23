@@ -8,6 +8,7 @@ import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +25,12 @@ public class Team extends BaseEntity {
 
     @OneToMany(mappedBy = "teamHome")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Game> gamesHome = List.of();
 
     @OneToMany(mappedBy = "teamGuest")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private List<Game> gamesGuest = List.of();
 
     @Transient

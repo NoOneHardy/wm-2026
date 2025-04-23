@@ -1,5 +1,5 @@
 export interface BetForm {
-  gameId: string
+  game: string
   scoreTeamHome: number | null
   scoreTeamGuest: number | null
   joker: 1 | 2 | 3

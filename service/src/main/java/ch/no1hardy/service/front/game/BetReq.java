@@ -17,4 +17,10 @@ public class BetReq {
             setJoker(1);
         }
     }
+
+    public boolean isValid() {
+        boolean hasScores = getScoreTeamHome() != null && getScoreTeamGuest() != null;
+        boolean hasJoker = getJoker() != null;
+        return hasScores && hasJoker;
+    }
 }

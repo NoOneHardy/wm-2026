@@ -1,16 +1,25 @@
 import {createFeature, createReducer, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
-import {getOverviewGroups, groupSelected, overviewGroupsLoaded, selectGroup} from './tournament.actions'
+import {
+  betsSaved,
+  getOverviewGroups,
+  groupSelected,
+  overviewGroupsLoaded,
+  saveBets,
+  selectGroup
+} from './tournament.actions'
 import {Group} from '../../model/group/group'
 
 interface TournamentState {
   isTournamentLoading: boolean
+  isTournamentSaving: boolean
   groups: CardGroup[]
   activeGroup: Group | null
 }
 
 const initialState: TournamentState = {
   isTournamentLoading: false,
+  isTournamentSaving: false,
   groups: [],
   activeGroup: null
 }
@@ -28,6 +37,19 @@ export const tournamentFeature = createFeature({
           isTournamentLoading: true
         }
       }),
+    on(saveBets, (state): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: true
+      }
+    }),
+    on(betsSaved, (state, action): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: false,
+        activeGroup: action.group
+      }
+    }),
     on(overviewGroupsLoaded, (state, action): TournamentState => {
       return {
         ...state,
@@ -48,5 +70,6 @@ export const tournamentFeature = createFeature({
 export const {
   selectIsTournamentLoading,
   selectGroups,
-  selectActiveGroup
+  selectActiveGroup,
+  selectIsTournamentSaving
 } = tournamentFeature

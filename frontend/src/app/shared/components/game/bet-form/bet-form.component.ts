@@ -68,7 +68,7 @@ export class BetFormComponent implements ControlValueAccessor {
         const bet = this.formGroup.getRawValue()
         this.onChange({
           ...bet,
-          gameId: this.game().id
+          game: this.game().id
         })
       }
     })

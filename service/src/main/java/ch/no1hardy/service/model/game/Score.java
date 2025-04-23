@@ -6,6 +6,7 @@ import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -14,6 +15,7 @@ public class Score extends BaseEntity {
     @NotNull
     @OneToOne
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private Game game;
 
     @NotNull

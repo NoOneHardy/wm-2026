@@ -8,8 +8,10 @@
         <p *ngIf="group.percentage > 0" class="sub-heading">Du hast bereits <span
           class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
         <p *ngIf="group.percentage <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
-        <p *ngIf="group.lastSavedAt" class="additional-info">Zuletzt gespeichert
-          am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</p>
+        <p *ngIf="group.lastSavedAt" class="additional-info">
+          <wm-spinner class="is-saving" *ngIf="isSaving()"/>
+          <span>Zuletzt gespeichert am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</span>
+        </p>
       }
     }
     @case ('result') {
@@ -34,8 +36,17 @@
     }
   }
 
-  <div class="games">
-    <wm-bet-form *ngFor="let game of group.games" [game]="game"/>
+  <form [formGroup]="form">
+    <div class="games" formArrayName="bets">
+      <wm-bet-form *ngFor="let game of group.games; index as i" [game]="game" [formControlName]="i"/>
+    </div>
+  </form>
+
+  <div class="actions">
+    <a [routerLink]="backUrl" class="wm-link">Abbrechen</a>
+    <div>
+      <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
+    </div>
   </div>
 
 } @else {

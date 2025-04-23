@@ -7,6 +7,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -21,6 +22,7 @@ public class Bet extends BaseEntity {
 
     @NotNull
     @ManyToOne
+    @ToString.Exclude
     private Game game;
 
     @NotNull

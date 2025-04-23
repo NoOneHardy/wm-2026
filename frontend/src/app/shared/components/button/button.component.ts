@@ -1,9 +1,12 @@
 import {Component, input, output} from '@angular/core'
+import {NgIf} from '@angular/common'
 
 @Component({
   selector: 'wm-button',
   standalone: true,
-  imports: [],
+  imports: [
+    NgIf
+  ],
   host: {
     '[style]': 'getWidth()'
   },
@@ -25,6 +28,7 @@ export class ButtonComponent {
     transform: v => v === '' || v,
     alias: 'full-width'
   })
+  icon = input<string | null>(null)
 
   clickEvent = output<void>()
 

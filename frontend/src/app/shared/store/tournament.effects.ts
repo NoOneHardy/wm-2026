@@ -2,7 +2,14 @@ import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
 import {exhaustMap, map} from 'rxjs'
-import {getOverviewGroups, groupSelected, overviewGroupsLoaded, selectGroup} from './tournament.actions'
+import {
+  betsSaved,
+  getOverviewGroups,
+  groupSelected,
+  overviewGroupsLoaded,
+  saveBets,
+  selectGroup
+} from './tournament.actions'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -26,6 +33,15 @@ export class TournamentEffects {
     exhaustMap(action => {
       return this.groupService.getGroup(action.groupId).pipe(map(group => {
         return groupSelected({group})
+      }))
+    })
+  ))
+
+  saveBets = createEffect(() => this.actions$.pipe(
+    ofType(saveBets),
+    exhaustMap(action => {
+      return this.groupService.saveBets(action.groupId, action.bets).pipe(map(group => {
+        return betsSaved({group})
       }))
     })
   ))

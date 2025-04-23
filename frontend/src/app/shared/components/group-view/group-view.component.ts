@@ -1,9 +1,9 @@
-import {Component, effect, inject, input, OnInit, Signal} from '@angular/core'
+import {Component, effect, inject, input, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
-import {saveBets, selectGroup} from '../../store/tournament.actions'
+import {saveBets} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
@@ -32,7 +32,7 @@ import {map} from 'rxjs'
   templateUrl: './group-view.component.html',
   styleUrl: './group-view.component.css'
 })
-export class GroupViewComponent implements OnInit {
+export class GroupViewComponent {
   private store = inject(Store)
   private activatedRoute = inject(ActivatedRoute)
 
@@ -68,11 +68,6 @@ export class GroupViewComponent implements OnInit {
     return [...(this.group()?.games ?? [])].sort((a, b) => {
       return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
     })
-  }
-
-  ngOnInit() {
-    // TODO: remove
-    this.store.dispatch(selectGroup({groupId: 'ab774ee8-c95e-48d2-808e-8962df3cd132'}))
   }
 
   save() {

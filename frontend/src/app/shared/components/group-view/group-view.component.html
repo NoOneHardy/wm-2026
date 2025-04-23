@@ -8,7 +8,8 @@
         <p *ngIf="group.percentage > 0" class="sub-heading">Du hast bereits <span
           class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
         <p *ngIf="group.percentage <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
-        <p class="additional-info">Zuletzt gespeichert am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</p>
+        <p *ngIf="group.lastSavedAt" class="additional-info">Zuletzt gespeichert
+          am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</p>
       }
     }
     @case ('result') {
@@ -19,20 +20,22 @@
           class="highlight">{{ group.percentageResult | number:'1.1-1' }}%</span> der Spiele gespielt!</p>
         <p *ngIf="group.percentageResult <= 0" class="sub-heading">In dieser Gruppe wurden noch keine Spiele
           gespielt.</p>
-        <p class="additional-info">Zuletzt geändert am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
+        <p *ngIf="group.lastSavedAtResult" class="additional-info">Zuletzt geändert
+          am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
       }
     }
     @case ('admin') {
       @if (isLoading()) {
         <p class="sub-heading">Resultate werden geladen...</p>
       } @else {
-        <p class="additional-info">Zuletzt geändert am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
+        <p *ngIf="group.lastSavedAtResult" class="additional-info">Zuletzt geändert
+          am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
       }
     }
   }
 
   <div class="games">
-    <div class="game" *ngFor="let game of group.games">{{ game.teamHome.name }} - {{ game.teamGuest.name }}</div>
+    <wm-bet-form *ngFor="let game of group.games" [game]="game"/>
   </div>
 
 } @else {

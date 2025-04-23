@@ -4,7 +4,7 @@ import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} 
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
 import {saveBets} from '../../store/tournament.actions'
-import {DatePipe, DecimalPipe, NgForOf, NgIf} from '@angular/common'
+import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../model/game/bet-form'
@@ -22,7 +22,6 @@ import {map} from 'rxjs'
     DecimalPipe,
     NgIf,
     DatePipe,
-    NgForOf,
     BetFormComponent,
     ReactiveFormsModule,
     ButtonComponent,
@@ -51,7 +50,7 @@ export class GroupViewComponent {
 
   constructor() {
     effect(() => {
-      this.form.reset()
+      this.form.controls.bets.controls = []
 
       this.games.forEach((game) => {
         this.form.controls.bets.push(new FormControl<BetForm>({
@@ -68,6 +67,10 @@ export class GroupViewComponent {
     return [...(this.group()?.games ?? [])].sort((a, b) => {
       return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
     })
+  }
+
+  findGame(id: string): BetGame | undefined {
+    return this.games.find((game) => game.id === id)
   }
 
   save() {

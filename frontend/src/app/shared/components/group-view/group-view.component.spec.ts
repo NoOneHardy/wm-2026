@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {GroupViewComponent} from './group-view.component'
 import {provideMockStore} from '@ngrx/store/testing'
+import {provideRouter} from '@angular/router'
 
 describe('GroupViewComponent', () => {
   let component: GroupViewComponent
@@ -11,7 +12,8 @@ describe('GroupViewComponent', () => {
     await TestBed.configureTestingModule({
       imports: [GroupViewComponent],
       providers: [
-        provideMockStore()
+        provideMockStore(),
+        provideRouter([])
       ]
     }).compileComponents()
 

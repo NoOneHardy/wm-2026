@@ -38,7 +38,7 @@
 
   <form [formGroup]="form">
     <div class="games" formArrayName="bets">
-      <wm-bet-form *ngFor="let game of games; index as i" [game]="game" [formControlName]="i"/>
+      <wm-bet-form *ngFor="let game of games; index as i" [game]="game" [formControlName]="i" [highlight]="highlight() === game.id"/>
     </div>
   </form>
 

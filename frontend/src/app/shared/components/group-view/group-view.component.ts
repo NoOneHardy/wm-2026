@@ -9,9 +9,11 @@ import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../model/game/bet-form'
 import {ButtonComponent} from '../button/button.component'
-import {RouterLink} from '@angular/router'
+import {ActivatedRoute, RouterLink} from '@angular/router'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {BetGame} from '../../../model/game/bet-game'
+import {toSignal} from '@angular/core/rxjs-interop'
+import {map} from 'rxjs'
 
 @Component({
   selector: 'wm-group-view',
@@ -32,12 +34,16 @@ import {BetGame} from '../../../model/game/bet-game'
 })
 export class GroupViewComponent implements OnInit {
   private store = inject(Store)
+  private activatedRoute = inject(ActivatedRoute)
 
   group: Signal<Group | null> = this.store.selectSignal(selectActiveGroup)
   isLoading = this.store.selectSignal(selectIsTournamentLoading)
   isSaving = this.store.selectSignal(selectIsTournamentSaving)
 
   mode = input<Mode>('bet', {alias: 'mode'})
+  highlight = toSignal(this.activatedRoute.queryParamMap.pipe(
+    map(params => params.get('g'))
+  ), {initialValue: null})
 
   form = new FormGroup({
     bets: new FormArray<FormControl<BetForm>>([])

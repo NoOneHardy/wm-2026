@@ -50,16 +50,25 @@ export class GroupViewComponent {
 
   constructor() {
     effect(() => {
-      this.form.controls.bets.controls = []
-
-      this.games.forEach((game) => {
-        this.form.controls.bets.push(new FormControl<BetForm>({
+      this.games.forEach((game, i) => {
+        const defaultValue: BetForm = {
           game: game.id,
           joker: game.bet?.joker ?? 1,
           scoreTeamHome: game.bet?.scoreTeamHome ?? null,
-          scoreTeamGuest: game.bet?.scoreTeamGuest ?? null,
-        }, {nonNullable: true}), {emitEvent: false})
+          scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
+        }
+
+        const control = this.form.controls.bets.at(i)
+        if (control) control.setValue(defaultValue)
+        else this.form.controls.bets.push(
+          new FormControl<BetForm>(defaultValue, {nonNullable: true})
+        )
       })
+
+      // Remove excess controls
+      while (this.form.controls.bets.length > this.games.length) {
+        this.form.controls.bets.removeAt(this.form.controls.bets.length - 1)
+      }
     })
   }
 

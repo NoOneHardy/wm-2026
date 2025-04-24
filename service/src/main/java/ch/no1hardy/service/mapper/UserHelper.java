@@ -27,6 +27,16 @@ public class UserHelper {
                 .orElse(null);
     }
 
+    @Named("getAvailableDoubleJokers")
+    public Integer getAvailableDoubleJokers(Integer maxDoubleJokers) {
+        User user = this.service.getLoggedInUser();
+        if (user == null) return maxDoubleJokers;
+
+        Integer usedDoubleJokers = user.getBets().stream().filter(b -> b.getJoker() == 2).toList().size();
+
+        return maxDoubleJokers - usedDoubleJokers;
+    }
+
     @Named("getPercentage")
     public Double getPercentage(List<Game> games) {
         double betCount = games.stream().map(g -> getUserBet(g.getBets())).filter(Objects::nonNull).toList().size();

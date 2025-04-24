@@ -27,6 +27,7 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
     @Mapping(target = "lastSavedAt", source = "games", qualifiedByName = "getLastSavedAt")
     @Mapping(target = "percentageResult", source = "games", qualifiedByName = "getPercentageResult")
     @Mapping(target = "lastSavedAtResult", source = "games", qualifiedByName = "getLastSavedAtResult")
+    @Mapping(target = "availableDoubleJokers", constant = "8", qualifiedByName = "getAvailableDoubleJokers")
     GroupRes toDto(Group entity);
 
     @Mapping(target = "percentage", source = "games", qualifiedByName = "getPercentage")

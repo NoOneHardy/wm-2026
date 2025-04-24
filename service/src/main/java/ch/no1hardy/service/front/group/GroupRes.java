@@ -16,7 +16,7 @@ public class GroupRes {
     private Double percentageResult;
     private LocalDateTime lastSavedAt;
     private LocalDateTime lastSavedAtResult;
-    private Integer availableDoubleJokers;
+    private AvailableJokers availableJokers;
     @Builder.Default
     private List<BetGameRes> games = List.of();
     @Builder.Default

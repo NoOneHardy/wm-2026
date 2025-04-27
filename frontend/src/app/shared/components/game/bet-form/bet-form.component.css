@@ -21,6 +21,15 @@ form {
 
   &.-disabled {
     background-color: var(--wm-color-gray-050);
+
+    .joker-form {
+      .joker {
+        label {
+          cursor: default;
+          color: var(--wm-color-gray-200);
+        }
+      }
+    }
   }
 
   .flag {
@@ -102,6 +111,11 @@ form {
         transition: color .2s ease;
         cursor: pointer;
         user-select: none;
+
+        &.-disabled {
+          pointer-events: none;
+          color: var(--wm-color-gray-200);
+        }
 
         &.-fill {
           color: var(--wm-color-orange);

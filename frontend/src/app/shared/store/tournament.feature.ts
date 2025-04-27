@@ -2,26 +2,30 @@ import {createFeature, createReducer, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
 import {
   betsSaved,
-  getOverviewGroups,
+  getOverviewGroups, grantJDouble, grantJTriple,
   groupSelected,
   overviewGroupsLoaded,
+  revokeJDouble, revokeJTriple,
   saveBets,
   selectGroup
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
+import {AvailableJokers} from '../../model/group/available-jokers'
 
 interface TournamentState {
   isTournamentLoading: boolean
   isTournamentSaving: boolean
   groups: CardGroup[]
   activeGroup: Group | null
+  availableJokers: AvailableJokers | null
 }
 
 const initialState: TournamentState = {
   isTournamentLoading: false,
   isTournamentSaving: false,
   groups: [],
-  activeGroup: null
+  activeGroup: null,
+  availableJokers: null
 }
 
 export const tournamentFeature = createFeature({
@@ -47,7 +51,8 @@ export const tournamentFeature = createFeature({
       return {
         ...state,
         isTournamentSaving: false,
-        activeGroup: action.group
+        activeGroup: action.group,
+        availableJokers: action.group.availableJokers
       }
     }),
     on(overviewGroupsLoaded, (state, action): TournamentState => {
@@ -61,7 +66,52 @@ export const tournamentFeature = createFeature({
       return {
         ...state,
         isTournamentLoading: false,
-        activeGroup: action.group
+        activeGroup: action.group,
+        availableJokers: action.group.availableJokers
+      }
+    }),
+    on(grantJDouble, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jdouble: jokers.jdouble + 1,
+        }
+      }
+    }),
+    on(revokeJDouble, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jdouble: jokers.jdouble - 1
+        }
+      }
+    }),
+    on(grantJTriple, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jtriple: jokers.jtriple + 1
+        }
+      }
+    }),
+    on(revokeJTriple, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jtriple: jokers.jtriple - 1
+        }
       }
     })
   )
@@ -71,5 +121,6 @@ export const {
   selectIsTournamentLoading,
   selectGroups,
   selectActiveGroup,
-  selectIsTournamentSaving
+  selectIsTournamentSaving,
+  selectAvailableJokers
 } = tournamentFeature

@@ -10,4 +10,9 @@ export const overviewGroupsLoaded = createAction('[Tournament] Overview Groups L
 export const selectGroup = createAction('[Tournament] Select Group', props<{ groupId: string }>())
 export const groupSelected = createAction('[Tournament] Group Selected', props<{ group: Group }>())
 export const saveBets = createAction('[Tournament] Save Bets', props<{ groupId: string, bets: BetForm[] }>())
-export const betsSaved = createAction('[Tournament] Bets Saved', props<{group: Group}>())
+export const betsSaved = createAction('[Tournament] Bets Saved', props<{ group: Group }>())
+
+export const grantJDouble = createAction('[Joker] Grant double joker')
+export const revokeJDouble = createAction('[Joker] Revoke double joker')
+export const grantJTriple = createAction('[Joker] Grant triple joker')
+export const revokeJTriple = createAction('[Joker] Revoke triple joker')

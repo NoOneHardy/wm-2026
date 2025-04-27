@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {BetFormComponent} from './bet-form.component'
 import {BetGame} from '../../../../model/game/bet-game'
+import {provideMockStore} from '@ngrx/store/testing'
 
 const mockGame: BetGame = {
   id: 'game-1',
@@ -44,7 +45,8 @@ describe('BetFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BetFormComponent]
+      imports: [BetFormComponent],
+      providers: [provideMockStore()]
     }).compileComponents()
 
     fixture = TestBed.createComponent(BetFormComponent)

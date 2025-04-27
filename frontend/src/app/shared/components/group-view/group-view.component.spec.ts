@@ -14,6 +14,10 @@ const mockGroup: Group = {
   percentageResult: 40,
   percentage: 50,
   name: 'Gruppe A',
+  availableJokers: {
+    jdouble: 0,
+    jtriple: 0
+  },
   games: [
     {
       id: 'game2',

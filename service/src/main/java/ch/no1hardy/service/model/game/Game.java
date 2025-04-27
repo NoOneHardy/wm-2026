@@ -39,4 +39,8 @@ public class Game extends BaseEntity {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Bet> bets = List.of();
+
+    public Boolean isInFuture() {
+        return LocalDateTime.now().isBefore(this.getTimestamp());
+    }
 }

@@ -27,6 +27,10 @@ form {
         label {
           cursor: default;
           color: var(--wm-color-gray-200);
+
+          &.-fill {
+            color: var(--wm-color-orange-500);
+          }
         }
       }
     }

@@ -1,4 +1,5 @@
 import {BetGame} from '../game/bet-game'
+import {AvailableJokers} from './available-jokers'
 
 export interface Group {
   id: string
@@ -9,6 +10,7 @@ export interface Group {
   lastSavedAtResult: Date
   games: BetGame[]
   isKnockout: boolean
+  availableJokers: AvailableJokers
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null

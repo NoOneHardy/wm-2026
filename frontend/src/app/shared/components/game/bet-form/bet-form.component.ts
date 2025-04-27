@@ -1,4 +1,4 @@
-import {Component, computed, effect, input} from '@angular/core'
+import {Component, computed, effect, inject, input} from '@angular/core'
 import {BetGame} from '../../../../model/game/bet-game'
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../../model/game/bet-form'
@@ -6,6 +6,9 @@ import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../../helper/control-value
 import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ScoreFormFieldComponent} from '../../score-form-field/score-form-field.component'
 import {toSignal} from '@angular/core/rxjs-interop'
+import {Store} from '@ngrx/store'
+import {selectAvailableJokers} from '../../../store/tournament.feature'
+import {grantJDouble, grantJTriple, revokeJDouble, revokeJTriple} from '../../../store/tournament.actions'
 
 @Component({
   selector: 'wm-bet-form',
@@ -29,6 +32,8 @@ import {toSignal} from '@angular/core/rxjs-interop'
   ]
 })
 export class BetFormComponent implements ControlValueAccessor {
+  private store = inject(Store)
+
   game = input.required<BetGame>()
   highlight = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
@@ -36,6 +41,8 @@ export class BetFormComponent implements ControlValueAccessor {
   hasStarted = computed(() => {
     return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
   })
+
+  availableJokers = this.store.selectSignal(selectAvailableJokers)
 
   get isDisabled(): boolean {
     return this.formGroup.disabled
@@ -46,6 +53,11 @@ export class BetFormComponent implements ControlValueAccessor {
     scoreTeamGuest: new FormControl<number | null>(null),
     joker: new FormControl<1 | 2 | 3>(1, {nonNullable: true})
   })
+
+  private value: BetForm = {
+    game: '',
+    ...this.formGroup.getRawValue()
+  }
 
   valueChanges = toSignal(this.formGroup.valueChanges)
 
@@ -66,12 +78,23 @@ export class BetFormComponent implements ControlValueAccessor {
     effect(() => {
       if (this.valueChanges()) {
         const bet = this.formGroup.getRawValue()
-        this.onChange({
+        const game = this.game()
+
+        if (this.value.joker != bet.joker) {
+          if (this.value.joker === 2) this.store.dispatch(grantJDouble())
+          else if (this.value.joker === 3) this.store.dispatch(grantJTriple())
+
+          if (bet.joker === 2) this.store.dispatch(revokeJDouble())
+          else if (bet.joker === 3) this.store.dispatch(revokeJTriple())
+        }
+
+        this.value = {
           ...bet,
-          game: this.game().id
-        })
+          game: game.id
+        }
+        this.onChange(this.value)
       }
-    })
+    }, {allowSignalWrites: true})
   }
 
   writeValue(bet: {
@@ -86,6 +109,10 @@ export class BetFormComponent implements ControlValueAccessor {
       scoreTeamGuest: bet.scoreTeamGuest,
       joker: bet.joker
     })
+    this.value = {
+      ...bet,
+      game: this.game().id
+    }
   }
 
   registerOnChange(fn: OnChangeFn<BetForm>): void {
@@ -104,5 +131,17 @@ export class BetFormComponent implements ControlValueAccessor {
   fillJoker(value: number): boolean {
     const selectedJoker = this.formGroup.controls.joker.value
     return value <= selectedJoker
+  }
+
+  hasJokersAvailable(joker: number): boolean {
+    switch (joker) {
+      case 1:
+        return true
+      case 2:
+        return (this.availableJokers()?.jdouble ?? 0) > 0
+      case 3:
+        return (this.availableJokers()?.jtriple ?? 0) > 0
+    }
+    return false
   }
 }

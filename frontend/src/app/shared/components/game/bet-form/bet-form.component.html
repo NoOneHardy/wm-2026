@@ -12,6 +12,7 @@
              [id]="game.id + '-joker-' + joker"
              [value]="joker" type="radio"/>
       <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
+             [class.-disabled]="!hasJokersAvailable(joker)"
              [class.-fill]="fillJoker(joker)">star</label>
     </div>
   </div>

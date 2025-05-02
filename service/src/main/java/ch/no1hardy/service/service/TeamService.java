@@ -16,17 +16,6 @@ public class TeamService {
 
     public TeamRes create(TeamReq dto) {
         Team team = repository.save(mapper.toEntity(dto));
-        return mapFromEntity(team);
-    }
-
-    public TeamRes mapFromEntity(Team team) {
-        return TeamRes.builder()
-                .id(team.getId())
-                .name(team.getName())
-                .flag(team.getFlag())
-                .createdAt(team.getCreatedAt())
-                .updatedAt(team.getUpdatedAt())
-                .deletedAt(team.getDeletedAt())
-                .build();
+        return mapper.toDto(team);
     }
 }

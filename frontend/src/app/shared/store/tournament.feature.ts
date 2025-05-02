@@ -12,7 +12,7 @@ import {
 import {Group} from '../../model/group/group'
 import {AvailableJokers} from '../../model/group/available-jokers'
 
-interface TournamentState {
+export interface TournamentState {
   isTournamentLoading: boolean
   isTournamentSaving: boolean
   groups: CardGroup[]
@@ -20,7 +20,7 @@ interface TournamentState {
   availableJokers: AvailableJokers | null
 }
 
-const initialState: TournamentState = {
+export const initialState: TournamentState = {
   isTournamentLoading: false,
   isTournamentSaving: false,
   groups: [],

@@ -1,12 +1,14 @@
 package ch.no1hardy.service.front.team;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TeamRes {
     private String id;
     private String name;

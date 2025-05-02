@@ -45,6 +45,7 @@ public class Game extends BaseEntity {
     }
 
     public Boolean isKnockout() {
+        if (getGroup() == null) return false;
         return getGroup().getIsKnockout();
     }
 
@@ -53,6 +54,7 @@ public class Game extends BaseEntity {
     }
 
     public Boolean isGroupPhase() {
+        if (getGroup() == null) return true;
         return !isKnockout();
     }
 }

@@ -21,7 +21,4 @@ public class GroupRes {
     private List<BetGameRes> games = List.of();
     @Builder.Default
     private Boolean isKnockout = false;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 }

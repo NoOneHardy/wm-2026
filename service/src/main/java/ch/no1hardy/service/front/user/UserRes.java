@@ -20,7 +20,4 @@ public class UserRes {
     private String avatarUrl;
     private Role role;
     private LocalDateTime confirmedAt;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 }

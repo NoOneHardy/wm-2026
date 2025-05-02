@@ -15,7 +15,4 @@ public class BetGameRes {
     private ExtendedTeamRes teamGuest;
     private ScoreRes result;
     private BetRes bet;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private LocalDateTime deletedAt;
 }

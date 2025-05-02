@@ -34,10 +34,17 @@ public class Team extends BaseEntity {
     private List<Game> gamesGuest = List.of();
 
     @Transient
-    public List<Game> games() {
+    public List<Game> getGames() {
         List<Game> games = new ArrayList<>();
         games.addAll(gamesHome);
         games.addAll(gamesGuest);
         return games;
+    }
+
+    public List<Game> getPreviousGames() {
+        return getGames().stream()
+                .filter(Game::isGroupPhase)
+                .filter(Game::hasResult)
+                .toList();
     }
 }

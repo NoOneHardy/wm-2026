@@ -43,4 +43,16 @@ public class Game extends BaseEntity {
     public Boolean isInFuture() {
         return LocalDateTime.now().isBefore(this.getTimestamp());
     }
+
+    public Boolean isKnockout() {
+        return getGroup().getIsKnockout();
+    }
+
+    public Boolean hasResult() {
+        return getResult() != null;
+    }
+
+    public Boolean isGroupPhase() {
+        return !isKnockout();
+    }
 }

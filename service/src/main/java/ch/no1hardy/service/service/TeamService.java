@@ -1,5 +1,7 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.MissingRequestBodyException;
+import ch.no1hardy.service.exception.MissingRequestPropertyException;
 import ch.no1hardy.service.front.team.TeamReq;
 import ch.no1hardy.service.front.team.TeamRes;
 import ch.no1hardy.service.mapper.TeamMapperImpl;
@@ -15,6 +17,11 @@ public class TeamService {
     private final TeamMapperImpl mapper;
 
     public TeamRes create(TeamReq dto) {
+        if (dto == null) throw new MissingRequestBodyException();
+
+        if (dto.getName() == null) throw new MissingRequestPropertyException("name", "string");
+        if (dto.getFlag() == null) throw new MissingRequestPropertyException("flag", "string");
+
         Team team = repository.save(mapper.toEntity(dto));
         return mapper.toDto(team);
     }

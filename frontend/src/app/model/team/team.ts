@@ -1,8 +1,6 @@
-export interface Team {
-  id: string
-  name: string
-  flag: string
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
+import {LightTeam} from './light-team'
+import {PreviousGame} from '../game/previous-game'
+
+export interface Team extends LightTeam {
+  previousGames: PreviousGame[]
 }

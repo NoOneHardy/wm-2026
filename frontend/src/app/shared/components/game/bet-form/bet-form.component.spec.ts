@@ -13,17 +13,13 @@ const mockGame: BetGame = {
     id: 'team-1',
     name: 'Deutschland',
     flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/180px-Flag_of_Germany.svg.png',
-    createdAt: new Date('2025-04-13T17:37:13.470342'),
-    updatedAt: new Date('2025-04-13T17:37:13.470342'),
-    deletedAt: null
+    previousGames: []
   },
   teamGuest: {
     id: 'team-2',
     name: 'Schottland',
     flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/250px-Flag_of_Scotland.svg.png',
-    createdAt: new Date('2025-04-13T17:37:44.985522'),
-    updatedAt: new Date('2025-04-13T17:37:44.985522'),
-    deletedAt: null
+    previousGames: []
   },
   result: null,
   bet: {
@@ -31,14 +27,8 @@ const mockGame: BetGame = {
     scoreTeamHome: 3,
     scoreTeamGuest: 2,
     joker: 3,
-    gameId: 'bet-1',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    deletedAt: null
-  },
-  createdAt: new Date('2025-04-13T19:37:58.15714'),
-  updatedAt: new Date('2025-04-19T21:23:00.972354'),
-  deletedAt: null
+    gameId: 'bet-1'
+  }
 }
 
 describe('BetFormComponent', () => {
@@ -83,6 +73,16 @@ describe('BetFormComponent', () => {
     fixture.componentRef.setInput('highlight', '')
     fixture.detectChanges()
     expect(component.highlight()).toBe(true)
+  })
+
+  it('should map knockout to boolean', () => {
+    expect(component.knockout()).toBe(false)
+    fixture.componentRef.setInput('knockout', true)
+    fixture.detectChanges()
+    expect(component.knockout()).toBe(true)
+    fixture.componentRef.setInput('knockout', '')
+    fixture.detectChanges()
+    expect(component.knockout()).toBe(true)
   })
 
   it('should evaluate whether a game has started', () => {

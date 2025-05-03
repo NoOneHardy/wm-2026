@@ -3,7 +3,4 @@ export interface Score {
   gameId: string
   scoreTeamHome: number
   scoreTeamGuest: number
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
 }

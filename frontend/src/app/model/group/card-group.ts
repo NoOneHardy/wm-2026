@@ -6,7 +6,4 @@ export interface CardGroup {
   thumbnail: string[]
   order: number
   isKnockout: boolean
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
 }

@@ -23,10 +23,7 @@ const mockGroup: Group = {
   availableJokers: {
     jdouble: 2,
     jtriple: 3
-  },
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  deletedAt: null
+  }
 }
 
 describe('TournamentFeature', () => {

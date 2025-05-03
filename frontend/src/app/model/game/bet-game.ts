@@ -9,7 +9,4 @@ export interface BetGame {
   teamGuest: Team
   result: Score | null
   bet: Bet | null
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
 }

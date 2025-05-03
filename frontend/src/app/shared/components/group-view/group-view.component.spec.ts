@@ -26,23 +26,16 @@ const mockGroup: Group = {
         id: 'team1',
         name: 'Team 1',
         flag: 'https://example.com/logo1.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
+        previousGames: []
       },
       teamGuest: {
         id: 'team2',
         name: 'Team 2',
         flag: 'https://example.com/logo2.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
+        previousGames: []
       },
       result: null,
       bet: null,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: null
     },
     {
       id: 'game1',
@@ -51,47 +44,31 @@ const mockGroup: Group = {
         id: 'team1',
         name: 'Team 1',
         flag: 'https://example.com/logo1.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
+        previousGames: []
       },
       teamGuest: {
         id: 'team2',
         name: 'Team 2',
         flag: 'https://example.com/logo2.png',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
+        previousGames: []
       },
       result: {
         id: 'result1',
         scoreTeamHome: 2,
         scoreTeamGuest: 1,
         gameId: 'game1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
       },
       bet: {
         id: 'bet1',
         scoreTeamHome: 2,
         scoreTeamGuest: 1,
         joker: 1,
-        gameId: 'game1',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        deletedAt: null
-      },
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      deletedAt: null
+        gameId: 'game1'
+      }
     }
   ],
   id: 'group1',
-  isKnockout: false,
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  deletedAt: null
+  isKnockout: false
 }
 
 describe('GroupViewComponent', () => {
@@ -204,9 +181,6 @@ describe('GroupViewComponent', () => {
             scoreTeamHome: null as unknown as number,
             scoreTeamGuest: null as unknown as number,
             gameId: 'game2',
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: null
           }
         },
         mockGroup.games[1]

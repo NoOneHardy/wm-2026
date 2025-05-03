@@ -11,7 +11,4 @@ export interface Group {
   games: BetGame[]
   isKnockout: boolean
   availableJokers: AvailableJokers
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
 }

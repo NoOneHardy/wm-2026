@@ -14,11 +14,8 @@ describe('OverviewComponent', () => {
     {
       name: 'Group B',
       percentage: 60,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       isKnockout: false,
       percentageResult: 33,
-      deletedAt: null,
       id: 'group-b',
       order: 0,
       thumbnail: []
@@ -26,11 +23,8 @@ describe('OverviewComponent', () => {
     {
       name: 'Group A',
       percentage: 50,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       isKnockout: false,
       percentageResult: 0,
-      deletedAt: null,
       id: 'group-a',
       order: 0,
       thumbnail: []
@@ -38,11 +32,8 @@ describe('OverviewComponent', () => {
     {
       name: 'Final',
       percentage: 0,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       isKnockout: true,
       percentageResult: 100,
-      deletedAt: null,
       id: 'final',
       order: 1,
       thumbnail: []
@@ -50,11 +41,8 @@ describe('OverviewComponent', () => {
     {
       name: 'Semi-Final',
       percentage: 20,
-      createdAt: new Date(),
-      updatedAt: new Date(),
       isKnockout: true,
       percentageResult: 0,
-      deletedAt: null,
       id: 'semi-final',
       order: 0,
       thumbnail: []

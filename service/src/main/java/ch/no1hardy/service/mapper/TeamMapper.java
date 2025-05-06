@@ -20,5 +20,6 @@ public interface TeamMapper extends EntityMapper<Team, TeamReq, TeamRes> {
     @Mapping(target = "previousGames", source = "previousGames")
     ExtendedTeamRes toExtendedDto(Team entity);
 
+    @Mapping(target = "group", source = "group.name")
     PreviousGameRes toPreviousGameDto(Game game);
 }

@@ -72,3 +72,19 @@ a.wm-link {
     color: var(--wm-color-secondary-hover);
   }
 }
+
+.flag {
+  position: relative;
+  border-radius: 50%;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 100%;
+    width: 100%;
+    box-shadow: var(--wm-shadow-flag);
+    border-radius: 50%;
+  }
+}

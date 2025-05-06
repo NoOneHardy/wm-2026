@@ -6,4 +6,5 @@ export interface PreviousGame {
   teamHome: LightTeam
   teamGuest: LightTeam
   result: Score
+  group: string
 }

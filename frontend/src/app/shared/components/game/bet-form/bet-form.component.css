@@ -36,13 +36,40 @@ form {
     }
   }
 
+  &.-knockout {
+    width: 67em;
+    grid-template-areas:
+        'flag-team-home date date date flag-team-guest'
+        'flag-team-home time time time flag-team-guest'
+        'flag-team-home team-home separator team-guest flag-team-guest'
+        'flag-team-home prev-games-home . prev-games-guest flag-team-guest'
+        'score-team-home prev-games-home . prev-games-guest score-team-guest';
+    grid-template-columns: 17.5em 10em 2em 10em 17.5em;
+    grid-template-rows: 4.5em 4.25em 3.25em 7.5em 5.25em;
+    column-gap: 1em;
+
+    h2 {
+      display: flex;
+      align-items: end;
+      height: 100%;
+      margin-bottom: .5em;
+    }
+
+    .time {
+      display: flex;
+      align-items: start;
+      height: 100%;
+    }
+
+    .flag {
+      height: 17.5em;
+      width: 17.5em;
+    }
+  }
+
   .flag {
-    position: relative;
     height: 8em;
     width: 8em;
-    border-radius: 50%;
-    box-shadow: var(--wm-shadow-flag);
-    overflow: hidden;
     margin-bottom: .625em;
   }
 
@@ -60,7 +87,7 @@ form {
     margin-bottom: .8em;
   }
 
-  h3 {
+  h3, .separator {
     --font-size: 1.5;
 
     display: flex;
@@ -69,19 +96,20 @@ form {
     height: calc(2em / var(--font-size));
     width: 100%;
     font-size: calc(1em * var(--font-size));
+    font-weight: 700;
     margin-bottom: calc(1em / var(--font-size));
-  }
 
-  wm-score-form-field {
+    &.team-home {
+      grid-area: team-home;
+    }
 
+    &.team-guest {
+      grid-area: team-guest;
+    }
   }
 
   .flag-team-home {
     grid-area: flag-team-home;
-  }
-
-  .team-home {
-    grid-area: team-home;
   }
 
   .score-team-home {
@@ -152,12 +180,73 @@ form {
     grid-area: flag-team-guest;
   }
 
-  .team-guest {
-    grid-area: team-guest;
-  }
-
   .score-team-guest {
     grid-area: score-team-guest;
+  }
+
+  .separator {
+    grid-area: separator;
+  }
+
+  .prev-games-home {
+    grid-area: prev-games-home;
+  }
+
+  .prev-games-guest {
+    grid-area: prev-games-guest;
+  }
+
+  .previous-games {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 6.5em;
+    align-items: center;
+    gap: .75em;
+
+    h4 {
+      font-size: 1.25em;
+      font-weight: 500;
+      color: var(--wm-color-gray);
+    }
+
+    .games {
+      display: flex;
+      flex-direction: column;
+      gap: .5em;
+      width: 100%;
+      padding: .25em 0;
+
+      .prev-game {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .flag.-small {
+          height: 3em;
+          width: 3em;
+          margin-bottom: 0;
+        }
+
+        .result {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: nowrap;
+          align-items: center;
+          font-size: 1.25em;
+          color: var(--wm-color-gray-500);
+
+          &.-is-guest {
+            flex-direction: row-reverse;
+          }
+
+          .-bold {
+            font-weight: 600;
+            color: #000;
+          }
+        }
+      }
+    }
   }
 }
 

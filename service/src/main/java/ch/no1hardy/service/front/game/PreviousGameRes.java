@@ -9,4 +9,5 @@ public class PreviousGameRes {
     private TeamRes teamHome;
     private TeamRes teamGuest;
     private ScoreRes result;
+    private String group;
 }

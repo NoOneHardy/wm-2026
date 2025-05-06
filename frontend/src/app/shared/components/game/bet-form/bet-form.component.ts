@@ -38,6 +38,10 @@ export class BetFormComponent implements ControlValueAccessor {
   highlight = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+  knockout = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
+
   hasStarted = computed(() => {
     return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
   })

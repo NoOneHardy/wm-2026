@@ -1,12 +1,13 @@
-<form [formGroup]="formGroup" *ngIf="game() as game" [class.-highlight]="highlight()" [class.-disabled]="isDisabled">
+<form [formGroup]="formGroup" *ngIf="game() as game" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
+      [class.-knockout]="knockout()">
   <h2>{{ game.timestamp | date:'dd.MM.YYYY' }}</h2>
   <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
   <div class="flag-team-home flag">
     <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
   </div>
   <h3 class="team-home">{{ game.teamHome.name }}</h3>
-  <wm-score-form-field class="score-team-home" formControlName="scoreTeamHome"/>
-  <div class="joker-form">
+  <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
+  <div class="joker-form" *ngIf="!knockout()">
     <div class="joker" *ngFor="let joker of [1, 2, 3]">
       <input name="joker" formControlName="joker"
              [id]="game.id + '-joker-' + joker"
@@ -24,9 +25,51 @@
       <h4>Resultat folgt</h4>
     }
   </div>
-  <div class="flag-team-guest flag">
+  <div class="flag-team-guest flag" [style]="{'--url': 'url(' + game.teamGuest.flag + ')'}">
     <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
   </div>
   <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
-  <wm-score-form-field class="score-team-guest" formControlName="scoreTeamGuest"/>
+  <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
+  <div class="separator" *ngIf="knockout()">-</div>
+
+  @if (knockout() && !game.result) {
+    <div class="prev-games-home previous-games" *ngIf="game.teamHome.previousGames.length > 0">
+      <h4>{{ game.teamHome.previousGames[0].group }}</h4>
+      <div class="games">
+        <div class="prev-game" *ngFor="let prev of game.teamHome.previousGames">
+          @let isHome = prev.teamHome.id === game.teamHome.id;
+          @let opponent = isHome ? prev.teamGuest : prev.teamHome;
+
+          <div class="result" [class.-is-guest]="!isHome">
+            <span [class.-bold]="isHome">{{ prev.result.scoreTeamHome }}</span>
+            <span>:</span>
+            <span [class.-bold]="!isHome">{{ prev.result.scoreTeamGuest }}</span>
+          </div>
+
+          <div class="flag -small">
+            <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="prev-games-guest previous-games" *ngIf="game.teamGuest.previousGames.length > 0">
+      <h4>{{ game.teamGuest.previousGames[0].group }}</h4>
+      <div class="games">
+        <div class="prev-game" *ngFor="let prev of game.teamGuest.previousGames">
+          @let isHome = prev.teamHome.id === game.teamHome.id;
+          @let opponent = isHome ? prev.teamGuest : prev.teamHome;
+
+          <div class="flag -small">
+            <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
+          </div>
+
+          <div class="result" [class.-is-guest]="!isHome">
+            <span [class.-bold]="isHome">{{ prev.result.scoreTeamHome }}</span>
+            <span>:</span>
+            <span [class.-bold]="!isHome">{{ prev.result.scoreTeamGuest }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
 </form>

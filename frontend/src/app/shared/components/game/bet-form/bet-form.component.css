@@ -42,8 +42,8 @@ form {
         'flag-team-home date date date flag-team-guest'
         'flag-team-home time time time flag-team-guest'
         'flag-team-home team-home separator team-guest flag-team-guest'
-        'flag-team-home prev-games-home . prev-games-guest flag-team-guest'
-        'score-team-home prev-games-home . prev-games-guest score-team-guest';
+        'flag-team-home prev-games-home result prev-games-guest flag-team-guest'
+        'score-team-home prev-games-home result prev-games-guest score-team-guest';
     grid-template-columns: 17.5em 10em 2em 10em 17.5em;
     grid-template-rows: 4.5em 4.25em 3.25em 7.5em 5.25em;
     column-gap: 1em;
@@ -64,6 +64,12 @@ form {
     .flag {
       height: 17.5em;
       width: 17.5em;
+    }
+
+    > .result {
+      align-self: start;
+      margin-top: .125em;
+      font-size: 1em;
     }
   }
 

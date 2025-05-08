@@ -56,7 +56,7 @@
       <h4>{{ game.teamGuest.previousGames[0].group }}</h4>
       <div class="games">
         <div class="prev-game" *ngFor="let prev of game.teamGuest.previousGames">
-          @let isHome = prev.teamHome.id === game.teamHome.id;
+          @let isHome = prev.teamHome.id === game.teamGuest.id;
           @let opponent = isHome ? prev.teamGuest : prev.teamHome;
 
           <div class="flag -small">

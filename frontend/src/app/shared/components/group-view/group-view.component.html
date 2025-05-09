@@ -48,7 +48,10 @@
   </form>
 
   <div class="actions">
-    <a [routerLink]="backUrl" class="wm-link">Abbrechen</a>
+    <a role="button" tabindex="0"
+       (click)="back()" (touchend)="back()"
+       (keyup.enter)="back()" (keyup.space)="back()"
+       class="wm-link">Abbrechen</a>
     <div>
       <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
     </div>

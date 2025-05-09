@@ -57,4 +57,15 @@ export class TournamentEffects {
       )
     })
   ))
+
+  betsSaved = createEffect(() => this.actions$.pipe(
+    ofType(betsSaved),
+    map(() => {
+      this.snackbarService.addMessage({
+        type: 'success',
+        message: 'Erfolgreich gespeichert'
+      })
+      return getOverviewGroups()
+    })
+  ))
 }

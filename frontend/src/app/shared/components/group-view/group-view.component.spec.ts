@@ -6,7 +6,7 @@ import {ActivatedRoute, provideRouter} from '@angular/router'
 import {Group} from '../../../model/group/group'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {of} from 'rxjs'
-import {saveBets} from '../../store/tournament.actions'
+import {getOverviewGroups, saveBets} from '../../store/tournament.actions'
 
 const mockGroup: Group = {
   lastSavedAtResult: new Date('2025-04-23T20:58:00'),
@@ -204,15 +204,11 @@ describe('GroupViewComponent', () => {
     }))
   })
 
-  it('should return backUrl based on mode', () => {
-    fixture.componentRef.setInput('mode', 'bet')
-    expect(component.backUrl).toEqual('/group')
+  it('should call store to reload overview groups', () => {
+    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
+    component.back()
 
-    fixture.componentRef.setInput('mode', 'admin')
-    expect(component.backUrl).toEqual('/admin/result')
-
-    fixture.componentRef.setInput('mode', 'result')
-    expect(component.backUrl).toEqual('/result')
+    expect(storeSpy).toHaveBeenCalledWith(getOverviewGroups())
   })
 
   it('should return a game by its id', () => {

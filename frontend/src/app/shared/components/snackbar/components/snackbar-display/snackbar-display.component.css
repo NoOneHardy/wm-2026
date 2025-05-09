@@ -7,4 +7,5 @@
   padding-top: 1em;
   pointer-events: none;
   z-index: 1;
+  position: fixed;
 }

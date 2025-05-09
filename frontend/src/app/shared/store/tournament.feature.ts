@@ -4,7 +4,7 @@ import {
   betsSaved,
   getOverviewGroups, grantJDouble, grantJTriple,
   groupSelected,
-  overviewGroupsLoaded,
+  overviewGroupsLoaded, resetSaving,
   revokeJDouble, revokeJTriple,
   saveBets,
   selectGroup
@@ -45,6 +45,12 @@ export const tournamentFeature = createFeature({
       return {
         ...state,
         isTournamentSaving: true
+      }
+    }),
+    on(resetSaving, (state): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: false
       }
     }),
     on(betsSaved, (state, action): TournamentState => {

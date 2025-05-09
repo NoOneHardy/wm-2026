@@ -11,6 +11,7 @@ export const selectGroup = createAction('[Tournament] Select Group', props<{ gro
 export const groupSelected = createAction('[Tournament] Group Selected', props<{ group: Group }>())
 export const saveBets = createAction('[Tournament] Save Bets', props<{ groupId: string, bets: BetForm[] }>())
 export const betsSaved = createAction('[Tournament] Bets Saved', props<{ group: Group }>())
+export const resetSaving = createAction('[Tournament] Reset Saving')
 
 export const grantJDouble = createAction('[Joker] Grant double joker')
 export const revokeJDouble = createAction('[Joker] Revoke double joker')

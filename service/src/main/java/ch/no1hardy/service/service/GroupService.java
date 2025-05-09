@@ -48,6 +48,9 @@ public class GroupService {
     }
 
     public List<CardGroupRes> getCardGroups() {
-        return repository.findAll().stream().map(group -> mapper.toCard(group, repository)).toList();
+        return repository.findAll().stream()
+                .filter(group -> !group.getGames().isEmpty())
+                .map(group -> mapper.toCard(group, repository))
+                .toList();
     }
 }

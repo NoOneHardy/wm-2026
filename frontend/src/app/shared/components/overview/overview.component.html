@@ -10,16 +10,6 @@
       <p class="sub-heading">Tipps werden geladen...</p>
     }
   }
-  @case ('result') {
-    <h1>Resultatübersicht</h1>
-    @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0" class="sub-heading">Es wurden bereits <span
-        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der Spiele gespielt!</p>
-      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Es wurde noch keine Spiele gespielt.</p>
-    } @else {
-      <p class="sub-heading">Resultate werden geladen...</p>
-    }
-  }
   @case ('admin') {
     <h1>Resultat Management</h1>
     @if (!isLoading()) {

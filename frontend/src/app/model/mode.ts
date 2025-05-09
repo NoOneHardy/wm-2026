@@ -1,1 +1,1 @@
-export type Mode = 'bet' | 'result' | 'admin'
+export type Mode = 'bet' | 'admin'

@@ -1,4 +1,4 @@
-import {createFeature, createReducer, on} from '@ngrx/store'
+import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
 import {
   betsSaved,
@@ -65,7 +65,8 @@ export const tournamentFeature = createFeature({
       return {
         ...state,
         isTournamentLoading: false,
-        groups: action.groups
+        groups: action.groups,
+        activeGroup: null
       }
     }),
     on(groupSelected, (state, action): TournamentState => {
@@ -130,3 +131,8 @@ export const {
   selectIsTournamentSaving,
   selectAvailableJokers
 } = tournamentFeature
+
+export const hasActiveGroup = createSelector(
+  selectActiveGroup,
+  (group): boolean => !!group
+)

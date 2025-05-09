@@ -3,13 +3,13 @@ import {Store} from '@ngrx/store'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
-import {saveBets} from '../../store/tournament.actions'
+import {getOverviewGroups, saveBets} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../model/game/bet-form'
 import {ButtonComponent} from '../button/button.component'
-import {ActivatedRoute, RouterLink} from '@angular/router'
+import {ActivatedRoute} from '@angular/router'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {BetGame} from '../../../model/game/bet-game'
 import {toSignal} from '@angular/core/rxjs-interop'
@@ -25,7 +25,6 @@ import {map} from 'rxjs'
     BetFormComponent,
     ReactiveFormsModule,
     ButtonComponent,
-    RouterLink,
     SpinnerComponent
   ],
   templateUrl: './group-view.component.html',
@@ -93,14 +92,7 @@ export class GroupViewComponent {
     }))
   }
 
-  get backUrl(): string {
-    switch (this.mode()) {
-      case 'bet':
-        return '/group'
-      case 'admin':
-        return '/admin/result'
-      case 'result':
-        return '/result'
-    }
+  back(): void {
+    this.store.dispatch(getOverviewGroups())
   }
 }

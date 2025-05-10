@@ -14,13 +14,13 @@ import {
 } from './user.actions'
 import {Role} from '../../model/user/role'
 
-interface UserState {
+export interface UserState {
   user: User | null
   isUserLoading: boolean
   error: string | null
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: null,
   isUserLoading: false,
   error: null

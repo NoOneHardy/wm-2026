@@ -1,3 +1,5 @@
+import {Role} from './role'
+
 export interface User {
   id: string
   username: string
@@ -8,7 +10,8 @@ export interface User {
   isActive: boolean
   points: number
   updatedAt: Date
-  lastReviewedRank?: number | null
+  role: Role
+  lastReviewedPoints?: number | null
   avatar?: string | null
   confirmedAt?: Date | null
 }

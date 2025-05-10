@@ -4,6 +4,7 @@ import {ActivatedRouteSnapshot, CanActivateFn, provideRouter, Router, RouterStat
 import {isLoggedInGuard} from './is-logged-in.guard'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectUser} from '../user-management/store/user.feature'
+import {Role} from '../model/user/role'
 
 describe('isLoggedInGuard', () => {
   const executeGuard: CanActivateFn = (...guardParameters) =>
@@ -25,6 +26,7 @@ describe('isLoggedInGuard', () => {
       firstname: 'Silas',
       lastname: 'No1hardy',
       isActive: true,
+      role: Role.USER,
       points: 0,
       createdAt: new Date(),
       updatedAt: new Date()

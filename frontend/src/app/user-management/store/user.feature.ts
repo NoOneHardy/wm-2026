@@ -1,14 +1,18 @@
 import {User} from '../../model/user/user'
-import {createFeature, createReducer, on} from '@ngrx/store'
+import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {
   createUser,
   fetchUserInfo,
-  loggedOut, logout, rejectLogin, resetError,
+  loggedOut,
+  logout,
+  rejectLogin,
+  resetError,
   userCreated,
   userInfoFetched,
   userLoggedIn,
   userLogin
 } from './user.actions'
+import {Role} from '../../model/user/role'
 
 interface UserState {
   user: User | null
@@ -99,3 +103,10 @@ export const {
   selectUser,
   selectError
 } = userFeature
+
+export const selectIsAdmin = createSelector(
+  selectUser,
+  (user: User | null): boolean => {
+    return !!user && user.role === Role.ADMIN
+  }
+)

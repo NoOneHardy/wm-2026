@@ -59,7 +59,9 @@ public class GameService {
         User user = userService.getLoggedInUser();
         if (game == null) throw new NotFoundException("Game " + id + " not found");
         if (user == null) throw new BadRequestException("User not logged in");
+
         if (game.getTimestamp().isBefore(LocalDateTime.now())) return mapper.toDto(game);
+        if (game.getResult() != null) return mapper.toDto(game);
 
         dto.clampJoker();
         dto.setGame(id);
@@ -81,6 +83,12 @@ public class GameService {
         List<Bet> userBets = new ArrayList<>(oldUserBets);
         userBets.add(bet);
         user.setBets(userBets);
+
+        this.updateUserPoints(game);
         return mapper.toDto(repository.save(game));
+    }
+
+    public void updateUserPoints(Game game) {
+        // TODO: Calculate points based on the game result and user bets for every user with a bet on this game
     }
 }

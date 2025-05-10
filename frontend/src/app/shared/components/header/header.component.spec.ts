@@ -77,6 +77,9 @@ describe('HeaderComponent', () => {
   })
 
   it('should load is admin from store', () => {
+    store.overrideSelector(selectIsAdmin, false)
+    store.refreshState()
+    fixture.detectChanges()
     expect(component.isAdmin()).toBeFalse()
 
     store.overrideSelector(selectIsAdmin, true)

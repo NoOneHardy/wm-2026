@@ -9,4 +9,8 @@ public class ScoreReq {
     private String game;
     private Integer scoreTeamHome;
     private Integer scoreTeamGuest;
+
+    public boolean isValid() {
+        return getScoreTeamHome() != null && getScoreTeamGuest() != null;
+    }
 }

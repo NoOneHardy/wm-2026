@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {BetManagementComponent} from './bet-management.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
-import {hasActiveGroup} from '../shared/store/tournament.feature'
+import {hasActiveGroup, selectGroups} from '../shared/store/tournament.feature'
 import {provideRouter} from '@angular/router'
 
 describe('BetManagementComponent', () => {
@@ -20,6 +20,7 @@ describe('BetManagementComponent', () => {
     component = fixture.componentInstance
     store = TestBed.inject(MockStore)
     store.overrideSelector(hasActiveGroup, true)
+    store.overrideSelector(selectGroups, [])
     store.refreshState()
     fixture.detectChanges()
   })

@@ -1,8 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { UserMenuComponent } from './user-menu.component'
+import {UserMenuComponent} from './user-menu.component'
 import {User} from '../../../../../model/user/user'
 import {provideMockStore} from '@ngrx/store/testing'
+import {Role} from '../../../../../model/user/role'
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent
@@ -27,6 +28,7 @@ describe('UserMenuComponent', () => {
       createdAt: new Date(),
       isActive: true,
       points: 0,
+      role: Role.USER,
       updatedAt: new Date(),
       confirmedAt: new Date()
     }

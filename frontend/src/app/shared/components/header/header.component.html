@@ -8,6 +8,12 @@
       <wm-nav-item displayName="Home" icon="home" route="/" exact/>
     }
     <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/ranking"/>
+
+    @if (isAdmin()) {
+      <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+      <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
+    }
+
   </nav>
   <div class="user-actions">
     @if (user(); as user) {

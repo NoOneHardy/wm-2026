@@ -4,7 +4,7 @@ import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {RouterLink} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
 import {Store} from '@ngrx/store'
-import {selectUser} from '../../../user-management/store/user.feature'
+import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
 
 @Component({
   selector: 'wm-header',
@@ -21,4 +21,5 @@ import {selectUser} from '../../../user-management/store/user.feature'
 export class HeaderComponent {
   private store = inject(Store)
   user = this.store.selectSignal(selectUser)
+  isAdmin = this.store.selectSignal(selectIsAdmin)
 }

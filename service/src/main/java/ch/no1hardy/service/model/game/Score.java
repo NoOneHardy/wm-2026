@@ -26,6 +26,22 @@ public class Score extends BaseEntity {
     @NotNull
     private Integer scoreTeamGuest;
 
+    public Boolean isHomeTeamWinner() {
+        return scoreTeamHome > scoreTeamGuest;
+    }
+
+    public Boolean isGuestTeamWinner() {
+        return scoreTeamGuest > scoreTeamHome;
+    }
+
+    public Boolean isTie() {
+        return scoreTeamHome.equals(scoreTeamGuest);
+    }
+
+    public Integer getTotalScore() {
+        return scoreTeamHome + scoreTeamGuest;
+    }
+
     public boolean equals(ScoreReq score) {
         return Objects.equals(this.getScoreTeamGuest(), score.getScoreTeamGuest())
                 && Objects.equals(this.getScoreTeamHome(), score.getScoreTeamHome());

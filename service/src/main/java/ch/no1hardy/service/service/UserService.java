@@ -7,6 +7,9 @@ import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.mapper.UserMapperImpl;
+import ch.no1hardy.service.model.game.Bet;
+import ch.no1hardy.service.model.game.Game;
+import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
 import io.micrometer.common.lang.Nullable;
@@ -119,5 +122,46 @@ public class UserService {
         }
         User currentUser = (User) authentication.getPrincipal();
         return repository.findById(currentUser.getId()).orElse(null);
+    }
+
+    public void addUserPoints(Game game) {
+        if (game.getResult() == null) return;
+        Score result = game.getResult();
+
+        for (Bet bet : game.getBets()) {
+            if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;
+            int points = calculateUserPoints(bet, result);
+
+            bet.getUser().setPoints(bet.getUser().getPoints() + points);
+        }
+    }
+
+    public void removeUserPoints(Game game) {
+        if (game.getResult() == null) return;
+        Score result = game.getResult();
+
+        for (Bet bet : game.getBets()) {
+            if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;
+            int points = calculateUserPoints(bet, result);
+
+            bet.getUser().setPoints(bet.getUser().getPoints() - points);
+        }
+    }
+
+    private int calculateUserPoints(Bet bet, Score result) {
+        int points = 0;
+
+        Boolean correctWinnerHome = bet.isHomeTeamWinner() && result.isHomeTeamWinner();
+        Boolean correctWinnerGuest = bet.isGuestTeamWinner() && result.isGuestTeamWinner();
+        Boolean correctTie = bet.isTie() && result.isTie();
+
+        if (correctWinnerHome || correctWinnerGuest || correctTie) points += 50;
+
+        if (bet.getScoreTeamGuest().equals(result.getScoreTeamGuest())) points += 20;
+        if (bet.getScoreTeamHome().equals(result.getScoreTeamHome())) points += 20;
+
+        if (bet.getTotalScore().equals(result.getTotalScore())) points += 10;
+
+        return points * bet.getJoker();
     }
 }

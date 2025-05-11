@@ -46,12 +46,15 @@ public class GameService {
         Score existingResult = game.getResult();
         if (existingResult != null) {
             if (existingResult.equals(dto)) return mapper.toDto(game);
+            userService.removeUserPoints(game);
             mapper.update(dto, existingResult);
             result = existingResult;
         } else {
             result = scoreRepository.save(mapper.toEntity(dto));
         }
         game.setResult(result);
+
+        userService.addUserPoints(game);
         return mapper.toDto(repository.save(game));
     }
 
@@ -86,11 +89,6 @@ public class GameService {
         userBets.add(bet);
         user.setBets(userBets);
 
-        this.updateUserPoints(game);
         return mapper.toDto(repository.save(game));
-    }
-
-    public void updateUserPoints(Game game) {
-        // TODO: Calculate points based on the game result and user bets for every user with a bet on this game
     }
 }

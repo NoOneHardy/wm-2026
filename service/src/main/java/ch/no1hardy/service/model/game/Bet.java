@@ -1,17 +1,18 @@
 package ch.no1hardy.service.model.game;
 
+import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
+
+import java.util.Objects;
 
 @Data
 @Entity
-@EqualsAndHashCode(callSuper = true)
 public class Bet extends BaseEntity {
     @NotNull
     private Integer joker;
@@ -30,4 +31,15 @@ public class Bet extends BaseEntity {
 
     @NotNull
     private Integer scoreTeamGuest;
+
+    public boolean equals(BetReq bet) {
+        return Objects.equals(this.getScoreTeamGuest(), bet.getScoreTeamGuest())
+                && Objects.equals(this.getScoreTeamHome(), bet.getScoreTeamHome())
+                && Objects.equals(this.getJoker(), bet.getJoker());
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

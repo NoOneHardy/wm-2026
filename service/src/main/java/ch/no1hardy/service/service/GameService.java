@@ -45,6 +45,7 @@ public class GameService {
         Score result;
         Score existingResult = game.getResult();
         if (existingResult != null) {
+            if (existingResult.equals(dto)) return mapper.toDto(game);
             mapper.update(dto, existingResult);
             result = existingResult;
         } else {
@@ -60,8 +61,8 @@ public class GameService {
         if (game == null) throw new NotFoundException("Game " + id + " not found");
         if (user == null) throw new BadRequestException("User not logged in");
 
-        if (game.getTimestamp().isBefore(LocalDateTime.now())) return mapper.toDto(game);
-        if (game.getResult() != null) return mapper.toDto(game);
+        if (game.getTimestamp().isBefore(LocalDateTime.now()) || game.getResult() != null)
+            return mapper.toDto(game);
 
         dto.clampJoker();
         dto.setGame(id);
@@ -69,6 +70,7 @@ public class GameService {
         Bet bet;
         Bet existingBet = userHelper.getUserBet(game.getBets());
         if (existingBet != null) {
+            if (existingBet.equals(dto)) return mapper.toDto(game);
             mapper.update(dto, existingBet);
             bet = existingBet;
         } else {

@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
-import {deselectGroup, saveBets} from '../../store/tournament.actions'
+import {deselectGroup, saveBets, saveResults} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
@@ -14,6 +14,7 @@ import {SpinnerComponent} from '../spinner/spinner.component'
 import {BetGame} from '../../../model/game/bet-game'
 import {toSignal} from '@angular/core/rxjs-interop'
 import {map} from 'rxjs'
+import {ScoreForm} from '../../../model/game/score-form'
 
 @Component({
   selector: 'wm-group-view',
@@ -50,12 +51,7 @@ export class GroupViewComponent implements OnDestroy {
   constructor() {
     effect(() => {
       this.games.forEach((game, i) => {
-        const defaultValue: BetForm = {
-          game: game.id,
-          joker: game.bet?.joker ?? 1,
-          scoreTeamHome: game.bet?.scoreTeamHome ?? null,
-          scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
-        }
+        const defaultValue: BetForm = this.getDefaultValues(game)
 
         const control = this.form.controls.bets.at(i)
         if (control) control.setValue(defaultValue)
@@ -69,6 +65,21 @@ export class GroupViewComponent implements OnDestroy {
         this.form.controls.bets.removeAt(this.form.controls.bets.length - 1)
       }
     })
+  }
+
+  private getDefaultValues(game: BetGame): BetForm {
+    if (this.mode() === 'bet') return {
+      game: game.id,
+      joker: game.bet?.joker ?? 1,
+      scoreTeamHome: game.bet?.scoreTeamHome ?? null,
+      scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
+    }
+    return {
+      game: game.id,
+      joker: 1,
+      scoreTeamHome: game.result?.scoreTeamHome ?? null,
+      scoreTeamGuest: game.result?.scoreTeamGuest ?? null
+    }
   }
 
   get games(): BetGame[] {
@@ -86,9 +97,21 @@ export class GroupViewComponent implements OnDestroy {
     if (!group) return
 
     const bets = this.form.getRawValue().bets
-    this.store.dispatch(saveBets({
+    if (this.mode() === 'bet') this.store.dispatch(saveBets({
       groupId: group.id,
       bets: bets.filter((bet) => bet.scoreTeamHome !== null && bet.scoreTeamGuest !== null)
+    }))
+    else this.store.dispatch(saveResults({
+      groupId: group.id,
+      results: bets
+        .filter((bet) => bet.scoreTeamHome !== null && bet.scoreTeamGuest !== null)
+        .map((bet): ScoreForm => {
+          return {
+            game: bet.game,
+            scoreTeamGuest: bet.scoreTeamGuest,
+            scoreTeamHome: bet.scoreTeamHome
+          }
+        })
     }))
   }
 

@@ -51,6 +51,7 @@ describe('BetFormComponent', () => {
     fixture = TestBed.createComponent(BetFormComponent)
     fixture.componentRef.setInput('game', mockGame)
     component = fixture.componentInstance
+    component.writeValue(mockGame.bet)
     fixture.detectChanges()
   })
 
@@ -137,28 +138,6 @@ describe('BetFormComponent', () => {
     })
     fixture.detectChanges()
     expect(component.isDisabled).toBe(true)
-  })
-
-  it('should set form value when game changes', () => {
-    expect(component.formGroup.getRawValue()).toEqual({
-      scoreTeamHome: 3,
-      scoreTeamGuest: 2,
-      joker: 3
-    })
-    fixture.componentRef.setInput('game', {
-      ...mockGame,
-      bet: {
-        ...mockGame.bet,
-        scoreTeamHome: 1,
-        scoreTeamGuest: 1
-      }
-    })
-    fixture.detectChanges()
-    expect(component.formGroup.getRawValue()).toEqual({
-      joker: 3,
-      scoreTeamHome: 1,
-      scoreTeamGuest: 1
-    })
   })
 
   it('should set control value when form value is changing', () => {

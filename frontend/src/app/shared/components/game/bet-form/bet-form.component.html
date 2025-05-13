@@ -7,7 +7,7 @@
   </div>
   <h3 class="team-home">{{ game.teamHome.name }}</h3>
   <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
-  <div class="joker-form" *ngIf="!knockout()">
+  <div class="joker-form" *ngIf="!knockout() && !neutral()">
     <div class="joker" *ngFor="let joker of [1, 2, 3]">
       <input name="joker" formControlName="joker"
              [id]="game.id + '-joker-' + joker"

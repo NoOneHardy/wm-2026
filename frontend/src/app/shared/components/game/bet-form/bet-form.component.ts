@@ -41,7 +41,11 @@ export class BetFormComponent implements ControlValueAccessor {
   knockout = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
-
+  // TODO: Allow edit if admin mode
+  // TODO: Hide result preview if admin mode
+  neutral = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
   hasStarted = computed(() => {
     return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
   })
@@ -72,11 +76,6 @@ export class BetFormComponent implements ControlValueAccessor {
     effect(() => {
       const game = this.game()
       this.setDisabledState(!!game.result || this.hasStarted())
-      this.writeValue({
-        joker: game.bet?.joker ?? 1,
-        scoreTeamHome: game.bet?.scoreTeamHome ?? null,
-        scoreTeamGuest: game.bet?.scoreTeamGuest ?? null
-      })
     })
 
     effect(() => {

@@ -6,7 +6,7 @@ import {ActivatedRoute, provideRouter} from '@angular/router'
 import {Group} from '../../../model/group/group'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {of} from 'rxjs'
-import {getOverviewGroups, saveBets} from '../../store/tournament.actions'
+import {deselectGroup, saveBets} from '../../store/tournament.actions'
 
 const mockGroup: Group = {
   lastSavedAtResult: new Date('2025-04-23T20:58:00'),
@@ -208,7 +208,7 @@ describe('GroupViewComponent', () => {
     const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
     component.back()
 
-    expect(storeSpy).toHaveBeenCalledWith(getOverviewGroups())
+    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
   })
 
   it('should return a game by its id', () => {

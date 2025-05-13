@@ -29,7 +29,7 @@
       @for (control of form.controls.bets.controls; track $index; let i = $index) {
         @if (findGame(control.value.game); as game) {
           <wm-bet-form [game]="game" [formControlName]="i" [highlight]="highlight() === game.id"
-                       [knockout]="group.isKnockout"/>
+                       [knockout]="group.isKnockout" [neutral]="mode() === 'admin'"/>
         }
       }
     </div>

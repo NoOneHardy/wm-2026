@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core'
+import {Component, input, output} from '@angular/core'
 import {NgIf} from '@angular/common'
 import {RouterLink, RouterLinkActive} from '@angular/router'
 
@@ -20,4 +20,5 @@ export class NavItemComponent {
   exact = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+  clickEvent = output<void>()
 }

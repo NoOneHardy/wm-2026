@@ -5,6 +5,7 @@ import {RouterLink} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
 import {Store} from '@ngrx/store'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
+import {deselectGroup} from '../../store/tournament.actions'
 
 @Component({
   selector: 'wm-header',
@@ -20,6 +21,11 @@ import {selectIsAdmin, selectUser} from '../../../user-management/store/user.fea
 })
 export class HeaderComponent {
   private store = inject(Store)
+
   user = this.store.selectSignal(selectUser)
   isAdmin = this.store.selectSignal(selectIsAdmin)
+
+  deselectGroup(): void {
+    this.store.dispatch(deselectGroup())
+  }
 }

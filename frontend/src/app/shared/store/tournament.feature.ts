@@ -1,12 +1,12 @@
 import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
 import {
-  betsSaved,
+  betsSaved, deselectGroup,
   getOverviewGroups, grantJDouble, grantJTriple,
   groupSelected,
-  overviewGroupsLoaded, resetSaving,
+  overviewGroupsLoaded, resetSaving, resultsSaved,
   revokeJDouble, revokeJTriple,
-  saveBets,
+  saveBets, saveResults,
   selectGroup
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
@@ -41,7 +41,7 @@ export const tournamentFeature = createFeature({
           isTournamentLoading: true
         }
       }),
-    on(saveBets, (state): TournamentState => {
+    on(saveBets, saveResults, (state): TournamentState => {
       return {
         ...state,
         isTournamentSaving: true
@@ -53,7 +53,7 @@ export const tournamentFeature = createFeature({
         isTournamentSaving: false
       }
     }),
-    on(betsSaved, (state, action): TournamentState => {
+    on(betsSaved, resultsSaved, (state, action): TournamentState => {
       return {
         ...state,
         isTournamentSaving: false,
@@ -66,6 +66,12 @@ export const tournamentFeature = createFeature({
         ...state,
         isTournamentLoading: false,
         groups: action.groups,
+        activeGroup: null
+      }
+    }),
+    on(deselectGroup, (state): TournamentState => {
+      return {
+        ...state,
         activeGroup: null
       }
     }),

@@ -1,9 +1,9 @@
-import {Component, effect, inject, input, Signal} from '@angular/core'
+import {Component, effect, inject, input, OnDestroy, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
-import {getOverviewGroups, saveBets} from '../../store/tournament.actions'
+import {deselectGroup, saveBets} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
@@ -30,7 +30,7 @@ import {map} from 'rxjs'
   templateUrl: './group-view.component.html',
   styleUrl: './group-view.component.css'
 })
-export class GroupViewComponent {
+export class GroupViewComponent implements OnDestroy {
   private store = inject(Store)
   private activatedRoute = inject(ActivatedRoute)
 
@@ -92,7 +92,11 @@ export class GroupViewComponent {
     }))
   }
 
+  ngOnDestroy(): void {
+    this.back()
+  }
+
   back(): void {
-    this.store.dispatch(getOverviewGroups())
+    this.store.dispatch(deselectGroup())
   }
 }

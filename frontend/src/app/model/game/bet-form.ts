@@ -1,6 +1,5 @@
-export interface BetForm {
-  game: string
-  scoreTeamHome: number | null
-  scoreTeamGuest: number | null
+import {ScoreForm} from './score-form'
+
+export interface BetForm extends ScoreForm {
   joker: 1 | 2 | 3
 }

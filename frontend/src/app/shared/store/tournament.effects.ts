@@ -3,12 +3,12 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
 import {catchError, exhaustMap, map, of} from 'rxjs'
 import {
-  betsSaved,
+  betsSaved, deselectGroup,
   getOverviewGroups,
   groupSelected,
   overviewGroupsLoaded,
-  resetSaving,
-  saveBets,
+  resetSaving, resultsSaved,
+  saveBets, saveResults,
   selectGroup
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
@@ -65,7 +65,36 @@ export class TournamentEffects {
         type: 'success',
         message: 'Erfolgreich gespeichert'
       })
-      return getOverviewGroups()
+      return deselectGroup()
+    })
+  ))
+
+  saveResults = createEffect(() => this.actions$.pipe(
+    ofType(saveResults),
+    exhaustMap(action => {
+      return this.groupService.saveResults(action.groupId, action.results).pipe(
+        map(group => {
+          return resultsSaved({group})
+        }),
+        catchError(() => {
+          this.snackbarService.addMessage({
+            type: 'error',
+            message: 'Fehler beim Speichern'
+          })
+          return of(resetSaving())
+        })
+      )
+    })
+  ))
+
+  resultsSaved = createEffect(() => this.actions$.pipe(
+    ofType(resultsSaved),
+    map(() => {
+      this.snackbarService.addMessage({
+        type: 'success',
+        message: 'Erfolgreich gespeichert'
+      })
+      return deselectGroup()
     })
   ))
 }

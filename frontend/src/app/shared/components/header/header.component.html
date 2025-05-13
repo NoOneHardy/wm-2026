@@ -3,7 +3,7 @@
     <a routerLink="/" class="home-link">WM 2026</a>
     @if (user()) {
       <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-      <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
+      <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
     } @else {
       <wm-nav-item displayName="Home" icon="home" route="/" exact/>
     }

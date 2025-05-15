@@ -24,7 +24,7 @@ jobs:
       - name: Testing
         run: ./gradlew :frontend:test
   build:
-    # if: github.ref_name == 'develop'
+    if: github.ref_name == 'develop'
     needs: [lint, test]
     runs-on: self-hosted
     steps:

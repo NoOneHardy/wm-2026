@@ -3,13 +3,9 @@ on:
   push:
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            frontend
-            gradle
       - name: Install gradle gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -17,14 +13,10 @@ jobs:
       - name: Linting
         run: ./gradlew :frontend:lint
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            frontend
-            gradle
       - name: Install gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -32,15 +24,12 @@ jobs:
       - name: Testing
         run: ./gradlew :frontend:test
   build:
-    if: github.ref_name == 'develop'
+    # if: github.ref_name == 'develop'
     needs: [lint, test]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            frontend
       - name: Set current date as env variable
         run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Set tag for docker image

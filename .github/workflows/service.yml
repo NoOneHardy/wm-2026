@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Install Java
         uses: actions/setup-java@v4
@@ -12,10 +12,6 @@ jobs:
           java-version: '23'
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            service
-            gradle
       - name: Java version
         run: java -version
       - name: Get configuration
@@ -29,7 +25,7 @@ jobs:
   build:
     if: github.ref_name == 'develop'
     needs: [ test ]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Install Java
         uses: actions/setup-java@v4
@@ -38,9 +34,6 @@ jobs:
           java-version: '23'
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            service
       - name: Set current date as env variable
         run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
       - name: Set tag for docker image

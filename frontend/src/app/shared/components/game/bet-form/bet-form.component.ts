@@ -45,7 +45,7 @@ export class BetFormComponent implements ControlValueAccessor {
     transform: v => v === '' || v
   })
   hasStarted = computed(() => {
-    return new Date(this.game().timestamp).valueOf() <= new Date().valueOf() && !this.admin()
+    return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
   })
 
   availableJokers = this.store.selectSignal(selectAvailableJokers)
@@ -73,8 +73,7 @@ export class BetFormComponent implements ControlValueAccessor {
   constructor() {
     effect(() => {
       const game = this.game()
-      if (this.admin()) return
-      this.setDisabledState(!!game.result || this.hasStarted())
+      this.setDisabledState(!this.admin() && (!!game.result || this.hasStarted()))
     })
 
     effect(() => {

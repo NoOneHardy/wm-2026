@@ -1,3 +1,5 @@
+// noinspection DuplicatedCode
+
 import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {BetFormComponent} from './bet-form.component'
@@ -303,5 +305,61 @@ describe('BetFormComponent', () => {
     expect(component['value'].joker).toBe(2)
     expect(spy).toHaveBeenCalledWith(revokeJDouble())
     expect(spy).toHaveBeenCalledTimes(2)
+  })
+
+  it('should parse admin input to boolean', () => {
+    expect(component.admin()).toBeFalse()
+
+    fixture.componentRef.setInput('admin', true)
+    fixture.detectChanges()
+    expect(component.admin()).toBeTrue()
+
+    fixture.componentRef.setInput('admin', false)
+    fixture.detectChanges()
+    expect(component.admin()).toBeFalse()
+
+    fixture.componentRef.setInput('admin', '')
+    fixture.detectChanges()
+    expect(component.admin()).toBeTrue()
+  })
+
+  it('should not disable form if admin', () => {
+    expect(component.isDisabled).toBeFalse()
+
+    const game = {...mockGame}
+    game.timestamp = new Date(2025, 4, 1)
+    fixture.componentRef.setInput('game', game)
+    fixture.detectChanges()
+    expect(component.hasStarted()).toBeTrue()
+    expect(component.isDisabled).toBeTrue()
+
+    fixture.componentRef.setInput('admin', true)
+    fixture.detectChanges()
+    expect(component.isDisabled).toBeFalse()
+  })
+
+  it('should disable form if not admin and game has started', () => {
+    expect(component.isDisabled).toBeFalse()
+    expect(component.hasStarted()).toBeFalse()
+
+    const game = {...mockGame}
+    game.timestamp = new Date(2025, 4, 1)
+    fixture.componentRef.setInput('game', game)
+    fixture.detectChanges()
+    expect(component.hasStarted()).toBeTrue()
+    expect(component.isDisabled).toBeTrue()
+  })
+
+  it('should disable form if not admin and game has result', () => {
+    const game = {...mockGame}
+    game.result = {
+      id: 'result-1',
+      gameId: 'game-1',
+      scoreTeamHome: 2,
+      scoreTeamGuest: 3
+    }
+    fixture.componentRef.setInput('game', game)
+    fixture.detectChanges()
+    expect(component.isDisabled).toBeTrue()
   })
 })

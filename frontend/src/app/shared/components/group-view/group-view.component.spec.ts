@@ -249,4 +249,70 @@ describe('GroupViewComponent', () => {
 
     expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
   })
+
+  it('should prepare default values for bet mode', () => {
+    const game = mockGroup.games[0]
+
+    const form = component['getDefaultValues'](game)
+    expect(form).toEqual({
+      game: game.id,
+      joker: 1,
+      scoreTeamHome: null,
+      scoreTeamGuest: null
+    })
+  })
+
+  it('should prepare default values for bet mode with existing bet', () => {
+    const game = {...mockGroup.games[1]}
+    game.bet = {
+      id: 'bet-2',
+      gameId: game.id,
+      joker: 3,
+      scoreTeamHome: 2,
+      scoreTeamGuest: 1
+    }
+
+    const form = component['getDefaultValues'](game)
+    expect(form).toEqual({
+      game: game.id,
+      joker: 3,
+      scoreTeamHome: 2,
+      scoreTeamGuest: 1
+    })
+  })
+
+  it('should prepare default values for admin mode', () => {
+    fixture.componentRef.setInput('mode', 'admin')
+    fixture.detectChanges()
+
+    const game = mockGroup.games[0]
+    const form = component['getDefaultValues'](game)
+    expect(form).toEqual({
+      game: game.id,
+      joker: 1,
+      scoreTeamHome: null,
+      scoreTeamGuest: null
+    })
+  })
+
+  it('should prepare default values for admin mode with existing result', () => {
+    fixture.componentRef.setInput('mode', 'admin')
+    fixture.detectChanges()
+
+    const game = {...mockGroup.games[1]}
+    game.result = {
+      id: 'result-2',
+      gameId: game.id,
+      scoreTeamHome: 3,
+      scoreTeamGuest: 3
+    }
+
+    const form = component['getDefaultValues'](game)
+    expect(form).toEqual({
+      game: game.id,
+      joker: 1,
+      scoreTeamHome: 3,
+      scoreTeamGuest: 3
+    })
+  })
 })

@@ -204,13 +204,6 @@ describe('GroupViewComponent', () => {
     }))
   })
 
-  it('should call store to reload overview groups', () => {
-    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
-    component.back()
-
-    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
-  })
-
   it('should return a game by its id', () => {
     expect(component.findGame('game1')).toEqual(mockGroup.games[1])
   })
@@ -241,5 +234,19 @@ describe('GroupViewComponent', () => {
 
     expect(component.isLoading()).toEqual(false)
     expect(component.isSaving()).toEqual(false)
+  })
+
+  it('should deselect group', () => {
+    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
+    component.back()
+
+    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
+  })
+
+  it('should deselect group on destroy', () => {
+    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
+    component.ngOnDestroy()
+
+    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
   })
 })

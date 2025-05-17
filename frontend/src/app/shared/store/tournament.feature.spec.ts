@@ -2,11 +2,12 @@ import {FeatureSlice} from '@ngrx/store'
 import * as feature from './tournament.feature'
 import {hasActiveGroup, TournamentState} from './tournament.feature'
 import {
+  deselectGroup,
   grantJDouble,
   grantJTriple,
-  groupSelected, overviewGroupsLoaded,
+  groupSelected, overviewGroupsLoaded, resultsSaved,
   revokeJDouble,
-  revokeJTriple,
+  revokeJTriple, saveResults,
   selectGroup
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
@@ -110,5 +111,37 @@ describe('TournamentFeature', () => {
     expect(hasActiveGroup.projector(state.activeGroup)).toBeFalse()
     state = store.reducer(state, groupSelected({group: mockGroup}))
     expect(hasActiveGroup.projector(state.activeGroup)).toBeTrue()
+  })
+
+  it('should start loading when saving results', () => {
+    let state = initialState
+    expect(state.isTournamentSaving).toBeFalse()
+    state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
+    expect(state.isTournamentSaving).toBeTrue()
+  })
+
+  it('should stop loading when results have been saved', () => {
+    let state = initialState
+    state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
+    expect(state.isTournamentSaving).toBeTrue()
+    state = store.reducer(state, resultsSaved({group: mockGroup}))
+    expect(state.isTournamentSaving).toBeFalse()
+  })
+
+  it('should update group and available jokers when results have been saved', () => {
+    let state = initialState
+    state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
+    expect(state.isTournamentSaving).toBeTrue()
+    state = store.reducer(state, resultsSaved({group: mockGroup}))
+    expect(state.activeGroup).toEqual(mockGroup)
+    expect(state.availableJokers).toEqual(mockGroup.availableJokers)
+  })
+
+  it('should reset selected group', () => {
+    let state = initialState
+    state = store.reducer(state, groupSelected({group: mockGroup}))
+    expect(state.activeGroup).toEqual(mockGroup)
+    state = store.reducer(state, deselectGroup())
+    expect(state.activeGroup).toBeNull()
   })
 })

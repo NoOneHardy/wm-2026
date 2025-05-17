@@ -6,7 +6,7 @@ import {ActivatedRoute, provideRouter} from '@angular/router'
 import {Group} from '../../../model/group/group'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {of} from 'rxjs'
-import {deselectGroup, saveBets} from '../../store/tournament.actions'
+import {deselectGroup, saveBets, saveResults} from '../../store/tournament.actions'
 
 const mockGroup: Group = {
   lastSavedAtResult: new Date('2025-04-23T20:58:00'),
@@ -314,5 +314,60 @@ describe('GroupViewComponent', () => {
       scoreTeamHome: 3,
       scoreTeamGuest: 3
     })
+  })
+
+  it('should save bets in bet mode', () => {
+    const spy = spyOn(component['store'], 'dispatch')
+    component.save()
+
+    expect(spy).toHaveBeenCalledWith(saveBets({
+      groupId: 'group1',
+      bets: [
+        {
+          game: 'game1',
+          scoreTeamHome: 2,
+          scoreTeamGuest: 1,
+          joker: 1
+        }
+      ]
+    }))
+  })
+
+  it('should save results in admin mode', () => {
+    fixture.componentRef.setInput('mode', 'admin')
+    const spy = spyOn(component['store'], 'dispatch')
+
+    component.form.controls.bets.patchValue([
+      {
+        game: 'game1',
+        scoreTeamHome: 2,
+        scoreTeamGuest: 1,
+        joker: 1
+      },
+      {
+        game: 'game2',
+        scoreTeamHome: 3,
+        scoreTeamGuest: 3,
+        joker: 2
+      }
+    ])
+
+    component.save()
+
+    expect(spy).toHaveBeenCalledWith(saveResults({
+      groupId: 'group1',
+      results: [
+        {
+          game: 'game1',
+          scoreTeamHome: 2,
+          scoreTeamGuest: 1
+        },
+        {
+          game: 'game2',
+          scoreTeamHome: 3,
+          scoreTeamGuest: 3
+        }
+      ]
+    }))
   })
 })

@@ -1,0 +1,48 @@
+.position {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto;
+  align-items: center;
+  height: 5em;
+  padding: 1em 1.25em;
+  border-radius: .5em;
+  background-color: #fff;
+  box-shadow: 0 0 .5em 0 #0000003d;
+  font-size: .75em;
+
+  .movement {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--wm-color-primary);
+    margin-right: .25em;
+  }
+
+  .ranking {
+    --font-size-factor: 1.5;
+
+    display: grid;
+    place-items: center;
+    height: calc(2em / var(--font-size-factor));
+    width: calc(2em / var(--font-size-factor));
+    font-size: calc(1em * var(--font-size-factor));
+    font-weight: 700;
+    margin-right: calc(.325em / var(--font-size-factor));
+  }
+
+  .avatar {
+    height: 3em;
+    width: 3em;
+    margin-right: .5em;
+  }
+
+  .name {
+    font-size: 2em;
+    font-weight: 500;
+  }
+
+  .points {
+    font-size: 2em;
+    font-weight: 600;
+    color: var(--wm-color-primary);
+
+  }
+}

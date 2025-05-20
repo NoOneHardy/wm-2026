@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
   }
 
   mockPosition: Ranking = {
-    avatar: 'https://avatars.githubusercontent.com/u/116167986?v=4',
+    // avatar: 'https://avatars.githubusercontent.com/u/116167986?v=4',
+    avatar: null,
     username: 'No1Hardy',
     points: 100,
     previousRanking: 2,

@@ -1,7 +1,7 @@
 export interface Ranking {
   username: string
   points: number
-  avatar: string
+  avatar: string | null
   ranking: number
   previousRanking: number
 }

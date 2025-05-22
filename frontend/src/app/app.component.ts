@@ -6,13 +6,11 @@ import {
 } from './shared/components/snackbar/components/snackbar-display/snackbar-display.component'
 import {Store} from '@ngrx/store'
 import {fetchUserInfo} from './user-management/store/user.actions'
-import {PositionComponent} from './shared/components/position/position.component'
-import {Ranking} from './model/leaderboard/ranking'
 
 @Component({
   selector: 'wm-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, PositionComponent],
+  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
@@ -21,14 +19,5 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(fetchUserInfo())
-  }
-
-  mockPosition: Ranking = {
-    // avatar: 'https://avatars.githubusercontent.com/u/116167986?v=4',
-    avatar: null,
-    username: 'No1Hardy',
-    points: 100,
-    previousRanking: 2,
-    ranking: 1
   }
 }

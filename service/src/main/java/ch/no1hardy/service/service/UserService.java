@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -163,5 +165,26 @@ public class UserService {
         if (bet.getTotalScore().equals(result.getTotalScore())) points += 10;
 
         return points * bet.getJoker();
+    }
+
+    public List<RankingRes> getLeaderboard() {
+        List<User> users = repository.findAll().stream().filter(User::isActive).toList();
+        List<Integer> currentLeaderboard = users.stream()
+                .map(User::getPoints)
+                .sorted(Integer::compareTo)
+                .toList().reversed();
+        List<Integer> previousLeaderboard = users.stream()
+                .map(User::getLastReviewedPoints)
+                .sorted(Integer::compareTo)
+                .toList().reversed();
+
+        return users.stream().map(user -> RankingRes.builder()
+                .avatar(user.getAvatarUrl())
+                .ranking(currentLeaderboard.indexOf(user.getPoints()) + 1)
+                .prevRanking(previousLeaderboard.indexOf(user.getLastReviewedPoints()) + 1)
+                .points(user.getPoints())
+                .username(user.getUsername())
+                .build()
+        ).sorted(Comparator.comparingInt(RankingRes::getRanking)).toList();
     }
 }

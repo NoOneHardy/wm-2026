@@ -8,6 +8,20 @@
   background-color: #fff;
   box-shadow: 0 0 .5em 0 #0000003d;
   font-size: .75em;
+  cursor: pointer;
+  transition: background-color .25s ease;
+
+  &:hover {
+    background-color: var(--wm-color-gray-100);
+  }
+
+  &.-highlight {
+    background-color: var(--wm-color-primary-200);
+
+    &:hover {
+      background-color: var(--wm-color-primary-400);
+    }
+  }
 
   .movement {
     font-size: 2em;
@@ -43,6 +57,5 @@
     font-size: 2em;
     font-weight: 600;
     color: var(--wm-color-primary);
-
   }
 }

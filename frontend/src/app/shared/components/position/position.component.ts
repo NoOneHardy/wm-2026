@@ -14,4 +14,7 @@ import {NgIf, NgOptimizedImage} from '@angular/common'
 })
 export class PositionComponent {
   ranking = input.required<Ranking>()
+  highlight = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
 }

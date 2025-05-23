@@ -19,4 +19,9 @@ public class LeaderboardController {
     public List<RankingRes> getLeaderboard() {
         return userService.getLeaderboard();
     }
+
+    @GetMapping("/me")
+    public List<RankingRes> getUserLeaderboard() {
+        return userService.getUserLeaderboard();
+    }
 }

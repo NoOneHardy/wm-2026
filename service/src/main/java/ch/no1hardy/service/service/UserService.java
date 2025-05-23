@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -179,6 +180,7 @@ public class UserService {
                 .toList().reversed();
 
         return users.stream().map(user -> RankingRes.builder()
+                .id(user.getId())
                 .avatar(user.getAvatarUrl())
                 .ranking(currentLeaderboard.indexOf(user.getPoints()) + 1)
                 .prevRanking(previousLeaderboard.indexOf(user.getLastReviewedPoints()) + 1)
@@ -186,5 +188,25 @@ public class UserService {
                 .username(user.getUsername())
                 .build()
         ).sorted(Comparator.comparingInt(RankingRes::getRanking)).toList();
+    }
+
+    public List<RankingRes> getUserLeaderboard() {
+        User user = getLoggedInUser();
+        if (user == null) throw new BadRequestException("Not logged in");
+
+        List<RankingRes> leaderboard = getLeaderboard();
+
+        RankingRes[] slimBoard = new RankingRes[3];
+
+        for (int i = 0; i < leaderboard.size(); i++) {
+            RankingRes pos = leaderboard.get(i);
+            if (pos.getId().equals(user.getId())) {
+                slimBoard[0] = i == 0 ? null : leaderboard.get(i - 1);
+                slimBoard[1] = pos;
+                slimBoard[2] = i == (leaderboard.size() - 1) ? null : leaderboard.get(i + 1);
+            }
+        }
+
+        return Arrays.stream(slimBoard).toList();
     }
 }

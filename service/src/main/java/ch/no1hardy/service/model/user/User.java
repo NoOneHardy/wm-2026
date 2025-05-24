@@ -81,4 +81,8 @@ public class User extends BaseEntity implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+    public boolean isConfirmed() {
+        return isActive() && getConfirmedAt() != null;
+    }
 }

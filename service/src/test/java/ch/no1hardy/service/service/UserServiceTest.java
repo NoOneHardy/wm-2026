@@ -12,6 +12,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -220,21 +221,25 @@ public class UserServiceTest {
         user1.setId("user-1");
         user1.setPoints(100);
         user1.setLastReviewedPoints(50);
+        user1.setConfirmedAt(LocalDateTime.now());
 
         User user2 = new User();
         user2.setId("user-2");
         user2.setPoints(200);
         user2.setLastReviewedPoints(150);
+        user2.setConfirmedAt(LocalDateTime.now());
 
         User user3 = new User();
         user3.setId("user-3");
         user3.setPoints(200);
         user3.setLastReviewedPoints(100);
+        user3.setConfirmedAt(LocalDateTime.now());
 
         User user4 = new User();
         user4.setId("user-4");
         user4.setPoints(150);
         user4.setLastReviewedPoints(0);
+        user4.setConfirmedAt(LocalDateTime.now());
 
         when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3, user4));
 

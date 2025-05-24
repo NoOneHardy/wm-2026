@@ -169,7 +169,7 @@ public class UserService {
     }
 
     public List<RankingRes> getLeaderboard() {
-        List<User> users = repository.findAll().stream().filter(User::isActive).toList();
+        List<User> users = repository.findAll().stream().filter(User::isConfirmed).toList();
         List<Integer> currentLeaderboard = users.stream()
                 .map(User::getPoints)
                 .sorted(Integer::compareTo)
@@ -193,6 +193,7 @@ public class UserService {
     public List<RankingRes> getUserLeaderboard() {
         User user = getLoggedInUser();
         if (user == null) throw new BadRequestException("Not logged in");
+        if (!user.isConfirmed()) return List.of();
 
         List<RankingRes> leaderboard = getLeaderboard();
 

@@ -6,6 +6,7 @@ import {isLoggedInGuard} from './guards/is-logged-in.guard'
 import {isAdminGuard} from './guards/is-admin.guard'
 import {ResultManagementComponent} from './admin/result-management/result-management.component'
 import {UserManagementComponent} from './admin/user-management/user-management.component'
+import {LeaderboardComponent} from './leaderboard/leaderboard.component'
 
 export const routes: Routes = [
   {
@@ -15,6 +16,10 @@ export const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent
   },
   {
     path: 'bets',

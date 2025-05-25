@@ -3,15 +3,16 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
 import {catchError, exhaustMap, map, of} from 'rxjs'
 import {
-  betsSaved, deselectGroup,
+  betsSaved, deselectGroup, getLeaderboard,
   getOverviewGroups,
-  groupSelected,
+  groupSelected, leaderboardLoaded,
   overviewGroupsLoaded,
   resetSaving, resultsSaved,
   saveBets, saveResults,
   selectGroup
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
+import {LeaderboardService} from '../services/leaderboard/leaderboard.service'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -20,6 +21,7 @@ import {SnackbarService} from '../services/snackbar/snackbar.service'
 export class TournamentEffects {
   private actions$ = inject(Actions)
   private groupService = inject(GroupService)
+  private leaderboardService = inject(LeaderboardService)
   private snackbarService = inject(SnackbarService)
 
   getOverviewGroups = createEffect(() => this.actions$.pipe(
@@ -95,6 +97,15 @@ export class TournamentEffects {
         message: 'Erfolgreich gespeichert'
       })
       return deselectGroup()
+    })
+  ))
+
+  getLeaderboard = createEffect(() => this.actions$.pipe(
+    ofType(getLeaderboard),
+    exhaustMap(() => {
+      return this.leaderboardService.getLeaderboard().pipe(
+        map(leaderboard => leaderboardLoaded({leaderboard}))
+      )
     })
   ))
 }

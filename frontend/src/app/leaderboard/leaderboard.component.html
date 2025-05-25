@@ -1,1 +1,14 @@
-<p>leaderboard works!</p>
+<div class="leaderboard">
+  <h1>Rangliste</h1>
+  @let board = leaderboard();
+  @let dif = (userPos()?.previousRanking ?? (board[board.length - 1]?.ranking ?? 0)) - (userPos()?.ranking ?? (board[board.length - 1]?.ranking ?? 0));
+  <p class="sub-heading">Du bist {{ dif }} {{ dif === 1 ? 'Rang' : 'Ränge' }} aufgestiegen</p>
+  <div class="user-position"></div>
+  <div class="board">
+    <wm-position
+      *ngFor="let ranking of leaderboard()"
+      [ranking]="ranking"
+      [class.-sticky]="ranking.id === userPos()?.id"
+      [highlight]="ranking.id === userPos()?.id"/>
+  </div>
+</div>

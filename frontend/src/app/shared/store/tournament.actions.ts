@@ -3,6 +3,7 @@ import {CardGroup} from '../../model/group/card-group'
 import {Group} from '../../model/group/group'
 import {BetForm} from '../../model/game/bet-form'
 import {ScoreForm} from '../../model/game/score-form'
+import {Ranking} from '../../model/leaderboard/ranking'
 
 export const getOverviewGroups = createAction('[Tournament] Get Overview Groups')
 export const overviewGroupsLoaded = createAction('[Tournament] Overview Groups Loaded', props<{
@@ -24,4 +25,9 @@ export const saveResults = createAction('[Tournament Admin] Save results', props
   groupId: string,
   results: ScoreForm[]
 }>())
-export const resultsSaved = createAction('[Tournament Admin] Results saved', props<{group: Group}>())
+export const resultsSaved = createAction('[Tournament Admin] Results saved', props<{ group: Group }>())
+
+export const getLeaderboard = createAction('[Tournament] Get Leaderboard')
+export const leaderboardLoaded = createAction('[Tournament] Leaderboard Loaded', props<{
+  leaderboard: Ranking[]
+}>())

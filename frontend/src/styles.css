@@ -37,6 +37,8 @@
   --wm-gradient-primary-disabled: linear-gradient(to bottom, var(--wm-color-primary-100) 0%, var(--wm-color-secondary-100) 90%);
 
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
+
+  --wm-header-height: 3.75em;
 }
 
 h1 {

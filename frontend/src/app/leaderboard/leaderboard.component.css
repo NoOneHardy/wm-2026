@@ -1,0 +1,64 @@
+.leaderboard {
+  display: grid;
+  margin: 0 auto;
+  grid-template-rows: auto auto 1fr;
+  grid-template-areas:
+    'heading heading'
+    'sub-heading sub-heading'
+    'user-position board';
+  padding: 5em 0;
+  height: calc(100vh - var(--wm-header-height));
+  width: 100%;
+  max-width: 110em;
+  column-gap: 5%;
+  grid-template-columns: 47.5% 47.5%;
+
+  h1 {
+    grid-area: heading;
+  }
+
+  p.sub-heading {
+    grid-area: sub-heading;
+  }
+
+  .board {
+    grid-area: board;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: .5em;
+    gap: .75em;
+    overflow-y: scroll;
+    position: relative;
+
+    &::-webkit-scrollbar {
+      width: .75em;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: var(--wm-color-gray-050);
+      border-radius: .375em;
+      box-shadow: 0 0 .125em 0 #0000003d inset;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: var(--wm-color-gray-200);
+      width: .75em;
+      border-radius: .375em;
+    }
+
+    &::after {
+      content: '';
+      display: block;
+
+    }
+
+    wm-position.-sticky {
+      position: sticky;
+      top: 0;
+      bottom: 0;
+      z-index: 1;
+    }
+  }
+}

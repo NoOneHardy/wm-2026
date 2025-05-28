@@ -5,14 +5,15 @@ import {selectLeaderboard} from '../shared/store/tournament.feature'
 import {selectUser} from '../user-management/store/user.feature'
 import {Ranking} from '../model/leaderboard/ranking'
 import {PositionComponent} from '../shared/components/position/position.component'
-import {NgForOf} from '@angular/common'
+import {NgForOf, NgOptimizedImage} from '@angular/common'
 
 @Component({
   selector: 'wm-leaderboard',
   standalone: true,
   imports: [
     PositionComponent,
-    NgForOf
+    NgForOf,
+    NgOptimizedImage
   ],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.css'

@@ -13,6 +13,7 @@ describe('PositionComponent', () => {
     }).compileComponents()
 
     ranking = {
+      id: 'user-1',
       ranking: 1,
       avatar: null,
       points: 100,

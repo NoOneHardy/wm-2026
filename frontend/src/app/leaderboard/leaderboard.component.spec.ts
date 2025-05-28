@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { LeaderboardComponent } from './leaderboard.component'
+import {LeaderboardComponent} from './leaderboard.component'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('LeaderboardComponent', () => {
   let component: LeaderboardComponent
@@ -8,9 +9,9 @@ describe('LeaderboardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LeaderboardComponent]
-    })
-    .compileComponents()
+      imports: [LeaderboardComponent],
+      providers: [provideMockStore()]
+    }).compileComponents()
 
     fixture = TestBed.createComponent(LeaderboardComponent)
     component = fixture.componentInstance

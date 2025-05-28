@@ -1,6 +1,6 @@
 import {Component, computed, inject, OnInit, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
-import {getLeaderboard, leaderboardLoaded} from '../shared/store/tournament.actions'
+import {getLeaderboard} from '../shared/store/tournament.actions'
 import {selectLeaderboard} from '../shared/store/tournament.feature'
 import {selectUser} from '../user-management/store/user.feature'
 import {Ranking} from '../model/leaderboard/ranking'
@@ -33,6 +33,4 @@ export class LeaderboardComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(getLeaderboard())
   }
-
-  protected readonly leaderboardLoaded = leaderboardLoaded
 }

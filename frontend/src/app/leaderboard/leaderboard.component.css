@@ -21,6 +21,67 @@
     grid-area: sub-heading;
   }
 
+  .user-position {
+    grid-area: user-position;
+    display: grid;
+    justify-self: center;
+    grid-template-columns: auto 1fr;
+    grid-template-areas:
+        'username username'
+        'avatar title'
+        'avatar ranking'
+        'avatar points';
+    height: fit-content;
+    width: fit-content;
+    padding: 2em 4em;
+    border-radius: 1em;
+    margin-top: .5em;
+    background-color: #fff;
+    box-shadow: 0 0 .5em 0 #0000003d;
+
+    h2 {
+      grid-area: username;
+      margin-bottom: 1em;
+      text-align: center;
+      font-weight: 600;
+      font-size: 2em;
+      background-image: var(--wm-gradient-primary);
+      background-clip: text;
+      color: transparent;
+    }
+
+    .avatar {
+      grid-area: avatar;
+      height: 17.5em;
+      width: 17.5em;
+      margin-right: 4em;
+    }
+
+    h3 {
+      grid-area: title;
+      margin-top: 2em;
+      font-size: 1.5em;
+      font-weight: 600;
+      align-self: end;
+    }
+
+    .ranking {
+      grid-area: ranking;
+      color: var(--wm-color-gray);
+      font-size: 6em;
+      align-self: start;
+      font-weight: 500;
+    }
+
+    .points {
+      grid-area: points;
+      font-size: 1.5em;
+      color: var(--wm-color-gray-500);
+      align-self: start;
+      margin-bottom: 2em;
+    }
+  }
+
   .board {
     grid-area: board;
     display: flex;

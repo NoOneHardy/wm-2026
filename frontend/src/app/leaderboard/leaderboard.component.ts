@@ -5,7 +5,7 @@ import {selectLeaderboard} from '../shared/store/tournament.feature'
 import {selectUser} from '../user-management/store/user.feature'
 import {Ranking} from '../model/leaderboard/ranking'
 import {PositionComponent} from '../shared/components/position/position.component'
-import {NgForOf, NgOptimizedImage} from '@angular/common'
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 
 @Component({
   selector: 'wm-leaderboard',
@@ -13,7 +13,8 @@ import {NgForOf, NgOptimizedImage} from '@angular/common'
   imports: [
     PositionComponent,
     NgForOf,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgIf
   ],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.css'

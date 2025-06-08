@@ -62,8 +62,8 @@ describe('LeaderboardComponent', () => {
 
   it('should find user position in leaderboard', () => {
     const leaderboard: Ranking[] = [
-      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, previousRanking: 2},
-      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, previousRanking: 2}
+      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 2},
+      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, prevRanking: 2}
     ]
     store.overrideSelector(selectLeaderboard, leaderboard)
     store.overrideSelector(selectUser, mockUser)
@@ -76,8 +76,8 @@ describe('LeaderboardComponent', () => {
 
   it('should return null if user is not in leaderboard', () => {
     const leaderboard: Ranking[] = [
-      {id: 'user-3', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, previousRanking: 2},
-      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, previousRanking: 2}
+      {id: 'user-3', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 2},
+      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, prevRanking: 2}
     ]
     store.overrideSelector(selectLeaderboard, leaderboard)
     store.overrideSelector(selectUser, mockUser)
@@ -90,8 +90,8 @@ describe('LeaderboardComponent', () => {
 
   it('should return null if user is not logged in', () => {
     const leaderboard: Ranking[] = [
-      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, previousRanking: 2},
-      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, previousRanking: 2}
+      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 2},
+      {id: 'user-2', username: 'UserTwo', points: 900, ranking: 2, avatar: null, prevRanking: 2}
     ]
     store.overrideSelector(selectLeaderboard, leaderboard)
     store.overrideSelector(selectUser, null)

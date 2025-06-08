@@ -1,5 +1,5 @@
 <div class="position" *ngIf="ranking() as ranking" [class.-highlight]="highlight()">
-  <div class="movement material-symbols-rounded">keyboard_double_arrow_up</div>
+  <div class="movement material-symbols-rounded" [class]="movementIcon()">{{ movementIcon() }}</div>
   <div class="ranking">{{ ranking.ranking }}</div>
   <div class="avatar flag">
     <img [ngSrc]="ranking.avatar ?? '/assets/user.jpg'" [alt]="ranking.username" fill>

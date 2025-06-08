@@ -131,6 +131,8 @@ public class UserService {
         if (game.getResult() == null) return;
         Score result = game.getResult();
 
+        repository.findAll().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
+
         for (Bet bet : game.getBets()) {
             if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;
             int points = calculateUserPoints(bet, result);
@@ -142,6 +144,8 @@ public class UserService {
     public void removeUserPoints(Game game) {
         if (game.getResult() == null) return;
         Score result = game.getResult();
+
+        repository.findAll().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
 
         for (Bet bet : game.getBets()) {
             if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;

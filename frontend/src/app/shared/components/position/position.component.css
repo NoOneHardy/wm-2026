@@ -26,8 +26,24 @@
   .movement {
     font-size: 2em;
     font-weight: 700;
-    color: var(--wm-color-primary);
+    color: var(--wm-color-orange);
     margin-right: .25em;
+
+    &.keyboard_arrow_down {
+      color: var(--wm-color-red-dark);
+    }
+
+    &.keyboard_arrow_up {
+      color: var(--wm-color-secondary);
+    }
+
+    &.keyboard_double_arrow_down {
+      color: var(--wm-color-red);
+    }
+
+    &.keyboard_double_arrow_up {
+      color: var(--wm-color-primary);
+    }
   }
 
   .ranking {

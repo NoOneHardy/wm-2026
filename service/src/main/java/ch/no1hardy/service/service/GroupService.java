@@ -38,7 +38,7 @@ public class GroupService {
         if (group == null) throw new NotFoundException("Group " + id + " not found");
 
         for (BetReq bet : bets.stream().filter(BetReq::isValid).toList()) {
-            if (group.getGames().stream().map(Game::getId).toList().contains(bet.getGame())) {
+            if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(bet.getGame())) {
                 gameService.uploadBet(bet.getGame(), bet);
             }
         }
@@ -50,7 +50,7 @@ public class GroupService {
         if (group == null) throw new NotFoundException("Group " + id + " not found");
 
         for (ScoreReq result : results.stream().filter(ScoreReq::isValid).toList()) {
-            if (group.getGames().stream().map(Game::getId).toList().contains(result.getGame())) {
+            if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(result.getGame())) {
                 gameService.uploadResult(result.getGame(), result);
             }
         }
@@ -59,6 +59,7 @@ public class GroupService {
 
     public List<CardGroupRes> getCardGroups() {
         return repository.findAll().stream()
+                .filter(Group::isActive)
                 .filter(group -> !group.getGames().isEmpty())
                 .map(group -> mapper.toCard(group, repository))
                 .toList();

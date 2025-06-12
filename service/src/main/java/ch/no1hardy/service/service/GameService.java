@@ -28,7 +28,7 @@ public class GameService {
     private final GameMapperImpl mapper;
     private final UserHelper userHelper;
 
-    public List<BetGameRes> listAll() {
+    public List<BetGameRes> list() {
         return repository.findAll().stream().filter(Game::isActive).map(mapper::toDto).toList();
     }
 

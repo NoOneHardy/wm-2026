@@ -25,7 +25,7 @@ public class GameController {
 
     @GetMapping()
     public List<BetGameRes> listAll() {
-        return service.listAll();
+        return service.list();
     }
 
     @PutMapping("{id}/result")

@@ -4,6 +4,7 @@ import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.user.User;
+import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -221,25 +222,29 @@ public class UserServiceTest {
         user1.setId("user-1");
         user1.setPoints(100);
         user1.setLastReviewedPoints(50);
-        user1.setConfirmedAt(LocalDateTime.now());
+        user1.setApplicationReviewedAt(LocalDateTime.now());
+        user1.setUserApplicationStatus(UserApplicationStatus.ACCEPTED);
 
         User user2 = new User();
         user2.setId("user-2");
         user2.setPoints(200);
         user2.setLastReviewedPoints(150);
-        user2.setConfirmedAt(LocalDateTime.now());
+        user2.setApplicationReviewedAt(LocalDateTime.now());
+        user2.setUserApplicationStatus(UserApplicationStatus.ACCEPTED);
 
         User user3 = new User();
         user3.setId("user-3");
         user3.setPoints(200);
         user3.setLastReviewedPoints(100);
-        user3.setConfirmedAt(LocalDateTime.now());
+        user3.setApplicationReviewedAt(LocalDateTime.now());
+        user3.setUserApplicationStatus(UserApplicationStatus.ACCEPTED);
 
         User user4 = new User();
         user4.setId("user-4");
         user4.setPoints(150);
         user4.setLastReviewedPoints(0);
-        user4.setConfirmedAt(LocalDateTime.now());
+        user4.setApplicationReviewedAt(LocalDateTime.now());
+        user4.setUserApplicationStatus(UserApplicationStatus.ACCEPTED);
 
         when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3, user4));
 

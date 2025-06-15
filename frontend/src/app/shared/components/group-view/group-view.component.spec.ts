@@ -204,6 +204,42 @@ describe('GroupViewComponent', () => {
     }))
   })
 
+  it('should replace null values with 0', () => {
+    const spy = spyOn(component['store'], 'dispatch')
+
+    mockStore.overrideSelector(selectActiveGroup, {
+      ...mockGroup,
+      games: [
+        {
+          ...mockGroup.games[0],
+          bet: {
+            id: 'bet2',
+            joker: 1,
+            scoreTeamHome: 2,
+            scoreTeamGuest: null as unknown as number,
+            gameId: 'game2',
+          }
+        }
+      ]
+    })
+    mockStore.refreshState()
+    fixture.detectChanges()
+
+    component.save()
+
+    expect(spy).toHaveBeenCalledWith(saveBets({
+      groupId: 'group1',
+      bets: [
+        {
+          game: 'game2',
+          joker: 1,
+          scoreTeamHome: 2,
+          scoreTeamGuest: 0
+        }
+      ]
+    }))
+  })
+
   it('should return a game by its id', () => {
     expect(component.findGame('game1')).toEqual(mockGroup.games[1])
   })

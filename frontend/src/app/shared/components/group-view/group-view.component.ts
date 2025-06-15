@@ -99,17 +99,25 @@ export class GroupViewComponent implements OnDestroy {
     const bets = this.form.getRawValue().bets
     if (this.mode() === 'bet') this.store.dispatch(saveBets({
       groupId: group.id,
-      bets: bets.filter((bet) => bet.scoreTeamHome !== null && bet.scoreTeamGuest !== null)
+      bets: bets
+        .filter((bet) => bet.scoreTeamHome !== null || bet.scoreTeamGuest !== null)
+        .map((bet) => {
+          return {
+            ...bet,
+            scoreTeamGuest: bet.scoreTeamGuest ?? 0,
+            scoreTeamHome: bet.scoreTeamHome ?? 0
+          }
+        })
     }))
     else this.store.dispatch(saveResults({
       groupId: group.id,
       results: bets
-        .filter((bet) => bet.scoreTeamHome !== null && bet.scoreTeamGuest !== null)
+        .filter((bet) => bet.scoreTeamHome !== null || bet.scoreTeamGuest !== null)
         .map((bet): ScoreForm => {
           return {
             game: bet.game,
-            scoreTeamGuest: bet.scoreTeamGuest,
-            scoreTeamHome: bet.scoreTeamHome
+            scoreTeamGuest: bet.scoreTeamGuest ?? 0,
+            scoreTeamHome: bet.scoreTeamHome ?? 0
           }
         })
     }))

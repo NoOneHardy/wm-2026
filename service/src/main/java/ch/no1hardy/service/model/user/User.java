@@ -36,19 +36,26 @@ public class User extends BaseEntity implements UserDetails {
     private String lastname;
 
     @NotNull
-    private Boolean isActivated = false;
-
-    @NotNull
     private Integer points = 0;
 
     @NotNull
-    private Role role = Role.UNCONFIRMED_USER;
+    private Role role = Role.USER;
 
     private Integer lastReviewedPoints = 0;
 
     private String avatarUrl;
 
-    private LocalDateTime confirmedAt;
+    /**
+     * The date when the user confirmed his email address
+     * TODO: Implement email confirmation
+     */
+    private LocalDateTime emailConfirmedAt;
+
+    /**
+     * The date when an admin has reviewed the user and accepted or denied it
+     */
+    private LocalDateTime applicationReviewedAt;
+    private UserApplicationStatus userApplicationStatus;
 
     @OneToMany(mappedBy = "user")
     @EqualsAndHashCode.Exclude
@@ -83,6 +90,6 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     public boolean isConfirmed() {
-        return isActive() && getConfirmedAt() != null;
+        return isActive() && getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.ACCEPTED;
     }
 }

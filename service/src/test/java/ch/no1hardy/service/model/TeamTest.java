@@ -1,4 +1,4 @@
-package ch.no1hardy.service.service.service;
+package ch.no1hardy.service.model;
 
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;

@@ -2,7 +2,10 @@ package ch.no1hardy.service.model.user;
 
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Bet;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -143,5 +146,25 @@ public class User extends BaseEntity implements UserDetails {
      */
     public boolean isConfirmed() {
         return isActive() && getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.ACCEPTED;
+    }
+
+    /**
+     * Accepts the user application and sets the application reviewed date to now.
+     */
+    public void confirm() {
+        if (getUserApplicationStatus() == UserApplicationStatus.ACCEPTED) return;
+
+        this.setApplicationReviewedAt(LocalDateTime.now());
+        this.setUserApplicationStatus(UserApplicationStatus.ACCEPTED);
+    }
+
+    /**
+     * Denies the user application and sets the application reviewed date to now.
+     */
+    public void deny() {
+        if (getUserApplicationStatus() == UserApplicationStatus.DENIED) return;
+
+        this.setApplicationReviewedAt(LocalDateTime.now());
+        this.setUserApplicationStatus(UserApplicationStatus.DENIED);
     }
 }

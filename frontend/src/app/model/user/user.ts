@@ -1,4 +1,5 @@
 import {Role} from './role'
+import {UserApplicationStatus} from './user-application-status'
 
 export interface User {
   id: string
@@ -13,7 +14,8 @@ export interface User {
   role: Role
   lastReviewedPoints?: number | null
   avatar?: string | null
-  confirmedAt?: Date | null
+  applicationReviewedAt?: Date | null
+  userApplicationStatus?: UserApplicationStatus | null
 }
 
 export interface NewUser {

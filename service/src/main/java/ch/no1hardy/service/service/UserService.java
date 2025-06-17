@@ -12,6 +12,7 @@ import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.user.User;
+import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
 import io.micrometer.common.lang.Nullable;
 import lombok.AllArgsConstructor;
@@ -213,5 +214,21 @@ public class UserService {
         }
 
         return Arrays.stream(slimBoard).toList();
+    }
+
+    public void confirmUser(String id) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        if (user.isConfirmed()) return;
+
+        user.confirm();
+        repository.save(user);
+    }
+
+    public void denyUser(String id) {
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return;
+
+        user.deny();
+        repository.save(user);
     }
 }

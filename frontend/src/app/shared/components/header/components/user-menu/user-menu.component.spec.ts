@@ -30,7 +30,7 @@ describe('UserMenuComponent', () => {
       points: 0,
       role: Role.USER,
       updatedAt: new Date(),
-      confirmedAt: new Date()
+      applicationReviewedAt: new Date()
     }
   })
 

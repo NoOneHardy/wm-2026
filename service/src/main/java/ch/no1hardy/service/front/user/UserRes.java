@@ -1,6 +1,7 @@
 package ch.no1hardy.service.front.user;
 
 import ch.no1hardy.service.model.user.Role;
+import ch.no1hardy.service.model.user.UserApplicationStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,5 +20,6 @@ public class UserRes {
     private Integer lastReviewedPoints;
     private String avatarUrl;
     private Role role;
-    private LocalDateTime confirmedAt;
+    private LocalDateTime applicationReviewedAt;
+    private UserApplicationStatus userApplicationStatus;
 }

@@ -41,6 +41,8 @@ public class GameService {
         Game game = repository.findById(id).orElse(null);
         if (game == null) throw new NotFoundException("Game " + id + " not found");
 
+        if (!dto.isValid()) return mapper.toDto(game);
+
         dto.setGame(id);
         Score result;
         Score existingResult = game.getResult();
@@ -64,7 +66,9 @@ public class GameService {
         if (game == null) throw new NotFoundException("Game " + id + " not found");
         if (user == null) throw new BadRequestException("User not logged in");
 
-        if (game.getTimestamp().isBefore(LocalDateTime.now()) || game.getResult() != null)
+        if (game.getTimestamp().isBefore(LocalDateTime.now())
+                || game.getResult() != null
+                || !dto.isValid())
             return mapper.toDto(game);
 
         dto.clampJoker();

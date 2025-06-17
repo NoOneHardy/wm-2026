@@ -1,10 +1,12 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,9 +14,11 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -248,5 +252,75 @@ public class UserServiceTest {
         assertEquals(user2.getId(), res.get(0).getId());
         assertEquals(user3.getId(), res.get(1).getId());
         assertEquals(user4.getId(), res.get(2).getId());
+    }
+
+    @Test
+    @DisplayName("confirmUser(String id) - should throw NotFoundException if no user is found")
+    void shouldThrowNotFoundExceptionIfNoUserIsFoundInConfirm() {
+        when(userRepository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.confirmUser("non-existing-user"));
+    }
+
+    @Test
+    @DisplayName("confirmUser(String id) - should confirm user")
+    void shouldConfirmUser() {
+        User user = new User();
+        user.setId("user-1");
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+
+        service.confirmUser("user-1");
+        assertTrue(user.isConfirmed());
+    }
+
+    @Test
+    @DisplayName("confirmUser(String id) - should not confirm user if already confirmed")
+    void shouldNotConfirmUserIfAlreadyConfirmed() {
+        User user = new User();
+        user.setId("user-1");
+        user.confirm();
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+
+        assertNotNull(user.getApplicationReviewedAt());
+        user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));
+        service.confirmUser("user-1");
+        assertTrue(user.isConfirmed());
+        assertEquals(LocalDateTime.of(2025, 6, 17, 14, 30), user.getApplicationReviewedAt());
+    }
+
+    @Test
+    @DisplayName("denyUser(String id) - should throw NotFoundException if no user is found")
+    void shouldThrowNotFoundExceptionIfNoUserIsFoundInDeny() {
+        when(userRepository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
+
+        assertThrows(NotFoundException.class, () -> service.denyUser("non-existing-user"));
+    }
+
+    @Test
+    @DisplayName("denyUser(String id) - should deny user")
+    void shouldDenyUser() {
+        User user = new User();
+        user.setId("user-1");
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+
+        user.confirm();
+        assertTrue(user.isConfirmed());
+        service.denyUser("user-1");
+        assertFalse(user.isConfirmed());
+    }
+
+    @Test
+    @DisplayName("denyUser(String id) - should not deny user if already denied")
+    void shouldNotDenyUserIfAlreadyDenied() {
+        User user = new User();
+        user.setId("user-1");
+        user.deny();
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+
+        assertNotNull(user.getApplicationReviewedAt());
+        user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));
+        service.denyUser("user-1");
+        assertFalse(user.isConfirmed());
+        assertEquals(LocalDateTime.of(2025, 6, 17, 14, 30), user.getApplicationReviewedAt());
     }
 }

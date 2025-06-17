@@ -216,19 +216,19 @@ public class UserService {
         return Arrays.stream(slimBoard).toList();
     }
 
-    public void confirmUser(String id) {
+    public UserRes confirmUser(String id) {
         User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-        if (user.isConfirmed()) return;
+        if (user.isConfirmed()) return mapper.toDto(user);
 
         user.confirm();
-        repository.save(user);
+        return mapper.toDto(repository.save(user));
     }
 
-    public void denyUser(String id) {
+    public UserRes denyUser(String id) {
         User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
-        if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return;
+        if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return mapper.toDto(user);
 
         user.deny();
-        repository.save(user);
+        return mapper.toDto(repository.save(user));
     }
 }

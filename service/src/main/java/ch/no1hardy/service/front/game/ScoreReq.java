@@ -11,6 +11,9 @@ public class ScoreReq {
     private Integer scoreTeamGuest;
 
     public boolean isValid() {
-        return getScoreTeamHome() != null && getScoreTeamGuest() != null;
+        boolean hasScores = getScoreTeamHome() != null && getScoreTeamGuest() != null;
+        if (!hasScores) return false;
+
+        return getScoreTeamHome() >= 0 && getScoreTeamGuest() >= 0;
     }
 }

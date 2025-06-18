@@ -15,7 +15,6 @@ public class UserRes {
     private String email;
     private String firstname;
     private String lastname;
-    private Boolean isActive;
     private Integer points;
     private Integer lastReviewedPoints;
     private String avatarUrl;

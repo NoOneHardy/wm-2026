@@ -24,6 +24,7 @@ public class UserController {
     private final JwtService jwtService;
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<UserRes> list() {
         logger.info("GET /user");
         return this.service.list();

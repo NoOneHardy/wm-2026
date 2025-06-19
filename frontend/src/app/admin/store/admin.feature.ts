@@ -25,7 +25,7 @@ export const adminFeature = createFeature({
     on(usersLoaded, (state, action): AdminState => {
       return {
         ...state,
-        isAdminLoading: true,
+        isAdminLoading: false,
         users: action.users
       }
     })

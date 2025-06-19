@@ -1,1 +1,19 @@
-<p>user-management works!</p>
+<div class="user-management">
+  <h1>Benutzerverwaltung</h1>
+
+  <div class="users">
+    <div *ngFor="let user of users()" class="user-request">
+      <div class="avatar flag">
+        <img [ngSrc]="user.avatarUrl ?? '/assets/user.jpg'" [alt]="user.username" fill>
+      </div>
+      <div class="name">{{ user.username }}<span class="full-name">{{ user.firstname }} {{ user.lastname }}</span>
+      </div>
+      <div class="actions">
+        <button matRipple class="accept" [disabled]="isAccepted(user)"><span
+          class="material-symbols-rounded">check</span></button>
+        <button matRipple class="deny" [disabled]="isDenied(user)"><span class="material-symbols-rounded">close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

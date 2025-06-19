@@ -9,6 +9,9 @@ import {provideEffects} from '@ngrx/effects'
 import {UserEffects} from './user-management/store/user.effects'
 import {TournamentEffects} from './shared/store/tournament.effects'
 import {tournamentFeature} from './shared/store/tournament.feature'
+import {AdminEffects} from './admin/store/admin.effects'
+import {adminFeature} from './admin/store/admin.feature'
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +21,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState(userFeature),
     provideState(tournamentFeature),
-    provideEffects(UserEffects, TournamentEffects),
+    provideState(adminFeature),
+    provideEffects(UserEffects, TournamentEffects, AdminEffects), provideAnimationsAsync(),
   ]
 }

@@ -3,9 +3,8 @@ import {TestBed} from '@angular/core/testing'
 import {AdminService} from './admin.service'
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing'
 import {User} from '../model/user/user'
-import {UserApplicationStatus} from '../model/user/user-application-status'
-import {Role} from '../model/user/role'
 import {provideHttpClient} from '@angular/common/http'
+import {mockUser1} from '../model/mock/user.mock'
 
 describe('AdminService', () => {
   let service: AdminService
@@ -28,18 +27,7 @@ describe('AdminService', () => {
   })
 
   it('should return a list of users', () => {
-    const mockUsers: User[] = [{
-      id: 'user-1',
-      username: 'test',
-      email: 'test@no1hardy.ch',
-      firstname: 'Test',
-      lastname: 'User',
-      points: 100,
-      lastReviewedPoints: 10,
-      role: Role.USER,
-      applicationReviewedAt: new Date(),
-      userApplicationStatus: UserApplicationStatus.ACCEPTED
-    }]
+    const mockUsers: User[] = [{...mockUser1}]
 
     service.getAllUsers().subscribe(users => {
       expect(users).toEqual(mockUsers)

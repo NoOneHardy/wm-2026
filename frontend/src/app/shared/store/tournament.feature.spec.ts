@@ -5,9 +5,12 @@ import {
   deselectGroup,
   grantJDouble,
   grantJTriple,
-  groupSelected, overviewGroupsLoaded, resultsSaved,
+  groupSelected,
+  overviewGroupsLoaded,
+  resultsSaved,
   revokeJDouble,
-  revokeJTriple, saveResults,
+  revokeJTriple,
+  saveResults,
   selectGroup
 } from './tournament.actions'
 import {Group} from '../../model/group/group'

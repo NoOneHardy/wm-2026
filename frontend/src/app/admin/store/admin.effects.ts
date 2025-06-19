@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {AdminService} from '../admin.service'
-import {loadUsers, usersLoaded} from './admin.actions'
+import {applicationReviewed, confirmUser, denyUser, loadUsers, usersLoaded} from './admin.actions'
 import {exhaustMap, map} from 'rxjs'
 
 // noinspection JSUnusedGlobalSymbols
@@ -17,6 +17,24 @@ export class AdminEffects {
     exhaustMap(() => {
       return this.adminService.getAllUsers().pipe(map(users => {
         return usersLoaded({users})
+      }))
+    })
+  ))
+
+  confirmUser = createEffect(() => this.actions$.pipe(
+    ofType(confirmUser),
+    exhaustMap((action) => {
+      return this.adminService.confirmUser(action.id).pipe(map(user => {
+        return applicationReviewed({user})
+      }))
+    })
+  ))
+
+  denyUser = createEffect(() => this.actions$.pipe(
+    ofType(denyUser),
+    exhaustMap((action) => {
+      return this.adminService.denyUser(action.id).pipe(map(user => {
+        return applicationReviewed({user})
       }))
     })
   ))

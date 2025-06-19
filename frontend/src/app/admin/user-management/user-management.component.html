@@ -9,9 +9,10 @@
       <div class="name">{{ user.username }}<span class="full-name">{{ user.firstname }} {{ user.lastname }}</span>
       </div>
       <div class="actions">
-        <button matRipple class="accept" [disabled]="isAccepted(user)"><span
+        <button matRipple (click)="accept(user.id)" class="accept" [disabled]="isAccepted(user)"><span
           class="material-symbols-rounded">check</span></button>
-        <button matRipple class="deny" [disabled]="isDenied(user)"><span class="material-symbols-rounded">close</span>
+        <button matRipple (click)="deny(user.id)" class="deny" [disabled]="isDenied(user)"><span
+          class="material-symbols-rounded">close</span>
         </button>
       </div>
     </div>

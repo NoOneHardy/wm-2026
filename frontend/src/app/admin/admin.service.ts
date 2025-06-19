@@ -12,4 +12,12 @@ export class AdminService {
   getAllUsers(): Observable<User[]> {
     return this.http.get<User[]>('/api/user/all')
   }
+
+  confirmUser(id: string): Observable<User> {
+    return this.http.get<User>(`/api/admin/user/${id}/confirm`)
+  }
+
+  denyUser(id: string): Observable<User> {
+    return this.http.get<User>(`/api/admin/user/${id}/deny`)
+  }
 }

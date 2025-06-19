@@ -3,8 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {UserMenuComponent} from './user-menu.component'
 import {User} from '../../../../../model/user/user'
 import {provideMockStore} from '@ngrx/store/testing'
-import {Role} from '../../../../../model/user/role'
-import {UserApplicationStatus} from '../../../../../model/user/user-application-status'
+import {mockUser1} from '../../../../../model/mock/user.mock'
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent
@@ -20,18 +19,7 @@ describe('UserMenuComponent', () => {
     fixture = TestBed.createComponent(UserMenuComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
-    user = {
-      id: 'user-1',
-      username: 'NoOneHardy',
-      email: 'silas.hardegger@outlook.com',
-      firstname: 'Silas',
-      lastname: 'Hardegger',
-      points: 0,
-      lastReviewedPoints: 0,
-      role: Role.USER,
-      applicationReviewedAt: new Date(),
-      userApplicationStatus: UserApplicationStatus.ACCEPTED
-    }
+    user = {...mockUser1}
   })
 
   it('should create', () => {
@@ -53,6 +41,6 @@ describe('UserMenuComponent', () => {
   it('should display user name if user is not null', () => {
     fixture.componentRef.setInput('user', user)
     fixture.detectChanges()
-    expect(fixture.nativeElement.querySelector('wm-user-button')?.innerText).toContain('NoOneHardy')
+    expect(fixture.nativeElement.querySelector('wm-user-button')?.innerText).toContain('User1')
   })
 })

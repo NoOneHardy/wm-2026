@@ -4,28 +4,16 @@ import {ActivatedRouteSnapshot, GuardResult, provideRouter, Router, RouterStateS
 import {isLoggedInGuard} from './is-logged-in.guard'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectIsUserLoading, selectUser} from '../user-management/store/user.feature'
-import {Role} from '../model/user/role'
 import {Observable} from 'rxjs'
 import {User} from '../model/user/user'
-import {UserApplicationStatus} from '../model/user/user-application-status'
-
-const mockUser: User = {
-  id: 'user-1',
-  username: 'User',
-  email: 'user@no1hardy.ch',
-  firstname: 'Silas',
-  lastname: 'No1hardy',
-  role: Role.USER,
-  points: 0,
-  lastReviewedPoints: 0,
-  userApplicationStatus: UserApplicationStatus.PENDING
-}
+import {mockUser1} from '../model/mock/user.mock'
 
 describe('isLoggedInGuard', () => {
   const route: ActivatedRouteSnapshot = {} as ActivatedRouteSnapshot
   const state: RouterStateSnapshot = {} as RouterStateSnapshot
   let store: MockStore
   let result: GuardResult | null
+  let mockUser: User
 
   const subscribeToGuard = () => {
     const guard$: Observable<GuardResult> = TestBed.runInInjectionContext(() => isLoggedInGuard(route, state)) as Observable<GuardResult>
@@ -38,6 +26,8 @@ describe('isLoggedInGuard', () => {
     TestBed.configureTestingModule({
       providers: [provideRouter([]), provideMockStore()]
     })
+
+    mockUser = {...mockUser1}
 
     result = null
     store = TestBed.inject(MockStore)

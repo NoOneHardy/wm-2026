@@ -4,27 +4,17 @@ import {FeatureSlice} from '@ngrx/store'
 import * as feature from './user.feature'
 import {selectIsAdmin, UserState} from './user.feature'
 import {userLoggedIn} from './user.actions'
-import {UserApplicationStatus} from '../../model/user/user-application-status'
-
-const mockUser: User = {
-  id: 'user-1',
-  username: 'User',
-  email: 'user@no1hardy.ch',
-  firstname: 'Silas',
-  lastname: 'No1hardy',
-  role: Role.USER,
-  points: 0,
-  lastReviewedPoints: 0,
-  userApplicationStatus: UserApplicationStatus.PENDING
-}
+import {mockUser1} from '../../model/mock/user.mock'
 
 describe('UserFeature', () => {
   let store: FeatureSlice<UserState>
   let initialState: UserState
+  let mockUser: User
 
   beforeEach(() => {
     store = feature.userFeature
     initialState = feature.initialState
+    mockUser = {...mockUser1}
   })
 
   it('should initialize', () => {

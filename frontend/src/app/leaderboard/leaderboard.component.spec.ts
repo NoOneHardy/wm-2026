@@ -6,9 +6,8 @@ import {selectLeaderboard} from '../shared/store/tournament.feature'
 import {getLeaderboard} from '../shared/store/tournament.actions'
 import {selectUser} from '../user-management/store/user.feature'
 import {User} from '../model/user/user'
-import {Role} from '../model/user/role'
 import {Ranking} from '../model/leaderboard/ranking'
-import {UserApplicationStatus} from '../model/user/user-application-status'
+import {mockUser1} from '../model/mock/user.mock'
 
 describe('LeaderboardComponent', () => {
   let component: LeaderboardComponent
@@ -23,17 +22,7 @@ describe('LeaderboardComponent', () => {
       providers: [provideMockStore()]
     }).compileComponents()
 
-    mockUser = {
-      id: 'user-1',
-      username: 'No1Hardy',
-      email: 'no1hardy@no1hardy.ch',
-      role: Role.ADMIN,
-      firstname: 'No1Hardy',
-      lastname: 'No1Hardy',
-      points: 1000,
-      lastReviewedPoints: 0,
-      userApplicationStatus: UserApplicationStatus.PENDING
-    }
+    mockUser = {...mockUser1}
 
     store = TestBed.inject(MockStore)
     store.overrideSelector(selectLeaderboard, [])

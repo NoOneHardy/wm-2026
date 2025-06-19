@@ -4,6 +4,7 @@ import {UserMenuComponent} from './user-menu.component'
 import {User} from '../../../../../model/user/user'
 import {provideMockStore} from '@ngrx/store/testing'
 import {Role} from '../../../../../model/user/role'
+import {UserApplicationStatus} from '../../../../../model/user/user-application-status'
 
 describe('UserMenuComponent', () => {
   let component: UserMenuComponent
@@ -20,17 +21,16 @@ describe('UserMenuComponent', () => {
     component = fixture.componentInstance
     fixture.detectChanges()
     user = {
-      id: '',
+      id: 'user-1',
       username: 'NoOneHardy',
       email: 'silas.hardegger@outlook.com',
       firstname: 'Silas',
       lastname: 'Hardegger',
-      createdAt: new Date(),
-      isActive: true,
       points: 0,
+      lastReviewedPoints: 0,
       role: Role.USER,
-      updatedAt: new Date(),
-      applicationReviewedAt: new Date()
+      applicationReviewedAt: new Date(),
+      userApplicationStatus: UserApplicationStatus.ACCEPTED
     }
   })
 

@@ -6,18 +6,19 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectIsUserLoading, selectUser} from '../user-management/store/user.feature'
 import {Role} from '../model/user/role'
 import {Observable} from 'rxjs'
+import {User} from '../model/user/user'
+import {UserApplicationStatus} from '../model/user/user-application-status'
 
-const mockUser = {
+const mockUser: User = {
   id: 'user-1',
   username: 'User',
   email: 'user@no1hardy.ch',
   firstname: 'Silas',
   lastname: 'No1hardy',
-  isActive: true,
   role: Role.USER,
   points: 0,
-  createdAt: new Date(),
-  updatedAt: new Date()
+  lastReviewedPoints: 0,
+  userApplicationStatus: UserApplicationStatus.PENDING
 }
 
 describe('isLoggedInGuard', () => {

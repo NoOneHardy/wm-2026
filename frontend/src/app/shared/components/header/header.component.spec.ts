@@ -7,6 +7,7 @@ import {UserButtonComponent} from './components/user-button/user-button.componen
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
 import {Role} from '../../../model/user/role'
+import {UserApplicationStatus} from '../../../model/user/user-application-status'
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent
@@ -64,11 +65,10 @@ describe('HeaderComponent', () => {
       email: 'user@no1hardy.ch',
       firstname: 'Silas',
       lastname: 'No1hardy',
-      isActive: true,
       role: Role.USER,
       points: 0,
-      createdAt: new Date(),
-      updatedAt: new Date()
+      lastReviewedPoints: 0,
+      userApplicationStatus: UserApplicationStatus.PENDING
     })
     store.refreshState()
     fixture.detectChanges()

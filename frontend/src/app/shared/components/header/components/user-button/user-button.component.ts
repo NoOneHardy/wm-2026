@@ -1,11 +1,13 @@
 import {Component, input, output} from '@angular/core'
 import {RouterLink} from '@angular/router'
+import {MatRipple} from '@angular/material/core'
 
 @Component({
   selector: 'wm-user-button',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    MatRipple
   ],
   templateUrl: './user-button.component.html',
   styleUrl: './user-button.component.css'

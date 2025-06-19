@@ -8,6 +8,7 @@ import {selectUser} from '../user-management/store/user.feature'
 import {User} from '../model/user/user'
 import {Role} from '../model/user/role'
 import {Ranking} from '../model/leaderboard/ranking'
+import {UserApplicationStatus} from '../model/user/user-application-status'
 
 describe('LeaderboardComponent', () => {
   let component: LeaderboardComponent
@@ -29,10 +30,9 @@ describe('LeaderboardComponent', () => {
       role: Role.ADMIN,
       firstname: 'No1Hardy',
       lastname: 'No1Hardy',
-      createdAt: new Date(),
       points: 1000,
-      updatedAt: new Date(),
-      isActive: true
+      lastReviewedPoints: 0,
+      userApplicationStatus: UserApplicationStatus.PENDING
     }
 
     store = TestBed.inject(MockStore)

@@ -1,9 +1,10 @@
 import {User} from '../../model/user/user'
 import {Role} from '../../model/user/role'
 import {FeatureSlice} from '@ngrx/store'
-import {selectIsAdmin, UserState} from './user.feature'
 import * as feature from './user.feature'
+import {selectIsAdmin, UserState} from './user.feature'
 import {userLoggedIn} from './user.actions'
+import {UserApplicationStatus} from '../../model/user/user-application-status'
 
 const mockUser: User = {
   id: 'user-1',
@@ -11,11 +12,10 @@ const mockUser: User = {
   email: 'user@no1hardy.ch',
   firstname: 'Silas',
   lastname: 'No1hardy',
-  isActive: true,
   role: Role.USER,
   points: 0,
-  createdAt: new Date(),
-  updatedAt: new Date()
+  lastReviewedPoints: 0,
+  userApplicationStatus: UserApplicationStatus.PENDING
 }
 
 describe('UserFeature', () => {

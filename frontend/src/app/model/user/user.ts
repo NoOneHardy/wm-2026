@@ -7,15 +7,12 @@ export interface User {
   email: string
   firstname: string
   lastname: string
-  createdAt: Date
-  isActive: boolean
   points: number
-  updatedAt: Date
-  role: Role
-  lastReviewedPoints?: number | null
+  lastReviewedPoints: number
   avatarUrl?: string | null
+  role: Role
   applicationReviewedAt?: Date | null
-  userApplicationStatus?: UserApplicationStatus | null
+  userApplicationStatus: UserApplicationStatus
 }
 
 export interface NewUser {

@@ -13,7 +13,7 @@ export interface User {
   updatedAt: Date
   role: Role
   lastReviewedPoints?: number | null
-  avatar?: string | null
+  avatarUrl?: string | null
   applicationReviewedAt?: Date | null
   userApplicationStatus?: UserApplicationStatus | null
 }

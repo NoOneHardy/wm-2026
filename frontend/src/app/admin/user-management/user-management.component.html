@@ -2,7 +2,8 @@
   <h1>Benutzerverwaltung</h1>
 
   <div class="users">
-    <div *ngFor="let user of users()" class="user-request">
+    <div *ngFor="let user of users()" class="user-request" [class.-accepted]="isAccepted(user)"
+         [class.-denied]="isDenied(user)">
       <div class="avatar flag">
         <img [ngSrc]="user.avatarUrl ?? '/assets/user.jpg'" [alt]="user.username" fill>
       </div>

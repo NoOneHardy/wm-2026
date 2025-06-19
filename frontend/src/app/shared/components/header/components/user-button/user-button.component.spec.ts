@@ -1,5 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { UserButtonComponent } from './user-button.component'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {UserButtonComponent} from './user-button.component'
 import {provideRouter} from '@angular/router'
 
 describe('UserButtonComponent', () => {
@@ -52,12 +52,12 @@ describe('UserButtonComponent', () => {
     fixture.detectChanges()
 
     // Button
-    expect(fixture.nativeElement.querySelector('.button')?.innerHTML).toBe('Hello World!')
+    expect(fixture.nativeElement.querySelector('.button')?.innerText).toBe('Hello World!')
 
     // Link
     fixture.componentRef.setInput('route', '/')
     fixture.detectChanges()
-    expect(fixture.nativeElement.querySelector('.button')?.innerHTML).toBe('Hello World!')
+    expect(fixture.nativeElement.querySelector('.button')?.innerText).toBe('Hello World!')
   })
 
   it('should have class secondary if empty string is given', () => {

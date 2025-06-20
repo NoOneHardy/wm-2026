@@ -1,9 +1,10 @@
 import {FeatureSlice} from '@ngrx/store'
+import * as feature from './admin.feature'
 import {AdminState} from './admin.feature'
 import {User} from '../../model/user/user'
-import * as feature from './admin.feature'
 import {mockUser1} from '../../model/mock/user.mock'
-import {loadUsers, usersLoaded} from './admin.actions'
+import {applicationReviewed, confirmUser, denyUser, loadUsers, usersLoaded} from './admin.actions'
+import {UserApplicationStatus} from '../../model/user/user-application-status'
 
 describe('AdminFeature', () => {
   let store: FeatureSlice<AdminState>
@@ -40,5 +41,40 @@ describe('AdminFeature', () => {
     expect(state.isAdminLoading).toBeTrue()
     state = store.reducer(state, usersLoaded({users: [mockUser]}))
     expect(state.isAdminLoading).toBeFalse()
+  })
+
+  it('should set isAdminLoading to true when confirming a user', () => {
+    let state = initialState
+    state = store.reducer(state, confirmUser({id: 'user-id'}))
+    expect(state.isAdminLoading).toBeTrue()
+  })
+
+  it('should update users when user has been confirmed or denied', () => {
+    let state = initialState
+    const user1Date = mockUser.applicationReviewedAt
+    state = store.reducer(state, usersLoaded({users: [mockUser, {...mockUser, id: 'user-2'}]}))
+    expect(state.users).toHaveSize(2)
+    state = store.reducer(state, applicationReviewed({
+      user: {
+        ...mockUser,
+        id: 'user-2',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date('2025-06-20T10:56:00')
+      }
+    }))
+    expect(state.users).toHaveSize(2)
+
+    const user1 = state.users.find(user => user.id === 'user-1')
+    const user2 = state.users.find(user => user.id === 'user-2')
+    expect(user2?.userApplicationStatus).toBe(UserApplicationStatus.ACCEPTED)
+    expect(user2?.applicationReviewedAt).toEqual(new Date('2025-06-20T10:56:00'))
+    expect(user1?.applicationReviewedAt).toEqual(user1Date)
+    expect(state.isAdminLoading).toBeFalse()
+  })
+
+  it('should set isAdminLoading to true when denying a user', () => {
+    let state = initialState
+    state = store.reducer(state, denyUser({id: 'user-id'}))
+    expect(state.isAdminLoading).toBeTrue()
   })
 })

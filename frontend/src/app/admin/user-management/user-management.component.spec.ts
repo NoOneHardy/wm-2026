@@ -3,7 +3,7 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {UserManagementComponent} from './user-management.component'
 import {selectUsers} from '../store/admin.feature'
 import {mockUser1} from '../../model/mock/user.mock'
-import {loadUsers} from '../store/admin.actions'
+import {confirmUser, denyUser, loadUsers} from '../store/admin.actions'
 import {User} from '../../model/user/user'
 import {selectUser} from '../../user-management/store/user.feature'
 import {UserApplicationStatus} from '../../model/user/user-application-status'
@@ -96,5 +96,77 @@ describe('UserManagementComponent', () => {
     mockUser.userApplicationStatus = UserApplicationStatus.DENIED
     mockUser.applicationReviewedAt = null
     expect(component.isDenied(mockUser)).toBeFalse()
+  })
+
+  it('should sort users by application status and username', () => {
+    store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectUsers, [
+      {
+        ...mockUser,
+        id: 'user-1',
+        username: 'Peter',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'user-2',
+        username: 'Anna',
+        userApplicationStatus: UserApplicationStatus.DENIED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'user-3',
+        username: 'John',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'user-4',
+        username: 'Zoe',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'user-5',
+        username: 'Alice',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'user-6',
+        username: 'Bob',
+        userApplicationStatus: UserApplicationStatus.DENIED,
+        applicationReviewedAt: new Date()
+      }
+    ])
+    store.refreshState()
+    fixture.detectChanges()
+
+    expect(component.users().length).toBe(6)
+    expect(component.users()[0].id).toBe('user-3')
+    expect(component.users()[1].id).toBe('user-4')
+    expect(component.users()[2].id).toBe('user-2')
+    expect(component.users()[3].id).toBe('user-6')
+    expect(component.users()[4].id).toBe('user-5')
+    expect(component.users()[5].id).toBe('user-1')
+  })
+
+  it('should call confirmUser action on accept', () => {
+    spyOn(store, 'dispatch')
+    const userId = 'test-user-id'
+    component.accept(userId)
+    expect(store.dispatch).toHaveBeenCalledWith(confirmUser({id: userId}))
+  })
+
+  it('should call denyUser action on deny', () => {
+    spyOn(store, 'dispatch')
+    const userId = 'test-user-id'
+    component.deny(userId)
+    expect(store.dispatch).toHaveBeenCalledWith(denyUser({id: userId}))
   })
 })

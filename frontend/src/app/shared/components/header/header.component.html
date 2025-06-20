@@ -1,7 +1,7 @@
 <ng-container *ngIf="isVpL(); else mobileHeader">
   <header class="header">
     <nav class="nav">
-      <a routerLink="/" class="home-link gradient-text">WM 2026</a>
+      <a routerLink="/" class="home-link gradient-text" data-cy="wm-header-root">WM 2026</a>
 
       <ng-container *ngIf="user()">
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>

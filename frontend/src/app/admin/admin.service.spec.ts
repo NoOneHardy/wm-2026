@@ -5,10 +5,12 @@ import {HttpTestingController, provideHttpClientTesting} from '@angular/common/h
 import {User} from '../model/user/user'
 import {provideHttpClient} from '@angular/common/http'
 import {mockUser1} from '../model/mock/user.mock'
+import {ServiceError} from '../model/error'
 
 describe('AdminService', () => {
   let service: AdminService
   let httpMock: HttpTestingController
+  let mockUser: User
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,6 +18,8 @@ describe('AdminService', () => {
     })
     service = TestBed.inject(AdminService)
     httpMock = TestBed.inject(HttpTestingController)
+
+    mockUser = {...mockUser1}
   })
 
   afterEach(() => {
@@ -27,7 +31,7 @@ describe('AdminService', () => {
   })
 
   it('should return a list of users', () => {
-    const mockUsers: User[] = [{...mockUser1}]
+    const mockUsers: User[] = [mockUser]
 
     service.getAllUsers().subscribe(users => {
       expect(users).toEqual(mockUsers)
@@ -46,5 +50,71 @@ describe('AdminService', () => {
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
     req.flush([])
+  })
+
+  it('should confirm a user', () => {
+    const userId = 'user-1'
+    service.confirmUser(userId).subscribe(response => {
+      expect(response).toBeTruthy()
+      expect(response.id).toEqual(userId)
+    })
+
+    const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
+    expect(req.request.method).toBe('GET')
+    req.flush(mockUser)
+  })
+
+  it('should return error message if user is not authenticated', () => {
+    const userId = 'user-1'
+    service.confirmUser(userId).subscribe({
+      error: (err: ServiceError) => {
+        expect(err.error.message).toEqual('Not authorized to access this method')
+        expect(err.status).toEqual(403)
+      }
+    })
+
+    const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
+    expect(req.request.method).toBe('GET')
+    req.flush({
+      status: 403,
+      message: 'Not authorized to access this method',
+      timestamp: '2025-06-20T09:17:00:00'
+    }, {
+      status: 403,
+      statusText: 'Forbidden'
+    })
+  })
+
+  it('should deny a user', () => {
+    const userId = 'user-1'
+    service.denyUser(userId).subscribe(response => {
+      expect(response).toBeTruthy()
+      expect(response.id).toEqual(userId)
+    })
+
+    const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
+    expect(req.request.method).toBe('GET')
+    req.flush(mockUser)
+  })
+
+  it('should return error message if user is not authenticated', () => {
+    const userId = 'user-1'
+    service.denyUser(userId).subscribe({
+      error: (err: ServiceError) => {
+        expect(err.error.message).toEqual('Not authorized to access this method')
+        expect(err.status).toEqual(403)
+      }
+    })
+
+    const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
+    expect(req.request.method).toBe('GET')
+    req.flush({
+      status: 403,
+      message: 'Not authorized to access this method',
+      timestamp: '2025-06-20T09:17:00:00'
+    }, {
+      status: 403,
+      statusText: 'Forbidden'
+    })
   })
 })

@@ -7,7 +7,15 @@
       <div class="avatar flag">
         <img [ngSrc]="user.avatarUrl ?? '/assets/user.jpg'" [alt]="user.username" fill>
       </div>
-      <div class="name">{{ user.username }}<span class="full-name">{{ user.firstname }} {{ user.lastname }}</span>
+      <div>
+        <div class="name">
+          <span>{{ user.username }}</span>
+          <div class="info">
+            <span>{{ user.firstname }} {{ user.lastname }}</span>
+            <span>-</span>
+            <a class="wm-link" [href]="'mailto:' + user.email">{{ user.email }}</a>
+          </div>
+        </div>
       </div>
       <div class="actions">
         <button matRipple (click)="accept(user.id)" class="accept" [disabled]="isAccepted(user)"><span

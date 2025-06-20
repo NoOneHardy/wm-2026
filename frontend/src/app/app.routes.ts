@@ -7,8 +7,14 @@ import {isAdminGuard} from './guards/is-admin.guard'
 import {ResultManagementComponent} from './admin/result-management/result-management.component'
 import {UserManagementComponent} from './admin/user-management/user-management.component'
 import {LeaderboardComponent} from './leaderboard/leaderboard.component'
+import {RootComponent} from './root/root.component'
 
 export const routes: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: RootComponent
+  },
   {
     path: 'signup',
     component: SignupComponent

@@ -4,6 +4,7 @@ import {Group} from '../../model/group/group'
 import {BetForm} from '../../model/game/bet-form'
 import {ScoreForm} from '../../model/game/score-form'
 import {Ranking} from '../../model/leaderboard/ranking'
+import {DashboardData} from '../../model/dashboard/dashboard-data'
 
 export const getOverviewGroups = createAction('[Tournament] Get Overview Groups')
 export const overviewGroupsLoaded = createAction('[Tournament] Overview Groups Loaded', props<{
@@ -30,4 +31,9 @@ export const resultsSaved = createAction('[Tournament Admin] Results saved', pro
 export const getLeaderboard = createAction('[Tournament] Get Leaderboard')
 export const leaderboardLoaded = createAction('[Tournament] Leaderboard Loaded', props<{
   leaderboard: Ranking[]
+}>())
+
+export const loadDashboardData = createAction('[Tournament] Get Dashboard Data')
+export const dashboardDataLoaded = createAction('[Tournament] Dashboard Data Loaded', props<{
+  data: DashboardData
 }>())

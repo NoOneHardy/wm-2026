@@ -1,9 +1,9 @@
 import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
 import {
-  betsSaved, deselectGroup, getLeaderboard,
+  betsSaved, dashboardDataLoaded, deselectGroup, getLeaderboard,
   getOverviewGroups, grantJDouble, grantJTriple,
-  groupSelected, leaderboardLoaded,
+  groupSelected, leaderboardLoaded, loadDashboardData,
   overviewGroupsLoaded, resetSaving, resultsSaved,
   revokeJDouble, revokeJTriple,
   saveBets, saveResults,
@@ -12,10 +12,12 @@ import {
 import {Group} from '../../model/group/group'
 import {AvailableJokers} from '../../model/group/available-jokers'
 import {Ranking} from '../../model/leaderboard/ranking'
+import {DashboardData} from '../../model/dashboard/dashboard-data'
 
 export interface TournamentState {
   isTournamentLoading: boolean
   isTournamentSaving: boolean
+  dashboard: DashboardData | null
   groups: CardGroup[]
   activeGroup: Group | null
   availableJokers: AvailableJokers | null
@@ -25,6 +27,7 @@ export interface TournamentState {
 export const initialState: TournamentState = {
   isTournamentLoading: false,
   isTournamentSaving: false,
+  dashboard: null,
   groups: [],
   activeGroup: null,
   availableJokers: null,
@@ -39,6 +42,7 @@ export const tournamentFeature = createFeature({
       getOverviewGroups,
       selectGroup,
       getLeaderboard,
+      loadDashboardData,
       (state): TournamentState => {
         return {
           ...state,
@@ -137,6 +141,12 @@ export const tournamentFeature = createFeature({
         leaderboard: action.leaderboard,
         isTournamentLoading: false
       }
+    }),
+    on(dashboardDataLoaded, (state, action): TournamentState => {
+      return {
+        ...state,
+        dashboard: action.data
+      }
     })
   )
 })
@@ -147,7 +157,8 @@ export const {
   selectActiveGroup,
   selectIsTournamentSaving,
   selectAvailableJokers,
-  selectLeaderboard
+  selectLeaderboard,
+  selectDashboard
 } = tournamentFeature
 
 export const hasActiveGroup = createSelector(

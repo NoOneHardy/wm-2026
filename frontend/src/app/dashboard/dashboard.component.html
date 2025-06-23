@@ -1,1 +1,9 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <h1>{{ greeting() }}</h1>
+  <div class="leaderboard-preview">
+    <h3>Deine Position</h3>
+    <div class="leaderboard">
+      <wm-position *ngFor="let position of leaderboardPreview()" [ranking]="position" [highlight]=""/>
+    </div>
+  </div>
+</div>

@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
 import {catchError, exhaustMap, map, of} from 'rxjs'
 import {
-  betsSaved, deselectGroup, getLeaderboard,
+  betsSaved, dashboardDataLoaded, deselectGroup, getLeaderboard,
   getOverviewGroups,
   groupSelected, leaderboardLoaded,
   overviewGroupsLoaded,
@@ -14,6 +14,7 @@ import {
 import {SnackbarService} from '../services/snackbar/snackbar.service'
 import {LeaderboardService} from '../services/leaderboard/leaderboard.service'
 import {ServiceError} from '../../model/error'
+import {DashboardService} from '../../dashboard/dashboard.service'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -24,6 +25,7 @@ export class TournamentEffects {
   private groupService = inject(GroupService)
   private leaderboardService = inject(LeaderboardService)
   private snackbarService = inject(SnackbarService)
+  private dashboardService = inject(DashboardService)
 
   getOverviewGroups = createEffect(() => this.actions$.pipe(
     ofType(getOverviewGroups),
@@ -106,6 +108,15 @@ export class TournamentEffects {
     exhaustMap(() => {
       return this.leaderboardService.getLeaderboard().pipe(
         map(leaderboard => leaderboardLoaded({leaderboard}))
+      )
+    })
+  ))
+
+  loadDashboardData = createEffect(() => this.actions$.pipe(
+    ofType(getLeaderboard),
+    exhaustMap(() => {
+      return this.dashboardService.loadDashboardData().pipe(
+        map(data => dashboardDataLoaded({data}))
       )
     })
   ))

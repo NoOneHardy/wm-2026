@@ -8,6 +8,7 @@ import {ResultManagementComponent} from './admin/result-management/result-manage
 import {UserManagementComponent} from './admin/user-management/user-management.component'
 import {LeaderboardComponent} from './leaderboard/leaderboard.component'
 import {RootComponent} from './root/root.component'
+import {isLoggedOutGuard} from './guards/is-logged-out.guard'
 
 export const routes: Routes = [
   {
@@ -17,11 +18,13 @@ export const routes: Routes = [
   },
   {
     path: 'signup',
-    component: SignupComponent
+    component: SignupComponent,
+    canActivate: [isLoggedOutGuard]
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [isLoggedOutGuard]
   },
   {
     path: 'leaderboard',

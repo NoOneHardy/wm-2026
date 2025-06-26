@@ -8,9 +8,15 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectAvailableJokers} from '../../../store/tournament.feature'
 import {grantJDouble, grantJTriple, revokeJDouble, revokeJTriple} from '../../../store/tournament.actions'
 
+const tomorrow = new Date(
+  new Date().getFullYear(),
+  new Date().getMonth(),
+  new Date().getDate() + 1
+)
+
 const mockGame: BetGame = {
   id: 'game-1',
-  timestamp: new Date('2025-06-23T21:00:00'),
+  timestamp: tomorrow,
   teamHome: {
     id: 'team-1',
     name: 'Deutschland',

@@ -1,21 +1,23 @@
-import {Component, computed, inject} from '@angular/core'
+import {Component, computed, inject, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {PositionComponent} from '../shared/components/position/position.component'
-import {NgForOf} from '@angular/common'
+import {NgForOf, NgIf} from '@angular/common'
 import {selectDashboard} from '../shared/store/tournament.feature'
+import {loadDashboardData} from '../shared/store/tournament.actions'
 
 @Component({
   selector: 'wm-dashboard',
   standalone: true,
   imports: [
     PositionComponent,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   private store = inject(Store)
 
   user = this.store.selectSignal(selectUser)
@@ -33,6 +35,10 @@ export class DashboardComponent {
 
   dashboardData = this.store.selectSignal(selectDashboard)
   leaderboardPreview = computed(() => {
-    return this.dashboardData()?.leaderboardPreview.filter((item) => !!item)
+    return this.dashboardData()?.leaderboardPreview.filter((item) => !!item) ?? []
   })
+
+  ngOnInit(): void {
+    this.store.dispatch(loadDashboardData())
+  }
 }

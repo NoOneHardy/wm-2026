@@ -3,7 +3,13 @@
   <div class="leaderboard-preview">
     <h3>Deine Position</h3>
     <div class="leaderboard">
-      <wm-position *ngFor="let position of leaderboardPreview()" [ranking]="position" [highlight]=""/>
+      <wm-position *ngFor="let position of leaderboardPreview()"
+                   [ranking]="position"
+                   [highlight]="position.id === user()?.id"/>
+      <ng-container *ngIf="leaderboardPreview().length === 0">
+        <p>Du wurdest noch nicht bestätigt.</p>
+        <p>Kontaktiere einen Administrator um in das Ranking aufgenommen zu werden.</p>
+      </ng-container>
     </div>
   </div>
 </div>

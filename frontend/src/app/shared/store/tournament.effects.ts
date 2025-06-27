@@ -3,12 +3,19 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
 import {catchError, exhaustMap, map, of} from 'rxjs'
 import {
-  betsSaved, dashboardDataLoaded, deselectGroup, getLeaderboard,
+  betsSaved,
+  dashboardDataLoaded,
+  deselectGroup,
+  getLeaderboard,
   getOverviewGroups,
-  groupSelected, leaderboardLoaded,
+  groupSelected,
+  leaderboardLoaded,
+  loadDashboardData,
   overviewGroupsLoaded,
-  resetSaving, resultsSaved,
-  saveBets, saveResults,
+  resetSaving,
+  resultsSaved,
+  saveBets,
+  saveResults,
   selectGroup
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
@@ -113,7 +120,7 @@ export class TournamentEffects {
   ))
 
   loadDashboardData = createEffect(() => this.actions$.pipe(
-    ofType(getLeaderboard),
+    ofType(loadDashboardData),
     exhaustMap(() => {
       return this.dashboardService.loadDashboardData().pipe(
         map(data => dashboardDataLoaded({data}))

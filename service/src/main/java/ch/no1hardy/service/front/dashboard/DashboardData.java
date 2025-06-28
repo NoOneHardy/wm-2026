@@ -10,4 +10,5 @@ import java.util.List;
 @Builder
 public class DashboardData {
     private List<RankingRes> leaderboardPreview;
+    private UserSummary userSummary;
 }

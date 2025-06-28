@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
@@ -11,6 +12,8 @@ import ch.no1hardy.service.mapper.UserMapperImpl;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
+import ch.no1hardy.service.model.group.Group;
+import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
@@ -36,6 +39,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository repository;
+    private final GroupRepository groupRepository;
     private final UserMapperImpl mapper;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
@@ -230,5 +234,34 @@ public class UserService {
 
         user.deny();
         return mapper.toDto(repository.save(user));
+    }
+
+    public UserSummary getUserSummary() {
+        User user = getLoggedInUser();
+        if (user == null) throw new BadRequestException("Not logged in");
+
+        Boolean isConfirmed;
+        if (user.getUserApplicationStatus() == UserApplicationStatus.ACCEPTED && user.getApplicationReviewedAt() != null)
+            isConfirmed = true;
+        else if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED && user.getApplicationReviewedAt() != null)
+            isConfirmed = false;
+        else
+            isConfirmed = null;
+
+        return UserSummary.builder()
+                .points(user.getPoints())
+                .percentage(getOverallPercentage(user))
+                .isConfirmed(isConfirmed)
+                .ranking(!getUserLeaderboard().isEmpty() ? getUserLeaderboard().get(1).getRanking() : null)
+                .build();
+    }
+
+    private Integer getOverallPercentage(User user) {
+        int totalBets = user.getBets().size();
+
+        int games = groupRepository.findAll().stream().filter(Group::isActive)
+                .mapToInt((group) -> group.getGames().size()).sum();
+        if (games == 0) return 0;
+        return (totalBets * 100) / games;
     }
 }

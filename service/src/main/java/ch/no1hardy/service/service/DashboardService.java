@@ -12,6 +12,7 @@ public class DashboardService {
     public DashboardData getDashboard() {
         return DashboardData.builder()
                 .leaderboardPreview(userService.getUserLeaderboard())
+                .userSummary(userService.getUserSummary())
                 .build();
     }
 }

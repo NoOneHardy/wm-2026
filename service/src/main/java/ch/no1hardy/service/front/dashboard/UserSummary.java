@@ -8,6 +8,6 @@ import lombok.Data;
 public class UserSummary {
     private Integer points;
     private Integer ranking;
-    private Integer percentage;
+    private Double percentage;
     private Boolean isConfirmed;
 }

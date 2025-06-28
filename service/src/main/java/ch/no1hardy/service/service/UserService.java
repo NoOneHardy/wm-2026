@@ -256,12 +256,12 @@ public class UserService {
                 .build();
     }
 
-    private Integer getOverallPercentage(User user) {
-        int totalBets = user.getBets().size();
+    private Double getOverallPercentage(User user) {
+        int totalBets = user.getBets().stream().filter(Bet::isActive).toList().size();
 
         int games = groupRepository.findAll().stream().filter(Group::isActive)
-                .mapToInt((group) -> group.getGames().size()).sum();
-        if (games == 0) return 0;
-        return (totalBets * 100) / games;
+                .mapToInt((group) -> group.getGames().stream().filter(Game::isActive).toList().size()).sum();
+        if (games == 0) return 0.0;
+        return (double) (totalBets * 100) / games;
     }
 }

@@ -1,6 +1,9 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.SecurityHelper;
+import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
@@ -195,7 +198,7 @@ public class UserServiceTest {
         return method;
     }
 
-    void checkPoints(Bet bet, Score score, int expectedPoints)  {
+    void checkPoints(Bet bet, Score score, int expectedPoints) {
         try {
             bet.setJoker(1);
             int points = (int) getCalculateUserPointsMethod().invoke(service, bet, score);
@@ -388,5 +391,83 @@ public class UserServiceTest {
 
         Double percentage = service.getOverallPercentage(user);
         assertEquals(75.0, percentage);
+    }
+
+    @Test
+    @DisplayName("getUserSummary() - should throw NotFoundException if no user is found")
+    void shouldThrowNotFoundExceptionIfNoUserIsFound() {
+        SecurityHelper.mockUserLogin(null);
+        assertThrows(BadRequestException.class, service::getUserSummary);
+    }
+
+    @Test
+    @DisplayName("getUserSummary() - should return user summary with correct points and ranking")
+    void shouldReturnUserSummaryWithCorrectPointsAndRanking() {
+        User user1 = new User();
+        user1.setId("user-1");
+        user1.setPoints(1000);
+        user1.confirm();
+
+        User user2 = new User();
+        user2.setId("user-2");
+        user2.setPoints(950);
+        user2.confirm();
+
+        User user3 = new User();
+        user3.setId("user-3");
+        user3.setPoints(1050);
+        user3.confirm();
+        when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3));
+
+        SecurityHelper.mockUserLogin(user1);
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+
+        UserSummary summary = service.getUserSummary();
+
+        assertEquals(1000, summary.getPoints());
+        assertEquals(2, summary.getRanking());
+        assertTrue(summary.getIsConfirmed());
+        assertEquals(0.0, summary.getPercentage());
+    }
+
+    @Test
+    @DisplayName("getUserSummary() - should evaluate whether user is confirmed")
+    void shouldEvaluateWhetherUserIsConfirmed() {
+        User user1 = new User();
+        user1.setId("user-1");
+        user1.setPoints(1000);
+
+        when(userRepository.findAll()).thenReturn(List.of());
+
+        SecurityHelper.mockUserLogin(user1);
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+
+        UserSummary summary = service.getUserSummary();
+        assertNull(summary.getIsConfirmed());
+
+        user1.confirm();
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        summary = service.getUserSummary();
+        assertTrue(summary.getIsConfirmed());
+
+        user1.deny();
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        summary = service.getUserSummary();
+        assertFalse(summary.getIsConfirmed());
+    }
+
+    @Test
+    @DisplayName("getUserSummary() - should set ranking to null if user leaderboard is empty")
+    void shouldSetRankingToNullIfUserLeaderboardIsEmpty() {
+        User user1 = new User();
+        user1.setId("user-1");
+        user1.setPoints(1000);
+        when(userRepository.findAll()).thenReturn(List.of(user1));
+
+        SecurityHelper.mockUserLogin(user1);
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+
+        UserSummary summary = service.getUserSummary();
+        assertNull(summary.getRanking());
     }
 }

@@ -125,7 +125,7 @@ public class UserService {
     @Nullable
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal().equals("anonymousUser")) {
+        if (authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
             return null;
         }
         User currentUser = (User) authentication.getPrincipal();

@@ -248,11 +248,12 @@ public class UserService {
         else
             isConfirmed = null;
 
+        List<RankingRes> userLeaderboard = getUserLeaderboard();
         return UserSummary.builder()
                 .points(user.getPoints())
                 .percentage(getOverallPercentage(user))
                 .isConfirmed(isConfirmed)
-                .ranking(!getUserLeaderboard().isEmpty() ? getUserLeaderboard().get(1).getRanking() : null)
+                .ranking(userLeaderboard.size() == 3 ? userLeaderboard.get(1).getRanking() : null)
                 .build();
     }
 

@@ -205,6 +205,7 @@ public class UserService {
         if (!user.isConfirmed()) return List.of();
 
         List<RankingRes> leaderboard = getLeaderboard();
+        if (leaderboard.isEmpty()) return List.of();
 
         RankingRes[] slimBoard = new RankingRes[3];
 

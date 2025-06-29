@@ -256,7 +256,7 @@ public class UserService {
                 .build();
     }
 
-    private Double getOverallPercentage(User user) {
+    public Double getOverallPercentage(User user) {
         int totalBets = user.getBets().stream().filter(Bet::isActive).toList().size();
 
         int games = groupRepository.findAll().stream().filter(Group::isActive)

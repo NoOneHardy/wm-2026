@@ -3,7 +3,10 @@ package ch.no1hardy.service.service;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
+import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
+import ch.no1hardy.service.model.group.Group;
+import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -28,6 +31,9 @@ public class UserServiceTest {
 
     @MockitoBean
     private UserRepository userRepository;
+
+    @MockitoBean
+    private GroupRepository groupRepository;
 
     @Test
     void shouldCalculatePointsForCorrectBet() {
@@ -322,5 +328,65 @@ public class UserServiceTest {
         service.denyUser("user-1");
         assertFalse(user.isConfirmed());
         assertEquals(LocalDateTime.of(2025, 6, 17, 14, 30), user.getApplicationReviewedAt());
+    }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return 0.0 if there are no games")
+    void shouldReturnZeroIfNoGames() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of());
+
+        Group group = new Group();
+        group.setGames(List.of());
+        when(groupRepository.findAll()).thenReturn(List.of(group));
+
+        assertEquals(0.0, service.getOverallPercentage(user));
+
+        when(groupRepository.findAll()).thenReturn(List.of());
+        assertEquals(0.0, service.getOverallPercentage(user));
+    }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return 0.0 if user has no bets")
+    void shouldReturnZeroIfUserHasNoBets() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of());
+
+        Group group = new Group();
+        group.setGames(List.of(
+                new Game(),
+                new Game(),
+                new Game(),
+                new Game()
+        ));
+        when(groupRepository.findAll()).thenReturn(List.of(group));
+
+        assertEquals(0.0, service.getOverallPercentage(user));
+    }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return correct percentage")
+    void shouldReturnCorrectPercentage() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of(
+                new Bet(),
+                new Bet(),
+                new Bet()
+        ));
+
+        Group group = new Group();
+        group.setGames(List.of(
+                new Game(),
+                new Game(),
+                new Game(),
+                new Game()
+        ));
+        when(groupRepository.findAll()).thenReturn(List.of(group));
+
+        Double percentage = service.getOverallPercentage(user);
+        assertEquals(75.0, percentage);
     }
 }

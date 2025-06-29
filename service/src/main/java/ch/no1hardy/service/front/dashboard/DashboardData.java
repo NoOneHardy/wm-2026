@@ -12,5 +12,7 @@ import java.util.List;
 public class DashboardData {
     private List<RankingRes> leaderboardPreview;
     private UserSummary userSummary;
+    private Statistics stats;
+    private GlobalStatistics globalStats;
     private List<BetGameRes> openBets;
 }

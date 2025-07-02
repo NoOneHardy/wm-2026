@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 @EqualsAndHashCode(callSuper = false)
-public class MissingRequestBodyException extends RuntimeException {
+public class MissingRequestBodyException extends ApiException {
     private final HttpStatus status = HttpStatus.BAD_REQUEST;
 
     public MissingRequestBodyException() {
-        super("Missing request body");
+        super("Missing request body", "Die Anfrage enthält keinen Body");
     }
 }

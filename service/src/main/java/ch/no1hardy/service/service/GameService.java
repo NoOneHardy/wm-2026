@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
+import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.front.game.BetReq;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -39,7 +41,7 @@ public class GameService {
 
     public BetGameRes uploadResult(String id, ScoreReq dto) {
         Game game = repository.findById(id).orElse(null);
-        if (game == null) throw new NotFoundException("Game " + id + " not found");
+        if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
 
         if (!dto.isValid()) return mapper.toDto(game);
 
@@ -63,8 +65,8 @@ public class GameService {
     public BetGameRes uploadBet(String id, BetReq dto) {
         Game game = repository.findById(id).orElse(null);
         User user = userService.getLoggedInUser();
-        if (game == null) throw new NotFoundException("Game " + id + " not found");
-        if (user == null) throw new BadRequestException("User not logged in");
+        if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
+        if (user == null) throw new BadRequestException("User not logged in", "Benutzer nicht angemeldet");
 
         if (game.getTimestamp().isBefore(LocalDateTime.now())
                 || game.getResult() != null

@@ -73,7 +73,7 @@ public class UserService {
 
     public UserRes get(String id) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         return mapper.toDto(entity);
     }
 
@@ -83,11 +83,11 @@ public class UserService {
         String username = dto.getUsername();
         String email = dto.getEmail();
 
-        if (!isEmailAvailable(email)) throw new BadRequestException("Email " + email + " is already taken");
-        if (!isUsernameAvailable(username)) throw new BadRequestException("Username " + username + " is already taken");
+        if (!isEmailAvailable(email)) throw new BadRequestException("Email " + email + " is already taken", "Email " + email + " ist bereits vergeben");
+        if (!isUsernameAvailable(username)) throw new BadRequestException("Username " + username + " is already taken", "Benutzername " + username + " ist bereits vergeben");
 
         if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches())
-            throw new BadRequestException("Invalid email format");
+            throw new BadRequestException("Invalid email format", "Ungültiges Email-Format");
 
         User entity = mapper.toEntity(dto);
         return mapper.toDto(repository.save(entity));
@@ -95,14 +95,14 @@ public class UserService {
 
     public UserRes update(String id, UserReq dto) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         mapper.update(dto, entity);
         return mapper.toDto(repository.save(entity));
     }
 
     public UserRes delete(String id) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found");
+        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         entity.delete();
         return mapper.toDto(repository.save(entity));
     }
@@ -201,7 +201,7 @@ public class UserService {
 
     public List<RankingRes> getUserLeaderboard() {
         User user = getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in");
+        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
         if (!user.isConfirmed()) return List.of();
 
         List<RankingRes> leaderboard = getLeaderboard();
@@ -222,7 +222,7 @@ public class UserService {
     }
 
     public UserRes confirmUser(String id) {
-        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
         if (user.isConfirmed()) return mapper.toDto(user);
 
         user.confirm();
@@ -230,7 +230,7 @@ public class UserService {
     }
 
     public UserRes denyUser(String id) {
-        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found"));
+        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
         if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return mapper.toDto(user);
 
         user.deny();
@@ -239,7 +239,7 @@ public class UserService {
 
     public UserSummary getUserSummary() {
         User user = getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in");
+        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
 
         Boolean isConfirmed;
         if (user.getUserApplicationStatus() == UserApplicationStatus.ACCEPTED && user.getApplicationReviewedAt() != null)

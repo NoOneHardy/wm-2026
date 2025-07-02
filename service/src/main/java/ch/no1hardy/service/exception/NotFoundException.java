@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseBody
 @ResponseStatus(HttpStatus.NOT_FOUND)
 @EqualsAndHashCode(callSuper = false)
-public class NotFoundException extends RuntimeException {
+public class NotFoundException extends ApiException {
     private final HttpStatus status = HttpStatus.NOT_FOUND;
 
-    public NotFoundException(String message) {
-        super(message);
+    public NotFoundException(String message, String displayMessage) {
+        super(message, displayMessage);
     }
 }

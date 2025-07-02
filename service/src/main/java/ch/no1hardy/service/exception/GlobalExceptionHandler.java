@@ -16,41 +16,47 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<ApiError> handleResourceNotFound(NotFoundException ex) {
         return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getStatus().value(), LocalDateTime.now()));
+                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<ApiError> handleBadRequest(BadRequestException ex) {
         return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getStatus().value(), LocalDateTime.now()));
+                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }
 
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ApiError> handleSignatureException() {
         return ResponseEntity.status(401)
-                .body(new ApiError("Invalid token", 401, LocalDateTime.now()));
+                .body(new ApiError("Invalid token", "Ungültige Authentifikation", 401, LocalDateTime.now()));
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ApiError> handleBadCredentialsException() {
         return ResponseEntity.status(401)
-                .body(new ApiError("Invalid credentials", 401, LocalDateTime.now()));
+                .body(new ApiError("Invalid credentials", "Ungültige Anmeldedaten", 401, LocalDateTime.now()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ApiError> handleAccessDeniedException() {
         return ResponseEntity.status(403)
-                .body(new ApiError("Not authorized to access this method", 403, LocalDateTime.now()));
+                .body(new ApiError("Not authorized to access this method", "Fehlende Berechtigungen", 403, LocalDateTime.now()));
     }
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<ApiError> handleDisabledException() {
         return ResponseEntity.status(403)
-                .body(new ApiError("This account has been disabled", 403, LocalDateTime.now()));
+                .body(new ApiError("This account has been disabled", "Dieser Account ist deaktiviert", 403, LocalDateTime.now()));
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ApiError> handleExpiredEntity(ExpiredJwtException ex) {
-        return ResponseEntity.status(403).body(new ApiError(ex.getMessage(), 403, LocalDateTime.now()));
+        return ResponseEntity.status(403).body(new ApiError(ex.getMessage(), "Die Session ist abgelaufen",403, LocalDateTime.now()));
+    }
+
+    @ExceptionHandler(BetPlaceException.class)
+    public ResponseEntity<ApiError> handleBetPlaceException(BetPlaceException ex) {
+        return ResponseEntity.status(ex.getStatus())
+                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }
 }

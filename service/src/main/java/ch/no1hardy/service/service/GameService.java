@@ -68,7 +68,11 @@ public class GameService {
         if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
         if (user == null) throw new BadRequestException("User not logged in", "Benutzer nicht angemeldet");
 
-        if (game.getTimestamp().isBefore(LocalDateTime.now())
+        if (game.getTimestamp().isBefore(LocalDateTime.now(ZoneId.of("CET")))) {
+            throw new BetPlaceException("Game " + id + " has already started", "Das Spiel '" + id + "' hat bereits begonnen");
+        }
+
+        if (game.getTimestamp().isBefore(LocalDateTime.now().atZone(ZoneId.of("CET")).toLocalDateTime())
                 || game.getResult() != null
                 || !dto.isValid())
             return mapper.toDto(game);

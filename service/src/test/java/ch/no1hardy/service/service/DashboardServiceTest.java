@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.front.dashboard.DashboardData;
 import ch.no1hardy.service.front.dashboard.UserSummary;
+import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,9 @@ public class DashboardServiceTest {
 
     @MockitoBean
     private UserService userService;
+
+    @MockitoBean
+    private GameService gameService;
 
     @Test
     @DisplayName("should return dashboard data")
@@ -43,11 +47,14 @@ public class DashboardServiceTest {
                         .build()
         ));
         when(userService.getUserSummary()).thenReturn(UserSummary.builder()
-                        .ranking(2)
-                        .isConfirmed(true)
-                        .points(1000)
-                        .percentage(70.0)
+                .ranking(2)
+                .isConfirmed(true)
+                .points(1000)
+                .percentage(70.0)
                 .build());
+
+        BetGameRes game = BetGameRes.builder().id("game-1").build();
+        when(gameService.getOpenBets()).thenReturn(List.of(game));
 
         DashboardData dashboardData = service.getDashboard();
 

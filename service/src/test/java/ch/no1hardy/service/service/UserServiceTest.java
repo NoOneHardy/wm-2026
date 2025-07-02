@@ -396,7 +396,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("getUserSummary() - should throw NotFoundException if no user is found")
     void shouldThrowNotFoundExceptionIfNoUserIsFound() {
-        SecurityHelper.mockUserLogin(null);
+        SecurityHelper.mockNoLogin();
         assertThrows(BadRequestException.class, service::getUserSummary);
     }
 
@@ -419,8 +419,7 @@ public class UserServiceTest {
         user3.confirm();
         when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3));
 
-        SecurityHelper.mockUserLogin(user1);
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        SecurityHelper.mockUserLogin(user1, userRepository);
 
         UserSummary summary = service.getUserSummary();
 
@@ -439,8 +438,7 @@ public class UserServiceTest {
 
         when(userRepository.findAll()).thenReturn(List.of());
 
-        SecurityHelper.mockUserLogin(user1);
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        SecurityHelper.mockUserLogin(user1, userRepository);
 
         UserSummary summary = service.getUserSummary();
         assertNull(summary.getIsConfirmed());
@@ -464,8 +462,7 @@ public class UserServiceTest {
         user1.setPoints(1000);
         when(userRepository.findAll()).thenReturn(List.of(user1));
 
-        SecurityHelper.mockUserLogin(user1);
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        SecurityHelper.mockUserLogin(user1, userRepository);
 
         UserSummary summary = service.getUserSummary();
         assertNull(summary.getRanking());

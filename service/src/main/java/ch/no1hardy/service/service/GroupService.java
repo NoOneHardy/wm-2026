@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ScoreReq;
@@ -39,7 +40,11 @@ public class GroupService {
 
         for (BetReq bet : bets.stream().filter(BetReq::isValid).toList()) {
             if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(bet.getGame())) {
-                gameService.uploadBet(bet.getGame(), bet);
+                try {
+                    gameService.uploadBet(bet.getGame(), bet);
+                } catch (BetPlaceException e) {
+                    throw new BetPlaceException(e.getMessage(), "Eines der Spiele hat bereits begonnen.");
+                }
             }
         }
         return mapper.toDto(group);

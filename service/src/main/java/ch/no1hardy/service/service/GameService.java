@@ -62,14 +62,14 @@ public class GameService {
         return mapper.toDto(repository.save(game));
     }
 
-    public BetGameRes uploadBet(String id, BetReq dto) {
+    public BetGameRes uploadBet(String id, BetReq dto) throws BetPlaceException {
         Game game = repository.findById(id).orElse(null);
         User user = userService.getLoggedInUser();
         if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
         if (user == null) throw new BadRequestException("User not logged in", "Benutzer nicht angemeldet");
 
         if (game.getTimestamp().isBefore(LocalDateTime.now(ZoneId.of("CET")))) {
-            throw new BetPlaceException("Game " + id + " has already started", "Das Spiel '" + id + "' hat bereits begonnen");
+            throw new BetPlaceException("Game " + id + " has already started", "Dieses Spiel hat bereits begonnen");
         }
 
         if (game.getTimestamp().isBefore(LocalDateTime.now().atZone(ZoneId.of("CET")).toLocalDateTime())

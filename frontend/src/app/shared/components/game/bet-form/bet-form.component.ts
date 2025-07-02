@@ -45,7 +45,11 @@ export class BetFormComponent implements ControlValueAccessor {
     transform: v => v === '' || v
   })
   hasStarted = computed(() => {
-    return new Date(this.game().timestamp).valueOf() <= new Date().valueOf()
+    const now = new Date()
+    const diff = now.getTimezoneOffset() + 120
+    const ect = new Date(now.valueOf() + diff * 60 * 1000)
+
+    return new Date(this.game().timestamp).valueOf() <= ect.valueOf()
   })
 
   availableJokers = this.store.selectSignal(selectAvailableJokers)

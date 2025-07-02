@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ApiError {
     private final String message;
+    private final String displayMessage;
     private final Integer status;
     private final LocalDateTime timestamp;
 }

@@ -6,10 +6,10 @@ import org.springframework.http.HttpStatus;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BadRequestException extends ApiException {
+public class BetPlaceException extends ApiException {
     private final HttpStatus status = HttpStatus.BAD_REQUEST;
 
-    public BadRequestException(String message, String displayMessage) {
+    public BetPlaceException(String message, String displayMessage) {
         super(message, displayMessage);
     }
 }

@@ -13,6 +13,7 @@ import {
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
 import {LeaderboardService} from '../services/leaderboard/leaderboard.service'
+import {ServiceError} from '../../model/error'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -49,10 +50,10 @@ export class TournamentEffects {
         map(group => {
           return betsSaved({group})
         }),
-        catchError(() => {
+        catchError((err: ServiceError) => {
           this.snackbarService.addMessage({
             type: 'error',
-            message: 'Fehler beim Speichern'
+            message: err.error.displayMessage
           })
           return of(resetSaving())
         })

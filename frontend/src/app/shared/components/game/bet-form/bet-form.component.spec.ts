@@ -96,7 +96,7 @@ describe('BetFormComponent', () => {
 
   it('should evaluate whether a game has started', () => {
     jasmine.clock().install()
-    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00'))
+    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -104,7 +104,7 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.hasStarted()).toBe(false)
 
-    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00'))
+    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -117,7 +117,7 @@ describe('BetFormComponent', () => {
 
   it('should disable form when game has started', () => {
     jasmine.clock().install()
-    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00'))
+    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -125,7 +125,7 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.isDisabled).toBe(false)
 
-    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00'))
+    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')

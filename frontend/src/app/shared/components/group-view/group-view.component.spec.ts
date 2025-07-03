@@ -21,7 +21,10 @@ const mockGroup: Group = {
   games: [
     {
       id: 'game2',
-      timestamp: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1, 18, 0, 0),
+      timestamp: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 3),
       teamHome: {
         id: 'team1',
         name: 'Team 1',
@@ -39,7 +42,11 @@ const mockGroup: Group = {
     },
     {
       id: 'game1',
-      timestamp: new Date('2025-04-23T18:00:00'),
+      timestamp: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() + 2
+      ),
       teamHome: {
         id: 'team1',
         name: 'Team 1',
@@ -52,12 +59,7 @@ const mockGroup: Group = {
         flag: 'https://example.com/logo2.png',
         previousGames: []
       },
-      result: {
-        id: 'result1',
-        scoreTeamHome: 2,
-        scoreTeamGuest: 1,
-        gameId: 'game1',
-      },
+      result: null,
       bet: {
         id: 'bet1',
         scoreTeamHome: 2,

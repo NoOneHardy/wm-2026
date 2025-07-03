@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, input} from '@angular/core'
+import {Component, computed, effect, inject, input, output} from '@angular/core'
 import {BetGame} from '../../../../model/game/bet-game'
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../../model/game/bet-form'
@@ -51,6 +51,7 @@ export class BetFormComponent implements ControlValueAccessor {
 
     return new Date(this.game().timestamp).valueOf() <= ect.valueOf()
   })
+  disabledChange = output<boolean>()
 
   availableJokers = this.store.selectSignal(selectAvailableJokers)
 
@@ -77,7 +78,10 @@ export class BetFormComponent implements ControlValueAccessor {
   constructor() {
     effect(() => {
       const game = this.game()
-      this.setDisabledState(!this.admin() && (!!game.result || this.hasStarted()))
+
+      const isDisabled = !this.admin() && (!!game.result || this.hasStarted())
+      this.setDisabledState(isDisabled)
+      this.disabledChange.emit(isDisabled)
     })
 
     effect(() => {

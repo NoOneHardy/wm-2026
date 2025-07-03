@@ -92,11 +92,11 @@ export class GroupViewComponent implements OnDestroy {
     return this.games.find((game) => game.id === id)
   }
 
-  save() {
+  save(): void {
     const group = this.group()
     if (!group) return
 
-    const bets = this.form.getRawValue().bets
+    const bets = this.form.value.bets ?? []
     if (this.mode() === 'bet') this.store.dispatch(saveBets({
       groupId: group.id,
       bets: bets

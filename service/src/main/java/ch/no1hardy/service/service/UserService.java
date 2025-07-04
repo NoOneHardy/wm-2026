@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.front.user.CheckRes;
@@ -44,6 +45,13 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+
+    public List<User> listRaw() {
+        return repository.findAll()
+                .stream()
+                .filter(User::isActive)
+                .toList();
+    }
 
     public List<UserRes> list() {
         return mapper.toDto(repository.findAll()
@@ -265,5 +273,44 @@ public class UserService {
                 .mapToInt((group) -> group.getGames().stream().filter(Game::isActive).toList().size()).sum();
         if (games == 0) return 0.0;
         return (double) (totalBets * 100) / games;
+    }
+
+    public Statistics getStatistics() {
+        User user = getLoggedInUser();
+        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
+
+        return getStatistics(user);
+    }
+
+    public Statistics getStatistics(User user) {
+        return Statistics.builder()
+                .totalGoalsBet(getTotalGoalsBet(user))
+                .correctGames(getCorrectGames(user))
+                .jokersWasted(getJokersWasted(user))
+                .build();
+    }
+
+    public int getTotalGoalsBet(User user) {
+        return user.getBets().stream()
+                .filter(Bet::isActive)
+                .mapToInt(bet -> bet.getScoreTeamHome() + bet.getScoreTeamGuest())
+                .sum();
+    }
+
+    public int getCorrectGames(User user) {
+        return (int) user.getBets().stream()
+                .filter(Bet::isActive)
+                .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
+                .filter(bet -> bet.getScoreTeamHome().equals(bet.getGame().getResult().getScoreTeamHome()) &&
+                        bet.getScoreTeamGuest().equals(bet.getGame().getResult().getScoreTeamGuest()))
+                .count();
+    }
+
+    public int getJokersWasted(User user) {
+        return (int) user.getBets().stream()
+                .filter(Bet::isActive)
+                .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
+                .filter(bet -> bet.getJoker() > 1 && calculateUserPoints(bet, bet.getGame().getResult()) <= 0)
+                .count();
     }
 }

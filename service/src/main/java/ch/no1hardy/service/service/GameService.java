@@ -109,6 +109,7 @@ public class GameService {
 
         return repository.findAll().stream()
                 .filter(BaseEntity::isActive)
+                .filter(g -> !g.hasResult())
                 .filter(g -> g.getBets().stream().noneMatch(b -> b.getUser().getId().equals(user.getId())))
                 .filter(g -> g.getTimestamp().isAfter(LocalDateTime.now()))
                 .filter(g -> g.getTimestamp().isBefore(LocalDateTime.now().plusDays(5)))

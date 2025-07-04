@@ -5,6 +5,7 @@ import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.GameRepository;
+import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -95,49 +96,180 @@ public class GameServiceTest {
     @Test
     @DisplayName("getOpenBets() - should return empty list when user has no open bets")
     void shouldReturnEmptyListWhenUserHasNoOpenBets() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of(
+                createBetForUser(user, game1)
+        ));
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of(
+                createBetForUser(user, game2)
+        ));
+        game2.setTimestamp(LocalDateTime.now().plusDays(3));
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(0, result.size());
     }
 
     @Test
     @DisplayName("getOpenBets() - should filter games in the next 5 days")
     void shouldFilterGamesInNextFiveDays() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(5));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of());
+        game2.setTimestamp(LocalDateTime.now().plusDays(6));
+        Game game3 = new Game();
+        game3.setId("game-3");
+        game3.setBets(List.of());
+        game3.setTimestamp(LocalDateTime.now().minusDays(2));
+        when(repository.findAll()).thenReturn(List.of(game1, game2, game3));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
     }
 
     @Test
     @DisplayName("getOpenBets() - should return only active games")
     void shouldReturnOnlyActiveGames() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of());
+        game2.setTimestamp(LocalDateTime.now().plusDays(2));
+        game2.setDeletedAt(LocalDateTime.now());
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
     }
 
     @Test
     @DisplayName("getOpenBets() - should return games without a bet")
     void shouldReturnGamesWithoutABet() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of(
+                createBetForUser(user, game2)
+        ));
+        game2.setTimestamp(LocalDateTime.now().plusDays(2));
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
     }
 
     @Test
     @DisplayName("getOpenBets() - should return games without a result")
     void shouldReturnGamesWithoutAResult() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of());
+        Score score = new Score();
+        score.setId("score-1");
+        game2.setResult(score);
+        game2.setTimestamp(LocalDateTime.now().plusDays(2));
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
     }
 
     @Test
     @DisplayName("getOpenBets() - should return one game if it is the only one that matches the criteria")
     void shouldReturnOneGameIfItIsTheOnlyOneAvailable() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of());
+        game2.setDeletedAt(LocalDateTime.now());
+        game2.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game3 = new Game();
+        game3.setId("game-3");
+        game3.setBets(List.of(
+                createBetForUser(user, game3)
+        ));
+        game3.setTimestamp(LocalDateTime.now().plusDays(2));
+        when(repository.findAll()).thenReturn(List.of(game1, game2, game3));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
     }
 
     @Test
     @DisplayName("getOpenBets() - should return up to 5 games")
     void shouldReturnUpToFiveGames() {
-        // TODO
-        return;
+        when(userService.getLoggedInUser()).thenReturn(user);
+
+        Game game1 = new Game();
+        game1.setId("game-1");
+        game1.setBets(List.of());
+        game1.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game2 = new Game();
+        game2.setId("game-2");
+        game2.setBets(List.of());
+        game2.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game3 = new Game();
+        game3.setId("game-3");
+        game3.setBets(List.of());
+        game3.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game4 = new Game();
+        game4.setId("game-4");
+        game4.setBets(List.of());
+        game4.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game5 = new Game();
+        game5.setId("game-5");
+        game5.setBets(List.of());
+        game5.setTimestamp(LocalDateTime.now().plusDays(2));
+        Game game6 = new Game();
+        game6.setId("game-6");
+        game6.setBets(List.of());
+        game6.setTimestamp(LocalDateTime.now().plusDays(2));
+        when(repository.findAll()).thenReturn(List.of(game1, game2, game3, game4, game5, game6));
+
+        List<BetGameRes> result = service.getOpenBets();
+        assertEquals(5, result.size());
+        assertEquals("game-1", result.getFirst().getId());
+        assertEquals("game-2", result.get(1).getId());
+        assertEquals("game-3", result.get(2).getId());
+        assertEquals("game-4", result.get(3).getId());
+        assertEquals("game-5", result.get(4).getId());
     }
 }

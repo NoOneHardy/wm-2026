@@ -1,8 +1,10 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.GameHelper;
 import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
@@ -466,5 +468,59 @@ public class UserServiceTest {
 
         UserSummary summary = service.getUserSummary();
         assertNull(summary.getRanking());
+    }
+
+    @Test
+    @DisplayName("getStatistics() - should return statistics with correct values")
+    void shouldReturnStatisticsWithCorrectValues() {
+        User user = new User();
+        user.setId("user-1");
+        user.setPoints(100);
+        user.confirm();
+
+        Game game = GameHelper.createGame("game-1");
+        GameHelper.createScore("score-1", game, 2, 3);
+        GameHelper.createBet("bet-1", user, game, 2, 3);
+
+        Game game2 = GameHelper.createGame("game-2");
+        GameHelper.createScore("score-2", game2, 1, 4);
+        GameHelper.createBet("bet-2", user, game2, 3, 1, 3);
+
+        Statistics stats = service.getStatistics(user);
+        assertEquals(1, stats.getCorrectGames());
+        assertEquals(9, stats.getTotalGoalsBet());
+        assertEquals(2, stats.getJokersWasted());
+    }
+
+    @Test
+    @DisplayName("getTotalGoalsBet() - should return statistics with zero values if no bets")
+    void shouldReturnStatisticsWithZeroValuesIfNoBets() {
+        User user = new User();
+        user.setId("user-1");
+        user.setPoints(100);
+        user.confirm();
+
+        int stats = service.getTotalGoalsBet(user);
+        assertEquals(0, stats);
+    }
+
+    @Test
+    @DisplayName("getTotalGoalsBet() - should return statistics with correct total goals bet")
+    void shouldReturnStatisticsWithCorrectTotalGoalsBet() {
+        User user = new User();
+        user.setId("user-1");
+        user.setPoints(100);
+        user.confirm();
+
+        Game game = GameHelper.createGame("game-1");
+        GameHelper.createScore("score-1", game, 2, 3);
+        GameHelper.createBet("bet-1", user, game, 2, 3);
+
+        Game game2 = GameHelper.createGame("game-2");
+        GameHelper.createScore("score-2", game2, 1, 4);
+        GameHelper.createBet("bet-2", user, game2, 3, 1, 3);
+
+        int stats = service.getTotalGoalsBet(user);
+        assertEquals(9, stats);
     }
 }

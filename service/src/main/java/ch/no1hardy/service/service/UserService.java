@@ -81,7 +81,8 @@ public class UserService {
 
     public UserRes get(String id) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
+        if (entity == null)
+            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         return mapper.toDto(entity);
     }
 
@@ -91,8 +92,10 @@ public class UserService {
         String username = dto.getUsername();
         String email = dto.getEmail();
 
-        if (!isEmailAvailable(email)) throw new BadRequestException("Email " + email + " is already taken", "Email " + email + " ist bereits vergeben");
-        if (!isUsernameAvailable(username)) throw new BadRequestException("Username " + username + " is already taken", "Benutzername " + username + " ist bereits vergeben");
+        if (!isEmailAvailable(email))
+            throw new BadRequestException("Email " + email + " is already taken", "Email " + email + " ist bereits vergeben");
+        if (!isUsernameAvailable(username))
+            throw new BadRequestException("Username " + username + " is already taken", "Benutzername " + username + " ist bereits vergeben");
 
         if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches())
             throw new BadRequestException("Invalid email format", "Ungültiges Email-Format");
@@ -103,14 +106,16 @@ public class UserService {
 
     public UserRes update(String id, UserReq dto) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
+        if (entity == null)
+            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         mapper.update(dto, entity);
         return mapper.toDto(repository.save(entity));
     }
 
     public UserRes delete(String id) {
         User entity = repository.findById(id).orElse(null);
-        if (entity == null) throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
+        if (entity == null)
+            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         entity.delete();
         return mapper.toDto(repository.save(entity));
     }
@@ -307,10 +312,11 @@ public class UserService {
     }
 
     public int getJokersWasted(User user) {
-        return (int) user.getBets().stream()
+        return user.getBets().stream()
                 .filter(Bet::isActive)
                 .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
                 .filter(bet -> bet.getJoker() > 1 && calculateUserPoints(bet, bet.getGame().getResult()) <= 0)
-                .count();
+                .mapToInt(bet -> bet.getJoker() - 1)
+                .sum();
     }
 }

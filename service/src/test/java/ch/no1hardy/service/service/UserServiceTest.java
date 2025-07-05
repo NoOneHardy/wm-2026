@@ -471,56 +471,312 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("getStatistics() - should return statistics with correct values")
-    void shouldReturnStatisticsWithCorrectValues() {
+    @DisplayName("getStatistics() - should throw BadRequestException if no user is logged in")
+    void shouldThrowBadRequestExceptionIfNoUserLoggedInForStatistics() {
+        SecurityHelper.mockNoLogin();
+        assertThrows(BadRequestException.class, service::getStatistics);
+    }
+
+    @Test
+    @DisplayName("getStatistics() - should return correct statistics for logged-in user")
+    void shouldReturnCorrectStatisticsForLoggedInUser() {
         User user = new User();
         user.setId("user-1");
-        user.setPoints(100);
-        user.confirm();
 
-        Game game = GameHelper.createGame("game-1");
-        GameHelper.createScore("score-1", game, 2, 3);
-        GameHelper.createBet("bet-1", user, game, 2, 3);
-
+        Game game1 = GameHelper.createGame("game-1");
         Game game2 = GameHelper.createGame("game-2");
-        GameHelper.createScore("score-2", game2, 1, 4);
-        GameHelper.createBet("bet-2", user, game2, 3, 1, 3);
+        GameHelper.createBet("bet-1", user, game1, 2, 3);
+        GameHelper.createBet("bet-2", user, game2, 1, 1, 2);
+
+        GameHelper.createScore("score-1", game1, 2, 3);
+        GameHelper.createScore("score-2", game2, 0, 4);
+
+        SecurityHelper.mockUserLogin(user, userRepository);
+        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+
+        Statistics stats = service.getStatistics();
+
+        assertEquals(7, stats.getTotalGoalsBet());
+        assertEquals(1, stats.getCorrectGames());
+        assertEquals(1, stats.getJokersWasted());
+    }
+
+    @Test
+    @DisplayName("getStatistics(User) - should return correct statistics for a user with active bets")
+    void shouldReturnCorrectStatisticsForUserWithActiveBets() {
+        User user = new User();
+        user.setId("user-1");
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        GameHelper.createBet("bet-1", user, game1, 2, 3);
+        GameHelper.createBet("bet-2", user, game2, 1, 1, 2);
+
+        GameHelper.createScore("score-1", game1, 2, 3);
+        GameHelper.createScore("score-2", game2, 0, 4);
 
         Statistics stats = service.getStatistics(user);
+
+        assertEquals(7, stats.getTotalGoalsBet());
         assertEquals(1, stats.getCorrectGames());
-        assertEquals(9, stats.getTotalGoalsBet());
-        assertEquals(2, stats.getJokersWasted());
+        assertEquals(1, stats.getJokersWasted());
     }
 
     @Test
-    @DisplayName("getTotalGoalsBet() - should return statistics with zero values if no bets")
-    void shouldReturnStatisticsWithZeroValuesIfNoBets() {
+    @DisplayName("getStatistics(User) - should return zero statistics for a user with no active bets")
+    void shouldReturnZeroStatisticsForUserWithNoActiveBets() {
         User user = new User();
         user.setId("user-1");
-        user.setPoints(100);
-        user.confirm();
+        user.setBets(List.of());
 
-        int stats = service.getTotalGoalsBet(user);
-        assertEquals(0, stats);
+        Statistics stats = service.getStatistics(user);
+
+        assertEquals(0, stats.getTotalGoalsBet());
+        assertEquals(0, stats.getCorrectGames());
+        assertEquals(0, stats.getJokersWasted());
     }
 
     @Test
-    @DisplayName("getTotalGoalsBet() - should return statistics with correct total goals bet")
-    void shouldReturnStatisticsWithCorrectTotalGoalsBet() {
+    @DisplayName("getStatistics(User) - should return zero statistics for a user with inactive bets")
+    void shouldReturnZeroStatisticsForUserWithInactiveBets() {
         User user = new User();
         user.setId("user-1");
-        user.setPoints(100);
-        user.confirm();
 
-        Game game = GameHelper.createGame("game-1");
-        GameHelper.createScore("score-1", game, 2, 3);
-        GameHelper.createBet("bet-1", user, game, 2, 3);
-
+        Game game1 = GameHelper.createGame("game-1");
         Game game2 = GameHelper.createGame("game-2");
-        GameHelper.createScore("score-2", game2, 1, 4);
-        GameHelper.createBet("bet-2", user, game2, 3, 1, 3);
 
-        int stats = service.getTotalGoalsBet(user);
-        assertEquals(9, stats);
+        Bet bet1 = GameHelper.createBet("bet-1", user, game1, 2, 3);
+        bet1.setDeletedAt(LocalDateTime.now());
+        Bet bet2 = GameHelper.createBet("bet-2", user, game2, 1, 1);
+        bet2.setDeletedAt(LocalDateTime.now());
+
+        Statistics stats = service.getStatistics(user);
+
+        assertEquals(0, stats.getTotalGoalsBet());
+        assertEquals(0, stats.getCorrectGames());
+        assertEquals(0, stats.getJokersWasted());
+    }
+
+    @Test
+    @DisplayName("getStatistics(User) - should handle games without result gracefully")
+    void shouldHandleGamesWithoutResultGracefully() {
+        User user = new User();
+        user.setId("user-1");
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        GameHelper.createBet("bet-1", user, game1, 2, 3);
+        GameHelper.createBet("bet-2", user, game2, 1, 1);
+
+        Statistics stats = service.getStatistics(user);
+
+        assertEquals(7, stats.getTotalGoalsBet());
+        assertEquals(0, stats.getCorrectGames());
+        assertEquals(0, stats.getJokersWasted());
+    }
+
+    @Test
+    @DisplayName("getTotalGoalsBet(User) - should return total goals for active bets")
+    void shouldReturnTotalGoalsForActiveBets() {
+        User user = new User();
+
+        GameHelper.createBet("bet-1", user, GameHelper.createGame("game-1"), 2, 3);
+        GameHelper.createBet("bet-2", user, GameHelper.createGame("game-2"), 1, 1);
+
+        int totalGoals = service.getTotalGoalsBet(user);
+
+        assertEquals(7, totalGoals);
+    }
+
+    @Test
+    @DisplayName("getTotalGoalsBet(User) - should return zero if user has no bets")
+    void shouldReturnZeroIfUserHasNoBetsInGetTotalGoalsBet() {
+        User user = new User();
+        user.setBets(List.of());
+
+        int totalGoals = service.getTotalGoalsBet(user);
+
+        assertEquals(0, totalGoals);
+    }
+
+    @Test
+    @DisplayName("getTotalGoalsBet(User) - should return zero if all bets are inactive")
+    void shouldReturnZeroIfAllBetsAreInactive() {
+        User user = new User();
+
+        Bet bet1 = GameHelper.createBet("bet-1", user, GameHelper.createGame("game-1"), 2, 3);
+        bet1.setDeletedAt(LocalDateTime.now());
+        Bet bet2 = GameHelper.createBet("bet-2", user, GameHelper.createGame("game-2"), 1, 1);
+        bet2.setDeletedAt(LocalDateTime.now());
+
+        int totalGoals = service.getTotalGoalsBet(user);
+
+        assertEquals(0, totalGoals);
+    }
+
+    @Test
+    @DisplayName("getCorrectGames(User) - should return correct count for active bets with exact score matches")
+    void shouldReturnCorrectCountForActiveBetsWithExactScoreMatches() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        GameHelper.createBet("bet-1", user, game1, 2, 3);
+        GameHelper.createBet("bet-2", user, game2, 1, 1);
+
+        GameHelper.createScore("score-1", game1, 2, 3);
+        GameHelper.createScore("score-2", game2, 1, 1);
+
+        int correctGames = service.getCorrectGames(user);
+
+        assertEquals(2, correctGames);
+    }
+
+    @Test
+    @DisplayName("getCorrectGames(User) - should return zero if no bets match exact scores")
+    void shouldReturnZeroIfNoBetsMatchExactScores() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        GameHelper.createBet("bet-1", user, game1, 2, 3);
+        GameHelper.createBet("bet-2", user, game2, 1, 1);
+
+        GameHelper.createScore("score-1", game1, 0, 3);
+        GameHelper.createScore("score-2", game2, 2, 2);
+
+        int correctGames = service.getCorrectGames(user);
+
+        assertEquals(0, correctGames);
+    }
+
+    @Test
+    @DisplayName("getCorrectGames(User) - should return zero if user has no active bets")
+    void shouldReturnZeroIfUserHasNoActiveBets() {
+        User user = new User();
+        user.setBets(List.of());
+
+        int correctGames = service.getCorrectGames(user);
+
+        assertEquals(0, correctGames);
+    }
+
+    @Test
+    @DisplayName("getCorrectGames(User) - should return zero if all bets are inactive")
+    void shouldReturnZeroIfAllBetsAreInactiveInCorrectGames() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        Bet bet1 = GameHelper.createBet("bet-1", user, game1, 2, 3);
+        bet1.setDeletedAt(LocalDateTime.now());
+        Bet bet2 = GameHelper.createBet("bet-2", user, game2, 1, 1);
+        bet2.setDeletedAt(LocalDateTime.now());
+
+        int correctGames = service.getCorrectGames(user);
+
+        assertEquals(0, correctGames);
+    }
+
+    @Test
+    @DisplayName("getCorrectGames(User) - should handle null game results gracefully")
+    void shouldHandleNullGameResultsGracefully() {
+        User user = new User();
+        GameHelper.createBet("bet-1", user, GameHelper.createGame("game-1"), 2, 3);
+        GameHelper.createBet("bet-2", user, GameHelper.createGame("game-2"), 1, 1);
+
+        int correctGames = service.getCorrectGames(user);
+
+        assertEquals(0, correctGames);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should return zero if user has no bets")
+    void shouldReturnZeroIfUserHasNoBetsInJokersWasted() {
+        User user = new User();
+        user.setBets(List.of());
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(0, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should return zero if all bets are inactive")
+    void shouldReturnZeroIfAllBetsAreInactiveInJokersWasted() {
+        User user = new User();
+
+        Bet bet1 = GameHelper.createBet("bet-1", user, GameHelper.createGame("game-1"), 2, 3, 2);
+        bet1.setDeletedAt(LocalDateTime.now());
+        Bet bet2 = GameHelper.createBet("bet-2", user, GameHelper.createGame("game-2"), 1, 1, 3);
+        bet2.setDeletedAt(LocalDateTime.now());
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(0, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should return zero if no jokers are used")
+    void shouldReturnZeroIfNoJokersUsed() {
+        User user = new User();
+        GameHelper.createBet("bet-1", user, GameHelper.createGame("game-1"), 2, 3);
+        GameHelper.createBet("bet-2", user, GameHelper.createGame("game-2"), 1, 1);
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(0, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should return correct count for bets with wasted jokers")
+    void shouldReturnCorrectCountForBetsWithWastedJokers() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        Game game2 = GameHelper.createGame("game-2");
+
+        GameHelper.createBet("bet-1", user, game1, 2, 3, 2);
+        GameHelper.createBet("bet-2", user, game2, 1, 1, 3);
+
+        GameHelper.createScore("score-1", game1, 4, 0);
+        GameHelper.createScore("score-2", game2, 0, 3);
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(3, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should count triple joker as 2 wasted jokers")
+    void shouldCountTripleJokerAs2WastedJokers() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        GameHelper.createBet("bet-1", user, game1, 2, 3, 3);
+        GameHelper.createScore("score-1", game1, 4, 0);
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(2, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("getJokersWasted(User) - should count triple joker as 2 wasted jokers")
+    void shouldCountDoubleJokerAs1WastedJokers() {
+        User user = new User();
+
+        Game game1 = GameHelper.createGame("game-1");
+        GameHelper.createBet("bet-1", user, game1, 2, 3, 2);
+        GameHelper.createScore("score-1", game1, 4, 0);
+
+        int jokersWasted = service.getJokersWasted(user);
+
+        assertEquals(1, jokersWasted);
     }
 }

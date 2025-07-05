@@ -24,11 +24,11 @@ public abstract class GameHelper {
         game.setResult(score);
     }
 
-    public static void createBet(String id, User user, Game game, int guestScore, int homeScore) {
-        createBet(id, user, game, guestScore, homeScore, 1);
+    public static Bet createBet(String id, User user, Game game, int guestScore, int homeScore) {
+        return createBet(id, user, game, guestScore, homeScore, 1);
     }
 
-    public static void createBet(String id, User user, Game game, int guestScore, int homeScore, int joker) {
+    public static Bet createBet(String id, User user, Game game, int guestScore, int homeScore, int joker) {
         Bet bet = new Bet();
         bet.setId(id);
         bet.setUser(user);
@@ -52,5 +52,7 @@ public abstract class GameHelper {
             bets.addAll(user.getBets());
             user.setBets(bets);
         }
+
+        return bet;
     }
 }

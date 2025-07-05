@@ -11,6 +11,10 @@
 }
 
 :root {
+  --wm-color-neutral-600: #000000ff;
+  --wm-color-neutral-200: #ddddddff;
+  --wm-color-white-600: #ffffffff;
+
   --wm-color-primary: #57c152ff;
   --wm-color-primary-200: #ddf3dcff;
   --wm-color-primary-300: #b3eaacff;
@@ -39,8 +43,24 @@
   --wm-gradient-primary-disabled: linear-gradient(to bottom, var(--wm-color-primary-300) 0%, var(--wm-color-secondary-100) 90%);
 
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
+  --wm-shadow-header: .125em .125em 1.25em 0 #000000bf;
 
   --wm-header-height: 3.75em;
+
+  @media screen and (max-width: 992px){
+    --wm-header-height: 5.5em;
+  }
+
+  --wm-spacer-1: .5rem;
+  --wm-spacer-2: .75rem;
+  --wm-spacer-3: 1rem;
+  --wm-spacer-4: 1.5rem;
+  --wm-spacer-5: 2rem;
+  --wm-spacer-6: 3rem;
+  --wm-spacer-7: 4rem;
+  --wm-spacer-8: 5rem;
+
+  --wm-font-medium-text: 500 1.5em/2.5em 'Montserrat';
 }
 
 h1 {

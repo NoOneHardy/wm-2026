@@ -1,26 +1,82 @@
-<header class="header">
-  <nav class="nav">
-    <a routerLink="/" class="home-link">WM 2026</a>
-    @if (user()) {
-      <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-      <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
-    } @else {
-      <wm-nav-item displayName="Home" icon="home" route="/" exact/>
-    }
-    <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+@if (isLVP) {
+  <header class="header">
+    <nav class="nav">
+      <a routerLink="/" class="home-link">WM 2026</a>
+      @if (user()) {
+        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
+        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
+      } @else {
+        <wm-nav-item displayName="Home" icon="home" route="/" exact/>
+      }
+      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
 
-    @if (isAdmin()) {
-      <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
-      <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
-    }
+      @if (isAdmin()) {
+        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
+      }
+    </nav>
+    <div class="user-actions">
+      @if (user(); as user) {
+        <wm-user-menu [user]="user"/>
+      } @else {
+        <wm-user-button route="/login" secondary content="Anmelden"/>
+        <wm-user-button route="/signup" content="Registrieren"/>
+      }
+    </div>
+  </header>
+} @else {
+  <header class="mobile-header">
+    <div class="nav-top">
+      <a routerLink="/" class="home-link">WM 2026</a>
+      <div class="actions">
+        @if (user()) {
+          <button class="notifications" [class.-nudge]="hasNotifications">
+            <span class="material-symbols-rounded">notifications</span>
+          </button>
+        }
+        <button class="menu-button" (click)="toggleMenu()">
+          @if (isExpanded) {
+            <span class="material-symbols-rounded">close</span>
+          } @else {
+            <span class="material-symbols-rounded open">dehaze</span>
+          }
+        </button>
+      </div>
+    </div>
+    @if (isExpanded) {
+      <nav class="nav-bottom">
+        @if (user()) {
+          <wm-nav-item matRipple displayName="Dashboard" icon="home" route="/" exact
+                       (clickEvent)="closeMenuAfterTimeout()"/>
+          <wm-nav-item matRipple displayName="Mein Tippschein" icon="ballot" route="/bets"
+                       (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+          <wm-nav-item matRipple displayName="Einstellungen" icon="settings" route="/settings"
+                       (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+        } @else {
+          <wm-nav-item matRipple displayName="Home" icon="home" route="/" exact (clickEvent)="closeMenuAfterTimeout()"/>
+        }
+        <wm-nav-item matRipple displayName="Rangliste" icon="bookmark_star" route="/leaderboard"
+                     (clickEvent)="closeMenuAfterTimeout()"/>
 
-  </nav>
-  <div class="user-actions">
-    @if (user(); as user) {
-      <wm-user-menu [user]="user"/>
-    } @else {
-      <wm-user-button route="/login" secondary content="Anmelden"/>
-      <wm-user-button route="/signup" content="Registrieren"/>
+        @if (isAdmin()) {
+          <wm-nav-item matRipple displayName="Resultate" icon="scoreboard" route="/admin/results"
+                       (clickEvent)="closeMenuAfterTimeout()"/>
+          <wm-nav-item matRipple displayName="Teilnehmer" icon="person" route="/admin/users"
+                       (clickEvent)="closeMenuAfterTimeout()"/>
+        }
+
+        <div class="user-actions">
+          @if (user()) {
+            <wm-nav-item matRipple displayName="Abmelden" icon="ballot" route="/settings"
+                         (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+          } @else {
+            <wm-nav-item matRipple displayName="Anmelden" icon="login" route="/login"
+                         (clickEvent)="closeMenuAfterTimeout()"/>
+            <wm-nav-item matRipple class="-highlight" displayName="Registrieren" icon="person_add" route="/signup"
+                         (clickEvent)="closeMenuAfterTimeout()"/>
+          }
+        </div>
+      </nav>
     }
-  </div>
-</header>
+  </header>
+}

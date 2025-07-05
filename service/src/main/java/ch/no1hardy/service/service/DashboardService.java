@@ -6,6 +6,8 @@ import ch.no1hardy.service.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 public class DashboardService {
@@ -23,10 +25,11 @@ public class DashboardService {
     }
 
     public GlobalStatistics getGlobalStatistics() {
+        List<User> users = userService.listRaw();
         return GlobalStatistics.builder()
-                .totalPoints(userService.listRaw().stream().mapToInt(User::getPoints).sum())
-                .correctGames(userService.listRaw().stream().mapToInt(userService::getCorrectGames).sum())
-                .jokersWasted(userService.listRaw().stream().mapToInt(userService::getJokersWasted).sum())
+                .totalPoints(users.stream().mapToInt(User::getPoints).sum())
+                .correctGames(users.stream().mapToInt(userService::getCorrectGames).sum())
+                .jokersWasted(users.stream().mapToInt(userService::getJokersWasted).sum())
                 .build();
     }
 }

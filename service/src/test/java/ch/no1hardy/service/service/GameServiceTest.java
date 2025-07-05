@@ -124,7 +124,7 @@ public class GameServiceTest {
         Game game1 = new Game();
         game1.setId("game-1");
         game1.setBets(List.of());
-        game1.setTimestamp(LocalDateTime.now().plusDays(5));
+        game1.setTimestamp(LocalDateTime.now().plusDays(5).minusMinutes(1));
         Game game2 = new Game();
         game2.setId("game-2");
         game2.setBets(List.of());

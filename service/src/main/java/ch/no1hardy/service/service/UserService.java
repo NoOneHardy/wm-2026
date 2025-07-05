@@ -280,6 +280,10 @@ public class UserService {
         return (double) (totalBets * 100) / games;
     }
 
+    /**
+     * Calculates statistics for the logged-in user.
+     * @return statistics for the logged-in user
+     */
     public Statistics getStatistics() {
         User user = getLoggedInUser();
         if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
@@ -287,6 +291,11 @@ public class UserService {
         return getStatistics(user);
     }
 
+    /**
+     * Calculates statistics for a specific user.
+     * @param user the user for whom to calculate statistics
+     * @return statistics for the specified user
+     */
     public Statistics getStatistics(User user) {
         return Statistics.builder()
                 .totalGoalsBet(getTotalGoalsBet(user))
@@ -295,6 +304,11 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * Calculates the total number of goals bet by the user.
+     * @param user the user for whom to calculate total goals bet
+     * @return total number of goals bet by the user
+     */
     public int getTotalGoalsBet(User user) {
         return user.getBets().stream()
                 .filter(Bet::isActive)
@@ -302,6 +316,11 @@ public class UserService {
                 .sum();
     }
 
+    /**
+     * Calculates the number of games correctly predicted by the user.
+     * @param user the user for whom to calculate correct games
+     * @return number of games correctly predicted by the user
+     */
     public int getCorrectGames(User user) {
         return (int) user.getBets().stream()
                 .filter(Bet::isActive)
@@ -311,6 +330,12 @@ public class UserService {
                 .count();
     }
 
+    /**
+     * Calculates the number of jokers wasted by the user.
+     * A joker is considered wasted if it was used on a bet that did not yield any points.
+     * @param user the user for whom to calculate wasted jokers
+     * @return number of jokers wasted by the user
+     */
     public int getJokersWasted(User user) {
         return user.getBets().stream()
                 .filter(Bet::isActive)

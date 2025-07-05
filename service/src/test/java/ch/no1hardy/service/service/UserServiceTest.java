@@ -7,6 +7,8 @@ import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
+import ch.no1hardy.service.front.user.CheckRes;
+import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
@@ -35,10 +37,145 @@ public class UserServiceTest {
     private UserService service;
 
     @MockitoBean
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     @MockitoBean
     private GroupRepository groupRepository;
+
+    @Test
+    @DisplayName("should create")
+    void contextLoads() {
+        assertNotNull(service);
+    }
+
+    @Test
+    @DisplayName("listAll() - should return all users including deleted ones")
+    void listAll() {
+        User user1 = new User();
+        user1.setUsername("No1Hardy");
+        User user2 = new User();
+        user2.setUsername("NoOneHardy");
+        user2.setDeletedAt(LocalDateTime.now());
+
+        when(repository.findAll()).thenReturn(List.of(user1, user2));
+        List<UserRes> users = service.listAll();
+        assertNotNull(users);
+        assertEquals(2, users.size());
+        assertEquals("No1Hardy", users.getFirst().getUsername());
+        assertEquals("NoOneHardy", users.get(1).getUsername());
+        assertInstanceOf(UserRes.class, users.getFirst());
+        assertInstanceOf(UserRes.class, users.get(1));
+    }
+
+    @Test
+    @DisplayName("list() - should return only active users")
+    void list() {
+        User user1 = new User();
+        user1.setUsername("No1Hardy");
+        User user2 = new User();
+        user2.setUsername("NoOneHardy");
+        user2.setDeletedAt(LocalDateTime.now());
+
+        when(repository.findAll()).thenReturn(List.of(user1, user2));
+
+        List<UserRes> users = service.list();
+        assertNotNull(users);
+        assertEquals(1, users.size());
+        assertEquals("No1Hardy", users.getFirst().getUsername());
+        assertInstanceOf(UserRes.class, users.getFirst());
+    }
+
+    @Test
+    @DisplayName("should check if username and email are available")
+    void shouldCheckIfUsernameAndEmailAreAvailable() {
+        User user1 = new User();
+        user1.setUsername("No1Hardy");
+        user1.setEmail("no1hardy@no1hardy.ch");
+
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.of(user1));
+        when(repository.findByEmail("no1hardy@no1hardy.ch")).thenReturn(Optional.of(user1));
+
+        // Username without email
+        CheckRes usernameWithoutEmail = service.check("No1Hardy", null);
+        assertNotNull(usernameWithoutEmail);
+        assertFalse(usernameWithoutEmail.getIsUsernameAvailable());
+        assertTrue(usernameWithoutEmail.getIsEmailAvailable());
+
+        // Email without username
+        CheckRes emailWithoutUsername = service.check(null, "no1hardy@no1hardy.ch");
+        assertNotNull(emailWithoutUsername);
+        assertTrue(emailWithoutUsername.getIsUsernameAvailable());
+        assertFalse(emailWithoutUsername.getIsEmailAvailable());
+
+        // Email with username
+        CheckRes emailWithUsername = service.check("No1Hardy", "no1hardy@no1hardy.ch");
+        assertNotNull(emailWithUsername);
+        assertFalse(emailWithUsername.getIsUsernameAvailable());
+        assertFalse(emailWithUsername.getIsEmailAvailable());
+
+        CheckRes emailWithUsernameAvailable = service.check("NoOneHardy", "noonehardy@no1hardy.ch");
+        assertNotNull(emailWithUsernameAvailable);
+        assertTrue(emailWithUsernameAvailable.getIsUsernameAvailable());
+        assertTrue(emailWithUsernameAvailable.getIsEmailAvailable());
+    }
+
+    @Test
+    @DisplayName("isUsernameAvailable() - should return false if username is not available")
+    void shouldCheckIfUsernameIsNotAvailable() {
+        User user = new User();
+        user.setUsername("No1Hardy");
+
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.of(user));
+
+        assertFalse(service.isUsernameAvailable("No1Hardy"));
+    }
+
+    @Test
+    @DisplayName("isUsernameAvailable() - should return true if username is available")
+    void shouldCheckIfUsernameIsAvailable() {
+        assertTrue(service.isUsernameAvailable("NoOneHardy"));
+    }
+
+    @Test
+    @DisplayName("isUsernameAvailable() - should ignore inactive users")
+    void shouldIgnoreInactiveUsernames() {
+        User user = new User();
+        user.setUsername("No1Hardy");
+        user.setDeletedAt(LocalDateTime.now());
+
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.of(user));
+
+        assertTrue(service.isUsernameAvailable("No1Hardy"));
+    }
+
+    @Test
+    @DisplayName("isEmailAvailable() - should return false if username is not available")
+    void shouldCheckIfEmailIsNotAvailable() {
+        User user = new User();
+        user.setEmail("no1hardy@no1hardy.ch");
+
+        when(repository.findByEmail("no1hardy@no1hardy.ch")).thenReturn(Optional.of(user));
+
+        assertFalse(service.isEmailAvailable("no1hardy@no1hardy.ch"));
+    }
+
+    @Test
+    @DisplayName("isEmailAvailable() - should return true if username is available")
+    void shouldCheckIfEmailIsAvailable() {
+        assertTrue(service.isEmailAvailable("noonehardy@no1hardy.ch"));
+    }
+
+    @Test
+    @DisplayName("isEmailAvailable() - should ignore inactive users")
+    void shouldIgnoreInactiveEmails() {
+        User user = new User();
+        user.setEmail("no1hardy@no1hardy.ch");
+        user.setDeletedAt(LocalDateTime.now());
+
+        when(repository.findByEmail("no1hardy@no1hardy.ch")).thenReturn(Optional.of(user));
+
+        assertTrue(service.isEmailAvailable("no1hardy@no1hardy.ch"));
+    }
 
     @Test
     void shouldCalculatePointsForCorrectBet() {
@@ -255,7 +392,7 @@ public class UserServiceTest {
         user4.setLastReviewedPoints(0);
         user4.confirm();
 
-        when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3, user4));
+        when(repository.findAll()).thenReturn(List.of(user1, user2, user3, user4));
 
         List<RankingRes> res = service.getLeaderboard();
 
@@ -268,7 +405,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("confirmUser(String id) - should throw NotFoundException if no user is found")
     void shouldThrowNotFoundExceptionIfNoUserIsFoundInConfirm() {
-        when(userRepository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
+        when(repository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.confirmUser("non-existing-user"));
     }
@@ -278,7 +415,7 @@ public class UserServiceTest {
     void shouldConfirmUser() {
         User user = new User();
         user.setId("user-1");
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
         service.confirmUser("user-1");
         assertTrue(user.isConfirmed());
@@ -290,7 +427,7 @@ public class UserServiceTest {
         User user = new User();
         user.setId("user-1");
         user.confirm();
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
         assertNotNull(user.getApplicationReviewedAt());
         user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));
@@ -302,7 +439,7 @@ public class UserServiceTest {
     @Test
     @DisplayName("denyUser(String id) - should throw NotFoundException if no user is found")
     void shouldThrowNotFoundExceptionIfNoUserIsFoundInDeny() {
-        when(userRepository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
+        when(repository.findById("non-existing-user")).thenReturn(java.util.Optional.empty());
 
         assertThrows(NotFoundException.class, () -> service.denyUser("non-existing-user"));
     }
@@ -312,7 +449,7 @@ public class UserServiceTest {
     void shouldDenyUser() {
         User user = new User();
         user.setId("user-1");
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
         user.confirm();
         assertTrue(user.isConfirmed());
@@ -326,7 +463,7 @@ public class UserServiceTest {
         User user = new User();
         user.setId("user-1");
         user.deny();
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
         assertNotNull(user.getApplicationReviewedAt());
         user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));
@@ -419,9 +556,9 @@ public class UserServiceTest {
         user3.setId("user-3");
         user3.setPoints(1050);
         user3.confirm();
-        when(userRepository.findAll()).thenReturn(List.of(user1, user2, user3));
+        when(repository.findAll()).thenReturn(List.of(user1, user2, user3));
 
-        SecurityHelper.mockUserLogin(user1, userRepository);
+        SecurityHelper.mockUserLogin(user1, repository);
 
         UserSummary summary = service.getUserSummary();
 
@@ -438,20 +575,20 @@ public class UserServiceTest {
         user1.setId("user-1");
         user1.setPoints(1000);
 
-        when(userRepository.findAll()).thenReturn(List.of());
+        when(repository.findAll()).thenReturn(List.of());
 
-        SecurityHelper.mockUserLogin(user1, userRepository);
+        SecurityHelper.mockUserLogin(user1, repository);
 
         UserSummary summary = service.getUserSummary();
         assertNull(summary.getIsConfirmed());
 
         user1.confirm();
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user1));
         summary = service.getUserSummary();
         assertTrue(summary.getIsConfirmed());
 
         user1.deny();
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user1));
+        when(repository.findById("user-1")).thenReturn(Optional.of(user1));
         summary = service.getUserSummary();
         assertFalse(summary.getIsConfirmed());
     }
@@ -462,9 +599,9 @@ public class UserServiceTest {
         User user1 = new User();
         user1.setId("user-1");
         user1.setPoints(1000);
-        when(userRepository.findAll()).thenReturn(List.of(user1));
+        when(repository.findAll()).thenReturn(List.of(user1));
 
-        SecurityHelper.mockUserLogin(user1, userRepository);
+        SecurityHelper.mockUserLogin(user1, repository);
 
         UserSummary summary = service.getUserSummary();
         assertNull(summary.getRanking());
@@ -491,8 +628,8 @@ public class UserServiceTest {
         GameHelper.createScore("score-1", game1, 2, 3);
         GameHelper.createScore("score-2", game2, 0, 4);
 
-        SecurityHelper.mockUserLogin(user, userRepository);
-        when(userRepository.findById("user-1")).thenReturn(Optional.of(user));
+        SecurityHelper.mockUserLogin(user, repository);
+        when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
         Statistics stats = service.getStatistics();
 

@@ -45,3 +45,46 @@
     }
   }
 }
+
+@media screen and (max-width: 992px) {
+  :host.-highlight .nav-item {
+    color: transparent;
+    background-image: var(--wm-gradient-primary);
+    background-clip: text;
+  }
+
+  .nav-item {
+    justify-content: start;
+    padding: var(--wm-spacer-2) 0;
+    gap: var(--wm-spacer-1);
+    overflow: visible;
+
+    .icon {
+      font-size: 2em;
+    }
+
+    .display-name {
+      font: var(--wm-font-medium-text);
+    }
+
+    &:after {
+      left: calc(var(--wm-spacer-4) * -1 + .125em);
+      height: 100%;
+      width: 0;
+    }
+
+    &:hover {
+      background-color: var(--wm-color-white-600);
+
+      &:after {
+        width: 0;
+      }
+    }
+
+    &.active {
+      &:after {
+        width: .125em;
+      }
+    }
+  }
+}

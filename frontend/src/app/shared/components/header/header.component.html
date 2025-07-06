@@ -1,4 +1,4 @@
-<ng-container *ngIf="isLVP; else mobileHeader">
+<ng-container *ngIf="isVpL(); else mobileHeader">
   <header class="header">
     <nav class="nav">
       <a routerLink="/" class="home-link gradient-text">WM 2026</a>
@@ -59,8 +59,8 @@
       </ng-container>
 
       <div class="user-actions">
-        <wm-nav-item *ngIf="user()" displayName="Abmelden" icon="ballot" route="/settings"
-                     (clickEvent)="deselectGroup()"/>
+        <wm-nav-item *ngIf="user()" displayName="Abmelden" icon="logout" route="/settings"
+                     (clickEvent)="logout()"/>
 
         <ng-container *ngIf="!user()">
           <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>

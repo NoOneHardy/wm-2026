@@ -9,7 +9,7 @@
   justify-content: space-between;
   height: var(--wm-header-height);
   width: 100%;
-  background-color: #fff;
+  background-color: var(--wm-color-white-600);
   box-shadow: var(--wm-shadow-header);
   z-index: 1;
 
@@ -20,12 +20,8 @@
 
     .home-link {
       display: block;
-      margin: 0 calc(1.25em / 1.5);
-      color: transparent;
-      background-image: var(--wm-gradient-primary);
-      background-clip: text;
-      font-size: 1.5em;
-      font-weight: 700;
+      margin: 0 1em;
+      font: var(--wm-font-h3);
       text-decoration: none;
     }
 
@@ -69,7 +65,7 @@
     .actions {
       display: flex;
 
-      .menu-button {
+      button {
         display: flex;
         padding: var(--wm-spacer-2);
         background-color: transparent;
@@ -78,10 +74,13 @@
         span {
           font-size: 2rem;
           color: var(--wm-color-neutral-600);
-          animation: rotate .2s linear;
 
-          &.open {
-            animation-direction: reverse;
+          &.menu-button {
+            animation: rotate .2s linear;
+
+            &.open {
+              animation-direction: reverse;
+            }
           }
         }
       }
@@ -101,6 +100,17 @@
       margin-top: var(--wm-spacer-6);
       border: solid var(--wm-color-neutral-200);
       border-width: 1px 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header {
+    .nav {
+      .home-link {
+        margin: 0 var(--wm-spacer-1) 0 var(--wm-spacer-4);
+        font: var(--wm-font-h4);
+      }
     }
   }
 }

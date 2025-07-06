@@ -6,7 +6,7 @@ import {UserButtonComponent} from './components/user-button/user-button.componen
 import {Store} from '@ngrx/store'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
 import {deselectGroup} from '../../store/tournament.actions'
-import {MatRipple} from '@angular/material/core'
+import {NgIf} from '@angular/common'
 
 @Component({
   selector: 'wm-header',
@@ -16,7 +16,7 @@ import {MatRipple} from '@angular/material/core'
     UserMenuComponent,
     RouterLink,
     UserButtonComponent,
-    MatRipple
+    NgIf
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
@@ -32,7 +32,7 @@ export class HeaderComponent {
   isExpanded = true
 
   @HostListener('window:resize')
-  private calculateIsLVP(): void {
+  calculateIsLVP(): void {
     this.isLVP = window.innerWidth > 992
   }
 

@@ -1,82 +1,81 @@
-@if (isLVP) {
+<ng-container *ngIf="isLVP; else mobileHeader">
   <header class="header">
     <nav class="nav">
-      <a routerLink="/" class="home-link">WM 2026</a>
-      @if (user()) {
+      <a routerLink="/" class="home-link gradient-text">WM 2026</a>
+
+      <ng-container *ngIf="user()">
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
         <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
-      } @else {
-        <wm-nav-item displayName="Home" icon="home" route="/" exact/>
-      }
+      </ng-container>
+
+      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>
+
       <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
 
-      @if (isAdmin()) {
+      <ng-container *ngIf="isAdmin()">
         <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
         <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
-      }
+      </ng-container>
     </nav>
     <div class="user-actions">
-      @if (user(); as user) {
-        <wm-user-menu [user]="user"/>
-      } @else {
+      <wm-user-menu *ngIf="user() as user" [user]="user"/>
+
+      <ng-container *ngIf="!user()">
         <wm-user-button route="/login" secondary content="Anmelden"/>
         <wm-user-button route="/signup" content="Registrieren"/>
-      }
+      </ng-container>
     </div>
   </header>
-} @else {
+</ng-container>
+
+<ng-template #mobileHeader>
   <header class="mobile-header">
     <div class="nav-top">
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
-        @if (user()) {
-          <button class="notifications" [class.-nudge]="hasNotifications">
-            <span class="material-symbols-rounded">notifications</span>
-          </button>
-        }
+        <button *ngIf="user()" class="notifications" [class.-nudge]="hasNotifications">
+          <span class="material-symbols-rounded">notifications</span>
+        </button>
         <button class="menu-button" (click)="toggleMenu()">
-          @if (isExpanded) {
-            <span class="material-symbols-rounded">close</span>
-          } @else {
-            <span class="material-symbols-rounded open">dehaze</span>
-          }
+          <span *ngIf="isExpanded" class="material-symbols-rounded">close</span>
+          <span *ngIf="!isExpanded" class="material-symbols-rounded open">dehaze</span>
         </button>
       </div>
     </div>
-    @if (isExpanded) {
-      <nav class="nav-bottom">
-        @if (user()) {
-          <wm-nav-item matRipple displayName="Dashboard" icon="home" route="/" exact
-                       (clickEvent)="closeMenuAfterTimeout()"/>
-          <wm-nav-item matRipple displayName="Mein Tippschein" icon="ballot" route="/bets"
-                       (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
-          <wm-nav-item matRipple displayName="Einstellungen" icon="settings" route="/settings"
-                       (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
-        } @else {
-          <wm-nav-item matRipple displayName="Home" icon="home" route="/" exact (clickEvent)="closeMenuAfterTimeout()"/>
-        }
-        <wm-nav-item matRipple displayName="Rangliste" icon="bookmark_star" route="/leaderboard"
+    <nav *ngIf="isExpanded" class="nav-bottom">
+      <ng-container *ngIf="user()">
+        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact
                      (clickEvent)="closeMenuAfterTimeout()"/>
+        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"
+                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings"
+                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+      </ng-container>
 
-        @if (isAdmin()) {
-          <wm-nav-item matRipple displayName="Resultate" icon="scoreboard" route="/admin/results"
-                       (clickEvent)="closeMenuAfterTimeout()"/>
-          <wm-nav-item matRipple displayName="Teilnehmer" icon="person" route="/admin/users"
-                       (clickEvent)="closeMenuAfterTimeout()"/>
-        }
+      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact
+                   (clickEvent)="closeMenuAfterTimeout()"/>
 
-        <div class="user-actions">
-          @if (user()) {
-            <wm-nav-item matRipple displayName="Abmelden" icon="ballot" route="/settings"
-                         (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
-          } @else {
-            <wm-nav-item matRipple displayName="Anmelden" icon="login" route="/login"
-                         (clickEvent)="closeMenuAfterTimeout()"/>
-            <wm-nav-item matRipple class="-highlight" displayName="Registrieren" icon="person_add" route="/signup"
-                         (clickEvent)="closeMenuAfterTimeout()"/>
-          }
-        </div>
-      </nav>
-    }
+      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"
+                   (clickEvent)="closeMenuAfterTimeout()"/>
+
+      <ng-container *ngIf="isAdmin()">
+        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"
+                     (clickEvent)="closeMenuAfterTimeout()"/>
+        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"
+                     (clickEvent)="closeMenuAfterTimeout()"/>
+      </ng-container>
+
+      <div class="user-actions">
+        <wm-nav-item *ngIf="user()" displayName="Abmelden" icon="ballot" route="/settings"
+                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+
+        <ng-container *ngIf="!user()">
+          <wm-nav-item displayName="Anmelden" icon="login" route="/login"
+                       (clickEvent)="closeMenuAfterTimeout()"/>
+          <wm-nav-item class="-highlight" displayName="Registrieren" icon="person_add" route="/signup"
+                       (clickEvent)="closeMenuAfterTimeout()"/>
+        </ng-container>
+      </div>
+    </nav>
   </header>
-}
+</ng-template>

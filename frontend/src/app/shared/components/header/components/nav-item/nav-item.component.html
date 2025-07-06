@@ -1,4 +1,4 @@
-<a class="nav-item" [routerLink]="route()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: exact()}"
+<a class="nav-item" [class.gradient-text]="gradient()" [routerLink]="route()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: exact()}"
    tabindex="0" role="navigation"
    (click)="clickEvent.emit()" (touchend)="clickEvent.emit()" (keyup.enter)="clickEvent.emit()"
    (keyup.space)="clickEvent.emit()">

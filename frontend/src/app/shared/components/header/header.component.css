@@ -93,6 +93,7 @@
     width: 100%;
     padding: var(--wm-spacer-3) var(--wm-spacer-4) 0;
     background-color: var(--wm-color-white-600);
+    overflow: hidden;
 
     .user-actions {
       display: flex;

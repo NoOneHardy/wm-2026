@@ -12,6 +12,7 @@ import {tournamentFeature} from './shared/store/tournament.feature'
 import {AdminEffects} from './admin/store/admin.effects'
 import {adminFeature} from './admin/store/admin.feature'
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async'
+import { provideAnimations } from '@angular/platform-browser/animations'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideState(userFeature),
     provideState(tournamentFeature),
     provideState(adminFeature),
+    provideAnimations(),
     provideEffects(UserEffects, TournamentEffects, AdminEffects), provideAnimationsAsync(),
   ]
 }

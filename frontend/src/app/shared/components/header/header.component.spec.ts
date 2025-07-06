@@ -9,6 +9,7 @@ import {selectIsAdmin, selectUser} from '../../../user-management/store/user.fea
 import {Role} from '../../../model/user/role'
 import {UserApplicationStatus} from '../../../model/user/user-application-status'
 import {logout} from '../../../user-management/store/user.actions'
+import {provideAnimations} from '@angular/platform-browser/animations'
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent
@@ -18,7 +19,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HeaderComponent, NavItemComponent, UserMenuComponent, UserButtonComponent],
-      providers: [provideRouter([]), provideMockStore()]
+      providers: [provideRouter([]), provideMockStore(), provideAnimations()]
     }).compileComponents()
 
     store = TestBed.inject(MockStore)

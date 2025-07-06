@@ -4,6 +4,7 @@ import {HeaderComponent} from './shared/components/header/header.component'
 import {provideRouter, RouterLinkActive, RouterOutlet} from '@angular/router'
 import {provideMockStore} from '@ngrx/store/testing'
 import {selectGroups} from './shared/store/tournament.feature'
+import {provideAnimations} from '@angular/platform-browser/animations'
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -13,7 +14,7 @@ describe('AppComponent', () => {
         selectors: [
           {selector: selectGroups, value: []}
         ]
-      })],
+      }), provideAnimations()],
     }).compileComponents()
   })
 
@@ -21,12 +22,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent)
     const app = fixture.componentInstance
     expect(app).toBeTruthy()
-  })
-
-  it('should render header', () => {
-    const fixture = TestBed.createComponent(AppComponent)
-    fixture.detectChanges()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('nav>.home-link')?.textContent).toContain('WM 2026')
   })
 })

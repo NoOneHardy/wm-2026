@@ -26,6 +26,7 @@ XXL: >  1400px
   --wm-color-secondary: #29873dff;
 
   --wm-color-neutral-600: #000000ff;
+  --wm-color-neutral-400: #999999ff;
   --wm-color-neutral-200: #ddddddff;
 
   --wm-color-white-600: #ffffffff;
@@ -77,6 +78,7 @@ XXL: >  1400px
   --wm-spacer-7: 4rem;
   --wm-spacer-8: 5rem;
 
+  --wm-font-large-text: 500 2.25rem/3rem 'Montserrat';
   --wm-font-medium-text: 500 1.5rem/2.5rem 'Montserrat';
   --wm-font-medium-bold: 700 1.5rem/2.5rem 'Montserrat';
   --wm-font-regular-text: 400 1rem/1.5rem 'Montserrat';
@@ -104,11 +106,9 @@ h3 {
 }
 
 p.sub-heading {
-  font-size: 2.25em;
+  font: var(--wm-font-large-text);
   text-align: center;
-  color: var(--wm-color-gray-300);
-  font-weight: 500;
-  margin-bottom: calc(2.5em / 2.25);
+  color: var(--wm-color-neutral-400);
 
   .highlight {
     font-weight: 600;

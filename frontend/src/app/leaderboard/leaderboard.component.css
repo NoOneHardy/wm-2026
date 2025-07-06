@@ -1,97 +1,36 @@
 .leaderboard {
   display: grid;
-  margin: 0 auto;
   grid-template-rows: auto auto 1fr;
   grid-template-areas:
-    'heading heading'
-    'sub-heading sub-heading'
-    'user-position board';
-  padding: 5em 0;
+    'heading'
+    'sub-heading'
+    'board';
+  padding: var(--wm-spacer-8);
   height: calc(100vh - var(--wm-header-height));
   width: 100%;
-  max-width: 110em;
-  column-gap: 5%;
-  grid-template-columns: 47.5% 47.5%;
 
   h1 {
     grid-area: heading;
+    margin-bottom: var(--wm-spacer-3);
   }
 
   p.sub-heading {
     grid-area: sub-heading;
-  }
-
-  .user-position {
-    grid-area: user-position;
-    display: grid;
-    justify-self: center;
-    grid-template-columns: auto 1fr;
-    grid-template-areas:
-        'username username'
-        'avatar title'
-        'avatar ranking'
-        'avatar points';
-    height: fit-content;
-    width: fit-content;
-    padding: 2em 4em;
-    border-radius: 1em;
-    margin-top: .5em;
-    background-color: #fff;
-    box-shadow: 0 0 .5em 0 #0000003d;
-
-    h2 {
-      grid-area: username;
-      margin-bottom: 1em;
-      text-align: center;
-      font-weight: 600;
-      font-size: 2em;
-      background-image: var(--wm-gradient-primary);
-      background-clip: text;
-      color: transparent;
-    }
-
-    .avatar {
-      grid-area: avatar;
-      height: 17.5em;
-      width: 17.5em;
-      margin-right: 4em;
-    }
-
-    h3 {
-      grid-area: title;
-      margin-top: 2em;
-      font-size: 1.5em;
-      font-weight: 600;
-      align-self: end;
-    }
-
-    .ranking {
-      grid-area: ranking;
-      color: var(--wm-color-gray);
-      font-size: 6em;
-      align-self: start;
-      font-weight: 500;
-    }
-
-    .points {
-      grid-area: points;
-      font-size: 1.5em;
-      color: var(--wm-color-gray-500);
-      align-self: start;
-      margin-bottom: 2em;
-    }
+    margin-bottom: var(--wm-spacer-6);
   }
 
   .board {
+    position: relative;
     grid-area: board;
     display: flex;
     flex-direction: column;
+    gap: var(--wm-spacer-1);
     width: 100%;
+    max-width: 50em;
     height: 100%;
     padding: .5em;
-    gap: .75em;
+    margin: 0 auto;
     overflow-y: scroll;
-    position: relative;
 
     &::-webkit-scrollbar {
       width: .75em;
@@ -121,5 +60,17 @@
       bottom: 0;
       z-index: 1;
     }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .leaderboard {
+    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .leaderboard {
+    padding: var(--wm-spacer-6) var(--wm-spacer-4);
   }
 }

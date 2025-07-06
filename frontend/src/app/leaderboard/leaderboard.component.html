@@ -1,19 +1,6 @@
 <div class="leaderboard">
   <h1>Rangliste</h1>
-  <p class="sub-heading">Du bist nicht aufgestiegen</p>
-  <div class="user-position">
-    @if (userPos(); as userPos) {
-      <h2>{{ userPos.username }}</h2>
-      <div class="flag avatar">
-        <img [ngSrc]="userPos.avatar ?? '/assets/user.jpg'" [alt]="userPos.username" fill>
-      </div>
-      <h3>Deine Position</h3>
-      <span class="ranking">{{ userPos.ranking }}</span>
-      <span class="points">{{ userPos.points }} Punkte</span>
-    } @else {
-      <p>Melde dich an um mehr Informationen zu sehen.</p>
-    }
-  </div>
+  <p class="sub-heading">Du bist nicht aufgestiegen!</p>
   <div class="board">
     <wm-position
       *ngFor="let ranking of leaderboard()"

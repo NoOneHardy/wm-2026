@@ -1,5 +1,5 @@
 <a class="nav-item" [class.gradient-text]="gradient()" [routerLink]="route()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: exact()}"
-   tabindex="0" role="navigation"
+   tabindex="0" role="navigation" matRipple
    (click)="clickEvent.emit()" (touchend)="clickEvent.emit()" (keyup.enter)="clickEvent.emit()"
    (keyup.space)="clickEvent.emit()">
   <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>

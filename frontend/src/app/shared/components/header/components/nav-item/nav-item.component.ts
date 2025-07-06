@@ -1,6 +1,7 @@
 import {Component, input, output} from '@angular/core'
 import {NgIf} from '@angular/common'
 import {RouterLink, RouterLinkActive} from '@angular/router'
+import {MatRipple} from '@angular/material/core'
 
 @Component({
   selector: 'wm-nav-item',
@@ -8,7 +9,8 @@ import {RouterLink, RouterLinkActive} from '@angular/router'
   imports: [
     NgIf,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    MatRipple
   ],
   templateUrl: './nav-item.component.html',
   styleUrl: './nav-item.component.css'

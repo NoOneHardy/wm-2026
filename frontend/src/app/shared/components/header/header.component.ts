@@ -66,6 +66,7 @@ export class HeaderComponent implements OnInit {
 
   logout(): void {
     this.store.dispatch(logout())
+    this.closeMenu()
   }
 
   deselectGroup(): void {

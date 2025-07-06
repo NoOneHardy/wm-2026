@@ -1,4 +1,4 @@
-import {Component, ElementRef, HostListener, inject} from '@angular/core'
+import {Component, computed, ElementRef, inject} from '@angular/core'
 import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {RouterLink} from '@angular/router'
@@ -7,6 +7,8 @@ import {Store} from '@ngrx/store'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
 import {deselectGroup} from '../../store/tournament.actions'
 import {NgIf} from '@angular/common'
+import {logout} from '../../../user-management/store/user.actions'
+import {ViewportService} from '../../services/viewport/viewport.service'
 
 @Component({
   selector: 'wm-header',
@@ -27,17 +29,17 @@ import {NgIf} from '@angular/common'
 export class HeaderComponent {
   private store = inject(Store)
   private el = inject(ElementRef)
+  private viewportService = inject(ViewportService)
 
   user = this.store.selectSignal(selectUser)
   isAdmin = this.store.selectSignal(selectIsAdmin)
 
-  isLVP = window.innerWidth > 992
+  isVpL = computed(() => !this.viewportService.isVPMorSmaller())
   hasNotifications = false
   isExpanded = true
 
-  @HostListener('window:resize')
-  calculateIsLVP(): void {
-    this.isLVP = window.innerWidth > 992
+  logout(): void {
+    this.store.dispatch(logout())
   }
 
   deselectGroup(): void {

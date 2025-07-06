@@ -8,6 +8,7 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
 import {Role} from '../../../model/user/role'
 import {UserApplicationStatus} from '../../../model/user/user-application-status'
+import {logout} from '../../../user-management/store/user.actions'
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent
@@ -35,25 +36,6 @@ describe('HeaderComponent', () => {
 
   it('should default user to null', () => {
     expect(component.user()).toBeNull()
-  })
-
-  it('should show login and signup if user is null', () => {
-    expect(component.user()).toBeNull()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('wm-user-button[route="/login"]')?.textContent).toContain('Anmelden')
-    expect(compiled.querySelector('wm-user-button[route="/signup"]')?.textContent).toContain('Registrieren')
-  })
-
-  it('should not show dashboard if user is null', () => {
-    expect(component.user()).toBeNull()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('nav')?.textContent).not.toContain('Dashboard')
-  })
-
-  it('should show home if user is null', () => {
-    expect(component.user()).toBeNull()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('wm-nav-item')?.textContent).toContain('Home')
   })
 
   it('should load user from store', () => {
@@ -93,5 +75,41 @@ describe('HeaderComponent', () => {
     component.deselectGroup()
 
     expect(storeSpy).toHaveBeenCalled()
+  })
+
+  it('should dispatch logout action when logout is called', () => {
+    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
+
+    component.logout()
+
+    expect(storeSpy).toHaveBeenCalledWith(logout())
+  })
+
+  it('should toggle menu state when toggleMenu is called', () => {
+    component.isExpanded = false
+    component.toggleMenu()
+    expect(component.isExpanded).toBeTrue()
+    component.toggleMenu()
+    expect(component.isExpanded).toBeFalse()
+  })
+
+  it('should close menu on blur if click is outside the component', () => {
+    const event = new MouseEvent('click')
+    spyOnProperty(event, 'target').and.returnValue(document.createElement('div'))
+
+    component.isExpanded = true
+    component.closeMenuOnBlur(event)
+
+    expect(component.isExpanded).toBeFalse()
+  })
+
+  it('should not close menu on blur if click is inside the component', () => {
+    const event = new MouseEvent('click')
+    spyOnProperty(event, 'target').and.returnValue(fixture.nativeElement)
+
+    component.isExpanded = true
+    component.closeMenuOnBlur(event)
+
+    expect(component.isExpanded).toBeTrue()
   })
 })

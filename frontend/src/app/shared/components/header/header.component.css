@@ -54,7 +54,7 @@
     box-shadow: var(--wm-shadow-header);
 
     .home-link {
-      font-size: 2em;
+      font: var(--wm-font-h2);
       font-weight: 700;
       color: transparent;
       background-image: var(--wm-gradient-primary);
@@ -74,13 +74,13 @@
         span {
           font-size: 2rem;
           color: var(--wm-color-neutral-600);
+        }
 
-          &.menu-button {
-            animation: rotate .2s linear;
+        &.menu-button span {
+          animation: rotate .2s linear;
 
-            &.open {
-              animation-direction: reverse;
-            }
+          &.open {
+            animation-direction: reverse;
           }
         }
       }
@@ -108,7 +108,7 @@
   .header {
     .nav {
       .home-link {
-        margin: 0 var(--wm-spacer-1) 0 var(--wm-spacer-4);
+        margin: 0 var(--wm-spacer-1) 0 var(--wm-spacer-3);
         font: var(--wm-font-h4);
       }
     }

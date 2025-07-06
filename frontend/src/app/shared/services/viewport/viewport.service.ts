@@ -1,20 +1,21 @@
-import {computed, HostListener, Injectable, Signal, signal} from '@angular/core'
+import {computed, Injectable, Signal, signal} from '@angular/core'
 
 @Injectable({
   providedIn: 'root'
 })
 export class ViewportService {
-  // private xs = 576
-  // private s = 768
-  private m = 992
-  // private l = 1200
-  // private xl = 1400
+  // private readonly xs = 576
+  // private readonly s = 768
+  private readonly m = 992
+  // private readonly l = 1200
+  // private readonly xl = 1400
 
   viewportWidth = signal(window.innerWidth)
 
-  @HostListener('window:resize')
-  onResize(): void {
-    this.viewportWidth.set(window.innerWidth)
+  constructor() {
+    window.addEventListener('resize', () => {
+      this.viewportWidth.set(window.innerWidth)
+    })
   }
 
   // public isVpXSorLess: Signal<boolean> = computed(() => this.viewportWidth() <= this.xs)

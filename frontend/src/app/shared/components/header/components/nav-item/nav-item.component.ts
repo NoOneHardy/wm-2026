@@ -20,5 +20,8 @@ export class NavItemComponent {
   exact = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+  gradient = input<boolean, boolean | ''>(false, {
+    transform: v => v === '' || v
+  })
   clickEvent = output<void>()
 }

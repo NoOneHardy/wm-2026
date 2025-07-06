@@ -80,10 +80,10 @@ h1 {
 }
 
 .gradient-text {
-  color: transparent;
-  background-image: var(--wm-gradient-primary);
-  background-clip: text;
-  -webkit-background-clip: text;
+  color: transparent !important;
+  background-image: var(--wm-gradient-primary) !important;
+  background-clip: text !important;
+  -webkit-background-clip: text !important;
 }
 
 p.sub-heading {

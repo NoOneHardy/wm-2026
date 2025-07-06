@@ -9,6 +9,7 @@ import {deselectGroup} from '../../store/tournament.actions'
 import {NgIf} from '@angular/common'
 import {logout} from '../../../user-management/store/user.actions'
 import {ViewportService} from '../../services/viewport/viewport.service'
+import {animate, state, style, transition, trigger} from '@angular/animations'
 
 @Component({
   selector: 'wm-header',
@@ -24,7 +25,22 @@ import {ViewportService} from '../../services/viewport/viewport.service'
     NgIf
   ],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
+  animations: [
+    trigger('expandable', [
+      state('collapsed', style({
+        'height': '0px',
+        'padding-top': '0px'
+      })),
+      state('expanded', style({
+        'height': '*',
+        'padding-top': '*'
+      })),
+      transition('collapsed <=> expanded', [
+        animate(200)
+      ])
+    ])
+  ]
 })
 export class HeaderComponent implements OnInit {
   private store = inject(Store)

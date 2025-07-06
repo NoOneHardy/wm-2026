@@ -42,7 +42,7 @@
         </button>
       </div>
     </div>
-    <nav *ngIf="isExpanded" class="nav-bottom">
+    <nav class="nav-bottom" [@expandable]="isExpanded ? 'expanded' : 'collapsed'">
       <ng-container *ngIf="user()">
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
         <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>

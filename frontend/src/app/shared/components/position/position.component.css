@@ -72,7 +72,7 @@
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 576px) {
   .position {
     grid-template-columns: 1fr auto auto;
     grid-template-areas:

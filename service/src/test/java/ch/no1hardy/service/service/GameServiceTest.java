@@ -346,6 +346,8 @@ public class GameServiceTest {
     @Test
     @DisplayName("getRecentResults() - should return recent results")
     void shouldReturnRecentResults() {
+        when(userService.getLoggedInUser()).thenReturn(user);
+
         Game game1 = GameHelper.createGame("game-1");
         Score score1 = GameHelper.createScore("score-1", game1, 2, 1);
         score1.setUpdatedAt(LocalDateTime.now().minusDays(1));

@@ -4,9 +4,9 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  padding: 0 .875em;
+  padding: 0 var(--wm-spacer-2);
   color: #000;
-  background-color: #fff;
+  background-color: var(--wm-color-white-600);
   text-decoration: none;
   overflow: hidden;
   transition: background-color .25s ease;
@@ -42,6 +42,20 @@
 
     .icon {
       font-variation-settings: 'FILL' 1;
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .nav-item {
+    padding: 0 var(--wm-spacer-1);
+
+    .display-name {
+      font: var(--wm-font-regular-text);
+    }
+
+    .icon {
+      font-size: 1.25em;
     }
   }
 }

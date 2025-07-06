@@ -30,6 +30,11 @@ XXL: >  1400px
 
   --wm-color-white-600: #ffffffff;
 
+  --wm-color-orange-600: #ff8000ff;
+
+  --wm-color-red-900: #861920ff;
+  --wm-color-red-600: #df2935ff;
+
   --wm-color-primary-200: #ddf3dcff;
   --wm-color-primary-300: #b3eaacff;
   --wm-color-primary-400: #aadfa8ff;
@@ -49,7 +54,6 @@ XXL: >  1400px
   --wm-color-red-500: #ef949aff;
   --wm-color-orange: #ff8000ff;
   --wm-color-orange-500: #fbbc7cff;
-  --wm-color-orange-600: #ffac59ff;
 
   --wm-gradient-primary: linear-gradient(to bottom, var(--wm-color-primary) 0%, var(--wm-color-secondary) 90%);
   --wm-gradient-primary-300: linear-gradient(to bottom, var(--wm-color-primary-hover) 0%, var(--wm-color-secondary-hover) 100%);
@@ -77,26 +81,26 @@ XXL: >  1400px
   --wm-font-medium-bold: 700 1.5rem/2.5rem 'Montserrat';
   --wm-font-regular-text: 400 1rem/1.5rem 'Montserrat';
 
+  --wm-font-h1: 600 3rem/3.5rem 'Montserrat';
   --wm-font-h2: 600 2.25rem/3rem 'Montserrat';
   --wm-font-h3: var(--wm-font-medium-bold);
   --wm-font-h4: 600 1.25rem/1.5rem 'Montserrat';
 }
 
 h1 {
-  font-size: 3em;
-  font-weight: 500;
+  font: var(--wm-font-h1);
   text-align: center;
-  background-image: var(--wm-gradient-primary);
-  background-clip: text;
-  color: transparent;
-  margin-bottom: calc(1em / 3);
 }
 
-.gradient-text {
+.gradient-text, h1 {
   color: transparent !important;
   background-image: var(--wm-gradient-primary) !important;
   background-clip: text !important;
   -webkit-background-clip: text !important;
+}
+
+h3 {
+  font: var(--wm-font-h3);
 }
 
 p.sub-heading {

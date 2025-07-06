@@ -50,7 +50,7 @@ public class Game extends BaseEntity {
     }
 
     public Boolean hasResult() {
-        return getResult() != null;
+        return getResult() != null && getResult().isActive();
     }
 
     public Boolean isGroupPhase() {

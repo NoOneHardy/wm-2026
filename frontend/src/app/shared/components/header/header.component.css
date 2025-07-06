@@ -52,6 +52,7 @@
     height: var(--wm-header-height);
     padding: 0 var(--wm-spacer-4);
     box-shadow: var(--wm-shadow-header);
+    background-color: var(--wm-color-white-600);
 
     .home-link {
       font: var(--wm-font-h2);

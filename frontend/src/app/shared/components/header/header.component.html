@@ -42,38 +42,29 @@
         </button>
       </div>
     </div>
-    <nav *ngIf="isExpanded" class="nav-bottom">
+    <nav *ngIf="isExpanded" class="nav-bottom" (pointerup)="closeMenuAfterTimeout()">
       <ng-container *ngIf="user()">
-        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact
-                     (clickEvent)="closeMenuAfterTimeout()"/>
-        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"
-                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
-        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings"
-                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
+        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
+        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings" (clickEvent)="deselectGroup()"/>
       </ng-container>
 
-      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact
-                   (clickEvent)="closeMenuAfterTimeout()"/>
+      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>
 
-      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"
-                   (clickEvent)="closeMenuAfterTimeout()"/>
+      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
 
       <ng-container *ngIf="isAdmin()">
-        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"
-                     (clickEvent)="closeMenuAfterTimeout()"/>
-        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"
-                     (clickEvent)="closeMenuAfterTimeout()"/>
+        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
       </ng-container>
 
       <div class="user-actions">
         <wm-nav-item *ngIf="user()" displayName="Abmelden" icon="ballot" route="/settings"
-                     (clickEvent)="closeMenuAfterTimeout(); deselectGroup()"/>
+                     (clickEvent)="deselectGroup()"/>
 
         <ng-container *ngIf="!user()">
-          <wm-nav-item displayName="Anmelden" icon="login" route="/login"
-                       (clickEvent)="closeMenuAfterTimeout()"/>
-          <wm-nav-item class="-highlight" displayName="Registrieren" icon="person_add" route="/signup"
-                       (clickEvent)="closeMenuAfterTimeout()"/>
+          <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
+          <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
         </ng-container>
       </div>
     </nav>

@@ -1,0 +1,56 @@
+.dashboard {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-areas:
+    'greeting .'
+    'ranking .'
+    '. .';
+  gap: var(--wm-spacer-5);
+  padding: var(--wm-spacer-8);
+
+  .greeting {
+    grid-area: greeting;
+
+    h1 {
+      text-align: left;
+    }
+  }
+
+  .leaderboard-preview {
+    grid-area: ranking;
+
+    h3 {
+      margin-bottom: var(--wm-spacer-3);
+    }
+
+    .leaderboard {
+      display: flex;
+      gap: var(--wm-spacer-1);
+      flex-direction: column;
+
+      wm-position {
+        max-width: 40em;
+
+        &:first-child, &:last-child {
+          opacity: .6;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .dashboard {
+    .greeting h1 {
+      font: var(--wm-font-h2);
+    }
+  }
+}

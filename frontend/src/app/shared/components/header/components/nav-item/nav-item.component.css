@@ -6,7 +6,7 @@
   height: 100%;
   padding: 0 var(--wm-spacer-2);
   color: #000;
-  background-color: var(--wm-color-white-600);
+  background-color: transparent;
   text-decoration: none;
   overflow: hidden;
   transition: background-color .25s ease;
@@ -63,9 +63,8 @@
 @media screen and (max-width: 992px) {
   .nav-item {
     justify-content: start;
-    padding: var(--wm-spacer-2) 0;
+    padding: var(--wm-spacer-2) var(--wm-spacer-4);
     gap: var(--wm-spacer-1);
-    overflow: visible;
 
     .icon {
       font-size: 2em;
@@ -76,7 +75,7 @@
     }
 
     &:after {
-      left: calc(var(--wm-spacer-4) * -1 + .125em);
+      left: 0;
       height: 100%;
       width: 0;
     }

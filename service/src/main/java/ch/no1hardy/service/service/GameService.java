@@ -9,7 +9,6 @@ import ch.no1hardy.service.front.game.GameReq;
 import ch.no1hardy.service.front.game.ScoreReq;
 import ch.no1hardy.service.mapper.GameMapperImpl;
 import ch.no1hardy.service.mapper.UserHelper;
-import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.*;
 import ch.no1hardy.service.model.user.User;
 import lombok.AllArgsConstructor;
@@ -108,7 +107,7 @@ public class GameService {
         if (user == null) throw new BadRequestException("User not logged in", "Benutzer nicht angemeldet");
 
         return repository.findAll().stream()
-                .filter(BaseEntity::isActive)
+                .filter(Game::isActive)
                 .filter(g -> !g.hasResult())
                 .filter(g -> g.getBets().stream().noneMatch(b -> b.getUser().getId().equals(user.getId())))
                 .filter(g -> g.getTimestamp().isAfter(LocalDateTime.now()))
@@ -116,5 +115,14 @@ public class GameService {
                 .limit(5)
                 .map(mapper::toDto)
                 .toList();
+    }
+
+    public List<BetGameRes> getRecentResults() {
+        return repository.findAll().stream()
+                .filter(Game::isActive)
+                .filter(Game::hasResult)
+                .sorted((g1, g2) -> g2.getResult().getUpdatedAt().compareTo(g1.getResult().getUpdatedAt()))
+                .limit(5)
+                .map(mapper::toDto).toList();
     }
 }

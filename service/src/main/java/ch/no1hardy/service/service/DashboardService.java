@@ -21,6 +21,7 @@ public class DashboardService {
                 .openBets(gameService.getOpenBets())
                 .stats(userService.getStatistics())
                 .globalStats(getGlobalStatistics())
+                .recentResults(gameService.getRecentResults())
                 .build();
     }
 

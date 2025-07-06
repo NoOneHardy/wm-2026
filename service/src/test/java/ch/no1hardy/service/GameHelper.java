@@ -15,13 +15,14 @@ public abstract class GameHelper {
         return game;
     }
 
-    public static void createScore(String id, Game game, int guestScore, int homeScore) {
+    public static Score createScore(String id, Game game, int guestScore, int homeScore) {
         Score score = new Score();
         score.setId(id);
         score.setGame(game);
         score.setScoreTeamGuest(guestScore);
         score.setScoreTeamHome(homeScore);
         game.setResult(score);
+        return score;
     }
 
     public static Bet createBet(String id, User user, Game game, int guestScore, int homeScore) {

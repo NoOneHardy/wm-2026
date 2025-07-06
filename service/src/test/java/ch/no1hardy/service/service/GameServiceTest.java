@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.GameHelper;
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.model.game.Bet;
@@ -15,6 +16,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -271,5 +273,96 @@ public class GameServiceTest {
         assertEquals("game-3", result.get(2).getId());
         assertEquals("game-4", result.get(3).getId());
         assertEquals("game-5", result.get(4).getId());
+    }
+
+    @Test
+    @DisplayName("getRecentResults() - should return empty list when no games are available")
+    void recentResultsNoGames() {
+        when(repository.findAll()).thenReturn(List.of());
+        List<BetGameRes> result = service.getRecentResults();
+        assertEquals(0, result.size());
+    }
+
+    @Test
+    @DisplayName("getRecentResults() - should return only active games with results")
+    void shouldReturnOnlyActiveGamesWithResults() {
+        Game game1 = GameHelper.createGame("game-1");
+        GameHelper.createScore("score-1", game1, 3, 0);
+
+        Game game2 = GameHelper.createGame("game-2");
+        game2.setDeletedAt(LocalDateTime.now());
+        GameHelper.createScore("score-1", game2, 2, 1);
+
+        Game game3 = GameHelper.createGame("game-3");
+
+        when(repository.findAll()).thenReturn(List.of(game1, game2, game3));
+
+        List<BetGameRes> result = service.getRecentResults();
+
+        assertEquals(1, result.size());
+        assertEquals("game-1", result.getFirst().getId());
+    }
+
+    @Test
+    @DisplayName("getRecentResults() - should return games sorted by result update time in descending order")
+    void shouldReturnGamesSortedByResultUpdateTimeDescending() {
+        Game game1 = GameHelper.createGame("game-1");
+        Score score1 = GameHelper.createScore("score-1", game1, 2, 1);
+        score1.setUpdatedAt(LocalDateTime.now().minusDays(1));
+
+        Game game2 = GameHelper.createGame("game-2");
+        Score score2 = GameHelper.createScore("score-2", game2, 1, 1);
+        score2.setUpdatedAt(LocalDateTime.now());
+
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getRecentResults();
+
+        assertEquals(2, result.size());
+        assertEquals("game-2", result.get(0).getId());
+        assertEquals("game-1", result.get(1).getId());
+    }
+
+    @Test
+    @DisplayName("getRecentResults() - should limit results to 5 games")
+    void shouldLimitResultsToFiveGames() {
+        List<Game> games = new ArrayList<>();
+        for (int i = 1; i <= 6; i++) {
+            Game game = GameHelper.createGame("game-" + i);
+            Score score = GameHelper.createScore("score-" + i, game, i, i + 1);
+            score.setUpdatedAt(LocalDateTime.now().minusDays(i));
+            games.add(game);
+        }
+
+        when(repository.findAll()).thenReturn(games);
+
+        List<BetGameRes> result = service.getRecentResults();
+
+        assertEquals(5, result.size());
+        assertEquals("game-1", result.get(0).getId());
+        assertEquals("game-5", result.get(4).getId());
+    }
+
+    @Test
+    @DisplayName("getRecentResults() - should return recent results")
+    void shouldReturnRecentResults() {
+        Game game1 = GameHelper.createGame("game-1");
+        Score score1 = GameHelper.createScore("score-1", game1, 2, 1);
+        score1.setUpdatedAt(LocalDateTime.now().minusDays(1));
+        GameHelper.createBet("bet-1", user, game1, 2, 1);
+
+        Game game2 = GameHelper.createGame("game-2");
+        Score score2 = new Score();
+        score2.setUpdatedAt(LocalDateTime.now());
+        game2.setResult(score2);
+
+        when(repository.findAll()).thenReturn(List.of(game1, game2));
+
+        List<BetGameRes> result = service.getRecentResults();
+
+        assertEquals(2, result.size());
+        assertEquals("game-2", result.get(0).getId());
+        assertEquals("game-1", result.get(1).getId());
+        assertEquals("bet-1", result.get(1).getBet().getId());
     }
 }

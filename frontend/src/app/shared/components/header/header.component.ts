@@ -1,4 +1,4 @@
-import {Component, HostListener, inject} from '@angular/core'
+import {Component, ElementRef, HostListener, inject} from '@angular/core'
 import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {RouterLink} from '@angular/router'
@@ -11,6 +11,9 @@ import {NgIf} from '@angular/common'
 @Component({
   selector: 'wm-header',
   standalone: true,
+  host: {
+    '(document:click)': 'closeMenuOnBlur($event)'
+  },
   imports: [
     NavItemComponent,
     UserMenuComponent,
@@ -23,6 +26,7 @@ import {NgIf} from '@angular/common'
 })
 export class HeaderComponent {
   private store = inject(Store)
+  private el = inject(ElementRef)
 
   user = this.store.selectSignal(selectUser)
   isAdmin = this.store.selectSignal(selectIsAdmin)
@@ -42,6 +46,12 @@ export class HeaderComponent {
 
   toggleMenu(): void {
     this.isExpanded = !this.isExpanded
+  }
+
+  closeMenuOnBlur(e: MouseEvent): void {
+    if (!this.el.nativeElement.contains(e.target)) {
+      this.isExpanded = false
+    }
   }
 
   closeMenuAfterTimeout(): void {

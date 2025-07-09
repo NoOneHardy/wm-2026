@@ -22,11 +22,11 @@
   }
 }
 
-<h2>Gruppenphase</h2>
+<h3>Gruppenphase</h3>
 <wm-spinner *ngIf="isLoading()"/>
 <div class="groups">
   <div class="group" *ngFor="let group of defaultGroups()">
-    <h3>{{ group.name }}</h3>
+    <h3 class="gradient-text">{{ group.name }}</h3>
     <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
       <div class="thumbnail-progress">
         <div class="flag" *ngFor="let flag of group.thumbnail">
@@ -39,7 +39,7 @@
   </div>
 </div>
 
-<h2>Finalspiele</h2>
+<h3>Finalspiele</h3>
 <wm-spinner *ngIf="isLoading()"/>
 <div class="groups">
   <div class="group" *ngFor="let group of knockoutGroups()">

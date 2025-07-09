@@ -1,34 +1,41 @@
 :host {
   display: block;
   width: 100%;
-  padding: 5em;
+  padding: var(--wm-spacer-8);
 
-  h2 {
-    margin-bottom: calc(1em / 1.5);
+  h1 {
+    margin-bottom: var(--wm-spacer-3);
+  }
+
+  p.sub-heading {
+    margin-bottom: var(--wm-spacer-6);
+  }
+
+  h3 {
+    font: var(--wm-font-h3);
+    margin-bottom: var(--wm-spacer-3);
   }
 
   .groups {
     display: flex;
-    gap: 2em;
-    margin-bottom: 3em;
+    gap: var(--wm-spacer-5);
+    margin-bottom: var(--wm-spacer-6);
+    flex-wrap: wrap;
+    width: 100%;
 
     .group {
       display: flex;
       align-items: center;
       flex-direction: column;
       width: 14em;
-      background-color: #ffffff;
+      background-color: var(--wm-color-white-600);
       box-shadow: 0 0 .5em 0 #0000003d;
       border-radius: .5em;
-      padding: 1em 1.25em;
+      padding: var(--wm-spacer-3) var(--wm-spacer-4);
 
       h3 {
-        font-size: 1.5em;
-        font-weight: 700;
-        background-image: var(--wm-gradient-primary);
-        background-clip: text;
-        color: transparent;
-        margin-bottom: calc(1em / 1.5);
+        font: var(--wm-font-h3);
+        margin-bottom: var(--wm-spacer-1);
       }
 
       .thumbnail {
@@ -42,7 +49,7 @@
         background-image: var(--wm-gradient-primary);
         border-radius: 50%;
         box-shadow: 0 0 .5em 0 #0000003d;
-        margin-bottom: .5em;
+        margin-bottom: var(--wm-spacer-1);
         transition: --group-progress .2s ease;
 
         &::before {
@@ -54,8 +61,8 @@
           background-image: conic-gradient(
             transparent 0%,
             transparent var(--group-progress),
-            #fff var(--group-progress),
-            #fff 100%
+            var(--wm-color-white-600) var(--group-progress),
+            var(--wm-color-white-600) 100%
           );
           border-radius: 50%;
         }
@@ -68,7 +75,7 @@
           height: 11.25em;
           padding: 1.375em;
           border-radius: 50%;
-          background-color: #ffffff;
+          background-color: var(--wm-color-white-600);
 
           .flag {
             display: block;
@@ -84,7 +91,7 @@
             display: grid;
             place-items: center;
             position: relative;
-            color: var(--wm-color-gray-500);
+            color: var(--wm-color-neutral-400);
           }
 
           .custom-thumbnail {
@@ -95,7 +102,7 @@
             font-size: 3em;
             font-weight: 700;
             border-radius: 50%;
-            background-color: var(--wm-color-gray-100);
+            background-color: var(--wm-color-neutral-100);
           }
 
           .material-symbols-rounded {
@@ -108,7 +115,7 @@
 
       p {
         font-size: 1.25em;
-        margin-bottom: .8em;
+        margin-bottom: var(--wm-spacer-2);
       }
     }
   }
@@ -118,4 +125,24 @@
   inherits: true;
   initial-value: 0%;
   syntax: '<percentage>';
+}
+
+@media screen and (max-width: 992px) {
+  :host {
+    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+
+    h3 {
+      text-align: center;
+    }
+
+    .groups {
+      justify-content: center;
+    }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  :host {
+    padding: var(--wm-spacer-6) var(--wm-spacer-4);
+  }
 }

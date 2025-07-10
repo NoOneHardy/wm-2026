@@ -26,6 +26,7 @@ XXL: >  1400px
   --wm-color-secondary: #29873dff;
 
   --wm-color-neutral-600: #000000ff;
+  --wm-color-neutral-500: #666666ff;
   --wm-color-neutral-400: #999999ff;
   --wm-color-neutral-200: #ddddddff;
   --wm-color-neutral-100: #eeeeeeff;
@@ -33,11 +34,12 @@ XXL: >  1400px
   --wm-color-white-600: #ffffffff;
 
   --wm-color-orange-600: #ff8000ff;
+  --wm-color-orange-400: #ffb366ff;
 
   --wm-color-red-900: #861920ff;
   --wm-color-red-600: #df2935ff;
 
-  --wm-color-primary-200: #ddf3dcff;
+  --wm-color-primary-200: #bce6baff;
   --wm-color-primary-300: #b3eaacff;
   --wm-color-primary-400: #aadfa8ff;
   --wm-color-primary-600: #92d68eff;
@@ -83,6 +85,8 @@ XXL: >  1400px
   --wm-font-medium-text: 500 1.5rem/2.5rem 'Montserrat';
   --wm-font-medium-bold: 700 1.5rem/2.5rem 'Montserrat';
   --wm-font-regular-text: 400 1rem/1.5rem 'Montserrat';
+  --wm-font-regular-bold: 700 1rem/1.5rem 'Montserrat';
+  --wm-font-small-text: 400 .75rem/1rem 'Montserrat';
 
   --wm-font-h1: 600 3rem/3.5rem 'Montserrat';
   --wm-font-h2: 600 2.25rem/3rem 'Montserrat';

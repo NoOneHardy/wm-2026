@@ -1,10 +1,14 @@
 <form [formGroup]="formGroup" *ngIf="game() as game" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
       [class.-knockout]="knockout()">
-  <h2>{{ game.timestamp | date:'dd.MM.YYYY' }}</h2>
-  <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
+  <div class="title">
+    <h3>{{ game.timestamp | date:'dd.MM.YYYY' }}</h3>
+    <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
+  </div>
+
   <div class="flag-team-home flag">
     <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
   </div>
+
   <h3 class="team-home">{{ game.teamHome.name }}</h3>
   <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
   <div class="joker-form" *ngIf="!knockout() && !admin()">

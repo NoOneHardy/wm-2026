@@ -76,4 +76,30 @@
       </div>
     </div>
   }
+  <table class="points" *ngIf="totalPoints() > 0">
+    <tr *ngIf="points()?.correctWinner">
+      <td>Richtiger Sieger</td>
+      <td>+&nbsp;50</td>
+    </tr>
+    <tr *ngIf="points()?.correctGoalsHome">
+      <td>Tore Heim</td>
+      <td>+&nbsp;20</td>
+    </tr>
+    <tr *ngIf="points()?.correctGoalsGuest">
+      <td>Tore Gast</td>
+      <td>+&nbsp;20</td>
+    </tr>
+    <tr *ngIf="points()?.correctGoalsTotal">
+      <td>Tore Gesamt</td>
+      <td>+&nbsp;10</td>
+    </tr>
+    <tr *ngIf="points()?.joker as joker">
+      <td>Joker</td>
+      <td>+&nbsp;{{ totalPoints() - (totalPoints() / joker) }}</td>
+    </tr>
+    <tr class="total">
+      <td>Total</td>
+      <td>+{{ totalPoints() }}</td>
+    </tr>
+  </table>
 </form>

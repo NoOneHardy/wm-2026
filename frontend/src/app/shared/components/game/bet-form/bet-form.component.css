@@ -13,6 +13,7 @@ form {
   border-radius: 1em;
   background-color: #fff;
   box-shadow: 0 0 .5em 0 #0000003d;
+  column-gap: var(--wm-spacer-4);
 
   &.-highlight {
     animation: wm-highlight 5s ease;

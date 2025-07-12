@@ -57,12 +57,12 @@
 
 @media screen and (max-width: 992px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+    padding: var(--wm-spacer-6) var(--wm-spacer-5) calc(var(--wm-spacer-6) + var(--wm-spacer-7));
   }
 }
 
 @media screen and (max-width: 576px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-4);
+    padding: var(--wm-spacer-6) var(--wm-spacer-4) calc(var(--wm-spacer-6) + var(--wm-spacer-7));
   }
 }

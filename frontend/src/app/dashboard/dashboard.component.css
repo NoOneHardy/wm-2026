@@ -2,7 +2,7 @@
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-areas:
-    'greeting .'
+    'greeting summary'
     'ranking .'
     '. .';
   gap: var(--wm-spacer-5);
@@ -13,6 +13,42 @@
 
     h1 {
       text-align: left;
+    }
+  }
+
+  .summary {
+    grid-area: summary;
+    display: flex;
+    place-self: end;
+    gap: var(--wm-spacer-5);
+
+    .summary-item {
+      display: flex;
+      align-items: end;
+      gap: .25em;
+
+      h2 {
+        font: var(--wm-font-h2);
+      }
+
+      i.material-symbols-rounded {
+        font-variation-settings: 'FILL' 1;
+        font-size: 2.5em;
+
+        &.denied {
+          background-image: linear-gradient(to bottom, var(--wm-color-red-500) 0%, var(--wm-color-red-600) 90%) !important;
+        }
+
+        &.pending {
+          background-image: linear-gradient(to bottom, var(--wm-color-orange-500) 0%, var(--wm-color-orange-600) 90%) !important;
+        }
+      }
+
+      span {
+        font: var(--wm-font-regular-text);
+        color: var(--wm-color-neutral-400);
+        margin-bottom: .25em;
+      }
     }
   }
 

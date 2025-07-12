@@ -2,7 +2,7 @@ import {Component, computed, inject, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {PositionComponent} from '../shared/components/position/position.component'
-import {NgForOf, NgIf} from '@angular/common'
+import {DecimalPipe, NgForOf, NgIf} from '@angular/common'
 import {selectDashboard} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
 
@@ -12,7 +12,8 @@ import {loadDashboardData} from '../shared/store/tournament.actions'
   imports: [
     PositionComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    DecimalPipe
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

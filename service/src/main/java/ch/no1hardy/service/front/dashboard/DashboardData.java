@@ -14,6 +14,6 @@ public class DashboardData {
     private UserSummary userSummary;
     private Statistics stats;
     private GlobalStatistics globalStats;
-    private List<BetGameRes> openBets;
+    private List<BetGameRes> upcomingGames;
     private List<BetGameRes> recentResults;
 }

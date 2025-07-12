@@ -18,7 +18,7 @@ public class DashboardService {
         return DashboardData.builder()
                 .leaderboardPreview(userService.getUserLeaderboard())
                 .userSummary(userService.getUserSummary())
-                .openBets(gameService.getOpenBets())
+                .upcomingGames(gameService.getUpcomingGames())
                 .stats(userService.getStatistics())
                 .globalStats(getGlobalStatistics())
                 .recentResults(gameService.getRecentResults())

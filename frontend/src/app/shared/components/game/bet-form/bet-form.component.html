@@ -76,30 +76,30 @@
       </div>
     </div>
   }
-  <table class="points" *ngIf="totalPoints() > 0">
-    <tr *ngIf="points()?.correctWinner">
-      <td>Richtiger Sieger</td>
-      <td>+&nbsp;50</td>
-    </tr>
-    <tr *ngIf="points()?.correctGoalsHome">
-      <td>Tore Heim</td>
-      <td>+&nbsp;20</td>
-    </tr>
-    <tr *ngIf="points()?.correctGoalsGuest">
-      <td>Tore Gast</td>
-      <td>+&nbsp;20</td>
-    </tr>
-    <tr *ngIf="points()?.correctGoalsTotal">
-      <td>Tore Gesamt</td>
-      <td>+&nbsp;10</td>
-    </tr>
-    <tr *ngIf="points()?.joker as joker">
-      <td>Joker</td>
-      <td>+&nbsp;{{ totalPoints() - (totalPoints() / joker) }}</td>
-    </tr>
-    <tr class="total">
-      <td>Total</td>
-      <td>+{{ totalPoints() }}</td>
-    </tr>
-  </table>
+  <div class="points" *ngIf="totalPoints() > 0">
+    @if (points()?.correctWinner) {
+      <span>Richtiger&nbsp;Sieger</span>
+      <span>+&nbsp;50</span>
+    }
+    @if (points()?.correctGoalsHome) {
+      <span>Tore&nbsp;Heim</span>
+      <span>+&nbsp;20</span>
+    }
+    @if (points()?.correctGoalsGuest) {
+      <span>Tore&nbsp;Gast</span>
+      <span>+&nbsp;20</span>
+    }
+    @if (points()?.correctGoalsTotal) {
+      <span>Tore&nbsp;Gesamt</span>
+      <span>+&nbsp;10</span>
+    }
+    @if (points()?.joker; as joker) {
+      <span>Joker</span>
+      <span>+&nbsp;{{ totalPoints() - (totalPoints() / joker) }}</span>
+    }
+    <div class="separator"></div>
+
+    <span class="total">Total</span>
+    <span class="total gradient-text">+&nbsp;{{ totalPoints() }}</span>
+  </div>
 </form>

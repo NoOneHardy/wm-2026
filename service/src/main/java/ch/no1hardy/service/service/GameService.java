@@ -102,14 +102,13 @@ public class GameService {
         return mapper.toDto(repository.save(game));
     }
 
-    public List<BetGameRes> getOpenBets() {
+    public List<BetGameRes> getUpcomingGames() {
         User user = userService.getLoggedInUser();
         if (user == null) throw new BadRequestException("User not logged in", "Benutzer nicht angemeldet");
 
         return repository.findAll().stream()
                 .filter(Game::isActive)
                 .filter(g -> !g.hasResult())
-                .filter(g -> g.getBets().stream().noneMatch(b -> b.getUser().getId().equals(user.getId())))
                 .filter(g -> g.getTimestamp().isAfter(LocalDateTime.now()))
                 .filter(g -> g.getTimestamp().isBefore(LocalDateTime.now().plusDays(5)))
                 .limit(5)

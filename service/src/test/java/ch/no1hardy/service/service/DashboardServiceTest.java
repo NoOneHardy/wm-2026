@@ -43,7 +43,7 @@ public class DashboardServiceTest {
                 .points(1200)
                 .percentage(85.0)
                 .build());
-        when(gameService.getOpenBets()).thenReturn(List.of(
+        when(gameService.getUpcomingGames()).thenReturn(List.of(
                 BetGameRes.builder().id("game-1").build()
         ));
         when(userService.getStatistics()).thenReturn(Statistics.builder()
@@ -68,8 +68,8 @@ public class DashboardServiceTest {
         assertEquals(1200, dashboardData.getUserSummary().getPoints());
         assertEquals(1, dashboardData.getUserSummary().getRanking());
         assertEquals(85.0, dashboardData.getUserSummary().getPercentage());
-        assertEquals(1, dashboardData.getOpenBets().size());
-        assertEquals("game-1", dashboardData.getOpenBets().getFirst().getId());
+        assertEquals(1, dashboardData.getUpcomingGames().size());
+        assertEquals("game-1", dashboardData.getUpcomingGames().getFirst().getId());
         assertEquals(10, dashboardData.getStats().getTotalGoalsBet());
         assertEquals(5, dashboardData.getStats().getCorrectGames());
         assertEquals(2, dashboardData.getStats().getJokersWasted());

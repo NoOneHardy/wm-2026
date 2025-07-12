@@ -75,6 +75,21 @@
   }
 }
 
+@media screen and (max-width: 1200px) {
+  .dashboard {
+    grid-template-areas:
+    'greeting greeting'
+    'summary summary'
+    'ranking .'
+    '. .';
+
+    .summary {
+      place-self: start;
+      margin-top: calc((var(--wm-spacer-5) - var(--wm-spacer-3)) * -1);
+    }
+  }
+}
+
 @media screen and (max-width: 992px) {
   .dashboard {
     display: flex;
@@ -87,6 +102,11 @@
   .dashboard {
     .greeting h1 {
       font: var(--wm-font-h2);
+    }
+
+    .summary {
+      flex-direction: column;
+      gap: var(--wm-spacer-1);
     }
   }
 }

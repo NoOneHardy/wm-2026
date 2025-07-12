@@ -9,6 +9,6 @@ export interface DashboardData {
   userSummary: UserSummary
   stats: Statistics
   globalStats: GlobalStatistics
-  openBets: BetGame[]
+  upcomingGames: BetGame[]
   recentResults: BetGame[]
 }

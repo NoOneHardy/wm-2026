@@ -10,6 +10,7 @@
 
   .greeting {
     grid-area: greeting;
+    word-break: break-word;
 
     h1 {
       text-align: left;

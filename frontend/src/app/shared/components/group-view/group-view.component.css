@@ -1,7 +1,7 @@
 :host {
   display: block;
   width: 100%;
-  padding: var(--wm-spacer-8);
+  padding: var(--wm-spacer-8) var(--wm-spacer-8) calc(var(--wm-spacer-8) + var(--wm-spacer-7));
 
   h1 {
     margin-bottom: var(--wm-spacer-3);
@@ -27,7 +27,7 @@
 
 .games {
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
   flex-wrap: wrap;
   gap: var(--wm-spacer-4) var(--wm-spacer-5);

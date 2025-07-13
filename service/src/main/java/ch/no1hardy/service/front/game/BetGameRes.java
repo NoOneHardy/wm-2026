@@ -15,4 +15,6 @@ public class BetGameRes {
     private ExtendedTeamRes teamGuest;
     private ScoreRes result;
     private BetRes bet;
+    private String groupId;
+    private String groupName;
 }

@@ -21,6 +21,9 @@ public class Team extends BaseEntity {
     private String name;
 
     @NotNull
+    private String shortName;
+
+    @NotNull
     private String flag;
 
     @OneToMany(mappedBy = "teamHome")

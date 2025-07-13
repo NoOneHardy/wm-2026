@@ -21,7 +21,7 @@ export class GamePreviewComponent {
 
   game = input.required<BetGame>()
 
-  hasBet: Signal<boolean> = computed(() => !!this.game().bet)
+  openBet: Signal<boolean> = computed(() => !this.game().bet)
 
   focusGame(): void {
     const id = this.game().id

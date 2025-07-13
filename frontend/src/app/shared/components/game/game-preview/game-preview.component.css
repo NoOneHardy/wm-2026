@@ -1,10 +1,30 @@
 :host {
+  position: relative;
   display: block;
   width: fit-content;
   padding: calc(var(--wm-spacer-4) + .25em) var(--wm-spacer-4) var(--wm-spacer-3);
   border-radius: .5em;
   box-shadow: 0 0 .5em 0 #0000003d;
   background-color: var(--wm-color-white-600);
+  overflow: hidden;
+
+  .alert {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--wm-color-orange-400);
+    border-bottom: 1px solid var(--wm-color-orange-900);
+    box-shadow: 0 0 .25em 0 var(--wm-color-orange-600);
+
+    span {
+      display: block;
+      width: fit-content;
+      margin: .125em auto;
+      font-size: 1em;
+      color: var(--wm-color-orange-900);
+    }
+  }
 
   h3 {
     font: var(--wm-font-h3);

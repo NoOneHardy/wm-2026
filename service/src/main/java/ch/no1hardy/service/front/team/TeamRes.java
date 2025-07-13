@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 public class TeamRes {
     private String id;
     private String name;
+    private String shortName;
     private String flag;
 }

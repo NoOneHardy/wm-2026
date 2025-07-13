@@ -19,6 +19,8 @@ public interface GameMapper extends EntityMapper<Game, GameReq, BetGameRes> {
     BetRes toDto(Bet entity);
 
     @Mapping(target = "bet", source = "bets", qualifiedByName = "getUserBet")
+    @Mapping(target = "groupId", source = "group.id")
+    @Mapping(target = "groupName", source = "group.name")
     BetGameRes toDto(Game game);
 
     @Mapping(target = "gameId", source = "game", qualifiedByName = "getGameId")

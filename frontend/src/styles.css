@@ -24,6 +24,8 @@ XXL: >  1400px
   --wm-color-primary: #57c152ff;
 
   --wm-color-secondary: #29873dff;
+  --wm-color-secondary-900: #195125ff;
+  --wm-color-secondary-600: #29873dff;
 
   --wm-color-neutral-600: #000000ff;
   --wm-color-neutral-500: #666666ff;
@@ -147,5 +149,27 @@ a.wm-link {
     width: 100%;
     box-shadow: var(--wm-shadow-flag);
     border-radius: 50%;
+  }
+}
+
+a.link-with-icon {
+  display: flex;
+  align-items: center;
+  gap: .25em;
+  color: var(--wm-color-secondary-600);
+  text-decoration: none;
+  transition: color .2s ease;
+  cursor: pointer;
+
+  i.material-symbols-rounded {
+    font-size: 1.5em;
+  }
+
+  span {
+    font: var(--wm-font-regular-text);
+  }
+
+  &:hover {
+    color: var(--wm-color-secondary-900);
   }
 }

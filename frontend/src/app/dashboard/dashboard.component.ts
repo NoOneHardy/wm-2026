@@ -5,7 +5,7 @@ import {PositionComponent} from '../shared/components/position/position.componen
 import {DecimalPipe, NgForOf, NgIf} from '@angular/common'
 import {selectDashboard} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
-import {GamePreviewComponent} from '../shared/components/game/game-preview/game-preview.component'
+import {UpcomingGamesComponent} from './components/upcoming-games/upcoming-games.component'
 
 @Component({
   selector: 'wm-dashboard',
@@ -15,7 +15,7 @@ import {GamePreviewComponent} from '../shared/components/game/game-preview/game-
     NgForOf,
     NgIf,
     DecimalPipe,
-    GamePreviewComponent
+    UpcomingGamesComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

@@ -45,7 +45,5 @@
     </div>
   </div>
 
-  <div>
-    <wm-game-preview *ngFor="let game of dashboardData()?.upcomingGames" [game]="game"/>
-  </div>
+  <wm-upcoming-games [games]="data.upcomingGames" *ngIf="this.dashboardData() as data"/>
 </div>

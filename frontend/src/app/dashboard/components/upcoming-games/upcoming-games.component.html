@@ -1,0 +1,13 @@
+<h3>Nächste Spiele</h3>
+
+<div class="upcoming-games">
+  <wm-game-preview [game]="game" *ngFor="let game of games()"/>
+  <div *ngIf="games().length === 0" class="no-games">
+    <p>Keine kommenden Spiele gefunden.</p>
+  </div>
+</div>
+
+<a class="link-with-icon" routerLink="/bets">
+  <i class="material-symbols-rounded">arrow_right_alt</i>
+  <span>Zum Tippschein</span>
+</a>

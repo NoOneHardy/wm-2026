@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  width: fit-content;
+  padding: calc(var(--wm-spacer-4) + .25em) var(--wm-spacer-4) var(--wm-spacer-3);
+  border-radius: .5em;
+  box-shadow: 0 0 .5em 0 #0000003d;
+  background-color: var(--wm-color-white-600);
+
+  h3 {
+    font: var(--wm-font-h3);
+    text-align: center;
+  }
+
+  .timestamp {
+    font: var(--wm-font-small-text);
+    color: var(--wm-color-neutral-400);
+    text-align: center;
+    margin-bottom: var(--wm-spacer-3);
+  }
+
+  .teams {
+    display: flex;
+    gap: var(--wm-spacer-4);
+    margin-bottom: var(--wm-spacer-2);
+
+    .flag {
+      height: var(--wm-spacer-7);
+      width: var(--wm-spacer-7);
+      margin-bottom: var(--wm-spacer-1);
+    }
+
+    p {
+      font: var(--wm-font-regular-bold);
+      text-align: center;
+    }
+  }
+}

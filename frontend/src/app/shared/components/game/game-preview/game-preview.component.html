@@ -1,0 +1,22 @@
+@if (game(); as game) {
+  <div class="alert" *ngIf="hasBet()"><span class="material-symbols-rounded">error</span></div>
+  <h3 class="gradient-text">{{ game.groupName }}</h3>
+  <p class="timestamp">{{ game.timestamp | date:'dd.MM hh:mm' }} Uhr</p>
+  <div class="teams">
+    <div class="team-home">
+      <div class="flag">
+        <img [ngSrc]="game.teamHome.flag" fill [alt]="game.teamHome.name">
+      </div>
+      <p>{{ game.teamHome.shortName }}</p>
+    </div>
+
+    <div class="team-guest">
+      <div class="flag">
+        <img [ngSrc]="game.teamGuest.flag" fill [alt]="game.teamGuest.name">
+      </div>
+      <p>{{ game.teamGuest.shortName }}</p>
+    </div>
+  </div>
+
+  <wm-button full-width (clickEvent)="focusGame()">Details</wm-button>
+}

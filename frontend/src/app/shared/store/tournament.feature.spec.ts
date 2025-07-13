@@ -5,13 +5,13 @@ import {
   deselectGroup,
   grantJDouble,
   grantJTriple,
-  groupSelected,
+  groupLoaded,
   overviewGroupsLoaded,
   resultsSaved,
   revokeJDouble,
   revokeJTriple,
   saveResults,
-  selectGroup
+  loadGroup
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
 
@@ -46,12 +46,12 @@ describe('TournamentFeature', () => {
   it('should set available jokers when setting active group', () => {
     let availableJokers = initialState.availableJokers
     expect(availableJokers).toBeFalsy()
-    availableJokers = store.reducer(initialState, groupSelected({group: mockGroup})).availableJokers
+    availableJokers = store.reducer(initialState, groupLoaded({group: mockGroup})).availableJokers
     expect(availableJokers).toBeTruthy()
   })
 
   it('should add a double joker', () => {
-    let state = store.reducer(initialState, groupSelected({group: mockGroup}))
+    let state = store.reducer(initialState, groupLoaded({group: mockGroup}))
     let availableJokers = state.availableJokers
     expect(availableJokers?.jdouble).toBe(2)
     state = store.reducer(state, grantJDouble())
@@ -60,7 +60,7 @@ describe('TournamentFeature', () => {
   })
 
   it('should remove a double joker', () => {
-    let state = store.reducer(initialState, groupSelected({group: mockGroup}))
+    let state = store.reducer(initialState, groupLoaded({group: mockGroup}))
     let availableJokers = state.availableJokers
     expect(availableJokers?.jdouble).toBe(2)
     state = store.reducer(state, revokeJDouble())
@@ -69,7 +69,7 @@ describe('TournamentFeature', () => {
   })
 
   it('should add a triple joker', () => {
-    let state = store.reducer(initialState, groupSelected({group: mockGroup}))
+    let state = store.reducer(initialState, groupLoaded({group: mockGroup}))
     let availableJokers = state.availableJokers
     expect(availableJokers?.jtriple).toBe(3)
     state = store.reducer(state, grantJTriple())
@@ -78,7 +78,7 @@ describe('TournamentFeature', () => {
   })
 
   it('should remove a triple joker', () => {
-    let state = store.reducer(initialState, groupSelected({group: mockGroup}))
+    let state = store.reducer(initialState, groupLoaded({group: mockGroup}))
     let availableJokers = state.availableJokers
     expect(availableJokers?.jtriple).toBe(3)
     state = store.reducer(state, revokeJTriple())
@@ -89,21 +89,21 @@ describe('TournamentFeature', () => {
   it('should start loading when selecting a group', () => {
     let state = initialState
     expect(state.isTournamentLoading).toBeFalse()
-    state = store.reducer(state, selectGroup({groupId: 'group-1'}))
+    state = store.reducer(state, loadGroup({groupId: 'group-1'}))
     expect(state.isTournamentLoading).toBeTrue()
   })
 
   it('should stop loading when group has been loaded', () => {
     let state = initialState
-    state = store.reducer(state, selectGroup({groupId: 'group-1'}))
+    state = store.reducer(state, loadGroup({groupId: 'group-1'}))
     expect(state.isTournamentLoading).toBeTrue()
-    state = store.reducer(state, groupSelected({group: mockGroup}))
+    state = store.reducer(state, groupLoaded({group: mockGroup}))
     expect(state.isTournamentLoading).toBeFalse()
   })
 
   it('should reset active group when loading overview groups', () => {
     let state = initialState
-    state = store.reducer(state, groupSelected({group: mockGroup}))
+    state = store.reducer(state, groupLoaded({group: mockGroup}))
     expect(state.activeGroup).toBeTruthy()
     state = store.reducer(state, overviewGroupsLoaded({groups: []}))
     expect(state.activeGroup).toBeNull()
@@ -112,7 +112,7 @@ describe('TournamentFeature', () => {
   it('should return whether a group is selected', () => {
     let state = initialState
     expect(hasActiveGroup.projector(state.activeGroup)).toBeFalse()
-    state = store.reducer(state, groupSelected({group: mockGroup}))
+    state = store.reducer(state, groupLoaded({group: mockGroup}))
     expect(hasActiveGroup.projector(state.activeGroup)).toBeTrue()
   })
 
@@ -142,7 +142,7 @@ describe('TournamentFeature', () => {
 
   it('should reset selected group', () => {
     let state = initialState
-    state = store.reducer(state, groupSelected({group: mockGroup}))
+    state = store.reducer(state, groupLoaded({group: mockGroup}))
     expect(state.activeGroup).toEqual(mockGroup)
     state = store.reducer(state, deselectGroup())
     expect(state.activeGroup).toBeNull()

@@ -1,8 +1,9 @@
-import {Component, inject} from '@angular/core'
+import {Component, inject, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
-import {hasActiveGroup} from '../../shared/store/tournament.feature'
 import {GroupViewComponent} from '../../shared/components/group-view/group-view.component'
 import {OverviewComponent} from '../../shared/components/overview/overview.component'
+import {ActivatedRoute} from '@angular/router'
+import {loadGroup} from '../../shared/store/tournament.actions'
 
 @Component({
   selector: 'wm-result-management',
@@ -13,8 +14,17 @@ import {OverviewComponent} from '../../shared/components/overview/overview.compo
   ],
   templateUrl: './result-management.component.html'
 })
-export class ResultManagementComponent {
+export class ResultManagementComponent implements OnInit {
+  private activatedRoute = inject(ActivatedRoute)
   private store = inject(Store)
 
-  hasGroupSelected = this.store.selectSignal(hasActiveGroup)
+  groupId: string | null = null
+  gameId: string | null = null
+
+  ngOnInit(): void {
+    this.groupId = this.activatedRoute.snapshot.paramMap.get('groupId')
+    this.gameId = this.activatedRoute.snapshot.paramMap.get('gameId')
+
+    if (this.groupId) this.store.dispatch(loadGroup({groupId: this.groupId}))
+  }
 }

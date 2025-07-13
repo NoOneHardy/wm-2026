@@ -36,6 +36,16 @@ export const routes: Routes = [
     canActivate: [isLoggedInGuard]
   },
   {
+    path: 'bets/:groupId',
+    component: BetManagementComponent,
+    canActivate: [isLoggedInGuard]
+  },
+  {
+    path: 'bets/:groupId/:gameId',
+    component: BetManagementComponent,
+    canActivate: [isLoggedInGuard]
+  },
+  {
     path: 'admin',
     canActivate: [isAdminGuard],
     children: [
@@ -46,6 +56,14 @@ export const routes: Routes = [
       },
       {
         path: 'results',
+        component: ResultManagementComponent
+      },
+      {
+        path: 'results/:groupId',
+        component: ResultManagementComponent
+      },
+      {
+        path: 'results/:groupId/:gameId',
         component: ResultManagementComponent
       },
       {

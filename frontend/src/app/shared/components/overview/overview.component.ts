@@ -3,10 +3,10 @@ import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
 import {selectGroups, selectIsTournamentLoading} from '../../store/tournament.feature'
-import {getOverviewGroups, selectGroup} from '../../store/tournament.actions'
+import {getOverviewGroups, loadGroup} from '../../store/tournament.actions'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {Mode} from '../../../model/mode'
-import {ActivatedRoute} from '@angular/router'
+import {ActivatedRoute, Router} from '@angular/router'
 
 @Component({
   selector: 'wm-overview',
@@ -24,6 +24,7 @@ import {ActivatedRoute} from '@angular/router'
 })
 export class OverviewComponent implements OnInit {
   private store = inject(Store)
+  private router = inject(Router)
   private activatedRoute = inject(ActivatedRoute)
 
   groups = this.store.selectSignal(selectGroups)
@@ -52,7 +53,7 @@ export class OverviewComponent implements OnInit {
 
       const groupId = this.activatedRoute.snapshot.queryParamMap.get('group')
       if (groupId) {
-        this.store.dispatch(selectGroup({groupId}))
+        this.store.dispatch(loadGroup({groupId}))
       }
     })
   }
@@ -82,6 +83,7 @@ export class OverviewComponent implements OnInit {
   })
 
   selectGroup(groupId: string): void {
-    this.store.dispatch(selectGroup({groupId}))
+    this.router.navigate([this.mode() === 'admin' ? '/admin/results' : 'bets', groupId]).then()
+    this.store.dispatch(loadGroup({groupId}))
   }
 }

@@ -26,6 +26,6 @@ export class GamePreviewComponent {
   focusGame(): void {
     const id = this.game().id
     const groupId = this.game().groupId
-    this.router.navigateByUrl(`/bets?g=${id}&group=${groupId}`).then()
+    this.router.navigateByUrl(`/bets/${groupId}/${id}`).then()
   }
 }

@@ -1,19 +1,17 @@
-import {Component, effect, inject, input, OnDestroy, Signal} from '@angular/core'
+import {Component, effect, inject, input, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
-import {deselectGroup, saveBets, saveResults} from '../../store/tournament.actions'
+import {saveBets, saveResults} from '../../store/tournament.actions'
 import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../model/game/bet-form'
 import {ButtonComponent} from '../button/button.component'
-import {ActivatedRoute} from '@angular/router'
+import {Router} from '@angular/router'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {BetGame} from '../../../model/game/bet-game'
-import {toSignal} from '@angular/core/rxjs-interop'
-import {map} from 'rxjs'
 import {ScoreForm} from '../../../model/game/score-form'
 
 @Component({
@@ -31,18 +29,16 @@ import {ScoreForm} from '../../../model/game/score-form'
   templateUrl: './group-view.component.html',
   styleUrl: './group-view.component.css'
 })
-export class GroupViewComponent implements OnDestroy {
+export class GroupViewComponent {
   private store = inject(Store)
-  private activatedRoute = inject(ActivatedRoute)
+  private router = inject(Router)
 
   group: Signal<Group | null> = this.store.selectSignal(selectActiveGroup)
   isLoading = this.store.selectSignal(selectIsTournamentLoading)
   isSaving = this.store.selectSignal(selectIsTournamentSaving)
 
   mode = input<Mode>('bet', {alias: 'mode'})
-  highlight = toSignal(this.activatedRoute.queryParamMap.pipe(
-    map(params => params.get('g'))
-  ), {initialValue: null})
+  highlight = input<string | null>(null)
 
   form = new FormGroup({
     bets: new FormArray<FormControl<BetForm>>([])
@@ -123,11 +119,7 @@ export class GroupViewComponent implements OnDestroy {
     }))
   }
 
-  ngOnDestroy(): void {
-    this.back()
-  }
-
   back(): void {
-    this.store.dispatch(deselectGroup())
+    this.router.navigate([this.mode() === 'admin' ? '/admin/results' : 'bets']).then()
   }
 }

@@ -5,7 +5,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {ResultManagementComponent} from './result-management.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {provideRouter} from '@angular/router'
-import {hasActiveGroup, selectGroups} from '../../shared/store/tournament.feature'
+import {selectGroups} from '../../shared/store/tournament.feature'
 
 describe('ResultManagementComponent', () => {
   let component: ResultManagementComponent
@@ -21,7 +21,6 @@ describe('ResultManagementComponent', () => {
     fixture = TestBed.createComponent(ResultManagementComponent)
     component = fixture.componentInstance
     store = TestBed.inject(MockStore)
-    store.overrideSelector(hasActiveGroup, true)
     store.overrideSelector(selectGroups, [])
     store.refreshState()
     fixture.detectChanges()
@@ -29,14 +28,5 @@ describe('ResultManagementComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy()
-  })
-
-  it('should load hasActiveGroup from store', () => {
-    expect(component.hasGroupSelected()).toBeTrue()
-
-    store.overrideSelector(hasActiveGroup, false)
-    store.refreshState()
-    fixture.detectChanges()
-    expect(component.hasGroupSelected()).toBeFalse()
   })
 })

@@ -2,11 +2,10 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {GroupViewComponent} from './group-view.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
-import {ActivatedRoute, provideRouter} from '@angular/router'
+import {provideRouter} from '@angular/router'
 import {Group} from '../../../model/group/group'
 import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
-import {of} from 'rxjs'
-import {deselectGroup, saveBets, saveResults} from '../../store/tournament.actions'
+import {saveBets, saveResults} from '../../store/tournament.actions'
 
 const mockGroup: Group = {
   lastSavedAtResult: new Date('2025-04-23T20:58:00'),
@@ -29,16 +28,20 @@ const mockGroup: Group = {
         id: 'team1',
         name: 'Team 1',
         flag: 'https://example.com/logo1.png',
-        previousGames: []
+        previousGames: [],
+        shortName: ''
       },
       teamGuest: {
         id: 'team2',
         name: 'Team 2',
         flag: 'https://example.com/logo2.png',
-        previousGames: []
+        previousGames: [],
+        shortName: ''
       },
       result: null,
       bet: null,
+      groupId: 'group1',
+      groupName: 'Gruppe A'
     },
     {
       id: 'game1',
@@ -51,13 +54,15 @@ const mockGroup: Group = {
         id: 'team1',
         name: 'Team 1',
         flag: 'https://example.com/logo1.png',
-        previousGames: []
+        previousGames: [],
+        shortName: ''
       },
       teamGuest: {
         id: 'team2',
         name: 'Team 2',
         flag: 'https://example.com/logo2.png',
-        previousGames: []
+        previousGames: [],
+        shortName: ''
       },
       result: null,
       bet: {
@@ -66,7 +71,9 @@ const mockGroup: Group = {
         scoreTeamGuest: 1,
         joker: 1,
         gameId: 'game1'
-      }
+      },
+      groupId: 'group1',
+      groupName: 'Gruppe A'
     }
   ],
   id: 'group1',
@@ -83,15 +90,7 @@ describe('GroupViewComponent', () => {
       imports: [GroupViewComponent],
       providers: [
         provideMockStore(),
-        provideRouter([]),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParamMap: of({
-              get: () => 'game1'
-            })
-          }
-        }
+        provideRouter([])
       ]
     }).compileComponents()
 
@@ -118,10 +117,6 @@ describe('GroupViewComponent', () => {
       component.group()
     }).not.toThrow()
     expect(component.games).toEqual([])
-  })
-
-  it('should set highlight to query param g', () => {
-    expect(component.highlight()).toEqual('game1')
   })
 
   it('should add form control for each game', () => {
@@ -272,20 +267,6 @@ describe('GroupViewComponent', () => {
 
     expect(component.isLoading()).toEqual(false)
     expect(component.isSaving()).toEqual(false)
-  })
-
-  it('should deselect group', () => {
-    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
-    component.back()
-
-    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
-  })
-
-  it('should deselect group on destroy', () => {
-    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
-    component.ngOnDestroy()
-
-    expect(storeSpy).toHaveBeenCalledWith(deselectGroup())
   })
 
   it('should prepare default values for bet mode', () => {

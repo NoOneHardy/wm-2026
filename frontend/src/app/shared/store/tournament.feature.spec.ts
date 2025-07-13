@@ -1,8 +1,7 @@
 import {FeatureSlice} from '@ngrx/store'
 import * as feature from './tournament.feature'
-import {hasActiveGroup, TournamentState} from './tournament.feature'
+import {TournamentState} from './tournament.feature'
 import {
-  deselectGroup,
   grantJDouble,
   grantJTriple,
   groupLoaded,
@@ -109,13 +108,6 @@ describe('TournamentFeature', () => {
     expect(state.activeGroup).toBeNull()
   })
 
-  it('should return whether a group is selected', () => {
-    let state = initialState
-    expect(hasActiveGroup.projector(state.activeGroup)).toBeFalse()
-    state = store.reducer(state, groupLoaded({group: mockGroup}))
-    expect(hasActiveGroup.projector(state.activeGroup)).toBeTrue()
-  })
-
   it('should start loading when saving results', () => {
     let state = initialState
     expect(state.isTournamentSaving).toBeFalse()
@@ -138,13 +130,5 @@ describe('TournamentFeature', () => {
     state = store.reducer(state, resultsSaved({group: mockGroup}))
     expect(state.activeGroup).toEqual(mockGroup)
     expect(state.availableJokers).toEqual(mockGroup.availableJokers)
-  })
-
-  it('should reset selected group', () => {
-    let state = initialState
-    state = store.reducer(state, groupLoaded({group: mockGroup}))
-    expect(state.activeGroup).toEqual(mockGroup)
-    state = store.reducer(state, deselectGroup())
-    expect(state.activeGroup).toBeNull()
   })
 })

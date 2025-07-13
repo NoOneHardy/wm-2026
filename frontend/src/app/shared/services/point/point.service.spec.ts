@@ -18,17 +18,21 @@ describe('PointService', () => {
         id: '',
         flag: '',
         name: '',
+        shortName: '',
         previousGames: []
       },
       teamHome: {
         id: '',
         flag: '',
         name: '',
+        shortName: '',
         previousGames: []
       },
       timestamp: new Date(),
       bet: null,
-      result: null
+      result: null,
+      groupId: '',
+      groupName: ''
     }
   })
 

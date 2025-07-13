@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { UpcomingGamesComponent } from './upcoming-games.component'
+import {UpcomingGamesComponent} from './upcoming-games.component'
+import {provideRouter} from '@angular/router'
 
 describe('UpcomingGamesComponent', () => {
   let component: UpcomingGamesComponent
@@ -8,12 +9,13 @@ describe('UpcomingGamesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UpcomingGamesComponent]
-    })
-    .compileComponents()
+      imports: [UpcomingGamesComponent],
+      providers: [provideRouter([])]
+    }).compileComponents()
 
     fixture = TestBed.createComponent(UpcomingGamesComponent)
     component = fixture.componentInstance
+    fixture.componentRef.setInput('games', [])
     fixture.detectChanges()
   })
 

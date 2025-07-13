@@ -15,19 +15,23 @@ const tomorrow = new Date(
 )
 
 const mockGame: BetGame = {
+  groupId: 'group-1',
+  groupName: 'Gruppe A',
   id: 'game-1',
   timestamp: tomorrow,
   teamHome: {
     id: 'team-1',
     name: 'Deutschland',
     flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/180px-Flag_of_Germany.svg.png',
-    previousGames: []
+    previousGames: [],
+    shortName: ''
   },
   teamGuest: {
     id: 'team-2',
     name: 'Schottland',
     flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/250px-Flag_of_Scotland.svg.png',
-    previousGames: []
+    previousGames: [],
+    shortName: ''
   },
   result: null,
   bet: {

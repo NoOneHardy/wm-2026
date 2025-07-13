@@ -4,6 +4,7 @@ import {OverviewComponent} from './overview.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectGroups} from '../../store/tournament.feature'
 import {CardGroup} from '../../../model/group/card-group'
+import {provideRouter} from '@angular/router'
 
 describe('OverviewComponent', () => {
   let mockStore: MockStore
@@ -60,7 +61,7 @@ describe('OverviewComponent', () => {
         selectors: [
           {selector: selectGroups, value: []}
         ]
-      })]
+      }), provideRouter([])]
     })
       .compileComponents()
 

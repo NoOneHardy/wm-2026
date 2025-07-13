@@ -71,13 +71,6 @@ describe('HeaderComponent', () => {
     expect(component.isAdmin()).toBe(true)
   })
 
-  it('should call store to deselect group', () => {
-    const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
-    component.deselectGroup()
-
-    expect(storeSpy).toHaveBeenCalled()
-  })
-
   it('should dispatch logout action when logout is called', () => {
     const storeSpy = spyOn(component['store'], 'dispatch').and.callThrough()
 

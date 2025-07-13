@@ -1,13 +1,23 @@
-import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
+import {createFeature, createReducer, on} from '@ngrx/store'
 import {CardGroup} from '../../model/group/card-group'
 import {
-  betsSaved, dashboardDataLoaded, deselectGroup, getLeaderboard,
-  getOverviewGroups, grantJDouble, grantJTriple,
-  groupSelected, leaderboardLoaded, loadDashboardData,
-  overviewGroupsLoaded, resetSaving, resultsSaved,
-  revokeJDouble, revokeJTriple,
-  saveBets, saveResults,
-  selectGroup
+  betsSaved,
+  dashboardDataLoaded,
+  getLeaderboard,
+  getOverviewGroups,
+  grantJDouble,
+  grantJTriple,
+  groupLoaded,
+  leaderboardLoaded,
+  loadDashboardData,
+  loadGroup,
+  overviewGroupsLoaded,
+  resetSaving,
+  resultsSaved,
+  revokeJDouble,
+  revokeJTriple,
+  saveBets,
+  saveResults
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
 import {AvailableJokers} from '../../model/group/available-jokers'
@@ -40,7 +50,7 @@ export const tournamentFeature = createFeature({
     initialState,
     on(
       getOverviewGroups,
-      selectGroup,
+      loadGroup,
       getLeaderboard,
       loadDashboardData,
       (state): TournamentState => {
@@ -77,13 +87,7 @@ export const tournamentFeature = createFeature({
         activeGroup: null
       }
     }),
-    on(deselectGroup, (state): TournamentState => {
-      return {
-        ...state,
-        activeGroup: null
-      }
-    }),
-    on(groupSelected, (state, action): TournamentState => {
+    on(groupLoaded, (state, action): TournamentState => {
       return {
         ...state,
         isTournamentLoading: false,
@@ -160,8 +164,3 @@ export const {
   selectLeaderboard,
   selectDashboard
 } = tournamentFeature
-
-export const hasActiveGroup = createSelector(
-  selectActiveGroup,
-  (group): boolean => !!group
-)

@@ -1,14 +1,13 @@
 import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {GroupService} from '../services/group/group.service'
-import {catchError, exhaustMap, map, of} from 'rxjs'
+import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {
   betsSaved,
   dashboardDataLoaded,
-  deselectGroup,
   getLeaderboard,
   getOverviewGroups,
-  groupSelected,
+  groupLoaded,
   leaderboardLoaded,
   loadDashboardData,
   overviewGroupsLoaded,
@@ -16,12 +15,13 @@ import {
   resultsSaved,
   saveBets,
   saveResults,
-  selectGroup
+  loadGroup
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
 import {LeaderboardService} from '../services/leaderboard/leaderboard.service'
 import {ServiceError} from '../../model/error'
 import {DashboardService} from '../../dashboard/dashboard.service'
+import {Router} from '@angular/router'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -29,6 +29,7 @@ import {DashboardService} from '../../dashboard/dashboard.service'
 })
 export class TournamentEffects {
   private actions$ = inject(Actions)
+  private router = inject(Router)
   private groupService = inject(GroupService)
   private leaderboardService = inject(LeaderboardService)
   private snackbarService = inject(SnackbarService)
@@ -44,10 +45,10 @@ export class TournamentEffects {
   ))
 
   selectGroup = createEffect(() => this.actions$.pipe(
-    ofType(selectGroup),
+    ofType(loadGroup),
     exhaustMap(action => {
       return this.groupService.getGroup(action.groupId).pipe(map(group => {
-        return groupSelected({group})
+        return groupLoaded({group})
       }))
     })
   ))
@@ -72,14 +73,14 @@ export class TournamentEffects {
 
   betsSaved = createEffect(() => this.actions$.pipe(
     ofType(betsSaved),
-    map(() => {
+    tap(() => {
       this.snackbarService.addMessage({
         type: 'success',
         message: 'Erfolgreich gespeichert'
       })
-      return deselectGroup()
+      this.router.navigate(['bets']).then()
     })
-  ))
+  ), {dispatch: false})
 
   saveResults = createEffect(() => this.actions$.pipe(
     ofType(saveResults),
@@ -101,14 +102,14 @@ export class TournamentEffects {
 
   resultsSaved = createEffect(() => this.actions$.pipe(
     ofType(resultsSaved),
-    map(() => {
+    tap(() => {
       this.snackbarService.addMessage({
         type: 'success',
         message: 'Erfolgreich gespeichert'
       })
-      return deselectGroup()
+      this.router.navigate(['admin/results']).then()
     })
-  ))
+  ), {dispatch: false})
 
   getLeaderboard = createEffect(() => this.actions$.pipe(
     ofType(getLeaderboard),

@@ -5,7 +5,7 @@
 
       <ng-container *ngIf="user()">
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
+        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
       </ng-container>
 
       <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>
@@ -45,8 +45,8 @@
     <nav class="nav-bottom" [@expandable]="isExpanded ? 'expanded' : 'collapsed'">
       <ng-container *ngIf="user()">
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets" (clickEvent)="deselectGroup()"/>
-        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings" (clickEvent)="deselectGroup()"/>
+        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
+        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings"/>
       </ng-container>
 
       <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>

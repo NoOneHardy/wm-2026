@@ -9,6 +9,7 @@ export const isLoggedInGuard: CanActivateFn = () => {
   const store = inject(Store)
   const router = inject(Router)
 
+  debugger
   const user$: Observable<User | null> = store.select(selectUser)
   const isLoading: Observable<boolean> = store.select(selectIsUserLoading)
 

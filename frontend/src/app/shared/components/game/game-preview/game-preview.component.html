@@ -1,7 +1,7 @@
 @if (game(); as game) {
-  <div class="alert" *ngIf="hasBet()"><span class="material-symbols-rounded">error</span></div>
+  <div class="alert" *ngIf="openBet()"><span class="material-symbols-rounded">error</span></div>
   <h3 class="gradient-text">{{ game.groupName }}</h3>
-  <p class="timestamp">{{ game.timestamp | date:'dd.MM hh:mm' }} Uhr</p>
+  <p class="timestamp">{{ game.timestamp | date:'dd.MM HH:mm' }} Uhr</p>
   <div class="teams">
     <div class="team-home">
       <div class="flag">

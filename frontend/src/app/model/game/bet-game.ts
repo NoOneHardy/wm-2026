@@ -9,4 +9,6 @@ export interface BetGame {
   teamGuest: Team
   result: Score | null
   bet: Bet | null
+  groupId: string
+  groupName: string
 }

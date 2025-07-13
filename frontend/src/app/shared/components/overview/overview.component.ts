@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, OnInit} from '@angular/core'
+import {Component, computed, effect, inject, input, OnInit} from '@angular/core'
 import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
@@ -6,6 +6,7 @@ import {selectGroups, selectIsTournamentLoading} from '../../store/tournament.fe
 import {getOverviewGroups, selectGroup} from '../../store/tournament.actions'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {Mode} from '../../../model/mode'
+import {ActivatedRoute} from '@angular/router'
 
 @Component({
   selector: 'wm-overview',
@@ -23,6 +24,7 @@ import {Mode} from '../../../model/mode'
 })
 export class OverviewComponent implements OnInit {
   private store = inject(Store)
+  private activatedRoute = inject(ActivatedRoute)
 
   groups = this.store.selectSignal(selectGroups)
   isLoading = this.store.selectSignal(selectIsTournamentLoading)
@@ -42,6 +44,18 @@ export class OverviewComponent implements OnInit {
       return totalResults / total
     }
   })
+
+  constructor() {
+    effect(() => {
+      const isLoading = this.isLoading()
+      if (isLoading) return
+
+      const groupId = this.activatedRoute.snapshot.queryParamMap.get('group')
+      if (groupId) {
+        this.store.dispatch(selectGroup({groupId}))
+      }
+    })
+  }
 
   ngOnInit(): void {
     this.store.dispatch(getOverviewGroups())

@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.BetPlaceException;
+import ch.no1hardy.service.exception.KnockoutTieException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.front.game.BetReq;
@@ -45,6 +46,9 @@ public class GameService {
 
         if (!dto.isValid()) return mapper.toDto(game);
 
+        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()))
+            throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
+
         dto.setGame(id);
         Score result;
         Score existingResult = game.getResult();
@@ -71,6 +75,9 @@ public class GameService {
         if (game.getTimestamp().isBefore(LocalDateTime.now(ZoneId.of("CET")))) {
             throw new BetPlaceException("Game " + id + " has already started", "Dieses Spiel hat bereits begonnen");
         }
+
+        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()))
+            throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
 
         if (game.getTimestamp().isBefore(LocalDateTime.now().atZone(ZoneId.of("CET")).toLocalDateTime())
                 || game.getResult() != null

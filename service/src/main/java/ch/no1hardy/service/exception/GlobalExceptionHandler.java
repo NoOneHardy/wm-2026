@@ -59,4 +59,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(ex.getStatus())
                 .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }
+
+    @ExceptionHandler(KnockoutTieException.class)
+    public ResponseEntity<ApiError> handleKnockoutTieException(KnockoutTieException ex) {
+        return ResponseEntity.status(ex.getStatus())
+                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
+    }
 }

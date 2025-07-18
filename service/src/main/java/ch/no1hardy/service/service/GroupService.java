@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BetPlaceException;
+import ch.no1hardy.service.exception.KnockoutTieException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ScoreReq;
@@ -30,13 +31,15 @@ public class GroupService {
 
     public GroupRes getGroup(String id) {
         Group group = repository.findById(id).orElse(null);
-        if (group == null) throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
+        if (group == null)
+            throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
         return mapper.toDto(group);
     }
 
     public GroupRes updateBets(String id, List<BetReq> bets) {
         Group group = repository.findById(id).orElse(null);
-        if (group == null) throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
+        if (group == null)
+            throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
 
         for (BetReq bet : bets.stream().filter(BetReq::isValid).toList()) {
             if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(bet.getGame())) {
@@ -44,6 +47,8 @@ public class GroupService {
                     gameService.uploadBet(bet.getGame(), bet);
                 } catch (BetPlaceException e) {
                     throw new BetPlaceException(e.getMessage(), "Eines der Spiele hat bereits begonnen.");
+                } catch (KnockoutTieException e) {
+                    throw new KnockoutTieException(e.getMessage(), "Diese Gruppe ist eine K.O.-Phase. Spiele können nicht unentschieden enden.");
                 }
             }
         }
@@ -52,11 +57,16 @@ public class GroupService {
 
     public GroupRes updateResults(String id, List<ScoreReq> results) {
         Group group = repository.findById(id).orElse(null);
-        if (group == null) throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
+        if (group == null)
+            throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
 
         for (ScoreReq result : results.stream().filter(ScoreReq::isValid).toList()) {
             if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(result.getGame())) {
-                gameService.uploadResult(result.getGame(), result);
+                try {
+                    gameService.uploadResult(result.getGame(), result);
+                } catch (KnockoutTieException e) {
+                    throw new KnockoutTieException(e.getMessage(), "Diese Gruppe ist eine K.O.-Phase. Spiele können nicht unentschieden enden.");
+                }
             }
         }
         return mapper.toDto(group);

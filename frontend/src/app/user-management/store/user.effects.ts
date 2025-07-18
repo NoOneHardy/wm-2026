@@ -5,7 +5,8 @@ import {
   createUser,
   fetchUserInfo,
   loggedOut,
-  logout, rejectLogin,
+  logout,
+  rejectLogin,
   userCreated,
   userInfoFetched,
   userLoggedIn,
@@ -73,7 +74,7 @@ export class UserEffects {
     ofType(logout),
     exhaustMap(() => {
       return this.userService.logout().pipe(map(() => {
-        return loggedOut()
+        return loggedOut({showMessage: true})
       }))
     })
   ))
@@ -94,7 +95,15 @@ export class UserEffects {
     exhaustMap(() => {
       return this.userService.fetchUserInfo().pipe(map((user) => {
         return userInfoFetched({user})
-      }))
+        }),
+        catchError(() => {
+          this.snackbarService.addMessage({
+            message: 'Session abgelaufen, bitte erneut anmelden',
+            type: 'error'
+          })
+          return of(loggedOut({showMessage: false}))
+        })
+      )
     })
   ))
 }

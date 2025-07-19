@@ -69,7 +69,9 @@
         max-width: 40em;
 
         &:first-child, &:last-child {
-          opacity: .6;
+          &:not(.-current) {
+            opacity: .6;
+          }
         }
       }
     }

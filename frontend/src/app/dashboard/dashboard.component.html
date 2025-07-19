@@ -37,6 +37,7 @@
     <div class="leaderboard">
       <wm-position *ngFor="let position of leaderboardPreview()"
                    [ranking]="position"
+                   [class.-current]="position.id === user()?.id"
                    [highlight]="position.id === user()?.id"/>
       <ng-container *ngIf="leaderboardPreview().length === 0">
         <p>Du wurdest noch nicht bestätigt.</p>

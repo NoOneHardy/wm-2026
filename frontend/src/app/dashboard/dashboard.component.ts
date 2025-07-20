@@ -6,7 +6,8 @@ import {DecimalPipe, NgForOf, NgIf} from '@angular/common'
 import {selectDashboard} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
 import {UpcomingGamesComponent} from './components/upcoming-games/upcoming-games.component'
-import {StatisticsComponent} from './statistics/statistics.component'
+import {StatisticsComponent} from './components/statistics/statistics.component'
+import {RecentResultsComponent} from './components/recent-results/recent-results.component'
 
 @Component({
   selector: 'wm-dashboard',
@@ -17,7 +18,8 @@ import {StatisticsComponent} from './statistics/statistics.component'
     NgIf,
     DecimalPipe,
     UpcomingGamesComponent,
-    StatisticsComponent
+    StatisticsComponent,
+    RecentResultsComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'

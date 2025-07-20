@@ -5,6 +5,7 @@ import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {User} from '../model/user/user'
 import {mockUser1} from '../model/mock/user.mock'
 import {selectUser} from '../user-management/store/user.feature'
+import {provideRouter} from '@angular/router'
 
 describe('RootComponent', () => {
   let component: RootComponent
@@ -15,7 +16,7 @@ describe('RootComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RootComponent],
-      providers: [provideMockStore()]
+      providers: [provideMockStore(), provideRouter([])]
     }).compileComponents()
 
     fixture = TestBed.createComponent(RootComponent)

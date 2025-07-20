@@ -18,5 +18,22 @@
     </div>
   </div>
 
+  @if (game.result; as result) {
+    <div class="result">
+      <span class="result-home">{{ result.scoreTeamHome }}</span>
+      <span class="result-guest">{{ result.scoreTeamGuest }}</span>
+      @if (game.bet; as bet) {
+        <span class="bet-home">{{ bet.scoreTeamHome }}</span>
+        <span class="bet-guest">{{ bet.scoreTeamGuest }}</span>
+        <div class="bet-joker">
+          @for (i of getJokerArray(bet); track i) {
+            <span class="material-symbols-rounded">star</span>
+          }
+        </div>
+        <span class="bet-points gradient-text">+{{ points() }}</span>
+      }
+    </div>
+  }
+
   <wm-button full-width (clickEvent)="focusGame()">Details</wm-button>
 }

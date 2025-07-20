@@ -16,5 +16,13 @@ import {RouterLink} from '@angular/router'
   styleUrl: './upcoming-games.component.css'
 })
 export class UpcomingGamesComponent {
-  games = input.required<BetGame[]>()
+  games = input.required<BetGame[], BetGame[]>({
+    transform: v => {
+      const sorted = [...v]
+      sorted.sort((a, b) => {
+        return new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
+      })
+      return sorted
+    }
+  })
 }

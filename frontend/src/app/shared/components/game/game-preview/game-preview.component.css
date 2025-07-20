@@ -2,7 +2,7 @@
   position: relative;
   display: block;
   width: fit-content;
-  padding: calc(var(--wm-spacer-4) + .25em) var(--wm-spacer-4) var(--wm-spacer-3);
+  padding: var(--wm-spacer-4) var(--wm-spacer-4) var(--wm-spacer-3);
   border-radius: .5em;
   box-shadow: 0 0 .5em 0 #0000003d;
   background-color: var(--wm-color-white-600);
@@ -20,7 +20,7 @@
     span {
       display: block;
       width: fit-content;
-      margin: .125em auto;
+      margin: .25em auto;
       font-size: 1em;
       color: var(--wm-color-orange-900);
     }
@@ -32,7 +32,7 @@
   }
 
   .timestamp {
-    font: var(--wm-font-small-text);
+    font: var(--wm-font-regular-text);
     color: var(--wm-color-neutral-400);
     text-align: center;
     margin-bottom: var(--wm-spacer-3);
@@ -41,7 +41,7 @@
   .teams {
     display: flex;
     gap: var(--wm-spacer-4);
-    margin-bottom: var(--wm-spacer-2);
+    margin-bottom: var(--wm-spacer-3);
 
     .flag {
       height: var(--wm-spacer-7);

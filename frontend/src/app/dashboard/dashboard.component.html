@@ -48,5 +48,7 @@
 
   <wm-upcoming-games [games]="data.upcomingGames" *ngIf="dashboardData() as data"/>
 
+  <wm-recent-results [games]="data.recentResults" *ngIf="dashboardData() as data"/>
+
   <wm-statistics [globalStats]="data.globalStats" [personalStats]="data.stats" *ngIf="dashboardData() as data"/>
 </div>

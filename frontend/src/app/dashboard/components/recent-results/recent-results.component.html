@@ -1,0 +1,13 @@
+<h3>Kürzlich gespielt</h3>
+
+<div class="recent-results">
+  <wm-game-preview [game]="game" *ngFor="let game of games()"/>
+  <div *ngIf="games().length === 0" class="no-games">
+    <p>Keine kürzlich gespielten Spiele gefunden.</p>
+  </div>
+</div>
+
+<a class="link-with-icon" routerLink="/bets">
+  <i class="material-symbols-rounded">arrow_right_alt</i>
+  <span>Zum Tippschein</span>
+</a>

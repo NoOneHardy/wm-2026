@@ -1,6 +1,6 @@
 import {Component, computed, input, InputSignal, signal, Signal, WritableSignal} from '@angular/core'
-import {Statistics} from '../../model/dashboard/statistics'
-import {GlobalStatistics} from '../../model/dashboard/global-statistics'
+import {Statistics} from '../../../model/dashboard/statistics'
+import {GlobalStatistics} from '../../../model/dashboard/global-statistics'
 import {CommonModule} from '@angular/common'
 
 @Component({

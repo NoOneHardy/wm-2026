@@ -26,10 +26,8 @@ public class Bet extends BaseEntity {
     @ToString.Exclude
     private Game game;
 
-    @NotNull
     private Integer scoreTeamHome;
 
-    @NotNull
     private Integer scoreTeamGuest;
 
     public Boolean isHomeTeamWinner() {

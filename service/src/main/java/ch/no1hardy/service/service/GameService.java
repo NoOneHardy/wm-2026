@@ -46,7 +46,7 @@ public class GameService {
 
         if (!dto.isValid()) return mapper.toDto(game);
 
-        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()))
+        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()) && dto.getScoreTeamHome() != null)
             throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
 
         dto.setGame(id);
@@ -54,6 +54,13 @@ public class GameService {
         Score existingResult = game.getResult();
         if (existingResult != null) {
             if (existingResult.equals(dto)) return mapper.toDto(game);
+
+            if (dto.getScoreTeamGuest() == null && dto.getScoreTeamHome() == null) {
+                game.setResult(null);
+                scoreRepository.delete(existingResult);
+                userService.removeUserPoints(game);
+                return mapper.toDto(repository.save(game));
+            }
             userService.removeUserPoints(game);
             mapper.update(dto, existingResult);
             result = existingResult;
@@ -76,7 +83,7 @@ public class GameService {
             throw new BetPlaceException("Game " + id + " has already started", "Dieses Spiel hat bereits begonnen");
         }
 
-        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()))
+        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()) && dto.getScoreTeamHome() != null)
             throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
 
         if (game.getTimestamp().isBefore(LocalDateTime.now().atZone(ZoneId.of("CET")).toLocalDateTime())
@@ -91,6 +98,22 @@ public class GameService {
         Bet existingBet = userHelper.getUserBet(game.getBets());
         if (existingBet != null) {
             if (existingBet.equals(dto)) return mapper.toDto(game);
+
+            if (dto.getScoreTeamGuest() == null && dto.getScoreTeamHome() == null) {
+                betRepository.delete(existingBet);
+                List<Bet> oldBets = game.getBets().stream().filter(b -> !Objects.equals(b.getUser().getId(), user.getId())).toList();
+                List<Bet> bets = new ArrayList<>(oldBets);
+                bets.remove(existingBet);
+                game.setBets(bets);
+
+                List<Bet> oldUserBets = user.getBets().stream().filter(b -> !Objects.equals(b.getGame().getId(), game.getId())).toList();
+                List<Bet> userBets = new ArrayList<>(oldUserBets);
+                userBets.remove(existingBet);
+                user.setBets(userBets);
+
+                return mapper.toDto(repository.save(game));
+            }
+
             mapper.update(dto, existingBet);
             bet = existingBet;
         } else {

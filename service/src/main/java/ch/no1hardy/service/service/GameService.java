@@ -56,9 +56,9 @@ public class GameService {
             if (existingResult.equals(dto)) return mapper.toDto(game);
 
             if (dto.getScoreTeamGuest() == null && dto.getScoreTeamHome() == null) {
+                userService.removeUserPoints(game);
                 game.setResult(null);
                 scoreRepository.delete(existingResult);
-                userService.removeUserPoints(game);
                 return mapper.toDto(repository.save(game));
             }
             userService.removeUserPoints(game);

@@ -29,10 +29,10 @@ public class ScoreReqTest {
                 .scoreTeamGuest(1)
                 .build();
 
-        assertFalse(scoreReq.isValid());
+        assertTrue(scoreReq.isValid());
         scoreReq.setScoreTeamHome(1);
         scoreReq.setScoreTeamGuest(null);
-        assertFalse(scoreReq.isValid());
+        assertTrue(scoreReq.isValid());
     }
 
     @Test

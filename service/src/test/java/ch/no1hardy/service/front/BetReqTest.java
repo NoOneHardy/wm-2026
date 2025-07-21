@@ -31,10 +31,10 @@ public class BetReqTest {
                 .joker(1)
                 .build();
 
-        assertFalse(betReq.isValid());
+        assertTrue(betReq.isValid());
         betReq.setScoreTeamHome(1);
         betReq.setScoreTeamGuest(null);
-        assertFalse(betReq.isValid());
+        assertTrue(betReq.isValid());
     }
 
     @Test

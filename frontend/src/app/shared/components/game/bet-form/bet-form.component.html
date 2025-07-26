@@ -1,105 +1,70 @@
-<form [formGroup]="formGroup" *ngIf="game() as game" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
-      [class.-knockout]="knockout()">
-  <div class="title">
-    <h3>{{ game.timestamp | date:'dd.MM.YYYY' }}</h3>
-    <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
-  </div>
-
-  <div class="flag-team-home flag">
-    <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
-  </div>
-
-  <h3 class="team-home">{{ game.teamHome.name }}</h3>
-  <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
-  <div class="joker-form" *ngIf="!knockout() && !admin()">
-    <div class="joker" *ngFor="let joker of [1, 2, 3]">
-      <input name="joker" formControlName="joker"
-             [id]="game.id + '-joker-' + joker"
-             [value]="joker" type="radio"/>
-      <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
-             [class.-disabled]="!hasJokersAvailable(joker)"
-             [class.-fill]="fillJoker(joker)">star</label>
+@if (game(); as game) {
+  <form [formGroup]="formGroup" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
+        [class.-knockout]="knockout()">
+    <div class="title">
+      <h3>{{ game.timestamp | date:'dd.MM.YYYY' }}</h3>
+      <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
     </div>
-  </div>
-  <div class="result" *ngIf="isDisabled && !admin()">
-    @if (game.result; as result) {
-      <h4>Resultat</h4>
-      <p>{{ result.scoreTeamHome }} : {{ result.scoreTeamGuest }}</p>
-    } @else {
-      <h4>Resultat folgt</h4>
-    }
-  </div>
-  <div class="flag-team-guest flag" [style]="{'--url': 'url(' + game.teamGuest.flag + ')'}">
-    <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
-  </div>
-  <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
-  <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
-  <div class="separator" *ngIf="knockout()">-</div>
 
-  @if (knockout()) {
-    <div class="prev-games-home previous-games" *ngIf="game.teamHome.previousGames.length > 0">
-      <h4>{{ game.teamHome.previousGames[0].group }}</h4>
-      <div class="games">
-        <div class="prev-game" *ngFor="let prev of game.teamHome.previousGames">
-          @let isHome = prev.teamHome.id === game.teamHome.id;
-          @let opponent = isHome ? prev.teamGuest : prev.teamHome;
+    <div class="flag-team-home flag">
+      <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+    </div>
 
-          <div class="result" [class.-is-guest]="!isHome">
-            <span [class.-bold]="isHome">{{ prev.result.scoreTeamHome }}</span>
-            <span>:</span>
-            <span [class.-bold]="!isHome">{{ prev.result.scoreTeamGuest }}</span>
+    <h3 class="team-home">{{ game.teamHome.name }}</h3>
+    <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
+
+    @if (!knockout() && !admin()) {
+      <div class="joker-form">
+        @for (joker of [1, 2, 3]; track $index) {
+          <div class="joker">
+            <input name="joker" formControlName="joker"
+                   [id]="game.id + '-joker-' + joker"
+                   [value]="joker" type="radio"/>
+            <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
+                   [class.-disabled]="!hasJokersAvailable(joker)"
+                   [class.-fill]="fillJoker(joker)">star</label>
           </div>
-
-          <div class="flag -small">
-            <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
-          </div>
-        </div>
+        }
       </div>
+    }
+
+    @if (isDisabled && !admin()) {
+      <wm-result [result]="game.result" class="result" [large]="knockout()"/>
+
+      @let points = game | points;
+      @let totalPoints = points | totalPoints;
+
+      @if (totalPoints > 0 && points) {
+        <wm-expandable name="Punkteverteilung" class="points" [large]="knockout()">
+          <ng-container wm-content>
+            <wm-point-table [total]="totalPoints" [points]="points" [large]="knockout()"/>
+          </ng-container>
+          <ng-container wm-preview>
+            <wm-point-table [total]="totalPoints" [large]="knockout()"/>
+          </ng-container>
+        </wm-expandable>
+      }
+    }
+
+    <div class="flag-team-guest flag" [style]="{'--url': 'url(' + game.teamGuest.flag + ')'}">
+      <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
     </div>
-    <div class="prev-games-guest previous-games" *ngIf="game.teamGuest.previousGames.length > 0">
-      <h4>{{ game.teamGuest.previousGames[0].group }}</h4>
-      <div class="games">
-        <div class="prev-game" *ngFor="let prev of game.teamGuest.previousGames">
-          @let isHome = prev.teamHome.id === game.teamGuest.id;
-          @let opponent = isHome ? prev.teamGuest : prev.teamHome;
+    <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
+    <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
 
-          <div class="flag -small">
-            <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
-          </div>
+    @if (knockout()) {
+      <div class="separator">-</div>
 
-          <div class="result" [class.-is-guest]="!isHome">
-            <span [class.-bold]="isHome">{{ prev.result.scoreTeamHome }}</span>
-            <span>:</span>
-            <span [class.-bold]="!isHome">{{ prev.result.scoreTeamGuest }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  }
-  <div class="points" *ngIf="totalPoints() > 0 && !admin()">
-    @if (points()?.correctWinner) {
-      <span>Richtiger&nbsp;Sieger</span>
-      <span>+&nbsp;50</span>
+      @if (!isDisabled && !admin()) {
+        <wm-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
+          <ng-container wm-content>
+            <div class="prev-games-layout">
+              <wm-team-previous-games [team]="game.teamHome"/>
+              <wm-team-previous-games [team]="game.teamGuest"/>
+            </div>
+          </ng-container>
+        </wm-expandable>
+      }
     }
-    @if (points()?.correctGoalsHome) {
-      <span>Tore&nbsp;Heim</span>
-      <span>+&nbsp;20</span>
-    }
-    @if (points()?.correctGoalsGuest) {
-      <span>Tore&nbsp;Gast</span>
-      <span>+&nbsp;20</span>
-    }
-    @if (points()?.correctGoalsTotal) {
-      <span>Tore&nbsp;Gesamt</span>
-      <span>+&nbsp;10</span>
-    }
-    @if (points()?.joker; as joker) {
-      <span>Joker</span>
-      <span>+&nbsp;{{ totalPoints() - (totalPoints() / joker) }}</span>
-    }
-    <div class="separator"></div>
-
-    <span class="total">Total</span>
-    <span class="total gradient-text">+&nbsp;{{ totalPoints() }}</span>
-  </div>
-</form>
+  </form>
+}

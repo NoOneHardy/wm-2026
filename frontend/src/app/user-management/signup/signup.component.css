@@ -10,12 +10,12 @@
   font-size: .75em;
 
   a {
-    color: var(--wm-color-secondary);
+    color: var(--wm-color-secondary-600);
     text-decoration: none;
     transition: color .2s ease;
 
     &:hover {
-      color: var(--wm-color-secondary-hover);
+      color: var(--wm-color-secondary-900);
     }
   }
 }

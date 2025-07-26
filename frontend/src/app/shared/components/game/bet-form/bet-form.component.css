@@ -11,7 +11,7 @@ form {
   width: fit-content;
   padding: var(--wm-spacer-4) var(--wm-spacer-6) var(--wm-spacer-6);
   border-radius: 1em;
-  background-color: #fff;
+  background-color: var(--wm-color-white-600);
   box-shadow: 0 0 .5em 0 #0000003d;
   column-gap: var(--wm-spacer-4);
 
@@ -376,6 +376,6 @@ form {
 
 @keyframes wm-highlight {
   10%, 90% {
-    background-color: var(--wm-color-primary-200);
+    box-shadow: 0 0 .5em 0 var(--wm-color-primary-600);
   }
 }

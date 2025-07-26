@@ -13,7 +13,7 @@
   transition: background-color .25s ease;
 
   &:hover {
-    background-color: var(--wm-color-gray-100);
+    background-color: var(--wm-color-neutral-100);
   }
 
   &.-highlight {
@@ -35,7 +35,7 @@
     }
 
     &.keyboard_arrow_up {
-      color: var(--wm-color-secondary);
+      color: var(--wm-color-secondary-600);
     }
 
     &.keyboard_double_arrow_down {
@@ -43,7 +43,7 @@
     }
 
     &.keyboard_double_arrow_up {
-      color: var(--wm-color-primary);
+      color: var(--wm-color-primary-600);
     }
   }
 
@@ -68,7 +68,7 @@
 
   .points {
     font: var(--wm-font-medium-bold);
-    color: var(--wm-color-primary);
+    color: var(--wm-color-primary-600);
   }
 }
 

@@ -58,7 +58,7 @@
       font: var(--wm-font-h2);
       font-weight: 700;
       color: transparent;
-      background-image: var(--wm-gradient-primary);
+      background-image: var(--wm-gradient-primary-600);
       background-clip: text;
       text-decoration: none;
     }

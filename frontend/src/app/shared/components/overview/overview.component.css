@@ -46,7 +46,7 @@
         position: relative;
         height: 11.5em;
         width: 11.5em;
-        background-image: var(--wm-gradient-primary);
+        background-image: var(--wm-gradient-primary-600);
         border-radius: 50%;
         box-shadow: 0 0 .5em 0 #0000003d;
         margin-bottom: var(--wm-spacer-1);

@@ -1,0 +1,45 @@
+h4 {
+  font: var(--wm-font-h4);
+  color: var(--wm-color-neutral-500);
+  margin-bottom: var(--wm-spacer-2);
+}
+
+.games {
+  display: flex;
+  flex-direction: column;
+  gap: .5em;
+  width: 100%;
+  padding: .25em 0;
+
+  .prev-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: min(var(--wm-spacer-3));
+
+    .flag.-small {
+      height: var(--wm-spacer-6);
+      width: var(--wm-spacer-6);
+      margin-bottom: 0;
+    }
+
+    .result {
+      font: var(--wm-font-medium-text);
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      align-items: center;
+      color: var(--wm-color-neutral-400);
+      gap: calc(1em / 6);
+
+      &.-is-guest {
+        flex-direction: row-reverse;
+      }
+
+      .-bold {
+        font: var(--wm-font-medium-bold);
+        color: var(--wm-color-neutral-600);
+      }
+    }
+  }
+}

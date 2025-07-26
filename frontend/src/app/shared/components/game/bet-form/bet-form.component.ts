@@ -1,27 +1,35 @@
-import {Component, computed, effect, inject, input, output, Signal} from '@angular/core'
+import {Component, computed, effect, inject, input, output} from '@angular/core'
 import {BetGame} from '../../../../model/game/bet-game'
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../../model/game/bet-form'
 import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../../helper/control-value-accessor'
-import {DatePipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
+import {DatePipe, NgOptimizedImage} from '@angular/common'
 import {ScoreFormFieldComponent} from '../../score-form-field/score-form-field.component'
 import {toSignal} from '@angular/core/rxjs-interop'
 import {Store} from '@ngrx/store'
 import {selectAvailableJokers} from '../../../store/tournament.feature'
 import {grantJDouble, grantJTriple, revokeJDouble, revokeJTriple} from '../../../store/tournament.actions'
-import {PointService} from '../../../services/point/point.service'
-import {DetailedPoints} from '../../../../model/game/detailed-points'
+import {ResultComponent} from '../result/result.component'
+import {ExpandableComponent} from '../../expandable/expandable.component'
+import {PointTableComponent} from '../point-table/point-table.component'
+import {TotalPointsPipe} from '../../../pipes/total-points.pipe'
+import {PointsPipe} from '../../../pipes/points.pipe'
+import {TeamPreviousGamesComponent} from '../team-previous-games/team-previous-games.component'
 
 @Component({
   selector: 'wm-bet-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgIf,
     DatePipe,
     NgOptimizedImage,
     ScoreFormFieldComponent,
-    NgForOf
+    ResultComponent,
+    ExpandableComponent,
+    PointTableComponent,
+    TotalPointsPipe,
+    PointsPipe,
+    TeamPreviousGamesComponent
   ],
   templateUrl: './bet-form.component.html',
   styleUrl: './bet-form.component.css',
@@ -35,7 +43,6 @@ import {DetailedPoints} from '../../../../model/game/detailed-points'
 })
 export class BetFormComponent implements ControlValueAccessor {
   private store = inject(Store)
-  private pointService = inject(PointService)
 
   game = input.required<BetGame>()
   highlight = input<boolean, boolean | ''>(false, {
@@ -53,12 +60,6 @@ export class BetFormComponent implements ControlValueAccessor {
     const ect = new Date(now.valueOf() + diff * 60 * 1000)
 
     return new Date(this.game().timestamp).valueOf() <= ect.valueOf()
-  })
-  points: Signal<DetailedPoints | null> = computed(() => this.pointService.calculateDetailedPoints(this.game()))
-  totalPoints: Signal<number> = computed(() => {
-    const points = this.points()
-    if (!points) return 0
-    return this.pointService.getTotal(points)
   })
   disabledChange = output<boolean>()
 

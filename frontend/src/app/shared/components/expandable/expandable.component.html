@@ -1,6 +1,6 @@
-<div class="heading">
+<div class="heading" (pointerup)="expanded = !expanded">
   <span class="name">{{ name() }}</span>
-  <button (click)="expanded = !expanded" [class.-expanded]="expanded">
+  <button [class.-expanded]="expanded">
     <span class="material-symbols-rounded">keyboard_arrow_down</span>
   </button>
 </div>

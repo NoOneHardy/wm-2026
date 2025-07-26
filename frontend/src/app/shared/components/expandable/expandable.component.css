@@ -1,6 +1,16 @@
 :host {
   display: block;
   width: fit-content;
+
+  &.-large .heading {
+    .name {
+      font: var(--wm-font-regular-text);
+    }
+
+    button {
+      font-size: 2em;
+    }
+  }
 }
 
 .heading {
@@ -9,6 +19,7 @@
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--wm-color-neutral-200);
+  cursor: pointer;
 
   .name {
     font: var(--wm-font-small-text);
@@ -31,20 +42,41 @@
   }
 }
 
-.content {
+.preview, .content {
+  box-sizing: border-box;
   overflow: hidden;
+}
+
+.content {
   width: 0;
+  padding: 0;
 
   &.-expanded {
     width: 100%;
+    padding: var(--wm-spacer-1) .25em;
   }
 }
 
 .preview {
-  overflow: hidden;
   width: 100%;
+  padding: 0 .25em;
 
   &.-expanded {
     width: 0;
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :host, :host.-large {
+    .heading {
+      .name {
+        font: var(--wm-font-small-text);
+      }
+
+      button {
+        font-size: 1.5em;
+      }
+    }
   }
 }

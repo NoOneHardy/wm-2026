@@ -29,7 +29,7 @@
     button {
       display: flex;
       padding: var(--wm-spacer-2) var(--wm-spacer-5);
-      background-image: var(--wm-gradient-primary);
+      background-image: var(--wm-gradient-primary-600);
       border: none;
       border-radius: var(--wm-spacer-4);
       font: var(--wm-font-regular-bold);

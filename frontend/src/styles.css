@@ -21,11 +21,13 @@ XXL: >  1400px
 }
 
 :root {
-  --wm-color-primary: #57c152ff;
+  --wm-color-primary-600: #57c152ff;
+  --wm-color-primary-400: #9ada97ff;
+  --wm-color-primary-200: #bce6baff;
 
-  --wm-color-secondary: #29873dff;
   --wm-color-secondary-900: #195125ff;
   --wm-color-secondary-600: #29873dff;
+  --wm-color-secondary-200: #a9cfb2ff;
 
   --wm-color-neutral-600: #000000ff;
   --wm-color-neutral-500: #666666ff;
@@ -37,34 +39,18 @@ XXL: >  1400px
 
   --wm-color-orange-900: #994d00ff;
   --wm-color-orange-600: #ff8000ff;
+  --wm-color-orange-500: #ff9933ff;
   --wm-color-orange-400: #ffb366ff;
 
   --wm-color-red-900: #861920ff;
   --wm-color-red-600: #df2935ff;
+  --wm-color-red-500: #e5545dff;
+  --wm-color-red-400: #ec7f86ff;
+  --wm-color-red-200: #f2a9aeff;
+  --wm-color-red-100: #fbe2e4ff;
 
-  --wm-color-primary-200: #bce6baff;
-  --wm-color-primary-300: #b3eaacff;
-  --wm-color-primary-400: #aadfa8ff;
-  --wm-color-primary-600: #92d68eff;
-  --wm-color-primary-hover: #48953eff;
-  --wm-color-secondary-100: #94c39eff;
-  --wm-color-secondary-hover: #1d5f2bff;
-  --wm-color-gray: #535353ff;
-  --wm-color-gray-050: #f7f7f7ff;
-  --wm-color-gray-100: #eeeeeeff;
-  --wm-color-gray-200: #ddddddff;
-  --wm-color-gray-300: #a7a7a7ff;
-  --wm-color-gray-500: #aaaaaaff;
-  --wm-color-red: #df2935ff;
-  --wm-color-red-dark: #a0001cff;
-  --wm-color-red-200: #f9d4d7ff;
-  --wm-color-red-500: #ef949aff;
-  --wm-color-orange: #ff8000ff;
-  --wm-color-orange-500: #fbbc7cff;
-
-  --wm-gradient-primary: linear-gradient(to bottom, var(--wm-color-primary) 0%, var(--wm-color-secondary) 90%);
-  --wm-gradient-primary-300: linear-gradient(to bottom, var(--wm-color-primary-hover) 0%, var(--wm-color-secondary-hover) 100%);
-  --wm-gradient-primary-disabled: linear-gradient(to bottom, var(--wm-color-primary-300) 0%, var(--wm-color-secondary-100) 90%);
+  --wm-gradient-primary-600: linear-gradient(to bottom, var(--wm-color-primary-600) 0%, var(--wm-color-secondary-600) 90%);
+  --wm-gradient-primary-200: linear-gradient(to bottom, var(--wm-color-primary-200) 0%, var(--wm-color-secondary-200) 90%);
 
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
   --wm-shadow-header: .125em .125em 1.25em 0 #000000bf;
@@ -105,7 +91,7 @@ h1 {
 
 .gradient-text, h1 {
   color: transparent !important;
-  background-image: var(--wm-gradient-primary) !important;
+  background-image: var(--wm-gradient-primary-600) !important;
   background-clip: text !important;
   -webkit-background-clip: text !important;
 }
@@ -121,19 +107,19 @@ p.sub-heading {
 
   .highlight {
     font-weight: 600;
-    color: var(--wm-color-primary);
+    color: var(--wm-color-primary-600);
   }
 }
 
 a.wm-link {
   position: relative;
-  color: var(--wm-color-secondary);
+  color: var(--wm-color-secondary-600);
   font-weight: 500;
   text-decoration: none;
   transition: color .2s ease;
 
   &:hover {
-    color: var(--wm-color-secondary-hover);
+    color: var(--wm-color-secondary-900);
   }
 }
 

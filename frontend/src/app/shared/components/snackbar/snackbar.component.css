@@ -1,6 +1,6 @@
 .snackbar {
-  --wm-snackbar-background-color: var(--wm-color-primary-600);
-  --wm-snackbar-color: var(--wm-color-secondary);
+  --wm-snackbar-background-color: var(--wm-color-primary-400);
+  --wm-snackbar-color: var(--wm-color-secondary-600);
 
   display: flex;
   align-items: center;
@@ -16,7 +16,7 @@
 
   &.-error {
     --wm-snackbar-background-color: var(--wm-color-red-200);
-    --wm-snackbar-color: var(--wm-color-red);
+    --wm-snackbar-color: var(--wm-color-red-600);
   }
 }
 

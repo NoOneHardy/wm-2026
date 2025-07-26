@@ -10,7 +10,7 @@
   padding: 0 1.5em;
   border: none;
   color: #000;
-  background-image: var(--wm-gradient-primary);
+  background-image: var(--wm-gradient-primary-600);
   font-size: 1em;
   font-weight: 600;
   text-decoration: none;

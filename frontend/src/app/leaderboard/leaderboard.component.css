@@ -37,13 +37,13 @@
     }
 
     &::-webkit-scrollbar-track {
-      background-color: var(--wm-color-gray-050);
+      background-color: var(--wm-color-neutral-100);
       border-radius: .375em;
       box-shadow: 0 0 .125em 0 #0000003d inset;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--wm-color-gray-200);
+      background-color: var(--wm-color-neutral-200);
       width: .75em;
       border-radius: .375em;
     }

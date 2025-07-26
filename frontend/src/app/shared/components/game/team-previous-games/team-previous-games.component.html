@@ -1,21 +1,23 @@
 @let team = teamSignal();
 
-<h4>{{ team.previousGames[0].group }}</h4>
-<div class="games">
-  @for (game of team.previousGames; track game.id) {
-    <div class="prev-game">
-      @let isHome = game.teamHome.id === team.id;
-      @let opponent = isHome ? game.teamGuest : game.teamHome;
+@if (team.previousGames.length > 0) {
+  <h4>{{ team.previousGames[0].group }}</h4>
+  <div class="games">
+    @for (game of team.previousGames; track game.id) {
+      <div class="prev-game">
+        @let isHome = game.teamHome.id === team.id;
+        @let opponent = isHome ? game.teamGuest : game.teamHome;
 
-      <div class="result" [class.-is-guest]="!isHome">
-        <span [class.-bold]="isHome">{{ game.result.scoreTeamHome }}</span>
-        <span>:</span>
-        <span [class.-bold]="!isHome">{{ game.result.scoreTeamGuest }}</span>
-      </div>
+        <div class="result" [class.-is-guest]="!isHome">
+          <span [class.-bold]="isHome">{{ game.result.scoreTeamHome }}</span>
+          <span>:</span>
+          <span [class.-bold]="!isHome">{{ game.result.scoreTeamGuest }}</span>
+        </div>
 
-      <div class="flag -small">
-        <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
+        <div class="flag -small">
+          <img [ngSrc]="opponent.flag" [alt]="opponent.name" fill>
+        </div>
       </div>
-    </div>
-  }
-</div>
+    }
+  </div>
+}

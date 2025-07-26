@@ -7,6 +7,7 @@ import {BetGame} from '../../../../model/game/bet-game'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectAvailableJokers} from '../../../store/tournament.feature'
 import {grantJDouble, grantJTriple, revokeJDouble, revokeJTriple} from '../../../store/tournament.actions'
+import {provideAnimations} from '@angular/platform-browser/animations'
 
 const tomorrow = new Date(
   new Date().getFullYear(),
@@ -14,44 +15,16 @@ const tomorrow = new Date(
   new Date().getDate() + 1
 )
 
-const mockGame: BetGame = {
-  groupId: 'group-1',
-  groupName: 'Gruppe A',
-  id: 'game-1',
-  timestamp: tomorrow,
-  teamHome: {
-    id: 'team-1',
-    name: 'Deutschland',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/180px-Flag_of_Germany.svg.png',
-    previousGames: [],
-    shortName: ''
-  },
-  teamGuest: {
-    id: 'team-2',
-    name: 'Schottland',
-    flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/250px-Flag_of_Scotland.svg.png',
-    previousGames: [],
-    shortName: ''
-  },
-  result: null,
-  bet: {
-    id: 'asdf-1',
-    scoreTeamHome: 3,
-    scoreTeamGuest: 2,
-    joker: 3,
-    gameId: 'bet-1'
-  }
-}
-
 describe('BetFormComponent', () => {
   let mockStore: MockStore
   let component: BetFormComponent
   let fixture: ComponentFixture<BetFormComponent>
+  let mockGame: BetGame
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [BetFormComponent],
-      providers: [provideMockStore()]
+      providers: [provideMockStore(), provideAnimations()]
     }).compileComponents()
 
     mockStore = TestBed.inject(MockStore)
@@ -59,6 +32,34 @@ describe('BetFormComponent', () => {
       jdouble: 5,
       jtriple: 3
     })
+    mockGame = {
+      groupId: 'group-1',
+      groupName: 'Gruppe A',
+      id: 'game-1',
+      timestamp: tomorrow,
+      teamHome: {
+        id: 'team-1',
+        name: 'Deutschland',
+        flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/180px-Flag_of_Germany.svg.png',
+        previousGames: [],
+        shortName: ''
+      },
+      teamGuest: {
+        id: 'team-2',
+        name: 'Schottland',
+        flag: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Flag_of_Scotland.svg/250px-Flag_of_Scotland.svg.png',
+        previousGames: [],
+        shortName: ''
+      },
+      result: null,
+      bet: {
+        id: 'asdf-1',
+        scoreTeamHome: 3,
+        scoreTeamGuest: 2,
+        joker: 3,
+        gameId: 'bet-1'
+      }
+    }
     mockStore.refreshState()
     fixture = TestBed.createComponent(BetFormComponent)
     fixture.componentRef.setInput('game', mockGame)

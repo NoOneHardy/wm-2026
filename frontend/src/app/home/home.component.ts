@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import {Component} from '@angular/core'
 import {NgOptimizedImage} from '@angular/common'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'

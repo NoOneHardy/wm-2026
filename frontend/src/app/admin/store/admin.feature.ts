@@ -46,5 +46,6 @@ export const adminFeature = createFeature({
 })
 
 export const {
-  selectUsers
+  selectUsers,
+  selectIsAdminLoading
 } = adminFeature

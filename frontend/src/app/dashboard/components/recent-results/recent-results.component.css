@@ -1,8 +1,3 @@
-h3 {
-  font: var(--wm-font-h3);
-  margin-bottom: var(--wm-spacer-3);
-}
-
 .recent-results {
   display: flex;
   flex-wrap: wrap;

@@ -79,6 +79,18 @@ export const tournamentFeature = createFeature({
         availableJokers: action.group.availableJokers
       }
     }),
+    on(getOverviewGroups, (state): TournamentState => {
+      return {
+        ...state,
+        groups: []
+      }
+    }),
+    on(getLeaderboard, (state): TournamentState => {
+      return {
+        ...state,
+        leaderboard: []
+      }
+    }),
     on(overviewGroupsLoaded, (state, action): TournamentState => {
       return {
         ...state,
@@ -149,7 +161,8 @@ export const tournamentFeature = createFeature({
     on(dashboardDataLoaded, (state, action): TournamentState => {
       return {
         ...state,
-        dashboard: action.data
+        dashboard: action.data,
+        isTournamentLoading: false
       }
     })
   )

@@ -111,6 +111,11 @@ p.sub-heading {
   }
 }
 
+.loader-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
 a.wm-link {
   position: relative;
   color: var(--wm-color-secondary-600);

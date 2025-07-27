@@ -4,7 +4,7 @@ import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} 
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
 import {saveBets, saveResults} from '../../store/tournament.actions'
-import {DatePipe, DecimalPipe, NgIf} from '@angular/common'
+import {DatePipe, DecimalPipe} from '@angular/common'
 import {BetFormComponent} from '../game/bet-form/bet-form.component'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../model/game/bet-form'
@@ -19,7 +19,6 @@ import {ScoreForm} from '../../../model/game/score-form'
   standalone: true,
   imports: [
     DecimalPipe,
-    NgIf,
     DatePipe,
     BetFormComponent,
     ReactiveFormsModule,
@@ -92,7 +91,9 @@ export class GroupViewComponent {
     const group = this.group()
     if (!group) return
 
-    const bets = this.form.value.bets ?? []
+    const bets = (this.form.controls.bets.controls ?? [])
+      .filter(c => c.enabled)
+      .map(c => c.getRawValue())
     if (this.mode() === 'bet') this.store.dispatch(saveBets({
       groupId: group.id,
       bets: bets

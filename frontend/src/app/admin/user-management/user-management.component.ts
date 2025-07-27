@@ -1,12 +1,13 @@
 import {Component, computed, inject, OnInit, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
-import {selectUsers} from '../store/admin.feature'
+import {selectIsAdminLoading, selectUsers} from '../store/admin.feature'
 import {NgForOf, NgOptimizedImage} from '@angular/common'
 import {confirmUser, denyUser, loadUsers} from '../store/admin.actions'
 import {User} from '../../model/user/user'
 import {UserApplicationStatus} from '../../model/user/user-application-status'
 import {selectUser} from '../../user-management/store/user.feature'
 import {MatRipple} from '@angular/material/core'
+import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
 
 @Component({
   selector: 'wm-user-management',
@@ -14,7 +15,8 @@ import {MatRipple} from '@angular/material/core'
   imports: [
     NgForOf,
     NgOptimizedImage,
-    MatRipple
+    MatRipple,
+    SpinnerComponent
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
@@ -24,6 +26,7 @@ export class UserManagementComponent implements OnInit {
 
   _users: Signal<User[]> = this.store.selectSignal(selectUsers)
   currentUser: Signal<User | null> = this.store.selectSignal(selectUser)
+  isLoading: Signal<boolean> = this.store.selectSignal(selectIsAdminLoading)
 
   get users(): Signal<User[]> {
     return computed(() => {

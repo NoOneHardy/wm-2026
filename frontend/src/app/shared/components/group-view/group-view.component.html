@@ -1,52 +1,60 @@
-@if (group(); as group) {
-  <h1>{{ group.name }}</h1>
-  @switch (mode()) {
-    @case ('bet') {
-      @if (isLoading()) {
-        <p class="sub-heading">Tipps werden geladen...</p>
-      } @else {
-        <p *ngIf="group.percentage > 0" class="sub-heading">Du hast bereits <span
-          class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
-        <p *ngIf="group.percentage <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
-        <p *ngIf="group.lastSavedAt" class="additional-info">
-          <wm-spinner class="is-saving" *ngIf="isSaving()"/>
-          <span>Zuletzt gespeichert am {{ group.lastSavedAt | date:'dd.MM.YYYY - HH:mm' }}</span>
-        </p>
-      }
-    }
-    @case ('admin') {
-      @if (isLoading()) {
-        <p class="sub-heading">Resultate werden geladen...</p>
-      } @else {
-        <p *ngIf="group.lastSavedAtResult" class="additional-info">Zuletzt geändert
-          am {{ group.lastSavedAtResult | date:'dd.MM.YYYY - HH:mm' }}</p>
-      }
-    }
-  }
-
-  <form [formGroup]="form">
-    <div class="games" formArrayName="bets">
-      @for (control of form.controls.bets.controls; track $index; let i = $index) {
-        @if (findGame(control.value.game); as game) {
-          <wm-bet-form (disabledChange)="$event ? control.disable(): control.enable()"
-                       [game]="game" [formControlName]="i" [highlight]="highlight() === game.id"
-                       [knockout]="group.isKnockout" [admin]="mode() === 'admin'"/>
+@if (isLoading()) {
+  <h1>Gruppe</h1>
+  <p class="sub-heading loading">Wird geladen...</p>
+  <div class="loader-wrapper">
+    <wm-spinner/>
+  </div>
+} @else {
+  @if (group(); as group) {
+    <h1>{{ group.name }}</h1>
+    @switch (mode()) {
+      @case ('bet') {
+        @if (group.percentage > 0) {
+          <p class="sub-heading">Du hast bereits <span
+            class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
+        } @else {
+          <p class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
+        }
+        @if (group.lastSavedAt; as lastSave) {
+          <p class="additional-info">
+            @if (isSaving()) {
+              <wm-spinner class="is-saving"/>
+            }
+            <span>Zuletzt gespeichert am {{ lastSave | date:'dd.MM.YYYY - HH:mm' }}</span>
+          </p>
         }
       }
-    </div>
-  </form>
+      @case ('admin') {
+        @if (group.lastSavedAt; as lastSave) {
+          <p class="additional-info">Zuletzt geändert am {{ lastSave | date:'dd.MM.YYYY - HH:mm' }}</p>
+        }
+      }
+    }
 
-  <div class="actions">
-    <a role="button" tabindex="0"
-       (click)="back()" (touchend)="back()"
-       (keyup.enter)="back()" (keyup.space)="back()"
-       class="wm-link">Abbrechen</a>
-    <div>
-      <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
-    </div>
-  </div>
+    <form [formGroup]="form">
+      <div class="games" formArrayName="bets">
+        @for (control of form.controls.bets.controls; track $index; let i = $index) {
+          @if (findGame(control.value.game); as game) {
+            <wm-bet-form (disabledChange)="$event ? control.disable(): control.enable()" [game]="game"
+                         [formControlName]="i" [highlight]="highlight() === game.id"
+                         [knockout]="group.isKnockout" [admin]="mode() === 'admin'"/>
+          }
+        }
+      </div>
+    </form>
 
-} @else {
-  <h2>Es ist ein Fehler aufgetreten</h2>
-  <p class="sub-heading">Bitte laden Sie die Seite neu oder kehren Sie zur Übersicht zurück.</p>
+    <div class="actions">
+      <a role="button" tabindex="0"
+         (click)="back()" (touchend)="back()"
+         (keyup.enter)="back()" (keyup.space)="back()"
+         class="wm-link">Abbrechen</a>
+      <div>
+        <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
+      </div>
+    </div>
+
+  } @else {
+    <h2>Es ist ein Fehler aufgetreten</h2>
+    <p class="sub-heading">Bitte laden Sie die Seite neu oder kehren Sie zur Übersicht zurück.</p>
+  }
 }

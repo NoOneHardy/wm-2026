@@ -1,24 +1,32 @@
-import {Component, computed, input, InputSignal, signal, Signal, WritableSignal} from '@angular/core'
+import {Component, computed, inject, input, signal, Signal} from '@angular/core'
 import {Statistics} from '../../../model/dashboard/statistics'
 import {GlobalStatistics} from '../../../model/dashboard/global-statistics'
 import {CommonModule} from '@angular/common'
+import {SpinnerComponent} from '../../../shared/components/spinner/spinner.component'
+import {Store} from '@ngrx/store'
+import {selectIsTournamentLoading} from '../../../shared/store/tournament.feature'
 
 @Component({
   selector: 'wm-statistics',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    SpinnerComponent
   ],
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.css'
 })
 export class StatisticsComponent {
-  personalStats: InputSignal<Statistics> = input.required<Statistics>()
-  globalStats: InputSignal<GlobalStatistics> = input.required<GlobalStatistics>()
+  private store = inject(Store)
+
+  personalStats = input<Statistics>()
+  globalStats = input<GlobalStatistics>()
 
   stats: Signal<{ key: string; value: number }[]> = computed(() => {
     const globalStats = this.globalStats()
     const personalStats = this.personalStats()
+
+    if (!globalStats || !personalStats) return []
 
     if (this.showGlobalStats()) {
       return [
@@ -34,9 +42,7 @@ export class StatisticsComponent {
     ]
   })
 
-  showGlobalStats: WritableSignal<boolean> = signal<boolean>(false)
+  showGlobalStats = signal<boolean>(false)
 
-  toggleGlobalStats(): void {
-    this.showGlobalStats.update(v => !v)
-  }
+  isLoading = this.store.selectSignal(selectIsTournamentLoading)
 }

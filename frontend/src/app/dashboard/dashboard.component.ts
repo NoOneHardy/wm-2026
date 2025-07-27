@@ -3,11 +3,12 @@ import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {PositionComponent} from '../shared/components/position/position.component'
 import {DecimalPipe, NgForOf, NgIf} from '@angular/common'
-import {selectDashboard} from '../shared/store/tournament.feature'
+import {selectDashboard, selectIsTournamentLoading} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
 import {UpcomingGamesComponent} from './components/upcoming-games/upcoming-games.component'
 import {StatisticsComponent} from './components/statistics/statistics.component'
 import {RecentResultsComponent} from './components/recent-results/recent-results.component'
+import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
   selector: 'wm-dashboard',
@@ -19,7 +20,8 @@ import {RecentResultsComponent} from './components/recent-results/recent-results
     DecimalPipe,
     UpcomingGamesComponent,
     StatisticsComponent,
-    RecentResultsComponent
+    RecentResultsComponent,
+    SpinnerComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -39,6 +41,8 @@ export class DashboardComponent implements OnInit {
 
     return greeting + ' ' + this.user()?.username
   })
+
+  isLoading = this.store.selectSignal(selectIsTournamentLoading)
 
   dashboardData = this.store.selectSignal(selectDashboard)
   leaderboardPreview = computed(() => {

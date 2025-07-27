@@ -1,5 +1,3 @@
-<h3>Nächste Spiele</h3>
-
 <div class="upcoming-games">
   <wm-game-preview [game]="game" *ngFor="let game of games()"/>
   <div *ngIf="games().length === 0" class="no-games">

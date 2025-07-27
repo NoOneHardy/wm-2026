@@ -1,5 +1,3 @@
-<h3>Kürzlich gespielt</h3>
-
 <div class="recent-results">
   <wm-game-preview [game]="game" *ngFor="let game of games()"/>
   <div *ngIf="games().length === 0" class="no-games">

@@ -7,21 +7,23 @@
     margin-bottom: var(--wm-spacer-3);
   }
 
-  h2 {
-    text-align: center;
-    font-size: 2em;
-    margin-bottom: calc(1.5em / 2);
-
-    ~ p {
-      font-size: 1.5em;
-    }
+  .sub-heading.loading {
+    margin-bottom: var(--wm-spacer-3);
   }
 
   p.additional-info {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--wm-spacer-1);
+    width: 100%;
     font: var(--wm-font-regular-text);
     color: var(--wm-color-neutral-400);
     margin-bottom: var(--wm-spacer-6);
+
+    .is-saving {
+      font: var(--wm-font-regular-text);
+    }
   }
 }
 

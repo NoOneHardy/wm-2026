@@ -39,7 +39,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush(mockUsers)
+    req.flush({data: mockUsers})
   })
 
   it('should return an empty list if no users are found', () => {
@@ -49,7 +49,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush([])
+    req.flush({data: []})
   })
 
   it('should confirm a user', () => {
@@ -61,7 +61,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
     expect(req.request.method).toBe('GET')
-    req.flush(mockUser)
+    req.flush({data: mockUser})
   })
 
   it('should return error message if user is not authenticated', () => {
@@ -94,7 +94,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
     expect(req.request.method).toBe('GET')
-    req.flush(mockUser)
+    req.flush({data: mockUser})
   })
 
   it('should return error message if user is not authenticated', () => {

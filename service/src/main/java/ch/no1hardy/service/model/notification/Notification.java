@@ -4,12 +4,14 @@ import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.user.User;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Data
+@Builder
 @EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notification extends BaseEntity {
     /**
      * The title of the notification.
@@ -34,6 +36,7 @@ public class Notification extends BaseEntity {
     /**
      * Whether the notification has been read by the user.
      */
+    @Builder.Default
     private Boolean isRead = false;
 
     /**
@@ -41,4 +44,8 @@ public class Notification extends BaseEntity {
      */
     @ManyToOne
     private User user;
+
+    public Boolean isUnread() {
+        return isRead != null && !isRead;
+    }
 }

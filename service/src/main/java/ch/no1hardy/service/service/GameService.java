@@ -30,6 +30,7 @@ public class GameService {
     private final UserService userService;
     private final GameMapperImpl mapper;
     private final UserHelper userHelper;
+    private final NotificationService notificationService;
 
     public List<BetGameRes> list() {
         return repository.findAll().stream().filter(Game::isActive).map(mapper::toDto).toList();
@@ -37,6 +38,7 @@ public class GameService {
 
     public BetGameRes create(GameReq dto) {
         Game game = repository.save(mapper.toEntity(dto));
+        notificationService.notifyUsersNewGame(game);
         return mapper.toDto(game);
     }
 

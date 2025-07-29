@@ -2,6 +2,7 @@ package ch.no1hardy.service.model.user;
 
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Bet;
+import ch.no1hardy.service.model.notification.Notification;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -69,6 +70,14 @@ public class User extends BaseEntity implements UserDetails {
      * The points the user has earned before the last upload of results.
      */
     private Integer lastReviewedPoints = 0;
+
+    /**
+     * A list of notifications the user has received.
+     */
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Notification> notifications = List.of();
 
     /**
      * The avatar URL of the user. This is used for display purposes.

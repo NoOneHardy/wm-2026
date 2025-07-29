@@ -5,6 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -61,6 +62,16 @@ public class JwtService {
 
     public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
+    }
+
+    public Cookie generateJwtCookie(String username) {
+        String jwt = generateToken(username);
+        Cookie cookie = new Cookie("jwt", jwt);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(jwtExpiration.intValue() / 1000);
+        return cookie;
     }
 
     private Date extractExpiration(String token) {

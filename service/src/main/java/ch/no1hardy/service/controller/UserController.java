@@ -70,14 +70,8 @@ public class UserController {
     public UserRes login(@RequestBody LoginReq dto, HttpServletResponse response) {
         logger.info("POST /login");
         UserRes user = this.service.login(dto);
-        String token = jwtService.generateToken(user.getUsername());
 
-        Cookie cookie = new Cookie("jwt", token);
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-        cookie.setPath("/");
-
-        response.addCookie(cookie);
+        response.addCookie(jwtService.generateJwtCookie(user.getUsername()));
         return user;
     }
 

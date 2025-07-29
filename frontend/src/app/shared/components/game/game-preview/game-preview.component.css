@@ -62,7 +62,6 @@
     grid-template-areas:
       'result-home bet-joker result-guest'
       'bet-home bet-points bet-guest';
-    margin-bottom: var(--wm-spacer-3);
 
     .result-home, .result-guest, .bet-home, .bet-guest {
       font: var(--wm-font-regular-text);
@@ -106,10 +105,12 @@
     .bet-points {
       grid-area: bet-points;
       font: var(--wm-font-regular-bold);
+      text-align: center;
     }
   }
 
   wm-button {
-    margin-bottom: var(--wm-spacer-3);
+    display: block;
+    margin-top: var(--wm-spacer-3);
   }
 }

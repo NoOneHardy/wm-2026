@@ -15,6 +15,7 @@ import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.group.Group;
 import ch.no1hardy.service.model.group.GroupRepository;
+import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
@@ -343,5 +344,9 @@ public class UserService {
                 .filter(bet -> bet.getJoker() > 1 && calculateUserPoints(bet, bet.getGame().getResult()) <= 0)
                 .mapToInt(bet -> bet.getJoker() - 1)
                 .sum();
+    }
+
+    public List<Notification> getNotifications(User user) {
+        return repository.listNotifications(user);
     }
 }

@@ -1,23 +1,21 @@
-import {inject, Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {User} from '../model/user/user'
+import {BaseHttpService} from '../shared/services/base-http/base-http.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class AdminService {
-  private http = inject(HttpClient)
-
+export class AdminService extends BaseHttpService {
   getAllUsers(): Observable<User[]> {
-    return this.http.get<User[]>('/api/user/all')
+    return this.get<User[]>('/api/user/all')
   }
 
   confirmUser(id: string): Observable<User> {
-    return this.http.get<User>(`/api/admin/user/${id}/confirm`)
+    return this.get<User>(`/api/admin/user/${id}/confirm`)
   }
 
   denyUser(id: string): Observable<User> {
-    return this.http.get<User>(`/api/admin/user/${id}/deny`)
+    return this.get<User>(`/api/admin/user/${id}/deny`)
   }
 }

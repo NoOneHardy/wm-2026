@@ -1,27 +1,25 @@
-import {inject, Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
+import {Injectable} from '@angular/core'
 import {CardGroup} from '../../../model/group/card-group'
 import {Observable} from 'rxjs'
 import {Group} from '../../../model/group/group'
 import {BetForm} from '../../../model/game/bet-form'
 import {ScoreForm} from '../../../model/game/score-form'
+import {BaseHttpService} from '../base-http/base-http.service'
 
 @Injectable({
   providedIn: 'root'
 })
-export class GroupService {
-  private http = inject(HttpClient)
-
+export class GroupService extends BaseHttpService {
   public getGroups(): Observable<CardGroup[]> {
-    return this.http.get<CardGroup[]>('/api/group')
+    return this.get<CardGroup[]>('/api/group')
   }
 
   public getGroup(groupId: string): Observable<Group> {
-    return this.http.get<Group>(`/api/group/${groupId}`)
+    return this.get<Group>(`/api/group/${groupId}`)
   }
 
   public saveBets(groupId: string, bets: BetForm[]): Observable<Group> {
-    return this.http.put<Group>(`/api/group/${groupId}/bets`, bets, {
+    return this.put<Group, BetForm[]>(`/api/group/${groupId}/bets`, bets, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -29,7 +27,7 @@ export class GroupService {
   }
 
   public saveResults(groupId: string, results: ScoreForm[]): Observable<Group> {
-    return this.http.put<Group>(`/api/group/${groupId}/results`, results, {
+    return this.put<Group, ScoreForm[]>(`/api/group/${groupId}/results`, results, {
       headers: {
         'Content-Type': 'application/json'
       }

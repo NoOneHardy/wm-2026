@@ -347,6 +347,6 @@ public class UserService {
     }
 
     public List<Notification> getNotifications(User user) {
-        return repository.listNotifications(user);
+        return repository.listNotifications(user).stream().filter(Notification::isUnread).toList();
     }
 }

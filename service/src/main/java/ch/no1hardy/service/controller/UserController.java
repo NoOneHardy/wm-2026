@@ -5,6 +5,7 @@ import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.service.JwtService;
+import ch.no1hardy.service.service.NotificationService;
 import ch.no1hardy.service.service.UserService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,8 +21,17 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
     private final UserService service;
+    private final NotificationService notificationService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final JwtService jwtService;
+
+    @DeleteMapping("/notification/{id}")
+    @PreAuthorize("isAuthenticated()")
+    public boolean deleteNotification(@PathVariable String id) {
+        logger.info("DELETE /notification/{}", id);
+        this.notificationService.markNotificationAsRead(id);
+        return true;
+    }
 
     @GetMapping("/user")
     @PreAuthorize("hasRole('ADMIN')")

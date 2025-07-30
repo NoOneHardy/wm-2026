@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.config.GlobalKey;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.GlobalData;
 import ch.no1hardy.service.mapper.NotificationMapperImpl;
 import ch.no1hardy.service.model.notification.Notification;
@@ -11,6 +12,7 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,20 +21,16 @@ public class GlobalDataService {
     private final UserService userService;
     private final NotificationMapperImpl notificationMapper;
 
-    private GlobalData createGlobalData() {
-        User user = userService.getLoggedInUser();
-        List<Notification> notifications;
-        if (user != null) {
-            notifications = userService.getNotifications(user);
-        } else {
-            notifications = List.of();
-        }
+    private GlobalData createGlobalData() throws UserNotFoundException {
+        Optional<User> user$ = userService.getCurrentUserRaw();
+        List<Notification> notifications = user$.isEmpty() ? List.of() : userService.getNotifications(user$.get());
 
         return GlobalData.builder()
                 .id(UUID.randomUUID().toString())
                 .notifications(notificationMapper.toDto(notifications))
                 .build();
     }
+
     public void updateGlobalData() {
         GlobalData globalData = createGlobalData();
 

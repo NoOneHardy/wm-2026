@@ -1,7 +1,8 @@
 package ch.no1hardy.service.service;
 
-import ch.no1hardy.service.exception.BadRequestException;
-import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
+import ch.no1hardy.service.exception.user.UserValidationException;
+import ch.no1hardy.service.exception.user.UsernameNotFoundException;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
@@ -13,7 +14,6 @@ import ch.no1hardy.service.model.game.Score;
 import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.user.User;
-import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
 import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -23,13 +23,13 @@ import lombok.EqualsAndHashCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.regex.Pattern;
 
 @Service
 @Data
@@ -43,24 +43,93 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    /**
+     * List all active users.
+     *
+     * @return a list of active users.
+     */
     public List<User> listRaw() {
-        return repository.findAll()
-                .stream()
+        return repository.findAll().stream()
                 .filter(User::isActive)
                 .toList();
     }
 
+    /**
+     * List all users, regardless of their active status.
+     *
+     * @return a list of all users.
+     */
+    public List<User> listAllRaw() {
+        return repository.findAll();
+    }
+
+    /**
+     * List all confirmed users (users who have been confirmed by an admin).
+     *
+     * @return a list of confirmed users.
+     */
+    public List<User> listConfirmedRaw() {
+        return listRaw().stream().filter(User::isConfirmed).toList();
+    }
+
+    /**
+     * Get a user by their ID.
+     *
+     * @param id the ID of the user to retrieve.
+     * @return the user if found
+     * @throws UserNotFoundException if the user with the given ID does not exist.
+     */
+    public User getRaw(String id) throws UserNotFoundException {
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    /**
+     * Get a user by their username.
+     *
+     * @param username the username of the user to retrieve.
+     * @return the user if found
+     * @throws UserNotFoundException if the user with the given ID does not exist.
+     */
+    public User getRawByUsername(@NotNull String username) throws UserNotFoundException {
+        return repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    /**
+     * List all active users as DTOs.
+     *
+     * @return a list of active users as UserRes DTOs.
+     */
     public List<UserRes> list() {
-        return mapper.toDto(repository.findAll()
-                .stream()
-                .filter(User::isActive)
-                .toList());
+        return mapper.toDto(listRaw());
     }
 
+    /**
+     * List all users, regardless of their active status, as DTOs.
+     *
+     * @return a list of all users as UserRes DTOs.
+     */
     public List<UserRes> listAll() {
-        return mapper.toDto(repository.findAll());
+        return mapper.toDto(listAllRaw());
     }
 
+    /**
+     * Get a user by their ID.
+     *
+     * @param id the ID of the user to retrieve.
+     * @return the user as DTO
+     * @throws UserNotFoundException if the user with the given ID does not exist.
+     */
+    public UserRes get(@NotNull String id) throws UserNotFoundException {
+        return mapper.toDto(getRaw(id));
+    }
+
+    /**
+     * Check if a username and an email are available.
+     *
+     * @param username the username to check. Can be null.
+     * @param email    the email to check. Can be null.
+     * @return CheckRes containing availability status of username and email.
+     */
     public CheckRes check(@Nullable String username, @Nullable String email) {
         return CheckRes.builder()
                 .isUsernameAvailable(username == null || isUsernameAvailable(username))
@@ -68,93 +137,142 @@ public class UserService {
                 .build();
     }
 
-    public Boolean isUsernameAvailable(String username) {
+    /**
+     * Check if a username is available.
+     *
+     * @param username the username to check.
+     * @return true if the username is available, false otherwise.
+     */
+    public boolean isUsernameAvailable(@NotNull String username) {
         return repository.findByUsername(username).stream().noneMatch(User::isActive);
     }
 
-    public Boolean isEmailAvailable(String email) {
+    /**
+     * Check if an email is available.
+     *
+     * @param email the email to check.
+     * @return true if the email is available, false otherwise.
+     */
+    public boolean isEmailAvailable(@NotNull String email) {
         return repository.findByEmail(email).stream().noneMatch(User::isActive);
     }
 
-    public UserRes get(String id) {
-        User entity = repository.findById(id).orElse(null);
-        if (entity == null)
-            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
-        return mapper.toDto(entity);
+    /**
+     * Validate that a dto only contains values that are available.
+     *
+     * @param dto the UserReq DTO to validate
+     * @throws UserValidationException if the dto is invalid
+     */
+    private void checkAvailableDtoValues(@NotNull UserReq dto) throws UserValidationException {
+        if (!isEmailAvailable(dto.getEmail()))
+            throw new UserValidationException("Email " + dto.getEmail() + " is already taken", "Email ist bereits vergeben");
+
+        if (!isUsernameAvailable(dto.getUsername()))
+            throw new UserValidationException("Username " + dto.getUsername() + " is already taken", "Username ist bereits vergeben");
     }
 
-    public Optional<User> getRaw(@NotNull String id) {
-        return repository.findById(id);
-    }
+    /**
+     * Create a new user using a DTO. The dto will be validated and the password will be encoded.
+     *
+     * @param dto the UserReq DTO containing user details.
+     * @return the created user as UserRes DTO.
+     * @throws UserValidationException if the dto is invalid
+     */
+    public UserRes create(@NotNull UserReq dto) throws UserValidationException {
+        checkAvailableDtoValues(dto);
+        dto.validateAll();
 
-    public Optional<User> getRawByUsername(@NotNull String username) {
-        return repository.findByUsername(username);
-    }
-
-    public UserRes create(UserReq dto) {
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
-
-        String username = dto.getUsername();
-        String email = dto.getEmail();
-
-        if (!isEmailAvailable(email))
-            throw new BadRequestException("Email " + email + " is already taken", "Email " + email + " ist bereits vergeben");
-        if (!isUsernameAvailable(username))
-            throw new BadRequestException("Username " + username + " is already taken", "Benutzername " + username + " ist bereits vergeben");
-
-        if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(email).matches())
-            throw new BadRequestException("Invalid email format", "Ungültiges Email-Format");
-
         User entity = mapper.toEntity(dto);
         return mapper.toDto(repository.save(entity));
     }
 
-    public UserRes update(String id, UserReq dto) {
-        User entity = repository.findById(id).orElse(null);
-        if (entity == null)
-            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
-        mapper.update(dto, entity);
-        return mapper.toDto(repository.save(entity));
+    /**
+     * Update an existing user using a DTO. The dto will be validated and the password will be encoded if provided.
+     *
+     * @param id  the ID of the user to update.
+     * @param dto the UserReq DTO containing updated user details.
+     * @return the updated user as UserRes DTO.
+     * @throws UserNotFoundException   if the user with the given ID does not exist.
+     * @throws UserValidationException if the dto is invalid
+     */
+    public UserRes update(@NotNull String id, @NotNull UserReq dto) throws UserNotFoundException, UserValidationException {
+        checkAvailableDtoValues(dto);
+        dto.validate();
+
+        User user = getRaw(id);
+        mapper.update(dto, user);
+        return mapper.toDto(repository.save(user));
     }
 
-    public UserRes delete(String id) {
-        User entity = repository.findById(id).orElse(null);
-        if (entity == null)
-            throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
-        entity.delete();
-        return mapper.toDto(repository.save(entity));
+    /**
+     * Delete a user by their ID. The user will be marked as deleted.
+     *
+     * @param id the ID of the user to delete.
+     * @return the deleted user as UserRes DTO.
+     * @throws UserNotFoundException if the user with the given ID does not exist.
+     */
+    public UserRes delete(@NotNull String id) throws UserNotFoundException {
+        User user = getRaw(id);
+        user.delete();
+        return mapper.toDto(repository.save(user));
     }
 
-    public UserRes login(LoginReq dto) {
+    /**
+     * Log in a user using their username and password.
+     *
+     * @param dto the LoginReq DTO containing username and password.
+     * @return the logged-in user as UserRes DTO.
+     * @throws AuthenticationException if authentication fails (e.g., wrong username or password).
+     * @throws UserNotFoundException   if the user with the given username does not exist.
+     */
+    public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         dto.getUsername(),
                         dto.getPassword()
                 )
         );
-        return mapper.toDto(repository.findByUsername(dto.getUsername()).orElseThrow());
+        return mapper.toDto(getRawByUsername(dto.getUsername()));
     }
 
-    public UserRes getLoggedInUserRes() {
-        User currentUser = getLoggedInUser();
-        return currentUser == null ? new UserRes() : mapper.toDto(currentUser);
+    /**
+     * Get the currently logged-in user as a DTO.
+     *
+     * @return the current user as UserRes DTO, or an empty UserRes if not authenticated.
+     * @throws UserNotFoundException if the current user cannot be found in the repository.
+     */
+    public UserRes getCurrentUser() throws UserNotFoundException {
+        Optional<User> user$ = getCurrentUserRaw();
+        return user$.isEmpty() ? new UserRes() : mapper.toDto(user$.get());
     }
 
-    @Nullable
-    public User getLoggedInUser() {
+
+    /**
+     * Get the currently logged-in user.
+     *
+     * @return an Optional containing the current user if authenticated, or empty if not authenticated.
+     * @throws UserNotFoundException if the current user cannot be found in the repository.
+     */
+    public Optional<User> getCurrentUserRaw() throws UserNotFoundException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
-            return null;
+            return Optional.empty();
         }
         User currentUser = (User) authentication.getPrincipal();
-        return repository.findById(currentUser.getId()).orElse(null);
+        return Optional.of(getRaw(currentUser.getId()));
     }
 
-    public void addUserPoints(Game game) {
+    /**
+     * Add points to users based on their bets in a game.
+     *
+     * @param game the game for which to add points.
+     */
+    public void addUserPoints(@NotNull Game game) {
         if (game.getResult() == null) return;
         Score result = game.getResult();
 
-        repository.findAll().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
+        listRaw().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
 
         for (Bet bet : game.getBets()) {
             if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;
@@ -164,11 +282,16 @@ public class UserService {
         }
     }
 
-    public void removeUserPoints(Game game) {
+    /**
+     * Remove points from users based on their bets in a game.
+     *
+     * @param game the game for which to remove points.
+     */
+    public void removeUserPoints(@NotNull Game game) {
         if (game.getResult() == null) return;
         Score result = game.getResult();
 
-        repository.findAll().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
+        listRaw().forEach(user -> user.setLastReviewedPoints(user.getPoints()));
 
         for (Bet bet : game.getBets()) {
             if (bet.getUpdatedAt().isAfter(result.getCreatedAt())) return;
@@ -178,12 +301,19 @@ public class UserService {
         }
     }
 
-    public int calculateUserPoints(Bet bet, Score result) {
+    /**
+     * Calculate the points a user earns based on their bet and the actual game result.
+     *
+     * @param bet    the user's bet.
+     * @param result the actual game result.
+     * @return the calculated points.
+     */
+    public int calculateUserPoints(@NotNull Bet bet, @NotNull Score result) {
         int points = 0;
 
-        Boolean correctWinnerHome = bet.isHomeTeamWinner() && result.isHomeTeamWinner();
-        Boolean correctWinnerGuest = bet.isGuestTeamWinner() && result.isGuestTeamWinner();
-        Boolean correctTie = bet.isTie() && result.isTie();
+        boolean correctWinnerHome = bet.isHomeTeamWinner() && result.isHomeTeamWinner();
+        boolean correctWinnerGuest = bet.isGuestTeamWinner() && result.isGuestTeamWinner();
+        boolean correctTie = bet.isTie() && result.isTie();
 
         if (correctWinnerHome || correctWinnerGuest || correctTie) points += 50;
 
@@ -195,11 +325,13 @@ public class UserService {
         return points * bet.getJoker();
     }
 
-    public List<User> listConfirmedUsers() {
-        return listRaw().stream().filter(User::isConfirmed).toList();
-    }
-
-    public List<Notification> getNotifications(User user) {
+    /**
+     * Get all unread notifications for a user.
+     *
+     * @param user the user for whom to retrieve notifications.
+     * @return a list of unread notifications.
+     */
+    public List<Notification> getNotifications(@NotNull User user) {
         return repository.listNotifications(user).stream().filter(Notification::isUnread).toList();
     }
 }

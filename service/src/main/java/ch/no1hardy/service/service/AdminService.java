@@ -1,6 +1,6 @@
 package ch.no1hardy.service.service;
 
-import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.mapper.UserMapperImpl;
 import ch.no1hardy.service.model.user.User;
@@ -17,8 +17,14 @@ public class AdminService {
     private UserMapperImpl userMapper;
     private UserRepository userRepository;
 
-    public UserRes confirmUser(String id) {
-        User user = userService.getRaw(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
+    /**
+     * Confirms a user by their ID.
+     * @param id the ID of the user to confirm
+     * @return the confirmed user as a UserRes object
+     * @throws UserNotFoundException if the user with the given ID does not exist
+     */
+    public UserRes confirmUser(String id) throws UserNotFoundException {
+        User user = userService.getRaw(id);
         if (user.isConfirmed()) return userMapper.toDto(user);
 
         user.confirm();
@@ -26,8 +32,14 @@ public class AdminService {
         return userMapper.toDto(userRepository.save(user));
     }
 
-    public UserRes denyUser(String id) {
-        User user = userService.getRaw(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
+    /**
+     * Denies a user by their ID.
+     * @param id the ID of the user to deny
+     * @return the denied user as a UserRes object
+     * @throws UserNotFoundException if the user with the given ID does not exist
+     */
+    public UserRes denyUser(String id) throws UserNotFoundException {
+        User user = userService.getRaw(id);
         if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return userMapper.toDto(user);
 
         user.deny();

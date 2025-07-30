@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.user.UsernameNotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.notification.Notification;
@@ -11,7 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -37,13 +37,17 @@ public class NotificationService {
         globalDataService.updateGlobalData();
     }
 
-    public void notifyUsersRankingChange() {
+    /**
+     * Notifies all users about their ranking change.
+     * This method iterates through the leaderboard and creates a notification for each user
+     * based on their ranking movement.
+     * @throws UsernameNotFoundException if a user somehow is in the leaderboard but not found in the database
+     */
+    public void notifyUsersRankingChange() throws UsernameNotFoundException {
         for (RankingRes res : leaderboardService.getLeaderboard()) {
-            Optional<User> user$ = userService.getRawByUsername(res.getUsername());
-            user$.ifPresent(user -> {
-                int movement = res.getRanking() - res.getPrevRanking();
-                createRankingNotification(user, movement);
-            });
+            User user = userService.getRawByUsername(res.getUsername());
+            int movement = res.getRanking() - res.getPrevRanking();
+            createRankingNotification(user, movement);
         }
 
         globalDataService.updateGlobalData();

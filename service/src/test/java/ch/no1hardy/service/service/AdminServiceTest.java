@@ -1,6 +1,6 @@
 package ch.no1hardy.service.service;
 
-import ch.no1hardy.service.exception.NotFoundException;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.model.user.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -25,9 +24,9 @@ public class AdminServiceTest {
     @Test
     @DisplayName("confirmUser(String id) - should throw NotFoundException if no user is found")
     void shouldThrowNotFoundExceptionIfNoUserIsFoundInConfirm() {
-        when(userService.getRaw("non-existing-user")).thenReturn(java.util.Optional.empty());
+        when(userService.getRaw("non-existing-user")).thenThrow(UserNotFoundException.class);
 
-        assertThrows(NotFoundException.class, () -> service.confirmUser("non-existing-user"));
+        assertThrows(UserNotFoundException.class, () -> service.confirmUser("non-existing-user"));
     }
 
     @Test
@@ -36,7 +35,7 @@ public class AdminServiceTest {
         User user = new User();
         user.setId("user-1");
         user.confirm();
-        when(userService.getRaw("user-1")).thenReturn(Optional.of(user));
+        when(userService.getRaw("user-1")).thenReturn(user);
 
         assertNotNull(user.getApplicationReviewedAt());
         user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));
@@ -48,9 +47,9 @@ public class AdminServiceTest {
     @Test
     @DisplayName("denyUser(String id) - should throw NotFoundException if no user is found")
     void shouldThrowNotFoundExceptionIfNoUserIsFoundInDeny() {
-        when(userService.getRaw("non-existing-user")).thenReturn(java.util.Optional.empty());
+        when(userService.getRaw("non-existing-user")).thenThrow(UserNotFoundException.class);
 
-        assertThrows(NotFoundException.class, () -> service.denyUser("non-existing-user"));
+        assertThrows(UserNotFoundException.class, () -> service.denyUser("non-existing-user"));
     }
 
     @Test
@@ -59,7 +58,7 @@ public class AdminServiceTest {
         User user = new User();
         user.setId("user-1");
         user.deny();
-        when(userService.getRaw("user-1")).thenReturn(Optional.of(user));
+        when(userService.getRaw("user-1")).thenReturn(user);
 
         assertNotNull(user.getApplicationReviewedAt());
         user.setApplicationReviewedAt(LocalDateTime.of(2025, 6, 17, 14, 30));

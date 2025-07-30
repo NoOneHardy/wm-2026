@@ -2,9 +2,6 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.exception.NotFoundException;
-import ch.no1hardy.service.front.dashboard.Statistics;
-import ch.no1hardy.service.front.dashboard.UserSummary;
-import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
@@ -13,13 +10,13 @@ import ch.no1hardy.service.mapper.UserMapperImpl;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
-import ch.no1hardy.service.model.group.Group;
 import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
 import io.micrometer.common.lang.Nullable;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,9 +27,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 @Service
@@ -85,6 +81,14 @@ public class UserService {
         if (entity == null)
             throw new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden");
         return mapper.toDto(entity);
+    }
+
+    public Optional<User> getRaw(@NotNull String id) {
+        return repository.findById(id);
+    }
+
+    public Optional<User> getRawByUsername(@NotNull String username) {
+        return repository.findByUsername(username);
     }
 
     public UserRes create(UserReq dto) {
@@ -174,7 +178,7 @@ public class UserService {
         }
     }
 
-    private int calculateUserPoints(Bet bet, Score result) {
+    public int calculateUserPoints(Bet bet, Score result) {
         int points = 0;
 
         Boolean correctWinnerHome = bet.isHomeTeamWinner() && result.isHomeTeamWinner();
@@ -191,159 +195,8 @@ public class UserService {
         return points * bet.getJoker();
     }
 
-    public List<RankingRes> getLeaderboard() {
-        List<User> users = repository.findAll().stream().filter(User::isConfirmed).toList();
-        List<Integer> currentLeaderboard = users.stream()
-                .map(User::getPoints)
-                .sorted(Integer::compareTo)
-                .toList().reversed();
-        List<Integer> previousLeaderboard = users.stream()
-                .map(User::getLastReviewedPoints)
-                .sorted(Integer::compareTo)
-                .toList().reversed();
-
-        return users.stream().map(user -> RankingRes.builder()
-                .id(user.getId())
-                .avatar(user.getAvatarUrl())
-                .ranking(currentLeaderboard.indexOf(user.getPoints()) + 1)
-                .prevRanking(previousLeaderboard.indexOf(user.getLastReviewedPoints()) + 1)
-                .points(user.getPoints())
-                .username(user.getUsername())
-                .build()
-        ).sorted(Comparator.comparingInt(RankingRes::getRanking)).toList();
-    }
-
-    public List<RankingRes> getUserLeaderboard() {
-        User user = getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
-        if (!user.isConfirmed()) return List.of();
-
-        List<RankingRes> leaderboard = getLeaderboard();
-        if (leaderboard.isEmpty()) return List.of();
-
-        RankingRes[] slimBoard = new RankingRes[3];
-
-        for (int i = 0; i < leaderboard.size(); i++) {
-            RankingRes pos = leaderboard.get(i);
-            if (pos.getId().equals(user.getId())) {
-                slimBoard[0] = i == 0 ? null : leaderboard.get(i - 1);
-                slimBoard[1] = pos;
-                slimBoard[2] = i == (leaderboard.size() - 1) ? null : leaderboard.get(i + 1);
-            }
-        }
-
-        return Arrays.stream(slimBoard).toList();
-    }
-
-    public UserRes confirmUser(String id) {
-        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
-        if (user.isConfirmed()) return mapper.toDto(user);
-
-        user.confirm();
-        return mapper.toDto(repository.save(user));
-    }
-
-    public UserRes denyUser(String id) {
-        User user = repository.findById(id).orElseThrow(() -> new NotFoundException("User with id " + id + " not found", "Benutzer mit der ID " + id + " nicht gefunden"));
-        if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED) return mapper.toDto(user);
-
-        user.deny();
-        return mapper.toDto(repository.save(user));
-    }
-
-    public UserSummary getUserSummary() {
-        User user = getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
-
-        Boolean isConfirmed;
-        if (user.getUserApplicationStatus() == UserApplicationStatus.ACCEPTED && user.getApplicationReviewedAt() != null)
-            isConfirmed = true;
-        else if (user.getUserApplicationStatus() == UserApplicationStatus.DENIED && user.getApplicationReviewedAt() != null)
-            isConfirmed = false;
-        else
-            isConfirmed = null;
-
-        List<RankingRes> userLeaderboard = getUserLeaderboard();
-        return UserSummary.builder()
-                .points(user.getPoints())
-                .percentage(getOverallPercentage(user))
-                .isConfirmed(isConfirmed)
-                .ranking(userLeaderboard.size() == 3 ? userLeaderboard.get(1).getRanking() : null)
-                .build();
-    }
-
-    public Double getOverallPercentage(User user) {
-        int totalBets = user.getBets().stream().filter(Bet::isActive).toList().size();
-
-        int games = groupRepository.findAll().stream().filter(Group::isActive)
-                .mapToInt((group) -> group.getGames().stream().filter(Game::isActive).toList().size()).sum();
-        if (games == 0) return 0.0;
-        return (double) (totalBets * 100) / games;
-    }
-
-    /**
-     * Calculates statistics for the logged-in user.
-     * @return statistics for the logged-in user
-     */
-    public Statistics getStatistics() {
-        User user = getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
-
-        return getStatistics(user);
-    }
-
-    /**
-     * Calculates statistics for a specific user.
-     * @param user the user for whom to calculate statistics
-     * @return statistics for the specified user
-     */
-    public Statistics getStatistics(User user) {
-        return Statistics.builder()
-                .totalGoalsBet(getTotalGoalsBet(user))
-                .correctGames(getCorrectGames(user))
-                .jokersWasted(getJokersWasted(user))
-                .build();
-    }
-
-    /**
-     * Calculates the total number of goals bet by the user.
-     * @param user the user for whom to calculate total goals bet
-     * @return total number of goals bet by the user
-     */
-    public int getTotalGoalsBet(User user) {
-        return user.getBets().stream()
-                .filter(Bet::isActive)
-                .mapToInt(bet -> bet.getScoreTeamHome() + bet.getScoreTeamGuest())
-                .sum();
-    }
-
-    /**
-     * Calculates the number of games correctly predicted by the user.
-     * @param user the user for whom to calculate correct games
-     * @return number of games correctly predicted by the user
-     */
-    public int getCorrectGames(User user) {
-        return (int) user.getBets().stream()
-                .filter(Bet::isActive)
-                .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
-                .filter(bet -> bet.getScoreTeamHome().equals(bet.getGame().getResult().getScoreTeamHome()) &&
-                        bet.getScoreTeamGuest().equals(bet.getGame().getResult().getScoreTeamGuest()))
-                .count();
-    }
-
-    /**
-     * Calculates the number of jokers wasted by the user.
-     * A joker is considered wasted if it was used on a bet that did not yield any points.
-     * @param user the user for whom to calculate wasted jokers
-     * @return number of jokers wasted by the user
-     */
-    public int getJokersWasted(User user) {
-        return user.getBets().stream()
-                .filter(Bet::isActive)
-                .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
-                .filter(bet -> bet.getJoker() > 1 && calculateUserPoints(bet, bet.getGame().getResult()) <= 0)
-                .mapToInt(bet -> bet.getJoker() - 1)
-                .sum();
+    public List<User> listConfirmedUsers() {
+        return listRaw().stream().filter(User::isConfirmed).toList();
     }
 
     public List<Notification> getNotifications(User user) {

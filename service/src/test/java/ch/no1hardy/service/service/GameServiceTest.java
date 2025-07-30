@@ -32,6 +32,9 @@ public class GameServiceTest {
     private UserService userService;
 
     @MockitoBean
+    private LeaderboardService leaderboardService;
+
+    @MockitoBean
     private GameRepository repository;
 
     private User user;
@@ -63,7 +66,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should throw BadRequestException when no user is logged in")
     void shouldThrowBadRequestExceptionWhenNoUserLoggedIn() {
-        when(userService.getUserLeaderboard()).thenReturn(null);
+        when(leaderboardService.getUserLeaderboard()).thenReturn(null);
 
         assertThrows(BadRequestException.class, service::getUpcomingGames);
     }

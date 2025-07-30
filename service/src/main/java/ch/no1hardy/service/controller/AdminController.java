@@ -1,7 +1,7 @@
 package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.user.UserRes;
-import ch.no1hardy.service.service.UserService;
+import ch.no1hardy.service.service.AdminService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 @PreAuthorize("hasRole('ADMIN')")
 @AllArgsConstructor
 public class AdminController {
-    private final UserService userService;
+    private final AdminService service;
 
     @GetMapping("/user/{id}/confirm")
     public UserRes confirmUser(@PathVariable("id") String id) {
-        return userService.confirmUser(id);
+        return service.confirmUser(id);
     }
 
     @GetMapping("/user/{id}/deny")
     public UserRes denyUser(@PathVariable("id") String id) {
-        return userService.denyUser(id);
+        return service.denyUser(id);
     }
 }

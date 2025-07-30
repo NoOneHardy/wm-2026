@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.notification.NotificationNotFoundException;
 import ch.no1hardy.service.exception.user.UsernameNotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Game;
@@ -21,6 +22,29 @@ public class NotificationService {
     private final NotificationRepository repository;
     private final LeaderboardService leaderboardService;
 
+    /**
+     * Fetches a notification by its ID.
+     *
+     * @param id the ID of the notification to fetch
+     * @return the Notification object if found
+     * @throws NotificationNotFoundException if no notification with the given ID exists
+     */
+    public Notification getRaw(@NotNull String id) {
+        return repository.findById(id).orElseThrow(() -> new NotificationNotFoundException(id));
+    }
+
+    /**
+     * Marks a notification as read by setting its 'isRead' property to true.
+     *
+     * @param id the ID of the notification to mark as read
+     * @throws NotificationNotFoundException if no notification with the given ID exists
+     */
+    public void markNotificationAsRead(@NotNull String id) throws NotificationNotFoundException {
+        Notification notification = getRaw(id);
+        notification.setIsRead(true);
+        repository.save(notification);
+    }
+
     public void notifyUsersNewGame(@NotNull Game game) {
         for (User user : userService.listRaw()) {
             createNewGameNotification(user, game);
@@ -41,6 +65,7 @@ public class NotificationService {
      * Notifies all users about their ranking change.
      * This method iterates through the leaderboard and creates a notification for each user
      * based on their ranking movement.
+     *
      * @throws UsernameNotFoundException if a user somehow is in the leaderboard but not found in the database
      */
     public void notifyUsersRankingChange() throws UsernameNotFoundException {

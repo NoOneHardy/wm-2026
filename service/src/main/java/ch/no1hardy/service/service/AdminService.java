@@ -6,6 +6,7 @@ import ch.no1hardy.service.mapper.UserMapperImpl;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.user.UserRepository;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class AdminService {
      * @return the confirmed user as a UserRes object
      * @throws UserNotFoundException if the user with the given ID does not exist
      */
-    public UserRes confirmUser(String id) throws UserNotFoundException {
+    public UserRes confirmUser(@NotNull String id) throws UserNotFoundException {
         User user = userService.getRaw(id);
         if (user.isConfirmed()) return userMapper.toDto(user);
 

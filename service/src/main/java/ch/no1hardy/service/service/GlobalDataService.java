@@ -21,6 +21,12 @@ public class GlobalDataService {
     private final UserService userService;
     private final NotificationMapperImpl notificationMapper;
 
+    /**
+     * Retrieves the current global data for the user.
+     *
+     * @return GlobalData containing notifications and other user-related information.
+     * @throws UserNotFoundException if the current user is not found.
+     */
     private GlobalData createGlobalData() throws UserNotFoundException {
         Optional<User> user$ = userService.getCurrentUserRaw();
         List<Notification> notifications = user$.isEmpty() ? List.of() : userService.getNotifications(user$.get());
@@ -31,6 +37,10 @@ public class GlobalDataService {
                 .build();
     }
 
+    /**
+     * Updates the global data in the request attributes.
+     * This method should be called to refresh the global data for the current request.
+     */
     public void updateGlobalData() {
         GlobalData globalData = createGlobalData();
 

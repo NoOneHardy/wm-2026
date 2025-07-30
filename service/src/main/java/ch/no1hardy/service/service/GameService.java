@@ -72,6 +72,8 @@ public class GameService {
         game.setResult(result);
 
         userService.addUserPoints(game);
+        notificationService.notifyUsersNewResult(game);
+        notificationService.notifyUsersRankingChange();
         return mapper.toDto(repository.save(game));
     }
 

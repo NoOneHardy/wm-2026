@@ -1,6 +1,7 @@
 package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.leaderboard.RankingRes;
+import ch.no1hardy.service.service.LeaderboardService;
 import ch.no1hardy.service.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,15 @@ import java.util.List;
 @RequestMapping("/leaderboard")
 @AllArgsConstructor
 public class LeaderboardController {
-    private final UserService userService;
+    private final LeaderboardService service;
 
     @GetMapping()
     public List<RankingRes> getLeaderboard() {
-        return userService.getLeaderboard();
+        return service.getLeaderboard();
     }
 
     @GetMapping("/me")
     public List<RankingRes> getUserLeaderboard() {
-        return userService.getUserLeaderboard();
+        return service.getUserLeaderboard();
     }
 }

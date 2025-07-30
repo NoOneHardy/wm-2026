@@ -29,6 +29,12 @@ public class GroupService {
         return mapper.toDto(group);
     }
 
+    public List<Group> listRaw() {
+        return repository.findAll().stream()
+                .filter(Group::isActive)
+                .toList();
+    }
+
     public GroupRes getGroup(String id) {
         Group group = repository.findById(id).orElse(null);
         if (group == null)

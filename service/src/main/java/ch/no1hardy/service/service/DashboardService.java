@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
-import ch.no1hardy.service.exception.BadRequestException;
+import ch.no1hardy.service.exception.user.NotLoggedInException;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.dashboard.DashboardData;
 import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
@@ -43,9 +44,14 @@ public class DashboardService {
                 .build();
     }
 
-    public UserSummary getUserSummary() {
-        User user = userService.getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
+    /**
+     * Retrieves a summary of the logged-in user's dashboard.
+     * @return a UserSummary object containing the user's points, percentage of games bet, confirmation status, and ranking
+     * @throws NotLoggedInException if the user is not logged in
+     * @throws UserNotFoundException if the logged-in user is not found in the database
+     * */
+    public UserSummary getUserSummary() throws UserNotFoundException, NotLoggedInException {
+        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
 
         Boolean isConfirmed;
         if (user.getUserApplicationStatus() == UserApplicationStatus.ACCEPTED && user.getApplicationReviewedAt() != null)
@@ -76,11 +82,11 @@ public class DashboardService {
     /**
      * Calculates statistics for the logged-in user.
      * @return statistics for the logged-in user
+     * @throws UserNotFoundException if the logged-in user is not found in the database
+     * @throws NotLoggedInException if the user is not logged in
      */
-    public Statistics getStatistics() {
-        User user = userService.getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
-
+    public Statistics getStatistics() throws UserNotFoundException, NotLoggedInException {
+        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
         return getStatistics(user);
     }
 

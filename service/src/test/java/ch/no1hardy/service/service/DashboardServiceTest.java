@@ -2,7 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.GameHelper;
 import ch.no1hardy.service.SecurityHelper;
-import ch.no1hardy.service.exception.BadRequestException;
+import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.model.game.Bet;
@@ -117,16 +117,16 @@ public class DashboardServiceTest {
 
     @Test
     @DisplayName("getUserSummary() - should throw NotFoundException if no user is found")
-    void shouldThrowNotFoundExceptionIfNoUserIsFound() {
+    void shouldThrowNotLoggedInExceptionIfNoUserIsFound() {
         SecurityHelper.mockNoLogin();
-        assertThrows(BadRequestException.class, service::getUserSummary);
+        assertThrows(NotLoggedInException.class, service::getUserSummary);
     }
 
     @Test
     @DisplayName("getStatistics() - should throw BadRequestException if no user is logged in")
-    void shouldThrowBadRequestExceptionIfNoUserLoggedInForStatistics() {
+    void shouldThrowNotLoggedInExceptionIfNoUserLoggedInForStatistics() {
         SecurityHelper.mockNoLogin();
-        assertThrows(BadRequestException.class, service::getStatistics);
+        assertThrows(NotLoggedInException.class, service::getStatistics);
     }
 
     @Test

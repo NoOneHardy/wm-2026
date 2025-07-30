@@ -1,7 +1,6 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.GameHelper;
-import ch.no1hardy.service.exception.BadRequestException;
 import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
@@ -18,9 +17,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -30,9 +29,6 @@ public class GameServiceTest {
 
     @MockitoBean
     private UserService userService;
-
-    @MockitoBean
-    private LeaderboardService leaderboardService;
 
     @MockitoBean
     private GameRepository repository;
@@ -56,19 +52,11 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return empty list when no games are available")
     void shouldReturnEmptyListWhenNoGamesAvailable() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
         when(repository.findAll()).thenReturn(List.of());
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(0, result.size());
-    }
-
-    @Test
-    @DisplayName("getUpcomingGames() - should throw BadRequestException when no user is logged in")
-    void shouldThrowBadRequestExceptionWhenNoUserLoggedIn() {
-        when(leaderboardService.getUserLeaderboard()).thenReturn(null);
-
-        assertThrows(BadRequestException.class, service::getUpcomingGames);
     }
 
     @Test
@@ -77,7 +65,7 @@ public class GameServiceTest {
         User otherUser = new User();
         otherUser.setId("other-user");
 
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
         Game game1 = new Game();
         game1.setId("game-1");
         game1.setBets(List.of(
@@ -102,7 +90,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should filter games in the next 5 days")
     void shouldFilterGamesInNextFiveDays() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -126,7 +114,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return only active games")
     void shouldReturnOnlyActiveGames() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -147,7 +135,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return games without a result")
     void shouldReturnGamesWithoutAResult() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -170,7 +158,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return up to 5 games")
     void shouldReturnUpToFiveGames() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -228,6 +216,7 @@ public class GameServiceTest {
         Game game3 = GameHelper.createGame("game-3");
 
         when(repository.findAll()).thenReturn(List.of(game1, game2, game3));
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         List<BetGameRes> result = service.getRecentResults();
 
@@ -247,6 +236,7 @@ public class GameServiceTest {
         score2.setUpdatedAt(LocalDateTime.now());
 
         when(repository.findAll()).thenReturn(List.of(game1, game2));
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         List<BetGameRes> result = service.getRecentResults();
 
@@ -268,6 +258,7 @@ public class GameServiceTest {
 
         when(repository.findAll()).thenReturn(games);
 
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(5, result.size());
@@ -278,7 +269,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getRecentResults() - should return recent results")
     void shouldReturnRecentResults() {
-        when(userService.getLoggedInUser()).thenReturn(user);
+        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         Game game1 = GameHelper.createGame("game-1");
         Score score1 = GameHelper.createScore("score-1", game1, 2, 1);

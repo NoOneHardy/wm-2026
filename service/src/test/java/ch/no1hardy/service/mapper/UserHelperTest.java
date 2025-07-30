@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
@@ -32,7 +33,7 @@ public class UserHelperTest {
 
         user.setBets(List.of(bet, bet2));
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(6);
     }
@@ -41,14 +42,14 @@ public class UserHelperTest {
     void shouldReturnMax2JokersIfNoBetsWereFound() {
         user.setBets(List.of());
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(8);
     }
 
     @Test
     void shouldReturnMax2JokersIfNoUserIsFound() {
-        when(service.getLoggedInUser()).thenReturn(null);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.empty());
         assertThat(userHelper.getAvailableDoubleJokers(2)).isEqualTo(2);
     }
 
@@ -65,7 +66,7 @@ public class UserHelperTest {
 
         user.setBets(List.of(joker1, joker2, joker3));
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(7);
     }
@@ -79,7 +80,7 @@ public class UserHelperTest {
 
         user.setBets(List.of(bet, bet2));
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableTripleJokers(6)).isEqualTo(4);
     }
@@ -88,14 +89,14 @@ public class UserHelperTest {
     void shouldReturnMax3JokersIfNoBetsWereFound() {
         user.setBets(List.of());
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableTripleJokers(6)).isEqualTo(6);
     }
 
     @Test
     void shouldReturnMax3JokersIfNoUserIsFound() {
-        when(service.getLoggedInUser()).thenReturn(null);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.empty());
         assertThat(userHelper.getAvailableTripleJokers(3)).isEqualTo(3);
     }
 
@@ -112,7 +113,7 @@ public class UserHelperTest {
 
         user.setBets(List.of(joker1, joker2, joker3));
 
-        when(service.getLoggedInUser()).thenReturn(user);
+        when(service.getCurrentUserRaw()).thenReturn(Optional.of(user));
 
         assertThat(userHelper.getAvailableTripleJokers(4)).isEqualTo(3);
     }

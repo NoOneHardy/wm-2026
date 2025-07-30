@@ -46,7 +46,7 @@ public class LeaderboardServiceTest {
         user4.setLastReviewedPoints(0);
         user4.confirm();
 
-        when(userService.listConfirmedUsers()).thenReturn(List.of(user1, user2, user3, user4));
+        when(userService.listConfirmedRaw()).thenReturn(List.of(user1, user2, user3, user4));
 
         List<RankingRes> res = service.getLeaderboard();
 

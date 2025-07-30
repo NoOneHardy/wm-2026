@@ -1,6 +1,6 @@
 package ch.no1hardy.service.service;
 
-import ch.no1hardy.service.exception.BadRequestException;
+import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.user.User;
 import jakarta.validation.constraints.NotNull;
@@ -21,7 +21,7 @@ public class LeaderboardService {
         List<Integer> current = calculateLeaderboard(User::getPoints);
         List<Integer> previous = calculateLeaderboard(User::getLastReviewedPoints);
 
-        return userService.listConfirmedUsers().stream()
+        return userService.listConfirmedRaw().stream()
                 .map(user -> RankingRes.builder()
                 .id(user.getId())
                 .avatar(user.getAvatarUrl())
@@ -33,10 +33,8 @@ public class LeaderboardService {
         ).sorted(Comparator.comparingInt(RankingRes::getRanking)).toList();
     }
 
-    public List<RankingRes> getUserLeaderboard() {
-        User user = userService.getLoggedInUser();
-        if (user == null) throw new BadRequestException("Not logged in", "Benutzer nicht angemeldet");
-
+    public List<RankingRes> getUserLeaderboard() throws NotLoggedInException {
+        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
         return getUserLeaderboard(user);
     }
 
@@ -61,7 +59,7 @@ public class LeaderboardService {
     }
 
     private List<Integer> calculateLeaderboard(Function<User, Integer> pointAccessorFn) {
-        return userService.listConfirmedUsers().stream()
+        return userService.listConfirmedRaw().stream()
                 .map(pointAccessorFn)
                 .sorted(Integer::compareTo)
                 .toList().reversed();

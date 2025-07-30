@@ -11,6 +11,7 @@ import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,13 @@ public class DashboardService {
     private final LeaderboardService leaderboardService;
     private final GroupService groupService;
 
-    public DashboardData getDashboard() {
+    /**
+     * Retrieves the dashboard data for the logged-in user.
+     * @return a DashboardData object containing various statistics and summaries
+     * @throws NotLoggedInException if the user is not logged in
+     * @throws UserNotFoundException if the logged-in user is not found in the database
+     */
+    public DashboardData getDashboard() throws UserNotFoundException, NotLoggedInException {
         return DashboardData.builder()
                 .leaderboardPreview(leaderboardService.getUserLeaderboard())
                 .userSummary(getUserSummary())
@@ -35,6 +42,10 @@ public class DashboardService {
                 .build();
     }
 
+    /**
+     * Retrieves global statistics for all users.
+     * @return a GlobalStatistics object containing total points, correct games, and wasted jokers
+     */
     public GlobalStatistics getGlobalStatistics() {
         List<User> users = userService.listRaw();
         return GlobalStatistics.builder()
@@ -70,7 +81,12 @@ public class DashboardService {
                 .build();
     }
 
-    public Double getOverallPercentage(User user) {
+    /**
+     * Calculates the overall percentage of games bet by the user.
+     * @param user the user for whom to calculate the overall percentage
+     * @return the overall percentage of games bet by the user
+     */
+    public Double getOverallPercentage(@NotNull User user) {
         int totalBets = user.getBets().stream().filter(Bet::isActive).toList().size();
 
         int games = groupService.listRaw().stream()
@@ -95,7 +111,7 @@ public class DashboardService {
      * @param user the user for whom to calculate statistics
      * @return statistics for the specified user
      */
-    public Statistics getStatistics(User user) {
+    public Statistics getStatistics(@NotNull User user) {
         return Statistics.builder()
                 .totalGoalsBet(getTotalGoalsBet(user))
                 .correctGames(getCorrectGames(user))
@@ -108,7 +124,7 @@ public class DashboardService {
      * @param user the user for whom to calculate total goals bet
      * @return total number of goals bet by the user
      */
-    public int getTotalGoalsBet(User user) {
+    public int getTotalGoalsBet(@NotNull User user) {
         return user.getBets().stream()
                 .filter(Bet::isActive)
                 .mapToInt(bet -> bet.getScoreTeamHome() + bet.getScoreTeamGuest())
@@ -120,12 +136,11 @@ public class DashboardService {
      * @param user the user for whom to calculate correct games
      * @return number of games correctly predicted by the user
      */
-    public int getCorrectGames(User user) {
+    public int getCorrectGames(@NotNull User user) {
         return (int) user.getBets().stream()
                 .filter(Bet::isActive)
                 .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)
-                .filter(bet -> bet.getScoreTeamHome().equals(bet.getGame().getResult().getScoreTeamHome()) &&
-                        bet.getScoreTeamGuest().equals(bet.getGame().getResult().getScoreTeamGuest()))
+                .filter(Bet::isCorrect)
                 .count();
     }
 
@@ -135,7 +150,7 @@ public class DashboardService {
      * @param user the user for whom to calculate wasted jokers
      * @return number of jokers wasted by the user
      */
-    public int getJokersWasted(User user) {
+    public int getJokersWasted(@NotNull User user) {
         return user.getBets().stream()
                 .filter(Bet::isActive)
                 .filter(bet -> bet.getGame() != null && bet.getGame().getResult() != null)

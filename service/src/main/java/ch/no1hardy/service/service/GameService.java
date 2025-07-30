@@ -79,6 +79,15 @@ public class GameService {
         return mapper.toDto(repository.save(game));
     }
 
+    /**
+     * Uploads a bet for a game.
+     * @param id the ID of the game
+     * @param dto the bet request containing the bet details
+     * @return the updated game with the new bet
+     * @throws BetPlaceException if the game has already started or is in a knockout group with a tie
+     * @throws NotFoundException if the game with the given ID does not exist
+     * @throws NotLoggedInException if the user is not logged in
+     */
     public BetGameRes uploadBet(@NotNull String id, @NotNull BetReq dto) throws BetPlaceException, NotFoundException, NotLoggedInException {
         Game game = repository.findById(id).orElse(null);
         User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);

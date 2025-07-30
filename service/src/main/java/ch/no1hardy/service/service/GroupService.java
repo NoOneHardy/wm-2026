@@ -29,6 +29,11 @@ public class GroupService {
         return mapper.toDto(group);
     }
 
+    /**
+     * Returns a list of all active groups.
+     *
+     * @return List of active groups
+     */
     public List<Group> listRaw() {
         return repository.findAll().stream()
                 .filter(Group::isActive)
@@ -79,8 +84,7 @@ public class GroupService {
     }
 
     public List<CardGroupRes> getCardGroups() {
-        return repository.findAll().stream()
-                .filter(Group::isActive)
+        return listRaw().stream()
                 .filter(group -> !group.getGames().isEmpty())
                 .map(group -> mapper.toCard(group, repository))
                 .toList();

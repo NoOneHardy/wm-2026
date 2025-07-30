@@ -56,4 +56,13 @@ public class Bet extends BaseEntity {
     public int hashCode() {
         return super.hashCode();
     }
+
+    public boolean isCorrect() {
+        Score result = game.getResult();
+        if (result == null) return false;
+
+        return Objects.equals(result.getScoreTeamHome(), getScoreTeamHome())
+                && Objects.equals(result.getScoreTeamGuest(), getScoreTeamGuest());
+
+    }
 }

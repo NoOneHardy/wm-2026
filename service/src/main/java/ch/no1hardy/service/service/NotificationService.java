@@ -45,6 +45,13 @@ public class NotificationService {
         repository.save(notification);
     }
 
+    /**
+     * Notifies all users about a new game.
+     * This method iterates through all users and creates a notification for each user
+     * with the details of the new game.
+     *
+     * @param game the game for which the notification is created
+     */
     public void notifyUsersNewGame(@NotNull Game game) {
         for (User user : userService.listRaw()) {
             createNewGameNotification(user, game);
@@ -53,6 +60,13 @@ public class NotificationService {
         globalDataService.updateGlobalData();
     }
 
+    /**
+     * Notifies all users about a new game result.
+     * This method iterates through all users and creates a notification for each user
+     * with the details of the new game result.
+     *
+     * @param game the game for which the result is available
+     */
     public void notifyUsersNewResult(@NotNull Game game) {
         for (User user : userService.listRaw()) {
             createNewResultNotification(user, game);
@@ -68,7 +82,7 @@ public class NotificationService {
      *
      * @throws UsernameNotFoundException if a user somehow is in the leaderboard but not found in the database
      */
-    public void notifyUsersRankingChange() throws UsernameNotFoundException {
+    public void notifyUsersRankingChange() {
         for (RankingRes res : leaderboardService.getLeaderboard()) {
             User user = userService.getRawByUsername(res.getUsername());
             int movement = res.getRanking() - res.getPrevRanking();
@@ -78,25 +92,44 @@ public class NotificationService {
         globalDataService.updateGlobalData();
     }
 
+    /**
+     * Notifies a user that their account has been approved.
+     * This method creates a notification for the user indicating that their account has been approved
+     * and updates the global data.
+     *
+     * @param user the user to notify
+     */
     public void notifyUserApproval(@NotNull User user) {
         createApprovalNotification(user);
         globalDataService.updateGlobalData();
     }
 
+    /**
+     * Notifies a user that their account has been rejected.
+     * This method creates a notification for the user indicating that their account has been rejected
+     * and updates the global data.
+     *
+     * @param user the user to notify
+     */
     public void notifyUserRejection(@NotNull User user) {
         createRejectionNotification(user);
         globalDataService.updateGlobalData();
     }
 
+    /**
+     * Creates a new game notification for a user.
+     * This method constructs a notification with the game details and saves it to the repository.
+     *
+     * @param user the user to notify
+     * @param game the game for which the notification is created
+     */
     public void createNewGameNotification(@NotNull User user, @NotNull Game game) {
-        String content = "Am " + game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")) +
-                " spielt " +
-                game.getTeamHome().getName() +
-                " gegen " +
-                game.getTeamGuest().getName() +
-                "." +
-                " Gib jetzt deinen Tipp ab.";
-
+        String content = String.format(
+                "Am %s spielt %s gegen %s. Gib jetzt deinen Tipp ab.",
+                game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")),
+                game.getGroup().getName(),
+                game.getTeamHome().getName()
+        );
 
         repository.save(Notification.builder()
                 .type(NotificationType.NEW_BET)
@@ -107,13 +140,20 @@ public class NotificationService {
                 .build());
     }
 
+    /**
+     * Creates a new result notification for a user.
+     * This method constructs a notification with the game result details and saves it to the repository.
+     *
+     * @param user the user to notify
+     * @param game the game for which the result is available
+     */
     public void createNewResultNotification(@NotNull User user, @NotNull Game game) {
-        String content = "Das Resultat vom " + game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")) +
-                " - " +
-                game.getTeamHome().getName() +
-                " und " +
-                game.getTeamGuest().getName() +
-                " - ist nun verfügbar.";
+        String content = String.format(
+                "Das Resultat vom %s - %s gegen %s - ist nun verfügbar.",
+                game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")),
+                game.getTeamHome().getName(),
+                game.getTeamGuest().getName()
+        );
 
         repository.save(Notification.builder()
                 .type(NotificationType.NEW_RESULT)
@@ -124,16 +164,22 @@ public class NotificationService {
                 .build());
     }
 
-    public void createRankingNotification(@NotNull User user, @NotNull int movement) {
+    /**
+     * Creates a ranking notification for a user based on their movement in the leaderboard.
+     * This method constructs a notification indicating whether the user has moved up or down in the rankings
+     * and saves it to the repository.
+     *
+     * @param user     the user to notify
+     * @param movement the change in ranking position (positive for upward movement, negative for downward)
+     */
+    public void createRankingNotification(@NotNull User user, int movement) {
         if (movement == 0) return;
 
         StringBuilder content = new StringBuilder();
-
         if (movement > 0) content.append("Gratuliere");
         else content.append("Schade");
 
         content.append(", du bist in der Rangliste um ").append(movement);
-
         if (Math.abs(movement) == 1) content.append(" Platz ");
         else content.append(" Plätze ");
 
@@ -150,6 +196,13 @@ public class NotificationService {
                 .build());
     }
 
+    /**
+     * Creates an approval notification for a user.
+     * This method constructs a notification indicating that the user's account has been approved
+     * and saves it to the repository.
+     *
+     * @param user the user to notify
+     */
     public void createApprovalNotification(@NotNull User user) {
         repository.save(Notification.builder()
                 .type(NotificationType.APPROVAL)
@@ -160,6 +213,13 @@ public class NotificationService {
                 .build());
     }
 
+    /**
+     * Creates a rejection notification for a user.
+     * This method constructs a notification indicating that the user's account has been rejected
+     * and saves it to the repository.
+     *
+     * @param user the user to notify
+     */
     public void createRejectionNotification(@NotNull User user) {
         repository.save(Notification.builder()
                 .type(NotificationType.REJECTION)

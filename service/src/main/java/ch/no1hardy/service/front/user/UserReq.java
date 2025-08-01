@@ -31,11 +31,18 @@ public class UserReq {
      * @throws UserValidationException if the validation fails
      */
     public void validate() throws UserValidationException {
-        if (!Pattern.compile("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$").matcher(getEmail()).matches())
-            throw new UserValidationException("Invalid email format", "Ungültiges Email-Format");
+        if (getEmail() != null && !getEmail().isEmpty()) {
+            if (!Pattern.compile("^[A-z0-9-.]+@([A-z0-9-]+\\.)+[A-z-]{2,4}$").matcher(getEmail()).matches()) {
+                throw new UserValidationException("Invalid email format", "Ungültiges Email-Format");
+            }
+        }
 
-        if (getPassword().length() < 8)
-            throw new UserValidationException("Password must be at least 8 characters long", "Das Passwort muss mindestens 8 Zeichen lang sein");
+        if (getPassword() != null && !getPassword().isEmpty()) {
+            if (getPassword().length() < 8) {
+                throw new UserValidationException("Password must be at least 8 characters long", "Das Passwort muss mindestens 8 Zeichen lang sein");
+            }
+
+        }
     }
 
     /**

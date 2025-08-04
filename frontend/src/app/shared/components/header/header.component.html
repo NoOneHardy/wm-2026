@@ -18,7 +18,7 @@
       </ng-container>
     </nav>
     <div class="user-actions">
-      <wm-user-menu *ngIf="user() as user" [user]="user"/>
+      <wm-user-menu *ngIf="user() as user" [user]="user" [notifications]="notifications()"/>
 
       <ng-container *ngIf="!user()">
         <wm-user-button route="/login" secondary content="Anmelden"/>
@@ -33,7 +33,7 @@
     <div class="nav-top">
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
-        <button *ngIf="user()" class="notifications" [class.-nudge]="hasNotifications">
+        <button *ngIf="user()" class="notifications" [class.-nudge]="hasNotifications()">
           <span class="material-symbols-rounded">notifications</span>
         </button>
         <button class="menu-button" (click)="toggleMenu()">

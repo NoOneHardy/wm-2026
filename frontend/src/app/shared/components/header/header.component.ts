@@ -4,7 +4,7 @@ import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {EventType, Router, RouterLink} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
 import {Store} from '@ngrx/store'
-import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
+import {selectIsAdmin, selectNotifications, selectUser} from '../../../user-management/store/user.feature'
 import {NgIf} from '@angular/common'
 import {logout} from '../../../user-management/store/user.actions'
 import {ViewportService} from '../../services/viewport/viewport.service'
@@ -49,10 +49,14 @@ export class HeaderComponent implements OnInit {
 
   user = this.store.selectSignal(selectUser)
   isAdmin = this.store.selectSignal(selectIsAdmin)
+  notifications = this.store.selectSignal(selectNotifications)
 
   isVpL = computed(() => !this.viewportService.isVPMorSmaller())
 
-  hasNotifications = false
+  hasNotifications = computed(() => {
+    const notifications = this.notifications()
+    return notifications && notifications.length > 0
+  })
   isExpanded = false
 
   ngOnInit(): void {

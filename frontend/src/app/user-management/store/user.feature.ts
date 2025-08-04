@@ -7,15 +7,18 @@ import {
   logout,
   rejectLogin,
   resetError,
+  updateNotifications,
   userCreated,
   userInfoFetched,
   userLoggedIn,
   userLogin
 } from './user.actions'
 import {Role} from '../../model/user/role'
+import {Notification} from '../model/notification'
 
 export interface UserState {
   user: User | null
+  notifications: Notification[]
   isUserLoading: boolean
   error: string | null
 }
@@ -23,6 +26,7 @@ export interface UserState {
 export const initialState: UserState = {
   user: null,
   isUserLoading: false,
+  notifications: [],
   error: null
 }
 
@@ -82,6 +86,12 @@ export const userFeature = createFeature({
         user: action.user.id ? action.user : null
       }
     }),
+    on(updateNotifications, (state, action): UserState => {
+      return {
+        ...state,
+        notifications: action.notifications
+      }
+    }),
     on(logout, (state): UserState => {
       return {
         ...state,
@@ -92,7 +102,8 @@ export const userFeature = createFeature({
       return {
         ...state,
         isUserLoading: false,
-        user: null
+        user: null,
+        notifications: []
       }
     })
   )
@@ -101,7 +112,8 @@ export const userFeature = createFeature({
 export const {
   selectIsUserLoading,
   selectUser,
-  selectError
+  selectError,
+  selectNotifications
 } = userFeature
 
 export const selectIsAdmin = createSelector(

@@ -1,6 +1,6 @@
 @if (user(); as user) {
   <div class="user-menu">
-    <button class="notifications" [class.-nudge]="hasNotifications">
+    <button class="notifications" [class.-nudge]="hasNotifications()">
       <span class="material-symbols-rounded">notifications</span>
     </button>
     <div class="dropdown">

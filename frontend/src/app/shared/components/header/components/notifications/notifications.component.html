@@ -1,0 +1,16 @@
+<button [matMenuTriggerFor]="notificationMenu"
+        class="notification-trigger" [class.-nudge]="hasNotifications()">
+  <span class="material-symbols-rounded">notifications</span>
+</button>
+
+<mat-menu #notificationMenu xPosition="before" class="notifications">
+  @for (notification of notifications(); track notification.id) {
+    <a class="notification" [routerLink]="notification.route">
+      <div class="material-symbols-rounded">help</div>
+      <div class="text">
+        <h3>{{ notification.title }}</h3>
+        <p>{{ notification.content }}</p>
+      </div>
+    </a>
+  }
+</mat-menu>

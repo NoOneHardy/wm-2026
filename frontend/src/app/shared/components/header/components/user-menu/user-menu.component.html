@@ -1,8 +1,6 @@
 @if (user(); as user) {
   <div class="user-menu">
-    <button class="notifications" [class.-nudge]="hasNotifications()">
-      <span class="material-symbols-rounded">notifications</span>
-    </button>
+    <wm-notifications/>
     <div class="dropdown">
       <wm-user-button (clickButton)="toggleDropdown()" [content]="user.username"/>
       <div class="dropdown-content" *ngIf="isDropdownExpanded()">

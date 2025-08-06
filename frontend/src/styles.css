@@ -165,3 +165,13 @@ a.link-with-icon {
     color: var(--wm-color-secondary-900);
   }
 }
+
+.mat-mdc-menu-panel.notifications {
+  margin-top: 1.5em;
+}
+
+div.mat-mdc-menu-panel {
+  border-radius: 0;
+  background-color: var(--wm-color-white-600);
+  box-shadow: .125em .125em 1.25em 0 #0000005f;;
+}

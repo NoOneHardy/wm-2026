@@ -6,6 +6,7 @@ import {UserButtonComponent} from '../user-button/user-button.component'
 import {Store} from '@ngrx/store'
 import {logout} from '../../../../../user-management/store/user.actions'
 import {Notification} from '../../../../../user-management/model/notification'
+import {NotificationsComponent} from '../notifications/notifications.component'
 
 @Component({
   selector: 'wm-user-menu',
@@ -16,7 +17,8 @@ import {Notification} from '../../../../../user-management/model/notification'
   imports: [
     RouterLink,
     NgIf,
-    UserButtonComponent
+    UserButtonComponent,
+    NotificationsComponent
   ],
   templateUrl: './user-menu.component.html',
   styleUrl: './user-menu.component.css'

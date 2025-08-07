@@ -135,7 +135,7 @@ public class NotificationService {
                 .type(NotificationType.NEW_BET)
                 .title("Neues Spiel!")
                 .content(content)
-                .route("/bet/" + game.getGroup().getId() + "/" + game.getId())
+                .route("/bets/" + game.getGroup().getId() + "/" + game.getId())
                 .user(user)
                 .build());
     }
@@ -159,7 +159,7 @@ public class NotificationService {
                 .type(NotificationType.NEW_RESULT)
                 .title("Resultat verfügbar")
                 .content(content)
-                .route("/bet/" + game.getGroup().getId() + "/" + game.getId())
+                .route("/bets/" + game.getGroup().getId() + "/" + game.getId())
                 .user(user)
                 .build());
     }

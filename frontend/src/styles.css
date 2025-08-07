@@ -167,7 +167,15 @@ a.link-with-icon {
 }
 
 .mat-mdc-menu-panel.notifications {
-  margin-top: 1.5em;
+  margin-top: 1em;
+
+  .mat-mdc-menu-content {
+    padding: 0;
+  }
+
+  &.-mobile {
+    margin-top: 1.5em;
+  }
 }
 
 div.mat-mdc-menu-panel {

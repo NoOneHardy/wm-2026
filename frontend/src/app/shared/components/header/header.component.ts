@@ -9,6 +9,7 @@ import {NgIf} from '@angular/common'
 import {logout} from '../../../user-management/store/user.actions'
 import {ViewportService} from '../../services/viewport/viewport.service'
 import {animate, state, style, transition, trigger} from '@angular/animations'
+import {NotificationsComponent} from './components/notifications/notifications.component'
 
 @Component({
   selector: 'wm-header',
@@ -21,7 +22,8 @@ import {animate, state, style, transition, trigger} from '@angular/animations'
     UserMenuComponent,
     RouterLink,
     UserButtonComponent,
-    NgIf
+    NgIf,
+    NotificationsComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',

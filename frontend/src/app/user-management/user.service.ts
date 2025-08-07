@@ -36,4 +36,8 @@ export class UserService extends BaseHttpService {
   fetchUserInfo(): Observable<User> {
     return this.get<User>('/api/me')
   }
+
+  markNotificationAsRead(id: string): Observable<true> {
+    return this.delete<true>(`/api/notification/${id}`)
+  }
 }

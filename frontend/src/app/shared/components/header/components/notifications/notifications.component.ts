@@ -4,6 +4,7 @@ import {selectNotifications} from '../../../../../user-management/store/user.fea
 import {MatMenu, MatMenuTrigger} from '@angular/material/menu'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
+import {markNotificationAsRead} from '../../../../../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-notifications',
@@ -26,4 +27,8 @@ export class NotificationsComponent {
   mobile = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })
+
+  markAsRead(id: string): void {
+    this.store.dispatch(markNotificationAsRead({id}))
+  }
 }

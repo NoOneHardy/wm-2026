@@ -16,6 +16,7 @@
 
     span {
       font-size: 1em;
+      color: var(--wm-color-neutral-600);
     }
 
     &.-mobile {

@@ -42,6 +42,7 @@ public class NotificationService {
     public void markNotificationAsRead(@NotNull String id) throws NotificationNotFoundException {
         Notification notification = getRaw(id);
         notification.setIsRead(true);
+        globalDataService.updateGlobalData();
         repository.save(notification);
     }
 

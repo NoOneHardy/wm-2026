@@ -1,11 +1,11 @@
-<button [matMenuTriggerFor]="notificationMenu"
+<button [matMenuTriggerFor]="notificationMenu" [disabled]="!hasNotifications()"
         class="notification-trigger" [class.-mobile]="mobile()" [class.-nudge]="hasNotifications()">
   <span class="material-symbols-rounded">notifications</span>
 </button>
 
 <mat-menu #notificationMenu xPosition="before" [class]="'notifications' + (mobile() ? ' -mobile' : '')">
   @for (notification of notifications(); track notification.id) {
-    <a class="notification" [routerLink]="notification.route" matRipple>
+    <a class="notification" [routerLink]="notification.route" matRipple (click)="markAsRead(notification.id)">
       <div class="icon-wrapper">
         <div class="icon">
           <span class="material-symbols-rounded">help</span>

@@ -6,6 +6,8 @@ import {
   fetchUserInfo,
   loggedOut,
   logout,
+  markedNotificationAsRead,
+  markNotificationAsRead,
   rejectLogin,
   userCreated,
   userInfoFetched,
@@ -103,6 +105,15 @@ export class UserEffects {
           })
           return of(loggedOut({showMessage: false}))
         })
+      )
+    })
+  ))
+
+  markNotificationAsRead = createEffect(() => this.actions$.pipe(
+    ofType(markNotificationAsRead),
+    exhaustMap((action) => {
+      return this.userService.markNotificationAsRead(action.id).pipe(
+        map(() => markedNotificationAsRead())
       )
     })
   ))

@@ -35,6 +35,13 @@ export abstract class BaseHttpService {
     )
   }
 
+  protected delete<T>(url: string, options?: HttpOptions): Observable<T> {
+    return this.http.delete<BaseResponse<T>>(url, options).pipe(
+      tap(r => this.updateNotifications(r.globalData.notifications)),
+      map(r => r.data)
+    )
+  }
+
   private updateNotifications(notifications: Notification[]): void {
     this.store.dispatch(updateNotifications({notifications}))
   }

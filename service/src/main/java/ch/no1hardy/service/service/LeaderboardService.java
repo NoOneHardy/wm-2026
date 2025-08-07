@@ -45,7 +45,7 @@ public class LeaderboardService {
      * The leaderboard contains the current ranking and the previous ranking.
      *
      * @return List of RankingRes containing user information and rankings
-     * @throws NotLoggedInException if the user is not logged in
+     * @throws NotLoggedInException  if the user is not logged in
      * @throws UserNotFoundException if the current user is not found
      */
     public List<RankingRes> getUserLeaderboard() throws NotLoggedInException, UserNotFoundException {

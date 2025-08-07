@@ -5,6 +5,8 @@ import {
   fetchUserInfo,
   loggedOut,
   logout,
+  markedNotificationAsRead,
+  markNotificationAsRead,
   rejectLogin,
   resetError,
   updateNotifications,
@@ -40,7 +42,7 @@ export const userFeature = createFeature({
         isUserLoading: true
       }
     }),
-    on(userCreated, (state): UserState => {
+    on(userCreated, markNotificationAsRead, (state): UserState => {
       return {
         ...state,
         isUserLoading: false
@@ -104,6 +106,12 @@ export const userFeature = createFeature({
         isUserLoading: false,
         user: null,
         notifications: []
+      }
+    }),
+    on(markedNotificationAsRead, (state): UserState => {
+      return {
+        ...state,
+        isUserLoading: false
       }
     })
   )

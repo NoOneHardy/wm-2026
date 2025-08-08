@@ -1,5 +1,6 @@
 package ch.no1hardy.service.config;
 
+import ch.no1hardy.service.exception.ApiError;
 import ch.no1hardy.service.front.BaseResponse;
 import ch.no1hardy.service.front.GlobalData;
 import lombok.NonNull;
@@ -34,7 +35,7 @@ public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
             @NonNull ServerHttpRequest request,
             @NonNull ServerHttpResponse response
     ) {
-        if (body instanceof BaseResponse<?>) return body;
+        if (body instanceof ApiError || body instanceof BaseResponse<?>) return body;
 
         GlobalData globalData = (GlobalData) ((ServletServerHttpRequest) request).getServletRequest()
                 .getAttribute(GlobalKey.GLOBAL_DATA.getKey());

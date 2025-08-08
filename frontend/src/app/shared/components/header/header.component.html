@@ -18,7 +18,7 @@
       </ng-container>
     </nav>
     <div class="user-actions">
-      <wm-user-menu *ngIf="user() as user" [user]="user" [notifications]="notifications()"/>
+      <wm-user-menu *ngIf="user() as user" [user]="user"/>
 
       <ng-container *ngIf="!user()">
         <wm-user-button route="/login" secondary content="Anmelden"/>

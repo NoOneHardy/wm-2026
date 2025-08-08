@@ -36,13 +36,13 @@ export const userFeature = createFeature({
   name: 'user',
   reducer: createReducer(
     initialState,
-    on(createUser, (state): UserState => {
+    on(createUser, markNotificationAsRead, (state): UserState => {
       return {
         ...state,
         isUserLoading: true
       }
     }),
-    on(userCreated, markNotificationAsRead, (state): UserState => {
+    on(userCreated, (state): UserState => {
       return {
         ...state,
         isUserLoading: false

@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core'
-import {HttpClient} from '@angular/common/http'
-import {map, Observable, tap} from 'rxjs'
+import {HttpClient, HttpErrorResponse} from '@angular/common/http'
+import {catchError, map, Observable, tap, throwError} from 'rxjs'
 import {BaseResponse} from './base-response'
 import {HttpOptions} from './options/http-options'
 import {Notification} from '../../../user-management/model/notification'
@@ -17,28 +17,40 @@ export abstract class BaseHttpService {
   protected get<T>(url: string, options?: HttpOptions): Observable<T> {
     return this.http.get<BaseResponse<T>>(url, options).pipe(
       tap(r => this.updateNotifications(r.globalData.notifications)),
-      map(r => r.data)
+      map(r => r.data),
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err.error)
+      })
     )
   }
 
   protected post<T, D = object>(url: string, data: D, options?: HttpOptions): Observable<T> {
     return this.http.post<BaseResponse<T>>(url, data, options).pipe(
       tap(r => this.updateNotifications(r.globalData.notifications)),
-      map(r => r.data)
+      map(r => r.data),
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err.error)
+      })
     )
   }
 
   protected put<T, D = object>(url: string, data: D, options?: HttpOptions): Observable<T> {
     return this.http.put<BaseResponse<T>>(url, data, options).pipe(
       tap(r => this.updateNotifications(r.globalData.notifications)),
-      map(r => r.data)
+      map(r => r.data),
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err.error)
+      })
     )
   }
 
   protected delete<T>(url: string, options?: HttpOptions): Observable<T> {
     return this.http.delete<BaseResponse<T>>(url, options).pipe(
       tap(r => this.updateNotifications(r.globalData.notifications)),
-      map(r => r.data)
+      map(r => r.data),
+      catchError((err: HttpErrorResponse) => {
+        return throwError(() => err.error)
+      })
     )
   }
 

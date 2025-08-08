@@ -7,6 +7,7 @@ import {provideHttpClient} from '@angular/common/http'
 import {mockUser1} from '../model/mock/user.mock'
 import {ServiceError} from '../model/error'
 import {provideMockStore} from '@ngrx/store/testing'
+import {flushApiErrorResponse, flushApiResponse} from '../shared/helper/karma.helper'
 
 describe('AdminService', () => {
   let service: AdminService
@@ -40,7 +41,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush({globalData: {notifications: []}, data: mockUsers})
+    flushApiResponse(req, mockUsers)
   })
 
   it('should return an empty list if no users are found', () => {
@@ -50,7 +51,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush({globalData: {notifications: []}, data: []})
+    flushApiResponse(req, [])
   })
 
   it('should confirm a user', () => {
@@ -62,7 +63,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
     expect(req.request.method).toBe('GET')
-    req.flush({globalData: {notifications: []}, data: mockUser})
+    flushApiResponse(req, mockUser)
   })
 
   it('should return error message if user is not authenticated', () => {
@@ -76,13 +77,9 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
     expect(req.request.method).toBe('GET')
-    req.flush({
+    flushApiErrorResponse(req, {
       status: 403,
-      message: 'Not authorized to access this method',
-      timestamp: '2025-06-20T09:17:00:00'
-    }, {
-      status: 403,
-      statusText: 'Forbidden'
+      message: 'Not authorized to access this method'
     })
   })
 
@@ -95,17 +92,13 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
     expect(req.request.method).toBe('GET')
-    req.flush({
-        globalData: {notifications: []},
-        data: mockUser
-      }
-    )
+    flushApiResponse(req, mockUser)
   })
 
   it('should return error message if user is not authenticated', () => {
     const userId = 'user-1'
     service.denyUser(userId).subscribe({
-      error: (err: ServiceError) => {
+      error: (err: ServiceError): void => {
         expect(err.error.message).toEqual('Not authorized to access this method')
         expect(err.status).toEqual(403)
       }
@@ -113,13 +106,9 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
     expect(req.request.method).toBe('GET')
-    req.flush({
+    flushApiErrorResponse(req, {
       status: 403,
-      message: 'Not authorized to access this method',
-      timestamp: '2025-06-20T09:17:00:00'
-    }, {
-      status: 403,
-      statusText: 'Forbidden'
+      message: 'Not authorized to access this method'
     })
   })
 })

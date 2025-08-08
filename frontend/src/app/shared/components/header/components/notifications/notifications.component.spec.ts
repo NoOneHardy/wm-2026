@@ -3,6 +3,9 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {NotificationsComponent} from './notifications.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectNotifications} from '../../../../../user-management/store/user.feature'
+import {NotificationType} from '../../../../../user-management/model/notification'
+import {provideRouter} from '@angular/router'
+import {markNotificationAsRead} from '../../../../../user-management/store/user.actions'
 
 describe('NotificationsComponent', () => {
   let component: NotificationsComponent
@@ -12,7 +15,7 @@ describe('NotificationsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NotificationsComponent],
-      providers: [provideMockStore()]
+      providers: [provideMockStore(), provideRouter([])]
     }).compileComponents()
 
     fixture = TestBed.createComponent(NotificationsComponent)
@@ -24,5 +27,63 @@ describe('NotificationsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy()
+  })
+
+  it('should load notifications from store', () => {
+    expect(component.notifications()).toEqual([])
+
+    store.overrideSelector(selectNotifications, [{
+      id: 'not-1',
+      title: 'Test Notification',
+      content: 'Empty',
+      route: '/',
+      type: NotificationType.NEW_RESULT
+    }])
+    store.refreshState()
+    fixture.detectChanges()
+
+    expect(component.notifications()).toEqual([{
+      id: 'not-1',
+      title: 'Test Notification',
+      content: 'Empty',
+      route: '/',
+      type: NotificationType.NEW_RESULT
+    }])
+  })
+
+  it('should map mobile input to boolean', () => {
+    expect(component.mobile()).toBeFalse()
+    fixture.componentRef.setInput('mobile', '')
+    fixture.detectChanges()
+    expect(component.mobile()).toBeTrue()
+    fixture.componentRef.setInput('mobile', false)
+    fixture.detectChanges()
+    expect(component.mobile()).toBeFalse()
+    fixture.componentRef.setInput('mobile', true)
+    fixture.detectChanges()
+    expect(component.mobile()).toBeTrue()
+  })
+
+  it('should call mark as read from store', () => {
+    const spy = spyOn(store, 'dispatch')
+    expect(spy).not.toHaveBeenCalled()
+
+    component.markAsRead('asdfsaf')
+    expect(spy).toHaveBeenCalledOnceWith(markNotificationAsRead({id: 'asdfsaf'}))
+  })
+
+  it('should map notifications length to boolean', () => {
+    expect(component.hasNotifications()).toBeFalse()
+
+    store.overrideSelector(selectNotifications, [{
+      id: 'not-1',
+      title: 'Test Notification',
+      content: 'Empty',
+      route: '/',
+      type: NotificationType.NEW_RESULT
+    }])
+    store.refreshState()
+    fixture.detectChanges()
+    expect(component.hasNotifications()).toBeTrue()
   })
 })

@@ -5,7 +5,7 @@ import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {provideRouter} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
-import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
+import {selectIsAdmin, selectNotifications, selectUser} from '../../../user-management/store/user.feature'
 import {Role} from '../../../model/user/role'
 import {UserApplicationStatus} from '../../../model/user/user-application-status'
 import {logout} from '../../../user-management/store/user.actions'
@@ -24,6 +24,7 @@ describe('HeaderComponent', () => {
 
     store = TestBed.inject(MockStore)
     store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectNotifications, [])
     store.refreshState()
 
     fixture = TestBed.createComponent(HeaderComponent)

@@ -1,11 +1,10 @@
-import {Component, computed, ElementRef, inject, input, signal} from '@angular/core'
+import {Component, ElementRef, inject, input, signal} from '@angular/core'
 import {User} from '../../../../../model/user/user'
 import {RouterLink} from '@angular/router'
 import {NgIf} from '@angular/common'
 import {UserButtonComponent} from '../user-button/user-button.component'
 import {Store} from '@ngrx/store'
 import {logout} from '../../../../../user-management/store/user.actions'
-import {Notification} from '../../../../../user-management/model/notification'
 import {NotificationsComponent} from '../notifications/notifications.component'
 
 @Component({
@@ -28,11 +27,6 @@ export class UserMenuComponent {
   private el = inject(ElementRef)
 
   user = input<User | null>()
-  notifications = input<Notification[]>([])
-  hasNotifications = computed(() => {
-    const notifications = this.notifications()
-    return notifications && notifications.length > 0
-  })
 
   isDropdownExpanded = signal(false)
 

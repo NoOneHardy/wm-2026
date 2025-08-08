@@ -6,6 +6,7 @@ import {User} from '../model/user/user'
 import {provideHttpClient} from '@angular/common/http'
 import {mockUser1} from '../model/mock/user.mock'
 import {ServiceError} from '../model/error'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('AdminService', () => {
   let service: AdminService
@@ -14,7 +15,7 @@ describe('AdminService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideMockStore()]
     })
     service = TestBed.inject(AdminService)
     httpMock = TestBed.inject(HttpTestingController)
@@ -39,7 +40,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush({data: mockUsers})
+    req.flush({globalData: {notifications: []}, data: mockUsers})
   })
 
   it('should return an empty list if no users are found', () => {
@@ -49,7 +50,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/user/all')
     expect(req.request.method).toBe('GET')
-    req.flush({data: []})
+    req.flush({globalData: {notifications: []}, data: []})
   })
 
   it('should confirm a user', () => {
@@ -61,7 +62,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/confirm`)
     expect(req.request.method).toBe('GET')
-    req.flush({data: mockUser})
+    req.flush({globalData: {notifications: []}, data: mockUser})
   })
 
   it('should return error message if user is not authenticated', () => {
@@ -94,7 +95,11 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne(`/api/admin/user/${userId}/deny`)
     expect(req.request.method).toBe('GET')
-    req.flush({data: mockUser})
+    req.flush({
+        globalData: {notifications: []},
+        data: mockUser
+      }
+    )
   })
 
   it('should return error message if user is not authenticated', () => {

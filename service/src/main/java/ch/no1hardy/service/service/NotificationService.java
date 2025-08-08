@@ -86,7 +86,7 @@ public class NotificationService {
     public void notifyUsersRankingChange() {
         for (RankingRes res : leaderboardService.getLeaderboard()) {
             User user = userService.getRawByUsername(res.getUsername());
-            int movement = res.getRanking() - res.getPrevRanking();
+            int movement = res.getPrevRanking() - res.getRanking();
             createRankingNotification(user, movement);
         }
 
@@ -180,7 +180,7 @@ public class NotificationService {
         if (movement > 0) content.append("Gratuliere");
         else content.append("Schade");
 
-        content.append(", du bist in der Rangliste um ").append(movement);
+        content.append(", du bist in der Rangliste um ").append(Math.abs(movement));
         if (Math.abs(movement) == 1) content.append(" Platz ");
         else content.append(" Plätze ");
 

@@ -88,7 +88,7 @@ public class UserController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/log-out")
     @ResponseBody
-    public void logout(HttpServletResponse response) {
+    public Boolean logout(HttpServletResponse response) {
         logger.info("POST /log-out");
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
@@ -97,7 +97,7 @@ public class UserController {
         cookie.setMaxAge(0);
 
         response.addCookie(cookie);
-        response.setStatus(204);
+        return true;
     }
 
     @PreAuthorize("hasRole('ADMIN')")

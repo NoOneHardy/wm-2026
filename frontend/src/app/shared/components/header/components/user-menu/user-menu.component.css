@@ -4,32 +4,6 @@
   gap: 1em;
   height: 100%;
 
-  .notifications {
-    position: relative;
-    display: block;
-    height: 1.5em;
-    width: 1.5em;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 1em;
-
-    &.-nudge {
-      &:after {
-        content: '';
-        position: absolute;
-        top: .125em;
-        right: .125em;
-        display: block;
-        height: .25em;
-        width: .25em;
-        border-radius: 50%;
-        font-size: 1em;
-        background-image: var(--wm-gradient-primary-600);
-      }
-    }
-  }
-
   .dropdown {
     display: block;
     position: relative;

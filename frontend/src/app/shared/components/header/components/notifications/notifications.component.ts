@@ -5,6 +5,7 @@ import {MatMenu, MatMenuTrigger} from '@angular/material/menu'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
 import {markNotificationAsRead} from '../../../../../user-management/store/user.actions'
+import {NotificationType} from '../../../../../user-management/model/notification'
 
 @Component({
   selector: 'wm-notifications',
@@ -30,5 +31,20 @@ export class NotificationsComponent {
 
   markAsRead(id: string): void {
     this.store.dispatch(markNotificationAsRead({id}))
+  }
+
+  getIcon(type: NotificationType): string {
+    switch (type) {
+      case NotificationType.NEW_BET:
+        return 'ballot'
+      case NotificationType.NEW_RESULT:
+        return 'scoreboard'
+      case NotificationType.APPROVAL:
+        return 'check_circle'
+      case NotificationType.REJECTION:
+        return 'do_not_disturb_on'
+      case NotificationType.RANKING_UPDATE:
+        return 'bookmark_star'
+    }
   }
 }

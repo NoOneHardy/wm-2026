@@ -7,9 +7,9 @@ export interface Notification {
 }
 
 export enum NotificationType {
-  NEW_BET,
-  NEW_RESULT,
-  APPROVAL,
-  REJECTION,
-  RANKING_UPDATE
+  NEW_BET = 'NEW_BET',
+  NEW_RESULT = 'NEW_RESULT',
+  APPROVAL = 'APPROVAL',
+  REJECTION = 'REJECTION',
+  RANKING_UPDATE = 'RANKING_UPDATE'
 }

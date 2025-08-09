@@ -189,7 +189,7 @@ public class NotificationService {
         content.append(".");
 
         repository.save(Notification.builder()
-                .type(NotificationType.NEW_RESULT)
+                .type(NotificationType.RANKING_UPDATE)
                 .title(movement > 0 ? "Aufstieg!" : "Abstieg!")
                 .content(content.toString())
                 .route("/leaderboard")

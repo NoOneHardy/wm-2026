@@ -54,12 +54,14 @@
     </ng-container>
 
     <ng-container wm-actions>
-      <div class="login">
-        <p>Bereits ein Konto?</p>
-        <a href="/login">Anmelden</a>
-      </div>
+      <div class="actions">
+        <div class="login">
+          <p>Bereits ein Konto?</p>
+          <a href="/login">Anmelden</a>
+        </div>
 
-      <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+        <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+      </div>
     </ng-container>
   </wm-user-management-panel>
 </form>

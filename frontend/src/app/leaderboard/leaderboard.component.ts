@@ -34,4 +34,18 @@ export class LeaderboardComponent implements OnInit {
   ngOnInit(): void {
     this.store.dispatch(getLeaderboard())
   }
+
+  get subHeading(): string {
+    const userPos = this.userPos()
+    if (userPos) {
+      const movement = userPos.prevRanking - userPos.ranking
+      if (movement > 0) {
+        return `Gratuliere, du bist ${movement === 1 ? '1 Rang' : `${movement} Ränge`} aufgestiegen!`
+      } else if (movement < 0) {
+        return `Schade, du bist ${movement === -1 ? '1 Rang' : `${Math.abs(movement)} Ränge`} abgestiegen.`
+      }
+    }
+
+    return 'Verschaffe dir eine Übersicht über das Spiel.'
+  }
 }

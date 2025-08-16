@@ -6,7 +6,7 @@
       <wm-spinner/>
     </div>
   } @else {
-    <p class="sub-heading">Du bist nicht aufgestiegen!</p>
+    <p class="sub-heading">{{ subHeading }}</p>
     <div class="board">
       @if (leaderboard().length === 0) {
         <wm-position [ranking]="{

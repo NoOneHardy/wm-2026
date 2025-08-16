@@ -90,4 +90,82 @@ describe('LeaderboardComponent', () => {
 
     expect(component.userPos()).toBeNull()
   })
+
+  it('should return subHeading +1 based on user position', () => {
+    const leaderboard: Ranking[] = [
+      {id: mockUser.id, username: mockUser.username, points: 1000, ranking: 1, avatar: null, prevRanking: 2}
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, mockUser)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Gratuliere, du bist 1 Rang aufgestiegen!')
+  })
+
+  it('should return subHeading +2 based on user position', () => {
+    const leaderboard: Ranking[] = [
+      {id: mockUser.id, username: mockUser.username, points: 1000, ranking: 1, avatar: null, prevRanking: 3}
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, mockUser)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Gratuliere, du bist 2 Ränge aufgestiegen!')
+  })
+
+  it('should return subHeading -1 based on user position', () => {
+    const leaderboard: Ranking[] = [
+      {id: mockUser.id, username: mockUser.username, points: 1000, ranking: 2, avatar: null, prevRanking: 1}
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, mockUser)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Schade, du bist 1 Rang abgestiegen.')
+  })
+
+  it('should return subHeading -2 based on user position', () => {
+    const leaderboard: Ranking[] = [
+      {id: mockUser.id, username: mockUser.username, points: 1000, ranking: 3, avatar: null, prevRanking: 1}
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, mockUser)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Schade, du bist 2 Ränge abgestiegen.')
+  })
+
+  it('should return default subHeading if user did not move', () => {
+    const leaderboard: Ranking[] = [
+      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 1},
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, mockUser)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Verschaffe dir eine Übersicht über das Spiel.')
+  })
+
+  it('should return default subHeading if user is not logged in', () => {
+    const leaderboard: Ranking[] = [
+      {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 1},
+    ]
+    store.overrideSelector(selectLeaderboard, leaderboard)
+    store.overrideSelector(selectUser, null)
+    store.refreshState()
+
+    component.ngOnInit()
+
+    expect(component.subHeading).toBe('Verschaffe dir eine Übersicht über das Spiel.')
+  })
 })

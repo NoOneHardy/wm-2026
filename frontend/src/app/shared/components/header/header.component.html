@@ -33,7 +33,7 @@
     <div class="nav-top">
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
-        <wm-notifications mobile/>
+        <wm-notifications mobile *ngIf="user()"/>
         <button class="menu-button" (click)="toggleMenu()">
           <span *ngIf="isExpanded" class="material-symbols-rounded">close</span>
           <span *ngIf="!isExpanded" class="material-symbols-rounded open">dehaze</span>

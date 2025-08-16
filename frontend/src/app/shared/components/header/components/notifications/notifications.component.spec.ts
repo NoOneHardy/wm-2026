@@ -86,4 +86,12 @@ describe('NotificationsComponent', () => {
     fixture.detectChanges()
     expect(component.hasNotifications()).toBeTrue()
   })
+
+  it('should return correct icon for notification type', () => {
+    expect(component.getIcon(NotificationType.NEW_BET)).toBe('ballot')
+    expect(component.getIcon(NotificationType.NEW_RESULT)).toBe('scoreboard')
+    expect(component.getIcon(NotificationType.APPROVAL)).toBe('check_circle')
+    expect(component.getIcon(NotificationType.REJECTION)).toBe('do_not_disturb_on')
+    expect(component.getIcon(NotificationType.RANKING_UPDATE)).toBe('bookmark_star')
+  })
 })

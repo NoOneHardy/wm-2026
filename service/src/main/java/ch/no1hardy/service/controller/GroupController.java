@@ -1,7 +1,7 @@
 package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.game.BetReq;
-import ch.no1hardy.service.front.game.ScoreReq;
+import ch.no1hardy.service.front.game.ResultReq;
 import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
@@ -42,7 +42,7 @@ public class GroupController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}/results")
-    public GroupRes updateResults(@PathVariable("id") String id, @RequestBody List<ScoreReq> results) {
+    public GroupRes updateResults(@PathVariable("id") String id, @RequestBody List<ResultReq> results) {
         return service.updateResults(id, results);
     }
 }

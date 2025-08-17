@@ -1,26 +1,23 @@
 package ch.no1hardy.service.front.game;
 
-import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
-@Builder
-public class BetReq {
-    private String game;
-    private Integer scoreTeamHome;
-    private Integer scoreTeamGuest;
+@EqualsAndHashCode(callSuper = true)
+public class BetReq extends ScoreReq {
     private Integer joker;
     private String user;
 
-    public void clampJoker() {
+    @Override
+    public void clamp() {
+        super.clamp();
         if (getJoker() > 3 || getJoker() < 1) {
             setJoker(1);
         }
     }
 
     public boolean isValid() {
-        return (getScoreTeamHome() == null || getScoreTeamHome() >= 0) &&
-                (getScoreTeamGuest() == null || getScoreTeamGuest() >= 0) &&
-                getJoker() != null;
+        return super.isValid() && getJoker() != null;
     }
 }

@@ -108,12 +108,11 @@ export class GroupViewComponent {
     else this.store.dispatch(saveResults({
       groupId: group.id,
       results: bets
-        .filter((bet) => bet.scoreTeamHome !== null || bet.scoreTeamGuest !== null)
         .map((bet): ScoreForm => {
           return {
             game: bet.game,
-            scoreTeamGuest: bet.scoreTeamGuest ?? 0,
-            scoreTeamHome: bet.scoreTeamHome ?? 0
+            scoreTeamGuest: bet.scoreTeamGuest,
+            scoreTeamHome: bet.scoreTeamHome
           }
         })
     }))

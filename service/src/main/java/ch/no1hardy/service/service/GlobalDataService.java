@@ -29,7 +29,9 @@ public class GlobalDataService {
      */
     private GlobalData createGlobalData() throws UserNotFoundException {
         Optional<User> user$ = userService.getCurrentUserRaw();
-        List<Notification> notifications = user$.isEmpty() ? List.of() : userService.getNotifications(user$.get());
+        List<Notification> notifications = user$.map(user -> userService.getNotifications(user).stream()
+                .limit(5)
+                .toList()).orElseGet(List::of);
 
         return GlobalData.builder()
                 .id(UUID.randomUUID().toString())

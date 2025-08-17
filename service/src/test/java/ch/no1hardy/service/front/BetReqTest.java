@@ -11,12 +11,11 @@ public class BetReqTest {
     @Test
     @DisplayName("should validate bet request with valid scores")
     public void shouldValidateBetRequestWithValidScores() {
-        BetReq betReq = BetReq.builder()
-                .game("game-1")
-                .scoreTeamHome(2)
-                .scoreTeamGuest(3)
-                .joker(1)
-                .build();
+        BetReq betReq = new BetReq();
+        betReq.setGame("game-1");
+        betReq.setScoreTeamHome(2);
+        betReq.setScoreTeamGuest(3);
+        betReq.setJoker(1);
 
         assertTrue(betReq.isValid());
     }
@@ -24,12 +23,11 @@ public class BetReqTest {
     @Test
     @DisplayName("should validate bet request with null values")
     public void shouldValidateBetRequestWithNullValues() {
-        BetReq betReq = BetReq.builder()
-                .game("game-1")
-                .scoreTeamHome(null)
-                .scoreTeamGuest(1)
-                .joker(1)
-                .build();
+        BetReq betReq = new BetReq();
+        betReq.setGame("game-1");
+        betReq.setScoreTeamHome(null);
+        betReq.setScoreTeamGuest(1);
+        betReq.setJoker(1);
 
         assertTrue(betReq.isValid());
         betReq.setScoreTeamHome(1);
@@ -40,12 +38,11 @@ public class BetReqTest {
     @Test
     @DisplayName("should validate bet request with negative values")
     public void shouldValidateBetRequestWithNegativeValues() {
-        BetReq betReq = BetReq.builder()
-                .game("game-1")
-                .scoreTeamHome(-4)
-                .scoreTeamGuest(1)
-                .joker(1)
-                .build();
+        BetReq betReq = new BetReq();
+        betReq.setGame("game-1");
+        betReq.setScoreTeamHome(-4);
+        betReq.setScoreTeamGuest(1);
+        betReq.setJoker(1);
 
         assertFalse(betReq.isValid());
         betReq.setScoreTeamHome(1);
@@ -56,12 +53,11 @@ public class BetReqTest {
     @Test
     @DisplayName("should validate bet request with null joker")
     public void shouldValidateBetRequestWithNullJoker() {
-        BetReq betReq = BetReq.builder()
-                .game("game-1")
-                .scoreTeamHome(4)
-                .scoreTeamGuest(1)
-                .joker(null)
-                .build();
+        BetReq betReq = new BetReq();
+        betReq.setGame("game-1");
+        betReq.setScoreTeamHome(4);
+        betReq.setScoreTeamGuest(1);
+        betReq.setJoker(null);
 
         assertFalse(betReq.isValid());
         betReq.setJoker(2);

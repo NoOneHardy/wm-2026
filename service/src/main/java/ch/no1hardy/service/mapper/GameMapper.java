@@ -29,15 +29,7 @@ public interface GameMapper extends EntityMapper<Game, GameReq, BetGameRes> {
     @Mapping(target = "gameId", source = "game", qualifiedByName = "getGameId")
     ScoreRes toDto(Score entity);
 
-    @Mapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL, target = "scoreTeamHome")
-    @Mapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL, target = "scoreTeamGuest")
-    void update(ScoreReq dto, @MappingTarget Score entity);
-
-    @Mapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL, target = "scoreTeamHome")
-    @Mapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.SET_TO_NULL, target = "scoreTeamGuest")
-    void update(BetReq dto, @MappingTarget Bet entity);
-
-    Score toEntity(ScoreReq dto);
+    Score toEntity(ResultReq dto);
 
     Bet toEntity(BetReq dto);
 

@@ -1,5 +1,7 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.common.DateHelper;
+import ch.no1hardy.service.common.ListHelper;
 import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.KnockoutTieException;
 import ch.no1hardy.service.exception.NotFoundException;
@@ -8,8 +10,8 @@ import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.game.BetGameRes;
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.GameReq;
-import ch.no1hardy.service.front.game.ScoreReq;
-import ch.no1hardy.service.mapper.GameMapperImpl;
+import ch.no1hardy.service.front.game.ResultReq;
+import ch.no1hardy.service.mapper.GameMapper;
 import ch.no1hardy.service.mapper.UserHelper;
 import ch.no1hardy.service.model.game.*;
 import ch.no1hardy.service.model.user.User;
@@ -18,10 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -30,7 +29,7 @@ public class GameService {
     private final ScoreRepository scoreRepository;
     private final BetRepository betRepository;
     private final UserService userService;
-    private final GameMapperImpl mapper;
+    private final GameMapper mapper;
     private final UserHelper userHelper;
     private final NotificationService notificationService;
 
@@ -44,33 +43,22 @@ public class GameService {
         return mapper.toDto(game);
     }
 
-    public BetGameRes uploadResult(String id, ScoreReq dto) {
+    public BetGameRes uploadResult(String id, ResultReq dto) {
         Game game = repository.findById(id).orElse(null);
         if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
 
         if (!dto.isValid()) return mapper.toDto(game);
+        dto.clamp();
 
-        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()) && dto.getScoreTeamHome() != null)
+        removeExistingResult(game);
+        if (dto.isNull()) return mapper.toDto(game);
+
+        if (game.getGroup().getIsKnockout() && dto.isTie()) {
             throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
+        }
 
         dto.setGame(id);
-        Score result;
-        Score existingResult = game.getResult();
-        if (existingResult != null) {
-            if (existingResult.equals(dto)) return mapper.toDto(game);
-
-            if (dto.getScoreTeamGuest() == null && dto.getScoreTeamHome() == null) {
-                userService.removeUserPoints(game);
-                game.setResult(null);
-                scoreRepository.delete(existingResult);
-                return mapper.toDto(repository.save(game));
-            }
-            userService.removeUserPoints(game);
-            mapper.update(dto, existingResult);
-            result = existingResult;
-        } else {
-            result = scoreRepository.save(mapper.toEntity(dto));
-        }
+        Score result = scoreRepository.save(mapper.toEntity(dto));
         game.setResult(result);
 
         userService.addUserPoints(game);
@@ -79,13 +67,24 @@ public class GameService {
         return mapper.toDto(repository.save(game));
     }
 
+    private void removeExistingResult(@NotNull Game game) {
+        Score existingResult = game.getResult();
+        if (existingResult != null) {
+            userService.removeUserPoints(game);
+
+            game.setResult(null);
+            scoreRepository.delete(existingResult);
+        }
+    }
+
     /**
      * Uploads a bet for a game.
-     * @param id the ID of the game
+     *
+     * @param id  the ID of the game
      * @param dto the bet request containing the bet details
      * @return the updated game with the new bet
-     * @throws BetPlaceException if the game has already started or is in a knockout group with a tie
-     * @throws NotFoundException if the game with the given ID does not exist
+     * @throws BetPlaceException    if the game has already started or is in a knockout group with a tie
+     * @throws NotFoundException    if the game with the given ID does not exist
      * @throws NotLoggedInException if the user is not logged in
      */
     public BetGameRes uploadBet(@NotNull String id, @NotNull BetReq dto) throws BetPlaceException, NotFoundException, NotLoggedInException {
@@ -93,61 +92,44 @@ public class GameService {
         User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
         if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
 
-        if (game.getTimestamp().isBefore(LocalDateTime.now(ZoneId.of("CET")))) {
+        if (game.getTimestamp().isBefore(DateHelper.getCurrentAbsoluteDate())) {
             throw new BetPlaceException("Game " + id + " has already started", "Dieses Spiel hat bereits begonnen");
         }
 
-        if (game.getGroup().getIsKnockout() && Objects.equals(dto.getScoreTeamGuest(), dto.getScoreTeamHome()) && dto.getScoreTeamHome() != null)
+        if (game.getGroup().getIsKnockout() && dto.isTie()) {
             throw new KnockoutTieException("Game " + id + " is in a knockout group and cannot end in a tie", "Spiel '" + id + "' ist in einer K.O.-Gruppe und kann nicht unentschieden enden");
+        }
 
-        if (game.getTimestamp().isBefore(LocalDateTime.now().atZone(ZoneId.of("CET")).toLocalDateTime())
-                || game.getResult() != null
-                || !dto.isValid())
+        if (DateHelper.isBeforeNow(game.getTimestamp()) || game.getResult() != null || !dto.isValid()) {
             return mapper.toDto(game);
+        }
 
-        dto.clampJoker();
+        dto.clamp();
+        removeExistingBet(game, user);
+        if (dto.isNull()) return mapper.toDto(game);
+
         dto.setGame(id);
         dto.setUser(user.getId());
-        Bet bet;
-        Bet existingBet = userHelper.getUserBet(game.getBets());
-        if (existingBet != null) {
-            if (existingBet.equals(dto)) return mapper.toDto(game);
-
-            if (dto.getScoreTeamGuest() == null && dto.getScoreTeamHome() == null) {
-                betRepository.delete(existingBet);
-                List<Bet> oldBets = game.getBets().stream().filter(b -> !Objects.equals(b.getUser().getId(), user.getId())).toList();
-                List<Bet> bets = new ArrayList<>(oldBets);
-                bets.remove(existingBet);
-                game.setBets(bets);
-
-                List<Bet> oldUserBets = user.getBets().stream().filter(b -> !Objects.equals(b.getGame().getId(), game.getId())).toList();
-                List<Bet> userBets = new ArrayList<>(oldUserBets);
-                userBets.remove(existingBet);
-                user.setBets(userBets);
-
-                return mapper.toDto(repository.save(game));
-            }
-
-            mapper.update(dto, existingBet);
-            bet = existingBet;
-        } else {
-            bet = betRepository.save(mapper.toEntity(dto));
-        }
-        List<Bet> oldBets = game.getBets().stream().filter(b -> !Objects.equals(b.getUser().getId(), bet.getUser().getId())).toList();
-        List<Bet> bets = new ArrayList<>(oldBets);
-        bets.add(bet);
-        game.setBets(bets);
-
-        List<Bet> oldUserBets = user.getBets().stream().filter(b -> !Objects.equals(b.getGame().getId(), bet.getGame().getId())).toList();
-        List<Bet> userBets = new ArrayList<>(oldUserBets);
-        userBets.add(bet);
-        user.setBets(userBets);
+        Bet bet = betRepository.save(mapper.toEntity(dto));
+        game.setBets(ListHelper.add(game.getBets(), bet));
+        user.setBets(ListHelper.add(user.getBets(), bet));
 
         return mapper.toDto(repository.save(game));
     }
 
+    private void removeExistingBet(@NotNull Game game, @NotNull User user) {
+        Bet existingBet = userHelper.getUserBet(game.getBets());
+        if (existingBet != null) {
+            game.setBets(ListHelper.remove(game.getBets(), existingBet));
+            user.setBets(ListHelper.remove(user.getBets(), existingBet));
+
+            betRepository.delete(existingBet);
+        }
+    }
+
     /**
      * Returns a list of upcoming games that are still active and have not yet started.
+     *
      * @return a list of upcoming games
      * @throws NotLoggedInException if the user is not logged in
      */
@@ -164,6 +146,7 @@ public class GameService {
 
     /**
      * Returns the most recent results of games that are still active.
+     *
      * @return a list of the most recent game results
      * @throws NotLoggedInException if the user is not logged in
      */

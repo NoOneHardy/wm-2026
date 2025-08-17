@@ -4,6 +4,7 @@ import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.KnockoutTieException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.front.game.BetReq;
+import ch.no1hardy.service.front.game.ResultReq;
 import ch.no1hardy.service.front.game.ScoreReq;
 import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
@@ -66,12 +67,12 @@ public class GroupService {
         return mapper.toDto(group);
     }
 
-    public GroupRes updateResults(String id, List<ScoreReq> results) {
+    public GroupRes updateResults(String id, List<ResultReq> results) {
         Group group = repository.findById(id).orElse(null);
         if (group == null)
             throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
 
-        for (ScoreReq result : results.stream().filter(ScoreReq::isValid).toList()) {
+        for (ResultReq result : results.stream().filter(ScoreReq::isValid).toList()) {
             if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(result.getGame())) {
                 try {
                     gameService.uploadResult(result.getGame(), result);

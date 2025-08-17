@@ -373,4 +373,11 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.isDisabled).toBeTrue()
   })
+
+  it('should reset form', () => {
+    const spy = spyOn(component.formGroup, 'reset')
+
+    component.reset()
+    expect(spy).toHaveBeenCalled()
+  })
 })

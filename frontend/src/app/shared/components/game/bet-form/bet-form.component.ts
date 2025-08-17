@@ -163,4 +163,8 @@ export class BetFormComponent implements ControlValueAccessor {
     }
     return false
   }
+
+  reset(): void {
+    this.formGroup.reset()
+  }
 }

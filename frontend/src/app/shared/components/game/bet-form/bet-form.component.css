@@ -1,4 +1,5 @@
 form {
+  position: relative;
   display: grid;
   place-items: center;
   grid-template-areas:
@@ -77,6 +78,15 @@ form {
 
     .points {
       max-width: 20rem;
+    }
+
+    .reset-btn {
+      right: var(--wm-spacer-5);
+      top: var(--wm-spacer-5);
+
+      span {
+        font-size: 2em;
+      }
     }
   }
 
@@ -203,6 +213,26 @@ form {
       margin-top: var(--wm-spacer-3);
     }
   }
+
+  .reset-btn {
+    position: absolute;
+    right: var(--wm-spacer-4);
+    top: var(--wm-spacer-4);
+    background-color: transparent;
+    border: none;
+    color: var(--wm-color-secondary-500);
+    cursor: pointer;
+    transition: transform .2s ease;
+
+    &:active {
+      transform: scale(0.9);
+    }
+
+    &:disabled {
+      color: var(--wm-color-neutral-200);
+      cursor: default;
+    }
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -255,6 +285,15 @@ form {
       .result {
         margin-top: var(--wm-spacer-3);
       }
+
+      .reset-btn {
+        right: var(--wm-spacer-4);
+        top: var(--wm-spacer-4);
+
+        span {
+          font-size: 1.75em;
+        }
+      }
     }
 
     > h3 {
@@ -299,6 +338,15 @@ form {
 
     .result {
       margin-top: 0;
+    }
+
+    .reset-btn {
+      right: var(--wm-spacer-4);
+      top: var(--wm-spacer-4);
+
+      span {
+        font-size: 1.75em;
+      }
     }
   }
 }

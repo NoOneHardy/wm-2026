@@ -97,12 +97,11 @@ export class GroupViewComponent {
     if (this.mode() === 'bet') this.store.dispatch(saveBets({
       groupId: group.id,
       bets: bets
-        .filter((bet) => bet.scoreTeamHome !== null || bet.scoreTeamGuest !== null)
         .map((bet) => {
           return {
             ...bet,
-            scoreTeamGuest: bet.scoreTeamGuest ?? 0,
-            scoreTeamHome: bet.scoreTeamHome ?? 0
+            scoreTeamGuest: bet.scoreTeamGuest,
+            scoreTeamHome: bet.scoreTeamHome
           }
         })
     }))

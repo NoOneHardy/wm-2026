@@ -1,6 +1,11 @@
 @if (game(); as game) {
   <form [formGroup]="formGroup" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
         [class.-knockout]="knockout()">
+    @if (!isDisabled) {
+      <button class="reset-btn" (pointerup)="reset()">
+        <span class="material-symbols-rounded">delete</span>
+      </button>
+    }
     <div class="title">
       <h3>{{ game.timestamp | date:'dd.MM.YYYY' }}</h3>
       <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>

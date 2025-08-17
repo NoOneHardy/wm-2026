@@ -159,79 +159,12 @@ describe('GroupViewComponent', () => {
           joker: 1,
           scoreTeamHome: 2,
           scoreTeamGuest: 1
-        }
-      ]
-    }))
-  })
-
-  it('should only save bets with non-null scores', () => {
-    const spy = spyOn(component['store'], 'dispatch')
-
-    mockStore.overrideSelector(selectActiveGroup, {
-      ...mockGroup,
-      games: [
-        {
-          ...mockGroup.games[0],
-          bet: {
-            id: 'bet2',
-            joker: 1,
-            scoreTeamHome: null as unknown as number,
-            scoreTeamGuest: null as unknown as number,
-            gameId: 'game2',
-          }
         },
-        mockGroup.games[1]
-      ]
-    })
-    mockStore.refreshState()
-    fixture.detectChanges()
-
-    component.save()
-
-    expect(spy).toHaveBeenCalledWith(saveBets({
-      groupId: 'group1',
-      bets: [
-        {
-          game: 'game1',
-          joker: 1,
-          scoreTeamHome: 2,
-          scoreTeamGuest: 1
-        }
-      ]
-    }))
-  })
-
-  it('should replace null values with 0', () => {
-    const spy = spyOn(component['store'], 'dispatch')
-
-    mockStore.overrideSelector(selectActiveGroup, {
-      ...mockGroup,
-      games: [
-        {
-          ...mockGroup.games[0],
-          bet: {
-            id: 'bet2',
-            joker: 1,
-            scoreTeamHome: 2,
-            scoreTeamGuest: null as unknown as number,
-            gameId: 'game2',
-          }
-        }
-      ]
-    })
-    mockStore.refreshState()
-    fixture.detectChanges()
-
-    component.save()
-
-    expect(spy).toHaveBeenCalledWith(saveBets({
-      groupId: 'group1',
-      bets: [
         {
           game: 'game2',
           joker: 1,
-          scoreTeamHome: 2,
-          scoreTeamGuest: 0
+          scoreTeamHome: null,
+          scoreTeamGuest: null
         }
       ]
     }))
@@ -347,6 +280,12 @@ describe('GroupViewComponent', () => {
           scoreTeamHome: 2,
           scoreTeamGuest: 1,
           joker: 1
+        },
+        {
+          game: 'game2',
+          joker: 1,
+          scoreTeamHome: null,
+          scoreTeamGuest: null
         }
       ]
     }))

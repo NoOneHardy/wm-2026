@@ -315,12 +315,12 @@ public class UserService {
         boolean correctWinnerGuest = bet.isGuestTeamWinner() && result.isGuestTeamWinner();
         boolean correctTie = bet.isTie() && result.isTie();
 
-        if (correctWinnerHome || correctWinnerGuest || correctTie) points += 50;
+        if (correctWinnerHome || correctWinnerGuest || correctTie) points += 5;
 
-        if (bet.getScoreTeamGuest().equals(result.getScoreTeamGuest())) points += 20;
-        if (bet.getScoreTeamHome().equals(result.getScoreTeamHome())) points += 20;
+        if (bet.getScoreTeamGuest().equals(result.getScoreTeamGuest())) points += 2;
+        if (bet.getScoreTeamHome().equals(result.getScoreTeamHome())) points += 2;
 
-        if (bet.getTotalScore().equals(result.getTotalScore())) points += 10;
+        if (bet.getTotalScore().equals(result.getTotalScore())) points += 1;
 
         return points * bet.getJoker();
     }

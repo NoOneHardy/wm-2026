@@ -114,6 +114,23 @@ public class GroupService {
         return (double) (totalBets * 100) / games;
     }
 
+    public Double getOverallResultPercentage() {
+        long totalResults = listRaw().stream()
+                .map(Group::getGames)
+                .flatMap(List::stream)
+                .filter(Game::isActive)
+                .filter(Game::hasResult)
+                .count();
+        long games = listRaw().stream()
+                .map(Group::getGames)
+                .flatMap(List::stream)
+                .filter(Game::isActive)
+                .count();
+
+        if (games == 0) return 0.0;
+        return (double) (totalResults * 100) / games;
+    }
+
     public List<CardGroupRes> getCardGroups() {
         return listRaw().stream()
                 .filter(group -> !group.getGames().isEmpty())
@@ -124,6 +141,7 @@ public class GroupService {
     public OverviewRes getOverview() {
         return new OverviewRes(
                 this.getOverallPercentage(),
+                this.getOverallResultPercentage(),
                 this.getCardGroups()
         );
     }

@@ -83,33 +83,33 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsHome: 20,
-      correctGoalsGuest: 20,
-      correctGoalsTotal: 10
-    }, 100)
+      correctWinner: 5,
+      correctGoalsHome: 2,
+      correctGoalsGuest: 2,
+      correctGoalsTotal: 1
+    }, 10)
 
     mockGame.bet.scoreTeamGuest = 1
     mockGame.bet.scoreTeamHome = 2
     mockGame.result.scoreTeamGuest = 1
     mockGame.result.scoreTeamHome = 2
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsHome: 20,
-      correctGoalsGuest: 20,
-      correctGoalsTotal: 10
-    }, 100)
+      correctWinner: 5,
+      correctGoalsHome: 2,
+      correctGoalsGuest: 2,
+      correctGoalsTotal: 1
+    }, 10)
 
     mockGame.bet.scoreTeamGuest = 0
     mockGame.bet.scoreTeamHome = 0
     mockGame.result.scoreTeamGuest = 0
     mockGame.result.scoreTeamHome = 0
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsHome: 20,
-      correctGoalsGuest: 20,
-      correctGoalsTotal: 10
-    }, 100)
+      correctWinner: 5,
+      correctGoalsHome: 2,
+      correctGoalsGuest: 2,
+      correctGoalsTotal: 1
+    }, 10)
   })
 
   it('should calculate points for correct winner with correct goals of one team', () => {
@@ -129,18 +129,18 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsHome: 20,
-    }, 70)
+      correctWinner: 5,
+      correctGoalsHome: 2,
+    }, 7)
 
     mockGame.bet.scoreTeamGuest = 2
     mockGame.bet.scoreTeamHome = 1
     mockGame.result.scoreTeamGuest = 2
     mockGame.result.scoreTeamHome = 0
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsGuest: 20,
-    }, 70)
+      correctWinner: 5,
+      correctGoalsGuest: 2,
+    }, 7)
   })
 
   it('should calculate points for tie with incorrect goals', () => {
@@ -160,8 +160,8 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctWinner: 50
-    }, 50)
+      correctWinner: 5
+    }, 5)
   })
 
   it('should calculate points for correct winner with correct total goals', () => {
@@ -181,18 +181,18 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsTotal: 10,
-    }, 60)
+      correctWinner: 5,
+      correctGoalsTotal: 1,
+    }, 6)
 
     mockGame.bet.scoreTeamGuest = 2
     mockGame.bet.scoreTeamHome = 1
     mockGame.result.scoreTeamGuest = 3
     mockGame.result.scoreTeamHome = 0
     checkPoints(mockGame, {
-      correctWinner: 50,
-      correctGoalsTotal: 10
-    }, 60)
+      correctWinner: 5,
+      correctGoalsTotal: 1
+    }, 6)
   })
 
   it('should calculate points for correct winner without any bonus', () => {
@@ -212,8 +212,8 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctWinner: 50
-    }, 50)
+      correctWinner: 5
+    }, 5)
 
     mockGame.bet.scoreTeamGuest = 2
     mockGame.bet.scoreTeamHome = 1
@@ -221,8 +221,8 @@ describe('PointService', () => {
     mockGame.result.scoreTeamHome = 2
 
     checkPoints(mockGame, {
-      correctWinner: 50
-    }, 50)
+      correctWinner: 5
+    }, 5)
   })
 
   it('should calculate points for correct goals of one team', () => {
@@ -242,16 +242,16 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctGoalsGuest: 20
-    }, 20)
+      correctGoalsGuest: 2
+    }, 2)
 
     mockGame.bet.scoreTeamGuest = 2
     mockGame.bet.scoreTeamHome = 1
     mockGame.result.scoreTeamGuest = 0
     mockGame.result.scoreTeamHome = 1
     checkPoints(mockGame, {
-      correctGoalsHome: 20
-    }, 20)
+      correctGoalsHome: 2
+    }, 2)
   })
 
   it('should calculate points for correct total goals', () => {
@@ -271,8 +271,8 @@ describe('PointService', () => {
     }
 
     checkPoints(mockGame, {
-      correctGoalsTotal: 10,
-    }, 10)
+      correctGoalsTotal: 1,
+    }, 1)
 
     mockGame.bet.scoreTeamGuest = 4
     mockGame.bet.scoreTeamHome = 1
@@ -280,8 +280,8 @@ describe('PointService', () => {
     mockGame.result.scoreTeamHome = 3
 
     checkPoints(mockGame, {
-      correctGoalsTotal: 10
-    }, 10)
+      correctGoalsTotal: 1
+    }, 1)
   })
 
   it('should calculate points for no bonus', () => {

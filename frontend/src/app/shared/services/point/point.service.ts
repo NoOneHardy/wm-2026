@@ -18,17 +18,17 @@ export class PointService {
     const correctWinnerTie = this.isTie(game.bet) && this.isTie(game.result)
 
     if (correctWinnerHome || correctWinnerGuest || correctWinnerTie) {
-      detailedPoints.correctWinner = 50
+      detailedPoints.correctWinner = 5
     }
 
     if (game.bet.scoreTeamGuest === game.result.scoreTeamGuest) {
-      detailedPoints.correctGoalsGuest = 20
+      detailedPoints.correctGoalsGuest = 2
     }
     if (game.bet.scoreTeamHome === game.result.scoreTeamHome) {
-      detailedPoints.correctGoalsHome = 20
+      detailedPoints.correctGoalsHome = 2
     }
     if (game.bet.scoreTeamGuest + game.bet.scoreTeamHome === game.result.scoreTeamGuest + game.result.scoreTeamHome) {
-      detailedPoints.correctGoalsTotal = 10
+      detailedPoints.correctGoalsTotal = 1
     }
 
     if (game.bet.joker !== 1) detailedPoints.joker = game.bet.joker

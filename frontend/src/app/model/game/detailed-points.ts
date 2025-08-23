@@ -1,7 +1,7 @@
 export interface DetailedPoints {
-  correctWinner?: 50 | null
-  correctGoalsHome?: 20 | null
-  correctGoalsGuest?: 20 | null
-  correctGoalsTotal?: 10 | null
+  correctWinner?: 5 | null
+  correctGoalsHome?: 2 | null
+  correctGoalsGuest?: 2 | null
+  correctGoalsTotal?: 1 | null
   joker?: 2 | 3 | null
 }

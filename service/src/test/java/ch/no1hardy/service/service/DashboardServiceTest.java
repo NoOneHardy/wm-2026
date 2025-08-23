@@ -7,7 +7,6 @@ import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
-import ch.no1hardy.service.model.group.Group;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -53,66 +52,6 @@ public class DashboardServiceTest {
         assertEquals(0, globalStats.getTotalPoints());
         assertEquals(0, globalStats.getCorrectGames());
         assertEquals(0, globalStats.getJokersWasted());
-    }
-
-    @Test
-    @DisplayName("getOverallPercentage() - should return 0.0 if there are no games")
-    void shouldReturnZeroIfNoGames() {
-        User user = new User();
-        user.setId("user-1");
-        user.setBets(List.of());
-
-        Group group = new Group();
-        group.setGames(List.of());
-        when(groupService.listRaw()).thenReturn(List.of(group));
-
-        assertEquals(0.0, service.getOverallPercentage(user));
-
-        when(groupService.listRaw()).thenReturn(List.of());
-        assertEquals(0.0, service.getOverallPercentage(user));
-    }
-
-    @Test
-    @DisplayName("getOverallPercentage() - should return 0.0 if user has no bets")
-    void shouldReturnZeroIfUserHasNoBets() {
-        User user = new User();
-        user.setId("user-1");
-        user.setBets(List.of());
-
-        Group group = new Group();
-        group.setGames(List.of(
-                new Game(),
-                new Game(),
-                new Game(),
-                new Game()
-        ));
-        when(groupService.listRaw()).thenReturn(List.of(group));
-
-        assertEquals(0.0, service.getOverallPercentage(user));
-    }
-
-    @Test
-    @DisplayName("getOverallPercentage() - should return correct percentage")
-    void shouldReturnCorrectPercentage() {
-        User user = new User();
-        user.setId("user-1");
-        user.setBets(List.of(
-                new Bet(),
-                new Bet(),
-                new Bet()
-        ));
-
-        Group group = new Group();
-        group.setGames(List.of(
-                new Game(),
-                new Game(),
-                new Game(),
-                new Game()
-        ));
-        when(groupService.listRaw()).thenReturn(List.of(group));
-
-        Double percentage = service.getOverallPercentage(user);
-        assertEquals(75.0, percentage);
     }
 
     @Test

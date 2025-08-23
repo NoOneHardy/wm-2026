@@ -8,7 +8,6 @@ import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.front.dashboard.UserSummary;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
-import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import jakarta.validation.constraints.NotNull;
@@ -75,24 +74,10 @@ public class DashboardService {
         List<RankingRes> userLeaderboard = leaderboardService.getUserLeaderboard(user);
         return UserSummary.builder()
                 .points(user.getPoints())
-                .percentage(getOverallPercentage(user))
+                .percentage(groupService.getOverallPercentage(user))
                 .isConfirmed(isConfirmed)
                 .ranking(userLeaderboard.size() == 3 ? userLeaderboard.get(1).getRanking() : null)
                 .build();
-    }
-
-    /**
-     * Calculates the overall percentage of games bet by the user.
-     * @param user the user for whom to calculate the overall percentage
-     * @return the overall percentage of games bet by the user
-     */
-    public Double getOverallPercentage(@NotNull User user) {
-        int totalBets = user.getBets().stream().filter(Bet::isActive).toList().size();
-
-        int games = groupService.listRaw().stream()
-                .mapToInt((group) -> group.getGames().stream().filter(Game::isActive).toList().size()).sum();
-        if (games == 0) return 0.0;
-        return (double) (totalBets * 100) / games;
     }
 
     /**

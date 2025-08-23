@@ -2,9 +2,9 @@ package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ResultReq;
-import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
+import ch.no1hardy.service.front.group.OverviewRes;
 import ch.no1hardy.service.service.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,8 +19,8 @@ public class GroupController {
     private final GroupService service;
 
     @GetMapping()
-    public List<CardGroupRes> getGroups() {
-        return service.getCardGroups();
+    public OverviewRes getGroups() {
+        return service.getOverview();
     }
 
     @GetMapping("/{id}")

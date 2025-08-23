@@ -29,6 +29,8 @@ export interface TournamentState {
   isTournamentSaving: boolean
   dashboard: DashboardData | null
   groups: CardGroup[]
+  percentage: number
+  percentageResult: number
   activeGroup: Group | null
   availableJokers: AvailableJokers | null
   leaderboard: Ranking[]
@@ -39,6 +41,8 @@ export const initialState: TournamentState = {
   isTournamentSaving: false,
   dashboard: null,
   groups: [],
+  percentage: 0,
+  percentageResult: 0,
   activeGroup: null,
   availableJokers: null,
   leaderboard: []
@@ -95,7 +99,9 @@ export const tournamentFeature = createFeature({
       return {
         ...state,
         isTournamentLoading: false,
-        groups: action.groups,
+        groups: action.overview.groups,
+        percentage: action.overview.percentage,
+        percentageResult: action.overview.percentageResult,
         activeGroup: null
       }
     }),
@@ -171,6 +177,8 @@ export const tournamentFeature = createFeature({
 export const {
   selectIsTournamentLoading,
   selectGroups,
+  selectPercentage,
+  selectPercentageResult,
   selectActiveGroup,
   selectIsTournamentSaving,
   selectAvailableJokers,

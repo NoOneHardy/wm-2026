@@ -37,8 +37,8 @@ export class TournamentEffects {
   getOverviewGroups = createEffect(() => this.actions$.pipe(
     ofType(getOverviewGroups),
     exhaustMap(() => {
-      return this.groupService.getGroups().pipe(map(groups => {
-        return overviewGroupsLoaded({groups})
+      return this.groupService.getGroups().pipe(map(res => {
+        return overviewGroupsLoaded({overview: res})
       }))
     })
   ))

@@ -2,7 +2,12 @@ import {Component, computed, effect, inject, input, OnInit} from '@angular/core'
 import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
-import {selectGroups, selectIsTournamentLoading} from '../../store/tournament.feature'
+import {
+  selectGroups,
+  selectIsTournamentLoading,
+  selectPercentage,
+  selectPercentageResult
+} from '../../store/tournament.feature'
 import {getOverviewGroups, loadGroup} from '../../store/tournament.actions'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {Mode} from '../../../model/mode'
@@ -27,24 +32,17 @@ export class OverviewComponent implements OnInit {
   private router = inject(Router)
   private activatedRoute = inject(ActivatedRoute)
 
-  groups = this.store.selectSignal(selectGroups)
-  isLoading = this.store.selectSignal(selectIsTournamentLoading)
-
   mode = input<Mode>('bet', {alias: 'mode'})
+
+  groups = this.store.selectSignal(selectGroups)
   totalPercentage = computed(() => {
-    const groups = this.groups()
+    if (this.mode() === 'admin') return this.store.selectSignal(selectPercentageResult)()
 
-    const total = groups.length
-    if (total === 0) return 0
-
-    if (this.mode() == 'bet') {
-      const totalBets = groups.reduce((acc, group) => acc + group.percentage, 0)
-      return totalBets / total
-    } else {
-      const totalResults = groups.reduce((acc, group) => acc + group.percentageResult, 0)
-      return totalResults / total
-    }
+    return this.store.selectSignal(selectPercentage)()
   })
+
+
+  isLoading = this.store.selectSignal(selectIsTournamentLoading)
 
   constructor() {
     effect(() => {

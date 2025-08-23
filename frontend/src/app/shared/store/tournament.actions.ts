@@ -1,14 +1,14 @@
 import {createAction, props} from '@ngrx/store'
-import {CardGroup} from '../../model/group/card-group'
 import {Group} from '../../model/group/group'
 import {BetForm} from '../../model/game/bet-form'
 import {ScoreForm} from '../../model/game/score-form'
 import {Ranking} from '../../model/leaderboard/ranking'
 import {DashboardData} from '../../model/dashboard/dashboard-data'
+import {Overview} from '../../model/group/overview'
 
 export const getOverviewGroups = createAction('[Tournament] Get Overview Groups')
 export const overviewGroupsLoaded = createAction('[Tournament] Overview Groups Loaded', props<{
-  groups: CardGroup[]
+  overview: Overview
 }>())
 export const loadGroup = createAction('[Tournament] Select Group', props<{ groupId: string }>())
 export const groupLoaded = createAction('[Tournament] Group Selected', props<{ group: Group }>())

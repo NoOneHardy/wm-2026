@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core'
-import {CardGroup} from '../../../model/group/card-group'
 import {Observable} from 'rxjs'
 import {Group} from '../../../model/group/group'
 import {BetForm} from '../../../model/game/bet-form'
 import {ScoreForm} from '../../../model/game/score-form'
 import {BaseHttpService} from '../base-http/base-http.service'
+import {Overview} from '../../../model/group/overview'
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupService extends BaseHttpService {
-  public getGroups(): Observable<CardGroup[]> {
-    return this.get<CardGroup[]>('/api/group')
+  public getGroups(): Observable<Overview> {
+    return this.get<Overview>('/api/group')
   }
 
   public getGroup(groupId: string): Observable<Group> {

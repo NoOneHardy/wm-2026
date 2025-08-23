@@ -2,10 +2,13 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.mapper.GroupMapperImpl;
+import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.group.Group;
 import ch.no1hardy.service.model.group.GroupRepository;
+import ch.no1hardy.service.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,4 +77,65 @@ public class GroupServiceTest {
         assertEquals(1, service.getCardGroups().size());
         assertEquals(CardGroupRes.class, service.getCardGroups().getFirst().getClass());
     }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return 0.0 if there are no games")
+    void shouldReturnZeroIfNoGames() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of());
+
+        Group group = new Group();
+        group.setGames(List.of());
+        when(repository.findAll()).thenReturn(List.of(group));
+
+        assertEquals(0.0, service.getOverallPercentage(user));
+
+        when(repository.findAll()).thenReturn(List.of());
+        assertEquals(0.0, service.getOverallPercentage(user));
+    }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return 0.0 if user has no bets")
+    void shouldReturnZeroIfUserHasNoBets() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of());
+
+        Group group = new Group();
+        group.setGames(List.of(
+                new Game(),
+                new Game(),
+                new Game(),
+                new Game()
+        ));
+        when(repository.findAll()).thenReturn(List.of(group));
+
+        assertEquals(0.0, service.getOverallPercentage(user));
+    }
+
+    @Test
+    @DisplayName("getOverallPercentage() - should return correct percentage")
+    void shouldReturnCorrectPercentage() {
+        User user = new User();
+        user.setId("user-1");
+        user.setBets(List.of(
+                new Bet(),
+                new Bet(),
+                new Bet()
+        ));
+
+        Group group = new Group();
+        group.setGames(List.of(
+                new Game(),
+                new Game(),
+                new Game(),
+                new Game()
+        ));
+        when(repository.findAll()).thenReturn(List.of(group));
+
+        Double percentage = service.getOverallPercentage(user);
+        assertEquals(75.0, percentage);
+    }
+
 }

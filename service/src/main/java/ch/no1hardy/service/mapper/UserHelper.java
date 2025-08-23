@@ -67,7 +67,7 @@ public class UserHelper {
     @Named("getPercentage")
     public Double getPercentage(List<Game> games) {
         double betCount = games.stream()
-                .filter(g -> getUserBet(g.getBets()) != null || !g.isInFuture())
+                .filter(g -> getUserBet(g.getBets()) != null)
                 .toList().size();
         double gameCount = games.size();
         return gameCount == 0 ? 0.0 : betCount / gameCount * 100;

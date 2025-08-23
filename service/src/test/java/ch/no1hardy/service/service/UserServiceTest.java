@@ -178,7 +178,7 @@ public class UserServiceTest {
         score.setScoreTeamGuest(2);
         score.setScoreTeamHome(1);
 
-        checkPoints(bet, score, 100);
+        checkPoints(bet, score, 10);
 
         bet.setScoreTeamGuest(1);
         bet.setScoreTeamHome(2);
@@ -186,13 +186,13 @@ public class UserServiceTest {
         score.setScoreTeamGuest(1);
         score.setScoreTeamHome(2);
 
-        checkPoints(bet, score, 100);
+        checkPoints(bet, score, 10);
 
         bet.setScoreTeamGuest(0);
         bet.setScoreTeamHome(0);
         score.setScoreTeamGuest(0);
         score.setScoreTeamHome(0);
-        checkPoints(bet, score, 100);
+        checkPoints(bet, score, 10);
     }
 
     @Test
@@ -205,7 +205,7 @@ public class UserServiceTest {
         score.setScoreTeamGuest(0);
         score.setScoreTeamHome(2);
 
-        checkPoints(bet, score, 70);
+        checkPoints(bet, score, 7);
 
 
         bet.setScoreTeamGuest(2);
@@ -213,7 +213,7 @@ public class UserServiceTest {
         score.setScoreTeamGuest(3);
         score.setScoreTeamHome(1);
 
-        checkPoints(bet, score, 70);
+        checkPoints(bet, score, 7);
     }
 
     @Test
@@ -226,7 +226,7 @@ public class UserServiceTest {
         score.setScoreTeamGuest(1);
         score.setScoreTeamHome(1);
 
-        checkPoints(bet, score, 50);
+        checkPoints(bet, score, 5);
     }
 
     @Test
@@ -239,14 +239,14 @@ public class UserServiceTest {
         score.setScoreTeamGuest(0);
         score.setScoreTeamHome(3);
 
-        checkPoints(bet, score, 60);
+        checkPoints(bet, score, 6);
 
         bet.setScoreTeamGuest(2);
         bet.setScoreTeamHome(1);
         score.setScoreTeamGuest(3);
         score.setScoreTeamHome(0);
 
-        checkPoints(bet, score, 60);
+        checkPoints(bet, score, 6);
     }
 
     @Test
@@ -259,14 +259,14 @@ public class UserServiceTest {
         score.setScoreTeamGuest(0);
         score.setScoreTeamHome(4);
 
-        checkPoints(bet, score, 50);
+        checkPoints(bet, score, 5);
 
         bet.setScoreTeamGuest(2);
         bet.setScoreTeamHome(1);
         score.setScoreTeamGuest(4);
         score.setScoreTeamHome(2);
 
-        checkPoints(bet, score, 50);
+        checkPoints(bet, score, 5);
     }
 
     @Test
@@ -279,14 +279,14 @@ public class UserServiceTest {
         score.setScoreTeamGuest(1);
         score.setScoreTeamHome(0);
 
-        checkPoints(bet, score, 20);
+        checkPoints(bet, score, 2);
 
         bet.setScoreTeamGuest(2);
         bet.setScoreTeamHome(1);
         score.setScoreTeamGuest(0);
         score.setScoreTeamHome(1);
 
-        checkPoints(bet, score, 20);
+        checkPoints(bet, score, 2);
     }
 
     @Test
@@ -299,14 +299,14 @@ public class UserServiceTest {
         score.setScoreTeamGuest(3);
         score.setScoreTeamHome(0);
 
-        checkPoints(bet, score, 10);
+        checkPoints(bet, score, 1);
 
         bet.setScoreTeamGuest(4);
         bet.setScoreTeamHome(1);
         score.setScoreTeamGuest(2);
         score.setScoreTeamHome(3);
 
-        checkPoints(bet, score, 10);
+        checkPoints(bet, score, 1);
     }
 
     @Test

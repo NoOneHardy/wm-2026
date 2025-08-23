@@ -99,10 +99,6 @@ export class UserEffects {
         return userInfoFetched({user})
         }),
         catchError(() => {
-          this.snackbarService.addMessage({
-            message: 'Session abgelaufen, bitte erneut anmelden',
-            type: 'error'
-          })
           return of(loggedOut({showMessage: false}))
         })
       )

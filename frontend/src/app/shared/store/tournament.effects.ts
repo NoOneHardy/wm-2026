@@ -10,16 +10,15 @@ import {
   groupLoaded,
   leaderboardLoaded,
   loadDashboardData,
+  loadGroup,
   overviewGroupsLoaded,
   resetSaving,
   resultsSaved,
   saveBets,
-  saveResults,
-  loadGroup
+  saveResults
 } from './tournament.actions'
 import {SnackbarService} from '../services/snackbar/snackbar.service'
 import {LeaderboardService} from '../services/leaderboard/leaderboard.service'
-import {ServiceError} from '../../model/error'
 import {DashboardService} from '../../dashboard/dashboard.service'
 import {Router} from '@angular/router'
 
@@ -60,11 +59,7 @@ export class TournamentEffects {
         map(group => {
           return betsSaved({group})
         }),
-        catchError((err: ServiceError) => {
-          this.snackbarService.addMessage({
-            type: 'error',
-            message: err.error.displayMessage
-          })
+        catchError(() => {
           return of(resetSaving())
         })
       )
@@ -90,10 +85,6 @@ export class TournamentEffects {
           return resultsSaved({group})
         }),
         catchError(() => {
-          this.snackbarService.addMessage({
-            type: 'error',
-            message: 'Fehler beim Speichern'
-          })
           return of(resetSaving())
         })
       )

@@ -20,13 +20,10 @@ export interface ApiErrorResponseMock {
 
 function mapErrorMockToServiceError(error?: ApiErrorResponseMock): ServiceError {
   return {
-    error: {
-      status: error?.status ?? 500,
-      message: error?.message ?? 'Internal Server Error',
-      displayMessage: error?.displayMessage ?? 'Ein Fehler ist aufgetreten.',
-      timestamp: new Date('2025-08-08T10:57:00')
-    },
-    status: error?.status ?? 500
+    status: error?.status ?? 500,
+    message: error?.message ?? 'Internal Server Error',
+    displayMessage: error?.displayMessage ?? 'Ein Fehler ist aufgetreten.',
+    timestamp: new Date('2025-08-08T10:57:00')
   }
 }
 
@@ -35,6 +32,6 @@ export function flushApiErrorResponse(req: TestRequest, error?: ApiErrorResponse
 
   req.flush(response, {
     status: response.status,
-    statusText: response.error.message
+    statusText: response.message
   })
 }

@@ -70,7 +70,7 @@ describe('AdminService', () => {
     const userId = 'user-1'
     service.confirmUser(userId).subscribe({
       error: (err: ServiceError) => {
-        expect(err.error.message).toEqual('Not authorized to access this method')
+        expect(err.message).toEqual('Not authorized to access this method')
         expect(err.status).toEqual(403)
       }
     })
@@ -99,7 +99,7 @@ describe('AdminService', () => {
     const userId = 'user-1'
     service.denyUser(userId).subscribe({
       error: (err: ServiceError): void => {
-        expect(err.error.message).toEqual('Not authorized to access this method')
+        expect(err.message).toEqual('Not authorized to access this method')
         expect(err.status).toEqual(403)
       }
     })

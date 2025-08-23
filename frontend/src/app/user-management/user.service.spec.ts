@@ -47,7 +47,7 @@ describe('UserService', () => {
 
     service.checkUsername(username).subscribe({
       error: (err: ServiceError) => {
-        expect(err.error.message).toBe('Internal Server Error')
+        expect(err.message).toBe('Internal Server Error')
         expect(err.status).toBe(500)
       }
     })
@@ -77,7 +77,7 @@ describe('UserService', () => {
 
     service.checkEmail(email).subscribe({
       error: (err: ServiceError) => {
-        expect(err.error.message).toBe('Internal Server Error')
+        expect(err.message).toBe('Internal Server Error')
         expect(err.status).toBe(500)
       }
     })
@@ -102,8 +102,8 @@ describe('UserService', () => {
     const notificationId = 'notification-1'
     service.markNotificationAsRead(notificationId).subscribe({
       error: (err: ServiceError) => {
-        expect(err.error.status).toBe(500)
-        expect(err.error.message).toEqual('Internal Server Error')
+        expect(err.status).toBe(500)
+        expect(err.message).toEqual('Internal Server Error')
       }
     })
 

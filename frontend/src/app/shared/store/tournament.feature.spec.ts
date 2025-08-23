@@ -104,7 +104,13 @@ describe('TournamentFeature', () => {
     let state = initialState
     state = store.reducer(state, groupLoaded({group: mockGroup}))
     expect(state.activeGroup).toBeTruthy()
-    state = store.reducer(state, overviewGroupsLoaded({groups: []}))
+    state = store.reducer(state, overviewGroupsLoaded({
+      overview: {
+        groups: [],
+        percentage: 0,
+        percentageResult: 0
+      }
+    }))
     expect(state.activeGroup).toBeNull()
   })
 

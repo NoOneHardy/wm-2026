@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {OverviewComponent} from './overview.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
-import {selectGroups} from '../../store/tournament.feature'
+import {selectGroups, selectPercentage, selectPercentageResult} from '../../store/tournament.feature'
 import {CardGroup} from '../../../model/group/card-group'
 import {provideRouter} from '@angular/router'
 
@@ -50,6 +50,8 @@ describe('OverviewComponent', () => {
     },
   ]) => {
     mockStore.overrideSelector(selectGroups, groups)
+    mockStore.overrideSelector(selectPercentageResult, 33.25)
+    mockStore.overrideSelector(selectPercentage, 32.5)
     mockStore.refreshState()
     fixture.detectChanges()
   }
@@ -76,6 +78,8 @@ describe('OverviewComponent', () => {
   })
 
   it('should default totalPercentage to 0', () => {
+    mockStore.overrideSelector(selectPercentage, 0)
+    mockStore.refreshState()
     const totalPercentage = component.totalPercentage()
     expect(totalPercentage).toBe(0)
   })
@@ -85,9 +89,9 @@ describe('OverviewComponent', () => {
     expect(component.totalPercentage()).toBe(32.5)
   })
 
-  it('should return percentage of results for result mode', () => {
+  it('should return percentage of results for admin mode', () => {
     loadMockGroups()
-    fixture.componentRef.setInput('mode', 'result')
+    fixture.componentRef.setInput('mode', 'admin')
 
     expect(component.totalPercentage()).toBe(33.25)
   })

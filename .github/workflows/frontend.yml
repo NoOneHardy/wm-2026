@@ -42,4 +42,4 @@ jobs:
           sparse-checkout: |
             frontend
       - name: Build docker image
-        run: docker build -t docker.no1hardy.ch/wm-2026-frontend:${{ env.TAG }} -f frontend/Dockerfile ./frontend
+        run: docker build -t docker.no1hardy.ch/wm-2026-frontend:dummy -f frontend/Dockerfile ./frontend

@@ -1,0 +1,26 @@
+name: Publish Frontend
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            frontend
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+      - name: Set tag for docker image
+        run: echo "TAG=$( echo '${{ github.sha }}' | cut -c 1-7 )-${{ env.NOW }}" >> $GITHUB_ENV
+      - name: Build docker image
+        run: docker build -t docker.no1hardy.ch/wm-2026-frontend:${{ env.TAG }} -f frontend/Dockerfile ./frontend
+      - name: Tag docker image
+        run: docker tag docker.no1hardy.ch/wm-2026-frontend:${{ env.TAG }} docker.no1hardy.ch/wm-2026-frontend:latest
+      - name: Push docker image
+        run: docker push docker.no1hardy.ch/wm-2026-frontend:${{ env.TAG }}
+      - name: Push latest docker image
+        run: docker push docker.no1hardy.ch/wm-2026-frontend:latest

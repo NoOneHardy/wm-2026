@@ -6,4 +6,5 @@ import lombok.Data;
 public class TeamReq {
     private String name;
     private String flag;
+    private String shortName;
 }

@@ -34,6 +34,7 @@ public class TeamServiceTest {
         mockTeam.setFlag("flag-1");
         mockTeam.setName("Team 1");
         mockTeam.setId("team-1");
+        mockTeam.setShortName("T1");
         mockTeam.setGamesHome(List.of());
         mockTeam.setGamesGuest(List.of());
 
@@ -45,10 +46,12 @@ public class TeamServiceTest {
         TeamReq req = new TeamReq();
         req.setFlag("flag-1");
         req.setName("Team 1");
+        req.setShortName("T1");
 
         TeamRes res = teamService.create(req);
         assertEquals("flag-1", res.getFlag());
         assertEquals("Team 1", res.getName());
+        assertEquals("T1", res.getShortName());
         assertEquals("team-1", res.getId());
     }
 

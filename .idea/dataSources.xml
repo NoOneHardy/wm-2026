@@ -20,5 +20,12 @@
       <jdbc-url>jdbc:mysql://wm-dev.no1hardy.ch:26006</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="Tippspiel" uuid="ffccba94-4c5c-4acc-957d-2276836d8336">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://tippspiel.no1hardy.ch:26106</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>

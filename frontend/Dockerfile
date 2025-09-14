@@ -1,11 +1,36 @@
-FROM node:20 AS build
+FROM node:22 AS setup
 
-COPY frontend/src /app/src
-COPY frontend/package.json /app/package.json
-COPY frontend/package-lock.json /app/package-lock.json
-COPY frontend/angular.json /app/angular.json
-COPY frontend/tsconfig.json /app/tsconfig.json
-COPY frontend/tsconfig.app.json /app/tsconfig.app.json
+RUN apt-get update
+RUN apt-get install -y  \
+    libappindicator1  \
+    fonts-liberation \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libatspi2.0-0 \
+    libgbm1 \
+    libgtk-3-0 \
+    libgtk-4-1 \
+    libnspr4 \
+    libnss3 \
+    libvulkan1 \
+    libxkbcommon0 \
+    xdg-utils
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt --fix-broken install -y
+RUN dpkg -i google-chrome-stable_current_amd64.deb
+RUN google-chrome-stable --version
+
+WORKDIR /app
+
+COPY ./frontend ./
+
+RUN npm install
+
+USER node
+
+FROM node:22 AS build
+
+COPY --from=setup /app /app
 
 WORKDIR /app
 

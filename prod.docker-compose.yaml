@@ -1,0 +1,38 @@
+name: wm-2026
+services:
+  data:
+    container_name: wm-2026-mysql
+    hostname: wm-2026-mysql
+    image: mysql:8.3.0
+    ports:
+      - '26006:3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./data/scripts:/docker-entrypoint-initdb.d
+    env_file:
+      - ./data/.env
+    environment:
+      MYSQL_DATABASE: wm
+    restart: unless-stopped
+  proxy:
+    container_name: wm-2026-proxy
+    hostname: wm-2026-proxy
+    image: nginx
+    volumes:
+      - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
+    environment:
+      FRONTEND_HOST: 'http://host.docker.internal:4200'
+      BACKEND_HOST: 'http://host.docker.internal:26010'
+    ports:
+      - '26000:80'
+    restart: unless-stopped
+  cdn:
+    container_name: wm-2026-cdn
+    hostname: wm-2026-cdn
+    image: nginx
+    volumes:
+      - './storage:/usr/share/nginx/html:ro'
+    restart: unless-stopped
+volumes:
+  mysql_data:
+    name: wm-2026-mysql-data

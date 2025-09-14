@@ -1,0 +1,9 @@
+name: 'wm_dev'
+services:
+  cdn:
+    container_name: 'wm_dev_cdn'
+    hostname: 'wm_dev_cdn'
+    image: nginx
+    volumes:
+      - './storage:/usr/share/nginx/html:ro'
+    restart: unless-stopped

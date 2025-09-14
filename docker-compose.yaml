@@ -26,6 +26,13 @@ services:
     ports:
       - '26000:80'
     restart: unless-stopped
+  cdn:
+    container_name: wm-2026-cdn
+    hostname: wm-2026-cdn
+    image: nginx
+    volumes:
+      - './storage:/usr/share/nginx/html:ro'
+    restart: unless-stopped
 volumes:
   mysql_data:
     name: wm-2026-mysql-data

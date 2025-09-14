@@ -128,7 +128,7 @@ public class NotificationService {
         String content = String.format(
                 "Am %s spielt %s gegen %s. Gib jetzt deinen Tipp ab.",
                 game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")),
-                game.getGroup().getName(),
+                game.getTeamGuest().getName(),
                 game.getTeamHome().getName()
         );
 

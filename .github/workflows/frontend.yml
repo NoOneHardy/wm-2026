@@ -32,7 +32,6 @@ jobs:
       - name: Testing
         run: ./gradlew :frontend:test
   build:
-    if: github.ref_name != 'develop'
     needs: [ lint, test ]
     runs-on: ubuntu-latest
     steps:
@@ -40,6 +39,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
+            .github
             frontend
-      - name: Build docker image
-        run: docker build -t docker.no1hardy.ch/wm-2026-frontend:dummy -f frontend/Dockerfile ./frontend
+      - name: 'Build and store docker image'
+        uses: ./.github/actions/build-and-store-docker-image
+        with:
+          project: 'frontend'

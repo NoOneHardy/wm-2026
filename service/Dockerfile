@@ -1,8 +1,10 @@
 FROM gradle:8.12-jdk23-alpine AS build
 
-COPY . /app
+COPY service /app
 
 WORKDIR /app
+
+RUN chmod 755 ./gradlew
 
 RUN ./gradlew build
 

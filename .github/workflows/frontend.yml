@@ -48,7 +48,7 @@ jobs:
   publish:
     needs: [ build ]
     runs-on: ubuntu-latest
-    # if: github.ref_name == 'develop'
+    if: github.ref_name == 'develop'
     steps:
       - name: 'Checkout'
         uses: actions/checkout@v4
@@ -56,6 +56,12 @@ jobs:
           sparse-checkout: |
             .github
             frontend
+      - name: 'Download docker image artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: 'wm-2026-frontend-${{ github.sha }}'
+      - name: 'Load docker image'
+        run: gunzip -c image.tar.gz | docker load
       - name: 'Publish docker image'
         uses: ./.github/actions/publish-docker-image
         with:

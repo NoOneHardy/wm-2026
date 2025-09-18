@@ -4,6 +4,7 @@ description: 'Publishes the docker image to https://docker.no1hardy.ch'
 inputs:
   project:
     description: 'The project of the image that is published'
+    required: true
 runs:
   using: composite
   steps:

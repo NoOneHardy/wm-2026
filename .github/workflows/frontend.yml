@@ -41,7 +41,22 @@ jobs:
           sparse-checkout: |
             .github
             frontend
-      - name: 'Build and store docker image'
-        uses: ./.github/actions/build-and-store-docker-image
+      - name: 'Build docker image'
+        uses: ./.github/actions/build-docker-image
+        with:
+          project: 'frontend'
+  publish:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    # if: github.ref_name == 'develop'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            frontend
+      - name: 'Publish docker image'
+        uses: ./.github/actions/publish-docker-image
         with:
           project: 'frontend'

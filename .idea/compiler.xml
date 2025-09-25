@@ -12,7 +12,7 @@
         <module name="wm-2026.service.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="23">
+    <bytecodeTargetLevel target="21">
       <module name="backend" target="23" />
       <module name="backend.main" target="23" />
       <module name="backend.test" target="23" />

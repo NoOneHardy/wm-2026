@@ -1,4 +1,4 @@
-FROM gradle:8.12-jdk23-alpine AS build
+FROM gradle:8.12-jdk21-alpine AS build
 
 COPY service /app
 
@@ -8,7 +8,7 @@ RUN chmod 755 ./gradlew
 
 RUN ./gradlew build
 
-FROM openjdk:23-jdk-slim AS final
+FROM openjdk:21-jdk-slim AS final
 
 COPY --from=build /app/build/libs/*.jar /app/app.jar
 

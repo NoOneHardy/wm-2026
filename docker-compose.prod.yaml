@@ -1,5 +1,11 @@
 name: wm-2026
 services:
+  frontend:
+    container_name: wm-2026-frontend
+    hostname: wm-2026-frontend
+    image: docker.no1hardy.ch/wm-2026-frontend:latest
+    pull_policy: always
+    restart: unless-stopped
   data:
     container_name: wm-2026-mysql
     hostname: wm-2026-mysql

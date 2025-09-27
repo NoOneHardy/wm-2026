@@ -1,10 +1,17 @@
-FROM gradle:8.12-jdk21-alpine AS build
-
-COPY service /app
+FROM gradle:9.1.0-jdk21-alpine AS setup
 
 WORKDIR /app
 
+COPY ./service ./
+
 RUN chmod 755 ./gradlew
+RUN ./gradlew
+
+FROM gradle:9.1.0-jdk21-alpine AS build
+
+COPY --from=setup /app /app
+
+WORKDIR /app
 
 RUN ./gradlew build
 

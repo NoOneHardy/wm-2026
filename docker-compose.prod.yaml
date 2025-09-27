@@ -7,14 +7,13 @@ services:
     pull_policy: always
     restart: unless-stopped
   data:
-    container_name: wm-2026-mysql
+    container_name: 'wm_mysql'
     hostname: wm-2026-mysql
     image: mysql:8.3.0
     ports:
-      - '26006:3306'
+      - '26096:3306'
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./data/scripts:/docker-entrypoint-initdb.d
     env_file:
       - ./data/.env
     environment:

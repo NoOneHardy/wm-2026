@@ -37,6 +37,20 @@ services:
       MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_DATABASE: wm
     restart: unless-stopped
+  service:
+    container_name: 'wm-dev-service'
+    hostname: 'wm-dev-service'
+    build:
+      dockerfile: './service/Dockerfile'
+      context: .
+      target: setup
+    volumes:
+      - './service:/app'
+    ports:
+      - '26001:26001'
+    restart: unless-stopped
+    working_dir: '/app'
+    entrypoint: ['gradle', ':bootRun']
 volumes:
   nm-frontend:
     name: 'wm-dev-frontend-node-modules'

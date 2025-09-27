@@ -39,6 +39,6 @@ services:
     restart: unless-stopped
 volumes:
   nm-frontend:
-    name: wm-dev-frontend-node-modules
+    name: 'wm-dev-frontend-node-modules'
   mysql-data:
-    name: wm-dev-mysql-data
+    name: 'wm-dev-mysql-data'

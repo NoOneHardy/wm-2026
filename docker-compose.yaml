@@ -23,6 +23,22 @@ services:
     restart: unless-stopped
     working_dir: '/app'
     entrypoint: ['npm', 'run', 'start']
+  mysql:
+    container_name: 'wm_dev_mysql'
+    hostname: 'wm_dev_mysql'
+    image: mysql:8.3.0
+    ports:
+      - '26006:3306'
+    volumes:
+      - 'mysql_data:/var/lib/mysql'
+    env_file:
+      - './data/.env'
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_DATABASE: wm
+    restart: unless-stopped
 volumes:
   nm_frontend:
     name: wm_dev_frontend_node_modules
+  mysql_data:
+    name: wm_dev_mysql_data

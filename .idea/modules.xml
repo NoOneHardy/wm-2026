@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/wm-2026.iml" filepath="$PROJECT_DIR$/.idea/modules/wm-2026.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/frontend/wm-2026.frontend.iml" filepath="$PROJECT_DIR$/.idea/modules/frontend/wm-2026.frontend.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/wm-2026.service.main.iml" filepath="$PROJECT_DIR$/.idea/modules/service/wm-2026.service.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/wm-2026.service.test.iml" filepath="$PROJECT_DIR$/.idea/modules/service/wm-2026.service.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/service/wm-2026.service.iml" filepath="$PROJECT_DIR$/.idea/modules/service/wm-2026.service.iml" />
     </modules>
   </component>
 </project>

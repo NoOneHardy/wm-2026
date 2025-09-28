@@ -22,7 +22,7 @@ services:
       - '9876:9876'
     restart: unless-stopped
     working_dir: '/app'
-    entrypoint: ['npm', 'run', 'start']
+    entrypoint: [ 'npm', 'run', 'start' ]
   mysql:
     container_name: 'wm-dev-mysql'
     hostname: 'wm-dev-mysql'
@@ -52,7 +52,20 @@ services:
       - './service/.env'
     restart: unless-stopped
     working_dir: '/app'
-    entrypoint: ['gradle', ':bootRun']
+    entrypoint: [ 'gradle', ':bootRun' ]
+  proxy:
+    container_name: 'wm-dev-proxy'
+    hostname: 'wm-dev-proxy'
+    build:
+      dockerfile: './proxy/Dockerfile'
+      context: .
+    ports:
+      - '26000:80'
+    volumes:
+      - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
+    env_file:
+      - './proxy/.env'
+    restart: unless-stopped
 volumes:
   nm-frontend:
     name: 'wm-dev-frontend-node-modules'

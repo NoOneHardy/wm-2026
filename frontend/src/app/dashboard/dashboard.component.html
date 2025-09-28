@@ -4,10 +4,12 @@
   </div>
   <div class="summary">
     @if (dashboardData()?.userSummary; as summary) {
-      <div class="summary-item">
-        <h2 class="gradient-text">{{ summary.ranking }}.</h2>
-        <span>Rang</span>
-      </div>
+      @if (summary.ranking; as ranking) {
+        <div class="summary-item">
+          <h2 class="gradient-text">{{ ranking }}.</h2>
+          <span>Rang</span>
+        </div>
+      }
       <div class="summary-item">
         <h2 class="gradient-text">{{ summary.points }}</h2>
         <span>Punkte</span>

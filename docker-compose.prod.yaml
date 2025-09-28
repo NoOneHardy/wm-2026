@@ -22,14 +22,12 @@ services:
   proxy:
     container_name: 'wm-proxy'
     hostname: 'wm-proxy'
-    image: nginx
-    volumes:
-      - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
-    environment:
-      FRONTEND_HOST: 'http://host.docker.internal:4200'
-      BACKEND_HOST: 'http://host.docker.internal:26010'
+    image: docker.no1hardy.ch/wm-2026-proxy:latest
+    pull_policy: always
     ports:
       - '26000:80'
+    env_file:
+      - './proxy/.env'
     restart: unless-stopped
   cdn:
     container_name: 'wm-cdn'

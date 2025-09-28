@@ -38,6 +38,14 @@ services:
     volumes:
       - './storage:/usr/share/nginx/html:ro'
     restart: unless-stopped
+  service:
+    container_name: 'wm-service'
+    hostname: 'wm-service'
+    image: docker.no1hardy.ch/wm-2026-service:latest
+    pull_policy: always
+    env_file:
+      - ./service/.env
+    restart: unless-stopped
 volumes:
   mysql-data:
     name: 'wm-mysql-data'

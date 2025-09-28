@@ -44,10 +44,12 @@ services:
       dockerfile: './service/Dockerfile'
       context: .
       target: setup
-    volumes:
-      - './service:/app'
     ports:
       - '26001:26001'
+    volumes:
+      - './service:/app'
+    env_file:
+      - './service/.env'
     restart: unless-stopped
     working_dir: '/app'
     entrypoint: ['gradle', ':bootRun']

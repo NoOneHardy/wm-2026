@@ -6,7 +6,7 @@ services:
     image: docker.no1hardy.ch/wm-2026-frontend:latest
     pull_policy: always
     restart: unless-stopped
-  data:
+  mysql:
     container_name: 'wm-mysql'
     hostname: 'wm-mysql'
     image: mysql:8.3.0
@@ -15,7 +15,7 @@ services:
     volumes:
       - 'mysql-data:/var/lib/mysql'
     env_file:
-      - ./data/.env
+      - mysql/.env
     environment:
       MYSQL_DATABASE: wm
     restart: unless-stopped

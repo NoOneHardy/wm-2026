@@ -32,7 +32,7 @@ services:
     volumes:
       - 'mysql-data:/var/lib/mysql'
     env_file:
-      - './data/.env'
+      - 'mysql/.env'
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true
       MYSQL_DATABASE: wm

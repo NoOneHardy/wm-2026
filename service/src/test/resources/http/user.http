@@ -1,0 +1,11 @@
+POST http://localhost:26000/api/login
+Content-Type: application/json
+
+{
+  "username": "No1Hardy",
+  "password": ""
+}
+###
+
+GET http://localhost:26000/api/user
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJObzFIYXJkeSIsImlhdCI6MTc2MDM5MzE3NSwiZXhwIjoxNzYwMzk2Nzc1fQ.PZbtPkPmAAKraigVlkHcyNH1PwoYdLKBQ-k_l_R9TWI; Max-Age=3600; Expires=Mon, 13 Oct 2025 23:06:15 GMT; Path=/; Secure; HttpOnly

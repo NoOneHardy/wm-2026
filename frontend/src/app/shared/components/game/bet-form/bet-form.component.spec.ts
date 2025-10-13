@@ -9,10 +9,10 @@ import {selectAvailableJokers} from '../../../store/tournament.feature'
 import {grantJDouble, grantJTriple, revokeJDouble, revokeJTriple} from '../../../store/tournament.actions'
 import {provideAnimations} from '@angular/platform-browser/animations'
 
-const tomorrow = new Date(
+const future = new Date(
   new Date().getFullYear(),
   new Date().getMonth(),
-  new Date().getDate() + 1
+  new Date().getDate() + 10
 )
 
 describe('BetFormComponent', () => {
@@ -36,7 +36,7 @@ describe('BetFormComponent', () => {
       groupId: 'group-1',
       groupName: 'Gruppe A',
       id: 'game-1',
-      timestamp: tomorrow,
+      timestamp: future,
       teamHome: {
         id: 'team-1',
         name: 'Deutschland',

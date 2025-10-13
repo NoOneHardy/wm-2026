@@ -14,12 +14,22 @@ jobs:
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
+            .github
             service
             gradle
       - name: Java version
         run: java -version
-      - name: Get configuration
-        run: echo "${{ secrets.SERVICE_CONF }}" > service/.env
+      - name: 'Get configuration'
+        uses: ./.github/actions/load-service-config
+        with:
+          secret_key: ${{ secrets.SERVICE_CONF_SECRET_KEY }}
+          database_host: ${{ secrets.SERVICE_CONF_DATABASE_HOST }}
+          database_user: ${{ secrets.SERVICE_CONF_DATABASE_USER }}
+          database_pw: ${{ secrets.SERVICE_CONF_DATABASE_PW }}
+          smtp_host: ${{ secrets.SERVICE_CONF_SMTP_HOST }}
+          smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
+          smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
+          smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
       - name: Set up gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -37,7 +47,16 @@ jobs:
             .github
             service
       - name: 'Get service configuration'
-        run: echo "${{ secrets.SERVICE_CONF }}" > service/.env
+        uses: ./.github/actions/load-service-config
+        with:
+          secret_key: ${{ secrets.SERVICE_CONF_SECRET_KEY }}
+          database_host: ${{ secrets.SERVICE_CONF_DATABASE_HOST }}
+          database_user: ${{ secrets.SERVICE_CONF_DATABASE_USER }}
+          database_pw: ${{ secrets.SERVICE_CONF_DATABASE_PW }}
+          smtp_host: ${{ secrets.SERVICE_CONF_SMTP_HOST }}
+          smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
+          smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
+          smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
       - name: 'Build docker image'
         uses: ./.github/actions/build-docker-image
         with:

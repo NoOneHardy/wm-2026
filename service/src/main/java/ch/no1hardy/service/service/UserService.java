@@ -42,7 +42,6 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final MailService mailService;
 
     /**
      * List all active users.
@@ -101,7 +100,6 @@ public class UserService {
      * @return a list of active users as UserRes DTOs.
      */
     public List<UserRes> list() {
-        mailService.sendMail("silas.hardegger@outlook.com", "Test Email", "<h1>Dies ist eine Test Email</h1><p>Versendet aus dem UserService</p>");
         return mapper.toDto(listRaw());
     }
 

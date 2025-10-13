@@ -49,6 +49,9 @@ dependencies {
 
     implementation 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+
+    // Mail
+    implementation 'com.sun.mail:jakarta.mail:2.0.1'
 }
 
 tasks.named('test') {

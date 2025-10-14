@@ -43,6 +43,8 @@ services:
     pull_policy: always
     env_file:
       - ./service/.env
+    volumes:
+      - './storage:/app/storage'
     restart: unless-stopped
 volumes:
   mysql-data:

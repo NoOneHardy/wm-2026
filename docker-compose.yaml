@@ -5,7 +5,7 @@ services:
     hostname: 'wm-dev-cdn'
     image: nginx
     volumes:
-      - './storage:/usr/share/nginx/html:ro'
+      - './service/storage:/usr/share/nginx/html:ro'
     restart: unless-stopped
   frontend:
     container_name: 'wm-dev-frontend'

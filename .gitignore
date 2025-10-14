@@ -6,4 +6,4 @@ build
 
 *.env
 
-storage
+./storage

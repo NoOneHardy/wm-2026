@@ -8,15 +8,19 @@ import java.nio.file.Paths;
 
 public abstract class StorageUtils {
     public static Path resolvePath(String path) {
-        return Paths.get(trimPath(path));
+        return trimPath(Paths.get(path));
     }
 
     public static Path resolvePath(Path parent, String child) {
-        return parent.resolve(trimPath(child));
+        return trimPath(parent.resolve(child));
     }
 
     public static String trimPath(String path) {
-        return path.replace("../", "./");
+        return path.replace("../", "./").replace("..\\", ".\\");
+    }
+
+    public static Path trimPath(Path path) {
+        return Paths.get(trimPath(path.toString())).normalize();
     }
 
     public static Path initDirectory(Path dir) {

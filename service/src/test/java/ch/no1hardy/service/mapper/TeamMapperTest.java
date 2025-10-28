@@ -43,10 +43,10 @@ public class TeamMapperTest {
 
         PreviousGameRes res = teamMapper.toPreviousGameDto(game);
 
-        assertEquals("game-1", res.getId());
-        assertEquals("team-home", res.getTeamHome().getId());
-        assertEquals("team-guest", res.getTeamGuest().getId());
-        assertEquals("score-1", res.getResult().getId());
-        assertEquals("Gruppe 1", res.getGroup());
+        assertEquals("game-1", res.id());
+        assertEquals("team-home", res.teamHome().id());
+        assertEquals("team-guest", res.teamGuest().id());
+        assertEquals("score-1", res.result().id());
+        assertEquals("Gruppe 1", res.group());
     }
 }

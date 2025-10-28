@@ -42,7 +42,7 @@ public class GroupServiceTest {
         mockGroup.setGames(List.of(game));
 
         when(repository.findAll()).thenReturn(List.of(mockGroup));
-        when(mapper.toCard(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(CardGroupRes.builder().build());
+        when(mapper.toCard(ArgumentMatchers.any(), ArgumentMatchers.any())).thenReturn(new CardGroupRes(null, null, null, null, null, null, 0));
     }
 
     @Test

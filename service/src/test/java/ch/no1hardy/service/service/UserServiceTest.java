@@ -52,8 +52,8 @@ public class UserServiceTest {
         List<UserRes> users = service.listAll();
         assertNotNull(users);
         assertEquals(2, users.size());
-        assertEquals("No1Hardy", users.getFirst().getUsername());
-        assertEquals("NoOneHardy", users.get(1).getUsername());
+        assertEquals("No1Hardy", users.getFirst().username());
+        assertEquals("NoOneHardy", users.get(1).username());
         assertInstanceOf(UserRes.class, users.getFirst());
         assertInstanceOf(UserRes.class, users.get(1));
     }
@@ -72,7 +72,7 @@ public class UserServiceTest {
         List<UserRes> users = service.list();
         assertNotNull(users);
         assertEquals(1, users.size());
-        assertEquals("No1Hardy", users.getFirst().getUsername());
+        assertEquals("No1Hardy", users.getFirst().username());
         assertInstanceOf(UserRes.class, users.getFirst());
     }
 
@@ -89,25 +89,25 @@ public class UserServiceTest {
         // Username without email
         CheckRes usernameWithoutEmail = service.check("No1Hardy", null);
         assertNotNull(usernameWithoutEmail);
-        assertFalse(usernameWithoutEmail.getIsUsernameAvailable());
-        assertTrue(usernameWithoutEmail.getIsEmailAvailable());
+        assertFalse(usernameWithoutEmail.isUsernameAvailable());
+        assertTrue(usernameWithoutEmail.isEmailAvailable());
 
         // Email without username
         CheckRes emailWithoutUsername = service.check(null, "no1hardy@no1hardy.ch");
         assertNotNull(emailWithoutUsername);
-        assertTrue(emailWithoutUsername.getIsUsernameAvailable());
-        assertFalse(emailWithoutUsername.getIsEmailAvailable());
+        assertTrue(emailWithoutUsername.isUsernameAvailable());
+        assertFalse(emailWithoutUsername.isEmailAvailable());
 
         // Email with username
         CheckRes emailWithUsername = service.check("No1Hardy", "no1hardy@no1hardy.ch");
         assertNotNull(emailWithUsername);
-        assertFalse(emailWithUsername.getIsUsernameAvailable());
-        assertFalse(emailWithUsername.getIsEmailAvailable());
+        assertFalse(emailWithUsername.isUsernameAvailable());
+        assertFalse(emailWithUsername.isEmailAvailable());
 
         CheckRes emailWithUsernameAvailable = service.check("NoOneHardy", "noonehardy@no1hardy.ch");
         assertNotNull(emailWithUsernameAvailable);
-        assertTrue(emailWithUsernameAvailable.getIsUsernameAvailable());
-        assertTrue(emailWithUsernameAvailable.getIsEmailAvailable());
+        assertTrue(emailWithUsernameAvailable.isUsernameAvailable());
+        assertTrue(emailWithUsernameAvailable.isEmailAvailable());
     }
 
     @Test

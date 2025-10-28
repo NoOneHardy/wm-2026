@@ -50,9 +50,9 @@ public class LeaderboardServiceTest {
 
         List<RankingRes> res = service.getLeaderboard();
 
-        assertEquals(user1.getId(), res.get(3).getId());
-        assertEquals(user2.getId(), res.get(0).getId());
-        assertEquals(user3.getId(), res.get(1).getId());
-        assertEquals(user4.getId(), res.get(2).getId());
+        assertEquals(user1.getId(), res.get(3).id());
+        assertEquals(user2.getId(), res.get(0).id());
+        assertEquals(user3.getId(), res.get(1).id());
+        assertEquals(user4.getId(), res.get(2).id());
     }
 }

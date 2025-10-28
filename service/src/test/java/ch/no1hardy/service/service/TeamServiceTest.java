@@ -43,16 +43,13 @@ public class TeamServiceTest {
 
     @Test
     void shouldCreateAndMapTeamFromDto() {
-        TeamReq req = new TeamReq();
-        req.setFlag("flag-1");
-        req.setName("Team 1");
-        req.setShortName("T1");
+        TeamReq req = new TeamReq("Team 1", "flag-1", "T1");
 
         TeamRes res = teamService.create(req);
-        assertEquals("flag-1", res.getFlag());
-        assertEquals("Team 1", res.getName());
-        assertEquals("T1", res.getShortName());
-        assertEquals("team-1", res.getId());
+        assertEquals("flag-1", res.flag());
+        assertEquals("Team 1", res.name());
+        assertEquals("T1", res.shortName());
+        assertEquals("team-1", res.id());
     }
 
     @Test
@@ -67,7 +64,7 @@ public class TeamServiceTest {
 
     @Test
     void shouldThrowErrorIfPropertyIsMissing() {
-        TeamReq req = new TeamReq();
+        TeamReq req = new TeamReq(null, null, null);
 
         MissingRequestPropertyException eName = assertThrows(MissingRequestPropertyException.class, () -> {
             // Call create method with empty dto
@@ -77,11 +74,11 @@ public class TeamServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, eName.getStatus());
 
         // Set name so flag is the only null value
-        req.setName("Team 1");
+        TeamReq reqWithName = new TeamReq("Team 1", null, null);
 
         MissingRequestPropertyException eFlag = assertThrows(MissingRequestPropertyException.class, () -> {
             // Call create method with empty dto
-            teamService.create(req);
+            teamService.create(reqWithName);
         });
         assertEquals("Request body is missing property 'flag' of type 'string'", eFlag.getMessage());
         assertEquals(HttpStatus.BAD_REQUEST, eFlag.getStatus());

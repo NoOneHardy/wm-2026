@@ -83,8 +83,8 @@ public class GameServiceTest {
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(2, result.size());
-        assertEquals("game-1", result.getFirst().getId());
-        assertEquals("game-2", result.get(1).getId());
+        assertEquals("game-1", result.getFirst().id());
+        assertEquals("game-2", result.get(1).id());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class GameServiceTest {
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(1, result.size());
-        assertEquals("game-1", result.getFirst().getId());
+        assertEquals("game-1", result.getFirst().id());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class GameServiceTest {
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(1, result.size());
-        assertEquals("game-1", result.getFirst().getId());
+        assertEquals("game-1", result.getFirst().id());
     }
 
     @Test
@@ -152,7 +152,7 @@ public class GameServiceTest {
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(1, result.size());
-        assertEquals("game-1", result.getFirst().getId());
+        assertEquals("game-1", result.getFirst().id());
     }
 
     @Test
@@ -188,11 +188,11 @@ public class GameServiceTest {
 
         List<BetGameRes> result = service.getUpcomingGames();
         assertEquals(5, result.size());
-        assertEquals("game-1", result.getFirst().getId());
-        assertEquals("game-2", result.get(1).getId());
-        assertEquals("game-3", result.get(2).getId());
-        assertEquals("game-4", result.get(3).getId());
-        assertEquals("game-5", result.get(4).getId());
+        assertEquals("game-1", result.getFirst().id());
+        assertEquals("game-2", result.get(1).id());
+        assertEquals("game-3", result.get(2).id());
+        assertEquals("game-4", result.get(3).id());
+        assertEquals("game-5", result.get(4).id());
     }
 
     @Test
@@ -221,7 +221,7 @@ public class GameServiceTest {
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(1, result.size());
-        assertEquals("game-1", result.getFirst().getId());
+        assertEquals("game-1", result.getFirst().id());
     }
 
     @Test
@@ -241,8 +241,8 @@ public class GameServiceTest {
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(2, result.size());
-        assertEquals("game-2", result.get(0).getId());
-        assertEquals("game-1", result.get(1).getId());
+        assertEquals("game-2", result.get(0).id());
+        assertEquals("game-1", result.get(1).id());
     }
 
     @Test
@@ -262,8 +262,8 @@ public class GameServiceTest {
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(5, result.size());
-        assertEquals("game-1", result.get(0).getId());
-        assertEquals("game-5", result.get(4).getId());
+        assertEquals("game-1", result.get(0).id());
+        assertEquals("game-5", result.get(4).id());
     }
 
     @Test
@@ -286,8 +286,8 @@ public class GameServiceTest {
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(2, result.size());
-        assertEquals("game-2", result.get(0).getId());
-        assertEquals("game-1", result.get(1).getId());
-        assertEquals("bet-1", result.get(1).getBet().getId());
+        assertEquals("game-2", result.get(0).id());
+        assertEquals("game-1", result.get(1).id());
+        assertEquals("bet-1", result.get(1).bet().id());
     }
 }

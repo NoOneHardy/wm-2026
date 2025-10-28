@@ -27,8 +27,8 @@ public class GroupMapperTest {
 
     @Test
     void shouldMapJokers() {
-        AvailableJokers jokers = groupMapper.toDto(new Group()).getAvailableJokers();
-        assertThat(jokers.getJDouble()).isEqualTo(10);
-        assertThat(jokers.getJTriple()).isEqualTo(6);
+        AvailableJokers jokers = groupMapper.toDto(new Group()).availableJokers();
+        assertThat(jokers.jDouble()).isEqualTo(10);
+        assertThat(jokers.jTriple()).isEqualTo(6);
     }
 }

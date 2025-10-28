@@ -49,9 +49,9 @@ public class DashboardServiceTest {
 
         GlobalStatistics globalStats = service.getGlobalStatistics();
 
-        assertEquals(0, globalStats.getTotalPoints());
-        assertEquals(0, globalStats.getCorrectGames());
-        assertEquals(0, globalStats.getJokersWasted());
+        assertEquals(0, globalStats.totalPoints());
+        assertEquals(0, globalStats.correctGames());
+        assertEquals(0, globalStats.jokersWasted());
     }
 
     @Test
@@ -85,9 +85,9 @@ public class DashboardServiceTest {
 
         Statistics stats = service.getStatistics(user);
 
-        assertEquals(7, stats.getTotalGoalsBet());
-        assertEquals(1, stats.getCorrectGames());
-        assertEquals(1, stats.getJokersWasted());
+        assertEquals(7, stats.totalGoalsBet());
+        assertEquals(1, stats.correctGames());
+        assertEquals(1, stats.jokersWasted());
     }
 
     @Test
@@ -99,9 +99,9 @@ public class DashboardServiceTest {
 
         Statistics stats = service.getStatistics(user);
 
-        assertEquals(0, stats.getTotalGoalsBet());
-        assertEquals(0, stats.getCorrectGames());
-        assertEquals(0, stats.getJokersWasted());
+        assertEquals(0, stats.totalGoalsBet());
+        assertEquals(0, stats.correctGames());
+        assertEquals(0, stats.jokersWasted());
     }
 
     @Test
@@ -120,9 +120,9 @@ public class DashboardServiceTest {
 
         Statistics stats = service.getStatistics(user);
 
-        assertEquals(0, stats.getTotalGoalsBet());
-        assertEquals(0, stats.getCorrectGames());
-        assertEquals(0, stats.getJokersWasted());
+        assertEquals(0, stats.totalGoalsBet());
+        assertEquals(0, stats.correctGames());
+        assertEquals(0, stats.jokersWasted());
     }
 
     @Test
@@ -139,9 +139,9 @@ public class DashboardServiceTest {
 
         Statistics stats = service.getStatistics(user);
 
-        assertEquals(7, stats.getTotalGoalsBet());
-        assertEquals(0, stats.getCorrectGames());
-        assertEquals(0, stats.getJokersWasted());
+        assertEquals(7, stats.totalGoalsBet());
+        assertEquals(0, stats.correctGames());
+        assertEquals(0, stats.jokersWasted());
     }
 
     @Test

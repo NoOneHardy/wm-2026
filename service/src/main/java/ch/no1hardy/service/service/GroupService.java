@@ -12,7 +12,7 @@ import ch.no1hardy.service.front.group.CardGroupRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.front.group.OverviewRes;
-import ch.no1hardy.service.mapper.GroupMapperImpl;
+import ch.no1hardy.service.mapper.GroupMapper;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.group.Group;
@@ -28,7 +28,7 @@ import java.util.List;
 @AllArgsConstructor
 public class GroupService {
     private final GroupRepository repository;
-    private final GroupMapperImpl mapper;
+    private final GroupMapper mapper;
     private final GameService gameService;
     private final UserService userService;
 

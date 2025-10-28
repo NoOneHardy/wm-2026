@@ -85,8 +85,8 @@ public class NotificationService {
      */
     public void notifyUsersRankingChange() {
         for (RankingRes res : leaderboardService.getLeaderboard()) {
-            User user = userService.getRawByUsername(res.getUsername());
-            int movement = res.getPrevRanking() - res.getRanking();
+            User user = userService.getRawByUsername(res.username());
+            int movement = res.prevRanking() - res.ranking();
             createRankingNotification(user, movement);
         }
 

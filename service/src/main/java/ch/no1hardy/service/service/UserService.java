@@ -131,10 +131,10 @@ public class UserService {
      * @return CheckRes containing availability status of username and email.
      */
     public CheckRes check(@Nullable String username, @Nullable String email) {
-        return CheckRes.builder()
-                .isUsernameAvailable(username == null || isUsernameAvailable(username))
-                .isEmailAvailable(email == null || isEmailAvailable(email))
-                .build();
+        return new CheckRes(
+                username == null || isUsernameAvailable(username),
+                email == null || isEmailAvailable(email)
+        );
     }
 
     /**
@@ -229,11 +229,11 @@ public class UserService {
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        dto.getUsername(),
-                        dto.getPassword()
+                        dto.username(),
+                        dto.password()
                 )
         );
-        return mapper.toDto(getRawByUsername(dto.getUsername()));
+        return mapper.toDto(getRawByUsername(dto.username()));
     }
 
     /**
@@ -244,7 +244,7 @@ public class UserService {
      */
     public UserRes getCurrentUser() throws UserNotFoundException {
         Optional<User> user$ = getCurrentUserRaw();
-        return user$.isEmpty() ? new UserRes() : mapper.toDto(user$.get());
+        return user$.isEmpty() ? null : mapper.toDto(user$.get());
     }
 
 

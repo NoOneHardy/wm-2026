@@ -29,15 +29,15 @@ public class LeaderboardService {
         List<Integer> previous = calculateLeaderboard(User::getLastReviewedPoints);
 
         return userService.listConfirmedRaw().stream()
-                .map(user -> RankingRes.builder()
-                        .id(user.getId())
-                        .avatar(user.getAvatarUrl())
-                        .ranking(current.indexOf(user.getPoints()) + 1)
-                        .prevRanking(previous.indexOf(user.getLastReviewedPoints()) + 1)
-                        .points(user.getPoints())
-                        .username(user.getUsername())
-                        .build()
-                ).sorted(Comparator.comparingInt(RankingRes::getRanking)).toList();
+                .map(user -> new RankingRes(
+                        user.getId(),
+                        user.getUsername(),
+                        user.getAvatarUrl(),
+                        user.getPoints(),
+                        previous.indexOf(user.getLastReviewedPoints()) + 1,
+                        current.indexOf(user.getPoints()) + 1
+                )
+                ).sorted(Comparator.comparingInt(RankingRes::ranking)).toList();
     }
 
     /**
@@ -70,7 +70,7 @@ public class LeaderboardService {
 
         for (int i = 0; i < leaderboard.size(); i++) {
             RankingRes pos = leaderboard.get(i);
-            if (pos.getId().equals(user.getId())) {
+            if (pos.id().equals(user.getId())) {
                 slimBoard[0] = i == 0 ? null : leaderboard.get(i - 1);
                 slimBoard[1] = pos;
                 slimBoard[2] = i == (leaderboard.size() - 1) ? null : leaderboard.get(i + 1);

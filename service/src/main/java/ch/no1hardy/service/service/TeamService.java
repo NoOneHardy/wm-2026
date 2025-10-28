@@ -19,9 +19,9 @@ public class TeamService {
     public TeamRes create(TeamReq dto) {
         if (dto == null) throw new MissingRequestBodyException();
 
-        if (dto.getName() == null) throw new MissingRequestPropertyException("name", "string");
-        if (dto.getFlag() == null) throw new MissingRequestPropertyException("flag", "string");
-        if (dto.getShortName() == null) throw new MissingRequestPropertyException("shortName", "string");
+        if (dto.name() == null) throw new MissingRequestPropertyException("name", "string");
+        if (dto.flag() == null) throw new MissingRequestPropertyException("flag", "string");
+        if (dto.shortName() == null) throw new MissingRequestPropertyException("shortName", "string");
 
         Team team = repository.save(mapper.toEntity(dto));
         return mapper.toDto(team);

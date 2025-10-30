@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.front.user.CheckRes;
+import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Score;
@@ -355,5 +356,58 @@ public class UserServiceTest {
         } catch (InvocationTargetException | NoSuchMethodException | IllegalAccessException e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    @Test
+    @DisplayName("UserRes update(String, UserReq) - should update user information")
+    void update01() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1HardyUpdated");
+        dto.setEmail("silas@test-update.ch");
+        dto.setFirstname("SilasUpdated");
+        dto.setLastname("HardyUpdated");
+        dto.setPassword("newsecurepassword");
+
+        User existingUser = new User();
+        existingUser.setId("user-id-123");
+        existingUser.setUsername("No1Hardy");
+        existingUser.setEmail("silas@test.ch");
+        existingUser.setFirstname("Silas");
+        existingUser.setLastname("Hardy");
+        existingUser.setPassword("oldhashedpassword");
+
+        when(repository.findById("user-id-123")).thenReturn(Optional.of(existingUser));
+        service.update("user-id-123", dto);
+
+        assertEquals("No1HardyUpdated", existingUser.getUsername());
+        assertEquals("silas@test-update.ch", existingUser.getEmail());
+        assertEquals("SilasUpdated", existingUser.getFirstname());
+        assertEquals("HardyUpdated", existingUser.getLastname());
+        assertNotEquals("oldhashedpassword", existingUser.getPassword());
+    }
+
+    @Test
+    @DisplayName("UserRes update(String, UserReq) - should ignore ommitted properties")
+    void update02() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1HardyUpdated");
+
+        User existingUser = new User();
+        existingUser.setId("user-id-123");
+        existingUser.setUsername("No1Hardy");
+        existingUser.setEmail("silas@test.ch");
+        existingUser.setFirstname("Silas");
+        existingUser.setLastname("Hardy");
+        existingUser.setPassword("oldhashedpassword");
+
+        when(repository.findById("user-id-123")).thenReturn(Optional.of(existingUser));
+
+        service.update("user-id-123", dto);
+
+        assertEquals("No1HardyUpdated", existingUser.getUsername());
+        assertEquals("silas@test.ch", existingUser.getEmail());
+        assertEquals("Silas", existingUser.getFirstname());
+        assertEquals("Hardy", existingUser.getLastname());
+        assertEquals("oldhashedpassword", existingUser.getPassword());
     }
 }

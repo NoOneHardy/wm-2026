@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, input, OnInit} from '@angular/core'
+import {Component, computed, effect, inject, input, OnInit, Signal} from '@angular/core'
 import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
@@ -12,6 +12,7 @@ import {getOverviewGroups, loadGroup} from '../../store/tournament.actions'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {Mode} from '../../../model/mode'
 import {ActivatedRoute, Router} from '@angular/router'
+import {CardGroup} from '../../../model/group/card-group'
 
 @Component({
   selector: 'wm-overview',
@@ -60,7 +61,7 @@ export class OverviewComponent implements OnInit {
     this.store.dispatch(getOverviewGroups())
   }
 
-  defaultGroups = computed(() => {
+  defaultGroups: Signal<CardGroup[]> = computed(() => {
     const groups = this.groups()
     return groups.filter(group => !group.isKnockout).map(group => {
       return {

@@ -1,6 +1,8 @@
 package ch.no1hardy.service.storage;
 
 import ch.no1hardy.service.exception.StorageException;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -21,6 +23,31 @@ public abstract class StorageUtils {
 
     public static Path trimPath(Path path) {
         return Paths.get(trimPath(path.toString())).normalize();
+    }
+
+    public static String renameFile(MultipartFile file, @NotNull String newName) {
+        String newExtension = getFileExtension(newName);
+        String extension = getFileExtension(file);
+
+        if (newExtension.equals(extension)) return newName;
+
+        if (extension.isEmpty()) {
+            return newName;
+        } else {
+            return newName + "." + extension;
+        }
+    }
+
+    public static String getFileExtension(MultipartFile file) {
+        String filename = file.getOriginalFilename();
+        if (filename == null) return "";
+        return getFileExtension(filename);
+    }
+
+    public static String getFileExtension(@NotNull String filename) {
+        int dotIndex = filename.lastIndexOf('.');
+        if (dotIndex == -1 || dotIndex == filename.length() - 1) return "";
+        return filename.substring(dotIndex + 1);
     }
 
     public static Path initDirectory(Path dir) {

@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.user.UserValidationException;
 import ch.no1hardy.service.exception.user.UsernameNotFoundException;
@@ -27,6 +28,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +44,7 @@ public class UserService {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final FileService fileService;
 
     /**
      * List all active users.
@@ -203,6 +206,12 @@ public class UserService {
         User user = getRaw(id);
         mapper.update(dto, user);
         return mapper.toDto(repository.save(user));
+    }
+
+    public UserRes updateAvatar(@NotNull MultipartFile avatar) {
+        User currentUser = getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+        currentUser.setAvatarUrl(fileService.storeAvatar(avatar, currentUser.getId()));
+        return mapper.toDto(repository.save(currentUser));
     }
 
     /**

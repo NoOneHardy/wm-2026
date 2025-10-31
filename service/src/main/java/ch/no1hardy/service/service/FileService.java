@@ -17,7 +17,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.stream.Stream;
 
 @Service
 public class FileService implements StorageService {
@@ -40,42 +39,42 @@ public class FileService implements StorageService {
     }
 
     @Override
-    public void store(MultipartFile file) {
-        store(file, "");
+    public String store(MultipartFile file) {
+        return store(file, "");
     }
 
-    @Override
-    public Stream<Path> loadAll() {
-        return Stream.empty();
+    public String store(MultipartFile file, @NotNull String subDirectory) {
+        return store(file, subDirectory, file.getOriginalFilename());
     }
 
-    @Override
-    public Path load(String filename) {
-        return null;
-    }
-
-    @Override
-    public void deleteAll() {
-
-    }
-
-    public void store(MultipartFile file, @NotNull String subDirectory) {
+    public String store(MultipartFile file, @NotNull String subDirectory, String name) {
         try {
             if (file.isEmpty() || file.getOriginalFilename() == null)
                 throw new StorageException("File upload empty.", "Fehler beim Speichern der Datei.", HttpStatus.BAD_REQUEST);
 
             Path subDir = StorageUtils.initDirectory(root, subDirectory);
-            Path dest = StorageUtils.resolvePath(subDir, file.getOriginalFilename());
+            String fileName = StorageUtils.renameFile(file, name);
+            Path dest = StorageUtils.resolvePath(subDir, fileName);
 
             if (!dest.getParent().equals(subDir))
                 throw new StorageException("File upload outside directory.", "Fehler beim Speichern der Datei.", HttpStatus.BAD_REQUEST);
 
             try (InputStream stream = file.getInputStream()) {
                 Files.copy(stream, dest, StandardCopyOption.REPLACE_EXISTING);
+                return getUrlPath(dest);
             }
 
         } catch (IOException e) {
             throw new StorageException("File upload failed.", "Fehler beim Speichern der Datei.");
         }
+    }
+
+    public String storeAvatar(MultipartFile avatarFile, @NotNull String userId) {
+        return store(avatarFile, "avatars", userId);
+    }
+
+    private String getUrlPath(Path path) {
+        String url = path.toString().replace("\\", "/");
+        return "/cdn" + url.substring(url.indexOf("/"));
     }
 }

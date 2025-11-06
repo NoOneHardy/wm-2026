@@ -2,6 +2,8 @@ package ch.no1hardy.service.storage;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -80,5 +82,49 @@ public class StorageUtilsTest {
         Path path = Paths.get("some/./path/../to/file.txt");
         Path trimmedPath = StorageUtils.trimPath(path);
         checkPath("some/path/to/file.txt", trimmedPath);
+    }
+
+    @Test
+    @DisplayName("String getFileExtension(MultipartFile) - should return the file extension")
+    void getFileExtension01() {
+        MultipartFile file = Mockito.mock(MultipartFile.class);
+        Mockito.when(file.getOriginalFilename()).thenReturn("document.pdf");
+
+        String extension = StorageUtils.getFileExtension(file);
+        assertEquals("pdf", extension);
+    }
+
+    @Test
+    @DisplayName("String getFileExtension(MultipartFile) - should return empty string if no extension")
+    void getFileExtension02() {
+        MultipartFile file = Mockito.mock(MultipartFile.class);
+        Mockito.when(file.getOriginalFilename()).thenReturn(null);
+
+        String extension = StorageUtils.getFileExtension(file);
+        assertEquals("", extension);
+    }
+
+    @Test
+    @DisplayName("String getFileExtension(String) - should return the file extension")
+    void getFileExtension03() {
+        String filename = "archive.tar.gz";
+        String extension = StorageUtils.getFileExtension(filename);
+        assertEquals("gz", extension);
+    }
+
+    @Test
+    @DisplayName("String getFileExtension(String) - should return empty string if no extension")
+    void getFileExtension04() {
+        String filename = "filename_without_extension";
+        String extension = StorageUtils.getFileExtension(filename);
+        assertEquals("", extension);
+    }
+
+    @Test
+    @DisplayName("String getFileExtension(String) - should return empty string if filename ends with dot")
+    void getFileExtension05() {
+        String filename = "filename_with_dot.";
+        String extension = StorageUtils.getFileExtension(filename);
+        assertEquals("", extension);
     }
 }

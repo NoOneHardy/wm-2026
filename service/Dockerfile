@@ -15,7 +15,7 @@ WORKDIR /app
 
 RUN ./gradlew build
 
-FROM openjdk:21-jdk-slim AS final
+FROM openjdk:21-ea-1-jdk-slim AS final
 
 COPY --from=build /app/build/libs/*.jar /app/app.jar
 

@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class StorageUtilsTest {
     private boolean isLinux() {
@@ -126,5 +128,49 @@ public class StorageUtilsTest {
         String filename = "filename_with_dot.";
         String extension = StorageUtils.getFileExtension(filename);
         assertEquals("", extension);
+    }
+
+    @Test
+    @DisplayName("String renameFile(MultipartFile, String) - should allow renaming file extensions")
+    void renameFile01() {
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.getOriginalFilename()).thenReturn("test.txt");
+
+        String newName = "document.pdf";
+        String renamedFile = StorageUtils.renameFile(file, newName);
+        assertEquals(newName, renamedFile);
+    }
+
+    @Test
+    @DisplayName("String renameFile(MultipartFile, String) - should allow inputting a name with same extension")
+    void renameFile02() {
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.getOriginalFilename()).thenReturn("test.txt");
+
+        String newName = "example.txt";
+        String renamedFile = StorageUtils.renameFile(file, newName);
+        assertEquals(newName, renamedFile);
+    }
+
+    @Test
+    @DisplayName("String renameFile(MultipartFile, String) - should use old extension if no extension provided")
+    void renameFile03() {
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.getOriginalFilename()).thenReturn("test.txt");
+
+        String newName = "example";
+        String renamedFile = StorageUtils.renameFile(file, newName);
+        assertEquals("example.txt", renamedFile);
+    }
+
+    @Test
+    @DisplayName("String renameFile(MultipartFile, String) - should use empty extension if old file has no extension")
+    void renameFile04() {
+        MultipartFile file = mock(MultipartFile.class);
+        when(file.getOriginalFilename()).thenReturn("test");
+
+        String newName = "example";
+        String renamedFile = StorageUtils.renameFile(file, newName);
+        assertEquals(newName, renamedFile);
     }
 }

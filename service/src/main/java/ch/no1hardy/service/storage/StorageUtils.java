@@ -31,11 +31,7 @@ public abstract class StorageUtils {
 
         if (newExtension.equals(extension)) return newName;
 
-        if (extension.isEmpty()) {
-            return newName;
-        } else {
-            return newName + "." + extension;
-        }
+        return newExtension.isEmpty() ? newName + "." + extension : newName;
     }
 
     public static String getFileExtension(MultipartFile file) {

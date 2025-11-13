@@ -9,8 +9,7 @@ import {SpinnerComponent} from '../spinner/spinner.component'
     NgIf,
     SpinnerComponent
   ],
-  templateUrl: './form-field.component.html',
-  styleUrl: './form-field.component.css'
+  templateUrl: './form-field.component.html'
 })
 export class FormFieldComponent implements AfterViewInit {
   private el = inject(ElementRef)

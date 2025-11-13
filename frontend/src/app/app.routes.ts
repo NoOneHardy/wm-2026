@@ -9,6 +9,7 @@ import {UserManagementComponent} from './admin/user-management/user-management.c
 import {LeaderboardComponent} from './leaderboard/leaderboard.component'
 import {RootComponent} from './root/root.component'
 import {isLoggedOutGuard} from './guards/is-logged-out.guard'
+import {SettingsComponent} from './settings/settings.component'
 
 export const routes: Routes = [
   {
@@ -71,5 +72,10 @@ export const routes: Routes = [
         component: UserManagementComponent
       }
     ]
+  },
+  {
+    path: 'settings',
+    canActivate: [isLoggedInGuard],
+    component: SettingsComponent
   }
 ]

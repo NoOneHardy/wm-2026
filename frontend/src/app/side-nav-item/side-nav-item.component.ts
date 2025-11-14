@@ -1,9 +1,13 @@
 import {Component, input, output} from '@angular/core'
+import {RouterLink, RouterLinkActive} from '@angular/router'
 
 @Component({
   selector: 'wm-side-nav-item',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink,
+    RouterLinkActive
+  ],
   templateUrl: './side-nav-item.component.html',
   styleUrl: './side-nav-item.component.css'
 })

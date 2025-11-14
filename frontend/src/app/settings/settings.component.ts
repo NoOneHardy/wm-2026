@@ -1,17 +1,13 @@
-import {Component} from '@angular/core'
-import {MatSidenav, MatSidenavContainer, MatSidenavContent} from '@angular/material/sidenav'
-import {RouterOutlet} from '@angular/router'
+import {Component, inject} from '@angular/core'
 import {SideNavComponent} from '../shared/components/side-nav/side-nav.component'
 import {SideNavItemComponent} from '../side-nav-item/side-nav-item.component'
+import {Store} from '@ngrx/store'
+import {logout} from '../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-settings',
   standalone: true,
   imports: [
-    MatSidenavContainer,
-    MatSidenav,
-    MatSidenavContent,
-    RouterOutlet,
     SideNavComponent,
     SideNavItemComponent
   ],
@@ -19,5 +15,9 @@ import {SideNavItemComponent} from '../side-nav-item/side-nav-item.component'
   styleUrl: './settings.component.css'
 })
 export class SettingsComponent {
+  private store = inject(Store)
 
+  logout(): void {
+    this.store.dispatch(logout())
+  }
 }

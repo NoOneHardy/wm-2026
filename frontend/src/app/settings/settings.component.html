@@ -1,4 +1,12 @@
 <wm-side-nav>
-  <wm-side-nav-item>Konto</wm-side-nav-item>
-  <wm-side-nav-item>Benachrichtigungen</wm-side-nav-item>
+  <ng-container wm-side-nav-content>
+    <wm-side-nav-item icon="manage_accounts" route="/settings">Konto</wm-side-nav-item>
+    <wm-side-nav-item icon="alternate_email">Benachrichtigungen</wm-side-nav-item>
+  </ng-container>
+  <ng-container wm-side-nav-footer>
+    <wm-side-nav-item icon="logout" (clickAction)="logout()">Abmelden</wm-side-nav-item>
+  </ng-container>
 </wm-side-nav>
+<div class="content">
+
+</div>

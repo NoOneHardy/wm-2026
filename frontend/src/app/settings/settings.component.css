@@ -2,5 +2,11 @@
   display: grid;
   grid-template-columns: 18em 1fr;
   height: calc(100vh - var(--wm-header-height));
-  padding: 8em 7.5em;
+  padding: 8em 0 8em 7.5em;
+
+  .content {
+    padding: 1em 5em;
+    height: 100%;
+    overflow-y: auto;
+  }
 }

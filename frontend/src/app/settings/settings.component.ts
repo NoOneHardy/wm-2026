@@ -3,13 +3,15 @@ import {SideNavComponent} from '../shared/components/side-nav/side-nav.component
 import {SideNavItemComponent} from '../side-nav-item/side-nav-item.component'
 import {Store} from '@ngrx/store'
 import {logout} from '../user-management/store/user.actions'
+import {RouterOutlet} from '@angular/router'
 
 @Component({
   selector: 'wm-settings',
   standalone: true,
   imports: [
     SideNavComponent,
-    SideNavItemComponent
+    SideNavItemComponent,
+    RouterOutlet
   ],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'

@@ -10,6 +10,8 @@ import {LeaderboardComponent} from './leaderboard/leaderboard.component'
 import {RootComponent} from './root/root.component'
 import {isLoggedOutGuard} from './guards/is-logged-out.guard'
 import {SettingsComponent} from './settings/settings.component'
+import {AccountSettingsComponent} from './settings/account-settings/account-settings.component'
+import {NotificiationSettingsComponent} from './settings/notification-settings/notificiation-settings.component'
 
 export const routes: Routes = [
   {
@@ -76,6 +78,21 @@ export const routes: Routes = [
   {
     path: 'settings',
     canActivate: [isLoggedInGuard],
-    component: SettingsComponent
+    component: SettingsComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'profile',
+        pathMatch: 'full'
+      },
+      {
+        path: 'profile',
+        component: AccountSettingsComponent
+      },
+      {
+        path: 'notifications',
+        component: NotificiationSettingsComponent
+      }
+    ]
   }
 ]

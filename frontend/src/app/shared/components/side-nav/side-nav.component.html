@@ -1,2 +1,8 @@
-
-<ng-content/>
+<nav class="navigation">
+  <div class="content">
+    <ng-content select="[wm-side-nav-content]"/>
+  </div>
+  <div class="footer">
+    <ng-content select="[wm-side-nav-footer]"/>
+  </div>
+</nav>

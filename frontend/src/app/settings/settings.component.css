@@ -1,0 +1,6 @@
+:host {
+  display: grid;
+  grid-template-columns: 18em 1fr;
+  height: calc(100vh - var(--wm-header-height));
+  padding: 8em 7.5em;
+}

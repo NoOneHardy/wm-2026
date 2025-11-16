@@ -40,4 +40,11 @@ export class UserService extends BaseHttpService {
   markNotificationAsRead(id: string): Observable<true> {
     return this.delete<true>(`/api/notification/${id}`)
   }
+
+  uploadAvatar(file: File): Observable<User> {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    return this.put('/api/me/avatar', formData)
+  }
 }

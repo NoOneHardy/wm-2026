@@ -2,13 +2,14 @@ import {inject, Injectable} from '@angular/core'
 import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
+  avatarUploaded,
   createUser,
   fetchUserInfo,
   loggedOut,
   logout,
   markedNotificationAsRead,
   markNotificationAsRead,
-  rejectLogin,
+  rejectLogin, uploadAvatar,
   userCreated,
   userInfoFetched,
   userLoggedIn,
@@ -96,7 +97,7 @@ export class UserEffects {
     ofType(fetchUserInfo),
     exhaustMap(() => {
       return this.userService.fetchUserInfo().pipe(map((user) => {
-        return userInfoFetched({user})
+          return userInfoFetched({user})
         }),
         catchError(() => {
           return of(loggedOut({showMessage: false}))
@@ -113,4 +114,29 @@ export class UserEffects {
       )
     })
   ))
+
+  uploadAvatar = createEffect(() => this.actions$.pipe(
+    ofType(uploadAvatar),
+    exhaustMap((action) => {
+      return this.userService.uploadAvatar(action.file).pipe(
+        map((res) => avatarUploaded({avatarUrl: res.avatarUrl})),
+        catchError(() => {
+          this.snackbarService.addMessage({
+            message: 'Avatar konnte nicht hochgeladen werden',
+            type: 'error'
+          })
+          return of(noAction())
+        })
+      )
+    })
+  ))
+
+  avatarUploaded = createEffect(() => this.actions$.pipe(
+    ofType(avatarUploaded),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Avatar erfolgreich hochgeladen',
+      })
+    })
+  ), {dispatch: false})
 }

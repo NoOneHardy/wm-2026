@@ -18,3 +18,5 @@ export const updateNotifications = createAction('[User] Update notifications', p
 }>())
 export const markNotificationAsRead = createAction('[User] Mark notification as read', props<{ id: string }>())
 export const markedNotificationAsRead = createAction('[User] Mark notification as read DONE')
+export const uploadAvatar = createAction('[User] Upload avatar', props<{ file: File }>())
+export const avatarUploaded = createAction('[User] Avatar uploaded', props<{ avatarUrl?: string | null }>())

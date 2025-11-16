@@ -9,6 +9,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
 import {UserValidatorService} from '../../user-management/signup/validators/user-validator.service'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
+import {uploadAvatar} from '../../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-account-settings',
@@ -46,6 +47,11 @@ export class AccountSettingsComponent {
   save(): void {
     this.formGroup.markAllAsTouched()
     if (this.formGroup.invalid) return
+
+    const value = this.formGroup.getRawValue()
+    if (value.avatar) {
+      this.store.dispatch(uploadAvatar({file: value.avatar}))
+    }
   }
 
   protected readonly hasError = hasError

@@ -209,7 +209,7 @@ public class NotificationService {
                 .type(NotificationType.APPROVAL)
                 .title("Anfrage genehmigt")
                 .content("Dein Account wurde freigeschaltet. Du bist nun auch in der Rangliste.")
-                .route("/ranking")
+                .route("/leaderboard")
                 .user(user)
                 .build());
     }
@@ -226,7 +226,7 @@ public class NotificationService {
                 .type(NotificationType.REJECTION)
                 .title("Anfrage abgelehnt")
                 .content("Dein Account wurde abgelehnt. Sollte dies ein Fehler sein, kontaktiere bitte einen Admin oder lies dir die Teilnahmebedingungen erneut durch.")
-                .route("/ranking")
+                .route("/leaderboard")
                 .user(user)
                 .build());
     }

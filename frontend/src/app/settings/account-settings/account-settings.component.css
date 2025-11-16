@@ -13,3 +13,10 @@ wm-form-field {
 .save-button {
   margin-top: var(--wm-spacer-2);
 }
+
+@media screen and (max-width: 768px) {
+  h2 {
+    font: var(--wm-font-h3);
+    margin-bottom: var(--wm-spacer-4);
+  }
+}

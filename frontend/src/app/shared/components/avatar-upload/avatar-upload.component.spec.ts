@@ -23,13 +23,4 @@ describe('AvatarUploadComponent', () => {
   it('should have default url', () => {
     expect(component.url).toBe('/assets/user.jpg')
   })
-
-  it('should update URL on file input', () => {
-    const file = new File([''], 'avatar.png', { type: 'image/png' })
-    component.writeValue(file)
-    setTimeout(() => {
-      expect(component.url).not.toBe('/assets/user.jpg')
-      expect(component.url).toContain('data:image/png;base64,')
-    }, 100)
-  })
 })

@@ -202,9 +202,19 @@ public class UserService {
      */
     public UserRes update(@NotNull String id, @NotNull UserReq dto) throws UserNotFoundException, UserValidationException {
         checkAvailableDtoValues(dto);
-        dto.validate();
 
         User user = getRaw(id);
+        if (dto.getPasswordChange() != null) {
+            String oldPassword = dto.getPasswordChange().currentPassword();
+            if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+                throw new UserValidationException("Current password is incorrect", "Aktuelles Passwort ist falsch");
+            }
+
+            dto.setPassword(passwordEncoder.encode(dto.getPasswordChange().password()));
+        }
+
+
+        dto.validate();
         mapper.update(dto, user);
         return mapper.toDto(repository.save(user));
     }

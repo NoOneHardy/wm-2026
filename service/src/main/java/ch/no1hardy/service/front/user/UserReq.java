@@ -13,6 +13,7 @@ public class UserReq {
     private String firstname;
     private String lastname;
     private String avatar;
+    private PasswordChange passwordChange;
 
     /**
      * Complete validation of the user request.
@@ -66,5 +67,8 @@ public class UserReq {
 
         if (getLastname() == null || getLastname().isEmpty())
             throw new UserValidationException("lastname");
+    }
+
+    public record PasswordChange(String password, String currentPassword) {
     }
 }

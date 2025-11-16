@@ -9,11 +9,14 @@ import {
   logout,
   markedNotificationAsRead,
   markNotificationAsRead,
-  rejectLogin, uploadAvatar,
+  rejectLogin,
+  updateUser,
+  uploadAvatar,
   userCreated,
   userInfoFetched,
   userLoggedIn,
-  userLogin
+  userLogin,
+  userUpdated
 } from './user.actions'
 import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
@@ -139,4 +142,22 @@ export class UserEffects {
       })
     })
   ), {dispatch: false})
+
+  updateUser = createEffect(() => this.actions$.pipe(
+    ofType(updateUser),
+    exhaustMap((action) => this.userService.updateUser(action.user).pipe(
+      map((user) => userUpdated({user})),
+    ))
+  ))
+
+  userUpdated = createEffect(() => this.actions$.pipe(
+    ofType(userUpdated),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Benutzerinformationen erfolgreich aktualisiert'
+      })
+      this.router.navigateByUrl('/').then()
+    }),
+    map(action => userInfoFetched({user: action.user}))
+  ))
 }

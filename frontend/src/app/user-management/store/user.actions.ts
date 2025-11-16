@@ -1,5 +1,5 @@
 import {createAction, props} from '@ngrx/store'
-import {NewUser, User} from '../../model/user/user'
+import {NewUser, UpdateUser, User} from '../../model/user/user'
 import {LoginData} from '../model/login'
 import {Notification} from '../model/notification'
 
@@ -20,3 +20,5 @@ export const markNotificationAsRead = createAction('[User] Mark notification as 
 export const markedNotificationAsRead = createAction('[User] Mark notification as read DONE')
 export const uploadAvatar = createAction('[User] Upload avatar', props<{ file: File }>())
 export const avatarUploaded = createAction('[User] Avatar uploaded', props<{ avatarUrl?: string | null }>())
+export const updateUser = createAction('[User] Update user', props<{ user: UpdateUser }>())
+export const userUpdated = createAction('[User] User updated', props<{ user: User }>())

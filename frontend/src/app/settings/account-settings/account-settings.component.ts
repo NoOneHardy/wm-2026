@@ -3,13 +3,13 @@ import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avata
 import {Store} from '@ngrx/store'
 import {selectIsUserLoading, selectUser} from '../../user-management/store/user.feature'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
-import {User} from '../../model/user/user'
+import {UpdateUser, User} from '../../model/user/user'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {UserValidatorService} from '../../user-management/signup/validators/user-validator.service'
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
-import {uploadAvatar} from '../../user-management/store/user.actions'
+import {updateUser, uploadAvatar} from '../../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-account-settings',
@@ -45,12 +45,24 @@ export class AccountSettingsComponent {
   })
 
   save(): void {
+    const user = this.user()
     this.formGroup.markAllAsTouched()
-    if (this.formGroup.invalid) return
+    if (this.formGroup.invalid || !user) return
 
     const value = this.formGroup.getRawValue()
     if (value.avatar) {
       this.store.dispatch(uploadAvatar({file: value.avatar}))
+    }
+
+    const dto: UpdateUser = {
+      id: user.id
+    }
+
+    if (value.username !== user.username) dto.username = value.username
+    if (value.email !== user.email) dto.email = value.email
+
+    if (dto.username || dto.email) {
+      this.store.dispatch(updateUser({user: dto}))
     }
   }
 

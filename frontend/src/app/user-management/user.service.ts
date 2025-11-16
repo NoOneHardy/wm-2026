@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core'
 import {Observable} from 'rxjs'
 import {AvailabilityCheck} from './model/availability-check'
-import {NewUser, User} from '../model/user/user'
+import {NewUser, UpdateUser, User} from '../model/user/user'
 import {LoginData} from './model/login'
 import {BaseHttpService} from '../shared/services/base-http/base-http.service'
 
@@ -46,5 +46,9 @@ export class UserService extends BaseHttpService {
     formData.append('file', file)
 
     return this.put('/api/me/avatar', formData)
+  }
+
+  updateUser(user: UpdateUser): Observable<User> {
+    return this.put<User>(`/api/user/${user.id}`, user)
   }
 }

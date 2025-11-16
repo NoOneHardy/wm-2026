@@ -67,6 +67,7 @@
       font: var(--wm-font-regular-text);
       text-align: center;
       align-self: center;
+      min-width: 1ch;
     }
 
     .result-home {

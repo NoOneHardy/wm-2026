@@ -1,9 +1,32 @@
-<p>account-settings works!</p>
-
-<ng-container [formGroup]="formGroup">
+@if (isUserLoading()) {
+  <p>Wird geladen...</p>
+} @else {
   @if (user(); as user) {
-    <wm-avatar-upload [defaultUrl]="user.avatarUrl" formControlName="avatar"/>
-  }
-</ng-container>
+    <h2>Konto</h2>
 
-<button (click)="log()">Log</button>
+    <ng-container [formGroup]="formGroup">
+      <wm-avatar-upload [defaultUrl]="user.avatarUrl" formControlName="avatar"/>
+
+      <wm-form-field>
+        <label for="username">Username</label>
+        <input id="username" type="text" formControlName="username"/>
+        <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('username'), 'minlength')">Min. 5 Zeichen</span>
+        <span *ngIf="hasError(formGroup.get('username'), 'usernameAvailable')">Username wird bereits verwendet</span>
+      </wm-form-field>
+
+      <wm-form-field>
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email"/>
+        <span *ngIf="hasError(formGroup.get('email'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('email'), 'email')">Ungültiges Format</span>
+        <span *ngIf="hasError(formGroup.get('email'), 'emailAvailable')">E-Mail wird bereits verwendet</span>
+      </wm-form-field>
+    </ng-container>
+
+    <wm-button class="save-button" (clickEvent)="save()">Speichern</wm-button>
+  } @else {
+    <h3>Es ist ein Fehler aufgetreten</h3>
+    <p>Bitte laden Sie die Seite neu.</p>
+  }
+}

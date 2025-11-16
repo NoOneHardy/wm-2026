@@ -90,6 +90,10 @@ h1 {
   text-align: center;
 }
 
+h2 {
+  font: var(--wm-font-h2);
+}
+
 .gradient-text, h1 {
   color: transparent !important;
   background-image: var(--wm-gradient-primary-600) !important;

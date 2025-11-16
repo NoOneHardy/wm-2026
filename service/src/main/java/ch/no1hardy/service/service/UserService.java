@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -236,13 +237,15 @@ public class UserService {
      * @throws UserNotFoundException   if the user with the given username does not exist.
      */
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        dto.getUsername(),
-                        dto.getPassword()
-                )
-        );
-        return mapper.toDto(getRawByUsername(dto.getUsername()));
+        return repository.findByUsername(dto.getUsername()).map(user -> {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getId(),
+                            dto.getPassword()
+                    )
+            );
+            return mapper.toDto(user);
+        }).orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
     }
 
     /**

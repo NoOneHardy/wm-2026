@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.model.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,7 +30,7 @@ public class JwtService {
     @Value("${security.jwt.expiration-time}")
     private Long jwtExpiration;
 
-    public String extractUsername(String token) {
+    public String extractId(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -38,17 +39,17 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(String username) {
-        return generateToken(new HashMap<>(), username);
+    public String generateToken(String id) {
+        return generateToken(new HashMap<>(), id);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, String username) {
-        return buildToken(extraClaims, username, jwtExpiration);
+    public String generateToken(Map<String, Object> extraClaims, String id) {
+        return buildToken(extraClaims, id, jwtExpiration);
     }
 
-    public String buildToken(Map<String, Object> extraClaims, String username, Long expiration) {
+    public String buildToken(Map<String, Object> extraClaims, String id, Long expiration) {
         return Jwts.builder().setClaims(extraClaims)
-                .setSubject(username)
+                .setSubject(id)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
@@ -56,16 +57,16 @@ public class JwtService {
     }
 
     public Boolean isTokenValid(String token, UserDetails userDetails) {
-        final String username = extractUsername(token);
-        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+        final String id = extractId(token);
+        return (id.equals(((User) userDetails).getId())) && !isTokenExpired(token);
     }
 
     public Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    public Cookie generateJwtCookie(String username) {
-        String jwt = generateToken(username);
+    public Cookie generateJwtCookie(String id) {
+        String jwt = generateToken(id);
         Cookie cookie = new Cookie("jwt", jwt);
         cookie.setSecure(true);
         cookie.setHttpOnly(true);

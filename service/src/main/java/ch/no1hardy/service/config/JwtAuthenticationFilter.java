@@ -1,5 +1,6 @@
 package ch.no1hardy.service.config;
 
+import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -54,11 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         try {
             final String jwt = jwtCookie.getValue();
-            final String username = jwtService.extractUsername(jwt);
+            final String id = jwtService.extractId(jwt);
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (username != null && authentication == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+            if (id != null && authentication == null) {
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(id);
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -70,7 +71,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
 
-                    response.addCookie(jwtService.generateJwtCookie(userDetails.getUsername()));
+                    response.addCookie(jwtService.generateJwtCookie(((User) userDetails).getId()));
                 }
             }
 

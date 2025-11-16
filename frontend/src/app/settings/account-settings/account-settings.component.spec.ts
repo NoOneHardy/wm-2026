@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { AccountSettingsComponent } from './account-settings.component'
+import {AccountSettingsComponent} from './account-settings.component'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('AccountSettingsComponent', () => {
   let component: AccountSettingsComponent
@@ -8,9 +9,9 @@ describe('AccountSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AccountSettingsComponent]
-    })
-    .compileComponents()
+      imports: [AccountSettingsComponent],
+      providers: [provideMockStore()]
+    }).compileComponents()
 
     fixture = TestBed.createComponent(AccountSettingsComponent)
     component = fixture.componentInstance

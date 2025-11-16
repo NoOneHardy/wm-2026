@@ -22,9 +22,40 @@
         <span *ngIf="hasError(formGroup.get('email'), 'email')">Ungültiges Format</span>
         <span *ngIf="hasError(formGroup.get('email'), 'emailAvailable')">E-Mail wird bereits verwendet</span>
       </wm-form-field>
+
+      <wm-button (clickEvent)="save()">Speichern</wm-button>
     </ng-container>
 
-    <wm-button class="save-button" (clickEvent)="save()">Speichern</wm-button>
+    <ng-container [formGroup]="pwGroup">
+      <h3>Passwort ändern</h3>
+
+      <wm-form-field>
+        <label for="current-password">Altes Passwort</label>
+        <input id="current-password" type="password" formControlName="currentPassword"/>
+        <span *ngIf="hasError(pwGroup.get('currentPassword'), 'required')">Pflichtfeld</span>
+      </wm-form-field>
+      <ng-container formGroupName="changed">
+        <wm-form-field>
+          <label for="password">Neues Passwort</label>
+          <input id="password" type="password" formControlName="password"
+                 [class.ng-invalid]="showPasswordMatchError('password') || hasError(pwGroup.get('changed.password'))"/>
+          <span *ngIf="hasError(pwGroup.get('changed.password'), 'required')">Pflichtfeld</span>
+          <span *ngIf="hasError(pwGroup.get('changed.password'), 'minlength')">Min. 8 Zeichen</span>
+          <span
+            *ngIf="showPasswordMatchError('password')">Passwörter müssen übereinstimmen</span>
+        </wm-form-field>
+        <wm-form-field>
+          <label for="confirm-password">Password bestätigen</label>
+          <input id="confirm-password" type="password" formControlName="confirmPassword"
+                 [class.ng-invalid]="showPasswordMatchError('confirmPassword') || hasError(pwGroup.get('changed.confirmPassword'))"/>
+          <span *ngIf="hasError(pwGroup.get('changed.confirmPassword'), 'required')">Pflichtfeld</span>
+          <span
+            *ngIf="hasError(pwGroup.get('changed.confirmPassword'), 'minlength')">Min. 8 Zeichen</span>
+          <span *ngIf="showPasswordMatchError('confirmPassword')">Passwörter müssen übereinstimmen</span>
+        </wm-form-field>
+      </ng-container>
+      <wm-button (clickEvent)="changePassword()">Passwort ändern</wm-button>
+    </ng-container>
   } @else {
     <h3>Es ist ein Fehler aufgetreten</h3>
     <p>Bitte laden Sie die Seite neu.</p>

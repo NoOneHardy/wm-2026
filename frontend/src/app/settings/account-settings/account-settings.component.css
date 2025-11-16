@@ -10,8 +10,14 @@ wm-form-field {
   max-width: 18em;
 }
 
-.save-button {
+wm-button {
+  display: block;
   margin-top: var(--wm-spacer-2);
+  margin-bottom: var(--wm-spacer-4);
+}
+
+h3 {
+  margin-bottom: var(--wm-spacer-3);
 }
 
 @media screen and (max-width: 768px) {

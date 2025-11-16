@@ -1,0 +1,46 @@
+:host {
+  position: relative;
+  display: flex;
+  width: 10em;
+  height: 10em;
+  border-radius: 50%;
+  overflow: hidden;
+
+  .label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000000BD;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .25em;
+    border: none;
+    cursor: pointer;
+
+    .material-symbols-rounded {
+      color: var(--wm-color-primary-600);
+      font-size: 3em;
+    }
+
+    .text {
+      color: var(--wm-color-white-600);
+      font: var(--wm-font-regular-text);
+      line-height: normal;
+      max-width: var(--wm-spacer-8);
+    }
+  }
+
+  .avatar {
+    display: block;
+    width: 10em;
+    height: 10em;
+  }
+
+  .input {
+    display: none;
+  }
+}

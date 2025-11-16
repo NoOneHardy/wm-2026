@@ -1,1 +1,9 @@
 <p>account-settings works!</p>
+
+<ng-container [formGroup]="formGroup">
+  @if (user(); as user) {
+    <wm-avatar-upload [defaultUrl]="user.avatarUrl" formControlName="avatar"/>
+  }
+</ng-container>
+
+<button (click)="log()">Log</button>

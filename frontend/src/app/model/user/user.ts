@@ -22,3 +22,9 @@ export interface NewUser {
   lastname: string
   password: string
 }
+
+export interface UpdateUser {
+  id: string
+  username?: string
+  email?: string
+}

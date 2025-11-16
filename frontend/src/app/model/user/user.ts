@@ -27,4 +27,8 @@ export interface UpdateUser {
   id: string
   username?: string
   email?: string
+  passwordChange?: {
+    password: string
+    currentPassword: string
+  }
 }

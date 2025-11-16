@@ -10,6 +10,7 @@ import {UserValidatorService} from '../../user-management/signup/validators/user
 import {NgIf} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {updateUser, uploadAvatar} from '../../user-management/store/user.actions'
+import {passwordMatch} from '../../user-management/signup/validators/password-validator'
 
 @Component({
   selector: 'wm-account-settings',
@@ -44,6 +45,23 @@ export class AccountSettingsComponent {
     })
   })
 
+  pwGroup = new FormGroup({
+    currentPassword: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    changed: new FormGroup({
+      password: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(8)]
+      }),
+      confirmPassword: new FormControl<string>('', {
+        nonNullable: true,
+        validators: [Validators.required, Validators.minLength(8)]
+      })
+    }, {validators: [passwordMatch()]})
+  })
+
   save(): void {
     const user = this.user()
     this.formGroup.markAllAsTouched()
@@ -60,10 +78,18 @@ export class AccountSettingsComponent {
 
     if (value.username !== user.username) dto.username = value.username
     if (value.email !== user.email) dto.email = value.email
+    this.store.dispatch(updateUser({user: dto}))
+  }
 
-    if (dto.username || dto.email) {
-      this.store.dispatch(updateUser({user: dto}))
-    }
+  changePassword(): void {
+    this.pwGroup.markAllAsTouched()
+  }
+
+  showPasswordMatchError(formField: string): boolean {
+    const changedGroup = this.pwGroup.get('changed')
+    if (!changedGroup) return false
+
+    return hasError(changedGroup, 'passwordMatch') && !hasError(changedGroup.get(formField))
   }
 
   protected readonly hasError = hasError

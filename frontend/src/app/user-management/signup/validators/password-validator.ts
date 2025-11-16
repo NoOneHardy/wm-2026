@@ -8,6 +8,7 @@ export function passwordMatch(): ValidatorFn {
 
     if (!password || !confirmPassword) return null
 
+    if (!password.value || !confirmPassword.value) return null
     if (password.value !== confirmPassword.value) return {passwordMatch: true}
     return null
   }

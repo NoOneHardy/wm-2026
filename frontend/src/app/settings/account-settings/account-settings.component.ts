@@ -82,7 +82,20 @@ export class AccountSettingsComponent {
   }
 
   changePassword(): void {
+    const user = this.user()
     this.pwGroup.markAllAsTouched()
+    if (this.pwGroup.invalid || !user) return
+
+    const value = this.pwGroup.getRawValue()
+    this.store.dispatch(updateUser({
+      user: {
+        id: user.id,
+        passwordChange: {
+          currentPassword: value.currentPassword,
+          password: value.changed.password
+        }
+      }
+    }))
   }
 
   showPasswordMatchError(formField: string): boolean {

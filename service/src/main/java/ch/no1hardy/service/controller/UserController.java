@@ -84,7 +84,7 @@ public class UserController {
         logger.info("POST /login");
         UserRes user = this.service.login(dto);
 
-        response.addCookie(jwtService.generateJwtCookie(user.getUsername()));
+        response.addCookie(jwtService.generateJwtCookie(user.getId()));
         return user;
     }
 

@@ -1,5 +1,6 @@
 package ch.no1hardy.service.config;
 
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.model.user.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -19,8 +20,8 @@ public class ApplicationConfiguration {
 
     @Bean
     UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return id -> userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     @Bean

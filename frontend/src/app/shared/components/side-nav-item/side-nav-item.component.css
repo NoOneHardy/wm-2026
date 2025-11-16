@@ -4,7 +4,7 @@ a {
   gap: .5em;
   padding: .5em 1em;
   color: var(--wm-color-neutral-500);
-  font-size: 1.125em;
+  font: var(--wm-font-regular-text);
   cursor: pointer;
   transition: background-color .25s ease-out, color .25s ease-out, font-weight .1s ease-out;
   text-decoration: none;
@@ -23,7 +23,7 @@ a {
 
   &.-active {
     background-color: var(--wm-color-neutral-100);
-    font-weight: 600;
+    font: var(--wm-font-regular-bold);
     color: var(--wm-color-neutral-600);
 
     .material-symbols-rounded {

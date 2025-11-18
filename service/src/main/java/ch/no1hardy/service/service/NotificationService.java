@@ -133,7 +133,7 @@ public class NotificationService {
         );
 
         repository.save(Notification.builder()
-                .type(NotificationType.NEW_BET)
+                .type(NotificationType.NEW_GAME)
                 .title("Neues Spiel!")
                 .content(content)
                 .route("/bets/" + game.getGroup().getId() + "/" + game.getId())

@@ -4,7 +4,6 @@ import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.KnockoutTieException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.exception.user.NotLoggedInException;
-import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ResultReq;
 import ch.no1hardy.service.front.game.ScoreReq;
@@ -30,7 +29,7 @@ public class GroupService {
     private final GroupRepository repository;
     private final GroupMapperImpl mapper;
     private final GameService gameService;
-    private final UserService userService;
+    private final AuthService authService;
 
     public GroupRes create(GroupReq dto) {
         Group group = repository.save(mapper.toEntity(dto));
@@ -95,8 +94,8 @@ public class GroupService {
      * Calculates the overall percentage of games bet by the logged-in user.
      * @return the overall percentage of games bet by the logged-in user
      */
-    public Double getOverallPercentage() throws UserNotFoundException, NotLoggedInException {
-        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+    public Double getOverallPercentage() throws NotLoggedInException {
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         return getOverallPercentage(user);
     }
 

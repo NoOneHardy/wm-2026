@@ -1,7 +1,6 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.user.NotLoggedInException;
-import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.dashboard.DashboardData;
 import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
@@ -19,6 +18,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class DashboardService {
+    private final AuthService authService;
     private final UserService userService;
     private final GameService gameService;
     private final LeaderboardService leaderboardService;
@@ -28,9 +28,8 @@ public class DashboardService {
      * Retrieves the dashboard data for the logged-in user.
      * @return a DashboardData object containing various statistics and summaries
      * @throws NotLoggedInException if the user is not logged in
-     * @throws UserNotFoundException if the logged-in user is not found in the database
      */
-    public DashboardData getDashboard() throws UserNotFoundException, NotLoggedInException {
+    public DashboardData getDashboard() throws NotLoggedInException {
         return DashboardData.builder()
                 .leaderboardPreview(leaderboardService.getUserLeaderboard())
                 .userSummary(getUserSummary())
@@ -58,10 +57,9 @@ public class DashboardService {
      * Retrieves a summary of the logged-in user's dashboard.
      * @return a UserSummary object containing the user's points, percentage of games bet, confirmation status, and ranking
      * @throws NotLoggedInException if the user is not logged in
-     * @throws UserNotFoundException if the logged-in user is not found in the database
      * */
-    public UserSummary getUserSummary() throws UserNotFoundException, NotLoggedInException {
-        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+    public UserSummary getUserSummary() throws NotLoggedInException {
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
 
         Boolean isConfirmed;
         if (user.getUserApplicationStatus() == UserApplicationStatus.ACCEPTED && user.getApplicationReviewedAt() != null)
@@ -83,11 +81,10 @@ public class DashboardService {
     /**
      * Calculates statistics for the logged-in user.
      * @return statistics for the logged-in user
-     * @throws UserNotFoundException if the logged-in user is not found in the database
      * @throws NotLoggedInException if the user is not logged in
      */
-    public Statistics getStatistics() throws UserNotFoundException, NotLoggedInException {
-        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+    public Statistics getStatistics() throws NotLoggedInException {
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         return getStatistics(user);
     }
 

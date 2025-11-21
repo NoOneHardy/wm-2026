@@ -24,15 +24,12 @@ import lombok.EqualsAndHashCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Data
@@ -46,6 +43,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final FileService fileService;
+    private final AuthService authService;
 
     /**
      * List all active users.
@@ -220,7 +218,7 @@ public class UserService {
     }
 
     public UserRes updateAvatar(@NotNull MultipartFile avatar) {
-        User currentUser = getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+        User currentUser = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         currentUser.setAvatarUrl(fileService.storeAvatar(avatar, currentUser.getId()));
         return mapper.toDto(repository.save(currentUser));
     }
@@ -262,27 +260,9 @@ public class UserService {
      * Get the currently logged-in user as a DTO.
      *
      * @return the current user as UserRes DTO, or an empty UserRes if not authenticated.
-     * @throws UserNotFoundException if the current user cannot be found in the repository.
      */
-    public UserRes getCurrentUser() throws UserNotFoundException {
-        Optional<User> user$ = getCurrentUserRaw();
-        return user$.isEmpty() ? new UserRes() : mapper.toDto(user$.get());
-    }
-
-
-    /**
-     * Get the currently logged-in user.
-     *
-     * @return an Optional containing the current user if authenticated, or empty if not authenticated.
-     * @throws UserNotFoundException if the current user cannot be found in the repository.
-     */
-    public Optional<User> getCurrentUserRaw() throws UserNotFoundException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication.getPrincipal() == null || authentication.getPrincipal().equals("anonymousUser")) {
-            return Optional.empty();
-        }
-        User currentUser = (User) authentication.getPrincipal();
-        return Optional.of(getRaw(currentUser.getId()));
+    public UserRes getCurrentUser() {
+        return authService.getLoggedInUser().map(mapper::toDto).orElse(new UserRes());
     }
 
     /**

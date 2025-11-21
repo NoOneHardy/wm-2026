@@ -29,6 +29,7 @@ public class GameService {
     private final ScoreRepository scoreRepository;
     private final BetRepository betRepository;
     private final UserService userService;
+    private final AuthService authService;
     private final GameMapper mapper;
     private final UserHelper userHelper;
     private final NotificationService notificationService;
@@ -89,7 +90,7 @@ public class GameService {
      */
     public BetGameRes uploadBet(@NotNull String id, @NotNull BetReq dto) throws BetPlaceException, NotFoundException, NotLoggedInException {
         Game game = repository.findById(id).orElse(null);
-        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         if (game == null) throw new NotFoundException("Game " + id + " not found", "Spiel '" + id + "' nicht gefunden");
 
         if (game.getTimestamp().isBefore(DateHelper.getCurrentAbsoluteDate())) {

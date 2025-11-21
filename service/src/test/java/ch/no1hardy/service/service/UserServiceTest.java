@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
@@ -33,6 +34,9 @@ public class UserServiceTest {
 
     @MockitoBean
     private GroupRepository groupRepository;
+
+    @MockitoBean
+    private AuthService authService;
 
     @Test
     @DisplayName("should create")
@@ -409,5 +413,29 @@ public class UserServiceTest {
         assertEquals("Silas", existingUser.getFirstname());
         assertEquals("Hardy", existingUser.getLastname());
         assertEquals("oldhashedpassword", existingUser.getPassword());
+    }
+
+    @Test
+    @DisplayName("UserRes getCurrentUser() - should return current user")
+    void getCurrentUser01() {
+        User user = new User();
+        user.setId("user-id-123");
+
+        SecurityHelper.mockUserLogin(authService, user);
+
+        UserRes currentUser = service.getCurrentUser();
+        assertNotNull(currentUser);
+        assertEquals("user-id-123", currentUser.getId());
+        assertInstanceOf(UserRes.class, currentUser);
+    }
+
+    @Test
+    @DisplayName("UserRes getCurrentUser() - should return empty UserRes when no user is logged in")
+    void getCurrentUser02() {
+        SecurityHelper.mockNoLogin(authService);
+        UserRes currentUser = service.getCurrentUser();
+        assertNotNull(currentUser);
+        assertNull(currentUser.getId());
+        assertInstanceOf(UserRes.class, currentUser);
     }
 }

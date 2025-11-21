@@ -1,7 +1,6 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.user.NotLoggedInException;
-import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.user.User;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +16,7 @@ import java.util.function.Function;
 @AllArgsConstructor
 public class LeaderboardService {
     private final UserService userService;
+    private final AuthService authService;
 
     /**
      * Returns the leaderboard of all users, sorted by their current points.
@@ -46,11 +46,11 @@ public class LeaderboardService {
      *
      * @return List of RankingRes containing user information and rankings
      * @throws NotLoggedInException  if the user is not logged in
-     * @throws UserNotFoundException if the current user is not found
      */
-    public List<RankingRes> getUserLeaderboard() throws NotLoggedInException, UserNotFoundException {
-        User user = userService.getCurrentUserRaw().orElseThrow(NotLoggedInException::new);
-        return getUserLeaderboard(user);
+    public List<RankingRes> getUserLeaderboard() throws NotLoggedInException {
+        return authService.getLoggedInUser()
+                .map(this::getUserLeaderboard)
+                .orElseThrow(NotLoggedInException::new);
     }
 
     /**

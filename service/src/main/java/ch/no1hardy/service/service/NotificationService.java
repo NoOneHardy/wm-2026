@@ -4,6 +4,7 @@ import ch.no1hardy.service.exception.notification.NotificationNotFoundException;
 import ch.no1hardy.service.exception.user.UsernameNotFoundException;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Game;
+import ch.no1hardy.service.model.notification.Channel;
 import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.notification.NotificationRepository;
 import ch.no1hardy.service.model.notification.NotificationType;
@@ -21,6 +22,7 @@ public class NotificationService {
     private final GlobalDataService globalDataService;
     private final NotificationRepository repository;
     private final LeaderboardService leaderboardService;
+    private final PreferencesService preferencesService;
 
     /**
      * Fetches a notification by its ID.
@@ -125,6 +127,8 @@ public class NotificationService {
      * @param game the game for which the notification is created
      */
     public void createNewGameNotification(@NotNull User user, @NotNull Game game) {
+        if (preferencesService.hasDisabledNotification(user, Channel.IN_APP, NotificationType.NEW_GAME)) return;
+
         String content = String.format(
                 "Am %s spielt %s gegen %s. Gib jetzt deinen Tipp ab.",
                 game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")),
@@ -149,6 +153,8 @@ public class NotificationService {
      * @param game the game for which the result is available
      */
     public void createNewResultNotification(@NotNull User user, @NotNull Game game) {
+        if (preferencesService.hasDisabledNotification(user, Channel.IN_APP, NotificationType.NEW_RESULT)) return;
+
         String content = String.format(
                 "Das Resultat vom %s - %s gegen %s - ist nun verfügbar.",
                 game.getTimestamp().format(DateTimeFormatter.ofPattern("d.M.yy")),
@@ -174,6 +180,8 @@ public class NotificationService {
      * @param movement the change in ranking position (positive for upward movement, negative for downward)
      */
     public void createRankingNotification(@NotNull User user, int movement) {
+        if (preferencesService.hasDisabledNotification(user, Channel.IN_APP, NotificationType.RANKING_UPDATE)) return;
+
         if (movement == 0) return;
 
         StringBuilder content = new StringBuilder();

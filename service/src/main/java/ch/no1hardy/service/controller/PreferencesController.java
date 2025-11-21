@@ -20,6 +20,6 @@ public class PreferencesController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/notifications")
     public Optional<List<NotificationPreferenceRes>> getNotificationPreferences() {
-        return preferencesService.getNotificationPreferences();
+        return preferencesService.getNotificationPrefs();
     }
 }

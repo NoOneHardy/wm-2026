@@ -11,10 +11,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -24,32 +21,26 @@ public class PreferencesService {
     private final PreferencesMapper mapper;
     private final NotificationPreferenceRepository notificationPreferenceRepository;
 
-    public Optional<List<NotificationPreferenceRes>> getNotificationPreferences() {
-        return getNotificationPreferencesRaw().map(mapper::toDto);
+    public Optional<List<NotificationPreferenceRes>> getNotificationPrefs() {
+        return getNotificationPrefsRaw().map(mapper::toDto);
     }
 
-    public Optional<List<NotificationPreference>> getNotificationPreferencesRaw() {
-        return getNotificationPreferencesRaw(authService.getLoggedInUser());
+    public Optional<List<NotificationPreference>> getNotificationPrefsRaw() {
+        return getNotificationPrefsRaw(authService.getLoggedInUser());
     }
 
-    public Optional<List<NotificationPreference>> getNotificationPreferencesRaw(Optional<User> user) {
-        return user.map(this::ensureNotificationPreferences);
+    public Optional<List<NotificationPreference>> getNotificationPrefsRaw(Optional<User> user) {
+        return user.map(this::ensureNotificationPrefs);
     }
 
-    public List<NotificationPreference> ensureNotificationPreferences(@NotNull User user) {
-        List<NotificationPreference> prefs = user.getNotificationPreferences();
+    public List<NotificationPreference> ensureNotificationPrefs(@NotNull User user) {
+        List<NotificationPreference> prefs = new ArrayList<>(user.getNotificationPreferences());
         Set<NotificationPreferenceKey> existingKeys = getExistingPreferenceKeys(prefs); // Using set for lookup efficiency
 
-        List<NotificationPreference> newPrefs = new ArrayList<>();
-
-        for (Channel channel : Channel.values()) {
-            for (NotificationType type : NotificationType.values()) {
-                NotificationPreferenceKey key = new NotificationPreferenceKey(channel, type);
-                if (existingKeys.contains(key)) continue;
-
-                newPrefs.add(key.persist(user));
-            }
-        }
+        List<NotificationPreference> newPrefs = getAllNotificationPrefKeys().stream()
+                .filter(k -> !existingKeys.contains(k))
+                .map(k -> k.persist(user))
+                .toList();
 
         if (!newPrefs.isEmpty()) {
             notificationPreferenceRepository.saveAll(newPrefs);
@@ -57,6 +48,13 @@ public class PreferencesService {
         }
 
         return prefs;
+    }
+
+    private List<NotificationPreferenceKey> getAllNotificationPrefKeys() {
+        return Arrays.stream(Channel.values())
+                .flatMap(channel -> Arrays.stream(NotificationType.values())
+                        .map(type -> new NotificationPreferenceKey(channel, type)))
+                .toList();
     }
 
     private Set<NotificationPreferenceKey> getExistingPreferenceKeys(List<NotificationPreference> preferences) {

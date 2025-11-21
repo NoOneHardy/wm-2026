@@ -3,6 +3,7 @@ package ch.no1hardy.service.model.user;
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.notification.Notification;
+import ch.no1hardy.service.model.preferences.NotificationPreference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -107,6 +108,11 @@ public class User extends BaseEntity implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Bet> bets = List.of();
+
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<NotificationPreference> notificationPreferences = List.of();
 
     /**
      * The authorities granted to the user. This is used for authorization.

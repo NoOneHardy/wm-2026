@@ -1,0 +1,3 @@
+GET http://localhost:26000/api/preferences/notifications
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZmVkZDI2MC0xNzBjLTRmMjAtYTk0OC03NmVmNDNlMzU0NjciLCJpYXQiOjE3NjM3NTAwNjUsImV4cCI6MTc2Mzc1MzY2NX0.mCjx5geMmo0CmQLyH-UKbG8uDxRzqAGD_DyXTAPpGjY; Max-Age=3600; Expires=Fri, 21 Nov 2025 19:34:25 GMT; Path=/; Secure; HttpOnly
+###

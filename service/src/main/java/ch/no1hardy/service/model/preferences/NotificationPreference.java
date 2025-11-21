@@ -17,5 +17,5 @@ public class NotificationPreference extends BaseEntity {
     private User user;
     private NotificationType type;
     private Channel channel;
-    private boolean selected;
+    private boolean selected = true;
 }

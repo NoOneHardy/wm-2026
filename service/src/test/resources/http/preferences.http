@@ -1,3 +1,16 @@
 GET http://localhost:26000/api/preferences/notifications
 Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZmVkZDI2MC0xNzBjLTRmMjAtYTk0OC03NmVmNDNlMzU0NjciLCJpYXQiOjE3NjM3NjE4MDEsImV4cCI6MTc2Mzc2NTQwMX0.s4Shw4u06Ns0rhh4tEJe7PXW2CJ4__WUzkdd_jZ93M4; Max-Age=3600; Expires=Fri, 21 Nov 2025 22:50:01 GMT; Path=/; Secure; HttpOnly
 ###
+
+PUT http://localhost:26000/api/preferences/notifications
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjZmVkZDI2MC0xNzBjLTRmMjAtYTk0OC03NmVmNDNlMzU0NjciLCJpYXQiOjE3NjM3NjE4MDEsImV4cCI6MTc2Mzc2NTQwMX0.s4Shw4u06Ns0rhh4tEJe7PXW2CJ4__WUzkdd_jZ93M4; Max-Age=3600; Expires=Fri, 21 Nov 2025 22:50:01 GMT; Path=/; Secure; HttpOnly
+Content-Type: application/json
+
+[
+  {
+    "channel": "IN_APP",
+    "selected": false,
+    "type": "RANKING_UPDATE"
+  }
+]
+###

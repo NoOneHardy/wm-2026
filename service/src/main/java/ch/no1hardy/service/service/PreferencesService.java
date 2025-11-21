@@ -1,5 +1,6 @@
 package ch.no1hardy.service.service;
 
+import ch.no1hardy.service.front.preferences.NotificationPreferenceReq;
 import ch.no1hardy.service.front.preferences.NotificationPreferenceRes;
 import ch.no1hardy.service.mapper.PreferencesMapper;
 import ch.no1hardy.service.model.notification.Channel;
@@ -40,7 +41,7 @@ public class PreferencesService {
         List<NotificationPreferenceKey> keys = preferenceKeyProvider.getNotificationPreferenceKeys();
 
         List<NotificationPreference> existingPrefs = keys.stream().map(key -> notificationPreferenceRepository
-                    .findByUserAndChannelAndType(user, key.channel(), key.type())
+                .findByUserAndChannelAndType(user, key.channel(), key.type())
         ).filter(Optional::isPresent).map(Optional::get).toList();
         List<NotificationPreference> prefs = new ArrayList<>(existingPrefs);
 
@@ -70,5 +71,17 @@ public class PreferencesService {
                 .findFirst()
                 .map(p -> !p.isSelected())
                 .orElse(false); // fallback to false if no preference is found
+    }
+
+    public Optional<List<NotificationPreferenceRes>> updateNotificationPrefs(List<NotificationPreferenceReq> prefs) {
+        getNotificationPrefsRaw().ifPresent(existingPrefs -> prefs
+                .forEach(req -> existingPrefs.stream()
+                        .filter(ep -> ep.getType().equals(req.type()) && ep.getChannel().equals(req.channel()))
+                        .findFirst()
+                        .ifPresent(ep -> {
+                            ep.setSelected(req.selected());
+                            notificationPreferenceRepository.save(ep);
+                        })));
+        return getNotificationPrefs();
     }
 }

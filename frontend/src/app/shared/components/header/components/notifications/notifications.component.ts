@@ -35,7 +35,7 @@ export class NotificationsComponent {
 
   getIcon(type: NotificationType): string {
     switch (type) {
-      case NotificationType.NEW_BET:
+      case NotificationType.NEW_GAME:
         return 'ballot'
       case NotificationType.NEW_RESULT:
         return 'scoreboard'

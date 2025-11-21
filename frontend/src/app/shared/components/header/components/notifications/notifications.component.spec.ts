@@ -88,7 +88,7 @@ describe('NotificationsComponent', () => {
   })
 
   it('should return correct icon for notification type', () => {
-    expect(component.getIcon(NotificationType.NEW_BET)).toBe('ballot')
+    expect(component.getIcon(NotificationType.NEW_GAME)).toBe('ballot')
     expect(component.getIcon(NotificationType.NEW_RESULT)).toBe('scoreboard')
     expect(component.getIcon(NotificationType.APPROVAL)).toBe('check_circle')
     expect(component.getIcon(NotificationType.REJECTION)).toBe('do_not_disturb_on')

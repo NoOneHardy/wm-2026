@@ -10,6 +10,7 @@ import lombok.ToString;
 
 @Data
 @Entity
+@EqualsAndHashCode(callSuper = false)
 public class Score extends BaseEntity {
     @NotNull
     @OneToOne
@@ -37,10 +38,5 @@ public class Score extends BaseEntity {
 
     public Integer getTotalScore() {
         return scoreTeamHome + scoreTeamGuest;
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
     }
 }

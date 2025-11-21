@@ -66,9 +66,9 @@ public class PreferencesService {
 
     public boolean hasDisabledNotification(@NotNull User user, @NotNull Channel channel, @NotNull NotificationType type) {
         return getNotificationPrefsRaw(user).stream()
-                .filter(pref -> pref.getChannel() == channel && pref.getType() == type)
+                .filter(pref -> pref.getChannel().equals(channel) && pref.getType().equals(type))
                 .findFirst()
-                .map(NotificationPreference::isSelected)
-                .orElse(true); // fallback to true if no preference is found
+                .map(p -> !p.isSelected())
+                .orElse(false); // fallback to false if no preference is found
     }
 }

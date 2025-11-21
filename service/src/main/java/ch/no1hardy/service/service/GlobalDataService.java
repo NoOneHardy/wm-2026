@@ -1,23 +1,21 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.config.GlobalKey;
-import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.front.GlobalData;
 import ch.no1hardy.service.mapper.NotificationMapperImpl;
 import ch.no1hardy.service.model.notification.Notification;
-import ch.no1hardy.service.model.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class GlobalDataService {
+    private final AuthService authService;
     private final UserService userService;
     private final NotificationMapperImpl notificationMapper;
 
@@ -25,13 +23,14 @@ public class GlobalDataService {
      * Retrieves the current global data for the user.
      *
      * @return GlobalData containing notifications and other user-related information.
-     * @throws UserNotFoundException if the current user is not found.
      */
-    private GlobalData createGlobalData() throws UserNotFoundException {
-        Optional<User> user$ = userService.getCurrentUserRaw();
-        List<Notification> notifications = user$.map(user -> userService.getNotifications(user).stream()
-                .limit(5)
-                .toList()).orElseGet(List::of);
+    private GlobalData createGlobalData() {
+        List<Notification> notifications = authService.getLoggedInUser()
+                .map(user -> userService.getNotifications(user)
+                        .stream()
+                        .limit(5)
+                        .toList())
+                .orElseGet(List::of);
 
         return GlobalData.builder()
                 .id(UUID.randomUUID().toString())

@@ -8,7 +8,6 @@ import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.user.User;
-import ch.no1hardy.service.model.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,17 +29,9 @@ public class DashboardServiceTest {
     @MockitoBean
     private UserService userService;
 
-    @MockitoBean
-    private LeaderboardService leaderboardService;
 
     @MockitoBean
-    private GroupService groupService;
-
-    @MockitoBean
-    private UserRepository repository;
-
-    @MockitoBean
-    private GameService gameService;
+    private AuthService authService;
 
     @Test
     @DisplayName("getGlobalStatistics() - should return zero statistics if no users exist")
@@ -55,16 +46,16 @@ public class DashboardServiceTest {
     }
 
     @Test
-    @DisplayName("getUserSummary() - should throw NotFoundException if no user is found")
+    @DisplayName("getUserSummary() - should throw NotLoggedInException if no user is found")
     void shouldThrowNotLoggedInExceptionIfNoUserIsFound() {
-        SecurityHelper.mockNoLogin();
+        SecurityHelper.mockNoLogin(authService);
         assertThrows(NotLoggedInException.class, service::getUserSummary);
     }
 
     @Test
-    @DisplayName("getStatistics() - should throw BadRequestException if no user is logged in")
+    @DisplayName("getStatistics() - should throw NotLoggedInException if no user is logged in")
     void shouldThrowNotLoggedInExceptionIfNoUserLoggedInForStatistics() {
-        SecurityHelper.mockNoLogin();
+        SecurityHelper.mockNoLogin(authService);
         assertThrows(NotLoggedInException.class, service::getStatistics);
     }
 

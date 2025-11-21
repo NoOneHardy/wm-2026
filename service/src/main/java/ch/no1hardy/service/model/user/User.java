@@ -154,7 +154,25 @@ public class User extends BaseEntity implements UserDetails {
      * Returns whether the user has been confirmed by an admin. This is used to determine if the user should be included in the ranking.
      */
     public boolean isConfirmed() {
-        return isActive() && getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.ACCEPTED;
+        return isActive() && isApproved();
+    }
+
+    /**
+     * Returns whether the user application has been approved by an admin.
+     *
+     * @return true if the user application is approved, false otherwise
+     */
+    public boolean isApproved() {
+        return getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.ACCEPTED;
+    }
+
+    /**
+     * Returns whether the user application has been denied by an admin.
+     *
+     * @return true if the user application is denied, false otherwise
+     */
+    public boolean isDenied() {
+        return getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.DENIED;
     }
 
     /**

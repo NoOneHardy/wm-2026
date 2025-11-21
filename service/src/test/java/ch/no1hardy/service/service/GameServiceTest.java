@@ -31,6 +31,9 @@ public class GameServiceTest {
     private UserService userService;
 
     @MockitoBean
+    private AuthService authService;
+
+    @MockitoBean
     private GameRepository repository;
 
     private User user;
@@ -52,7 +55,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return empty list when no games are available")
     void shouldReturnEmptyListWhenNoGamesAvailable() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
         when(repository.findAll()).thenReturn(List.of());
 
         List<BetGameRes> result = service.getUpcomingGames();
@@ -65,7 +68,7 @@ public class GameServiceTest {
         User otherUser = new User();
         otherUser.setId("other-user");
 
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
         Game game1 = new Game();
         game1.setId("game-1");
         game1.setBets(List.of(
@@ -90,7 +93,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should filter games in the next 5 days")
     void shouldFilterGamesInNextFiveDays() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -114,7 +117,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return only active games")
     void shouldReturnOnlyActiveGames() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -135,7 +138,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return games without a result")
     void shouldReturnGamesWithoutAResult() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -158,7 +161,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getUpcomingGames() - should return up to 5 games")
     void shouldReturnUpToFiveGames() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         Game game1 = new Game();
         game1.setId("game-1");
@@ -216,7 +219,7 @@ public class GameServiceTest {
         Game game3 = GameHelper.createGame("game-3");
 
         when(repository.findAll()).thenReturn(List.of(game1, game2, game3));
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         List<BetGameRes> result = service.getRecentResults();
 
@@ -236,7 +239,7 @@ public class GameServiceTest {
         score2.setUpdatedAt(LocalDateTime.now());
 
         when(repository.findAll()).thenReturn(List.of(game1, game2));
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         List<BetGameRes> result = service.getRecentResults();
 
@@ -258,7 +261,7 @@ public class GameServiceTest {
 
         when(repository.findAll()).thenReturn(games);
 
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
         List<BetGameRes> result = service.getRecentResults();
 
         assertEquals(5, result.size());
@@ -269,7 +272,7 @@ public class GameServiceTest {
     @Test
     @DisplayName("getRecentResults() - should return recent results")
     void shouldReturnRecentResults() {
-        when(userService.getCurrentUserRaw()).thenReturn(Optional.of(user));
+        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
         Game game1 = GameHelper.createGame("game-1");
         Score score1 = GameHelper.createScore("score-1", game1, 2, 1);

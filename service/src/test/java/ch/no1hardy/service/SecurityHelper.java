@@ -1,10 +1,8 @@
 package ch.no1hardy.service;
 
 import ch.no1hardy.service.model.user.User;
-import ch.no1hardy.service.model.user.UserRepository;
 import ch.no1hardy.service.service.AuthService;
 import jakarta.validation.constraints.NotNull;
-import org.mockito.Mockito;
 
 import java.util.Optional;
 

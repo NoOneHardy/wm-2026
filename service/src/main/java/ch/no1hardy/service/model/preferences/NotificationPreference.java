@@ -1,5 +1,6 @@
 package ch.no1hardy.service.model.preferences;
 
+import ch.no1hardy.service.front.preferences.NotificationPreferenceReq;
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.notification.Channel;
 import ch.no1hardy.service.model.notification.NotificationType;
@@ -18,4 +19,9 @@ public class NotificationPreference extends BaseEntity {
     private NotificationType type;
     private Channel channel;
     private boolean selected = true;
+
+    public boolean compareToReq(NotificationPreferenceReq other) {
+        return type.equals(other.type())
+                && channel.equals(other.channel());
+    }
 }

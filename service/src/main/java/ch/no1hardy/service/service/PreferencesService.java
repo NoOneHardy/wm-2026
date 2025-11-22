@@ -14,7 +14,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,11 +77,10 @@ public class PreferencesService {
     }
 
     public Optional<List<NotificationPreferenceRes>> updateNotificationPrefs(List<NotificationPreferenceReq> prefs) {
-        getNotificationPrefsRaw().ifPresent(existingPrefs -> prefs
-                .forEach(req -> existingPrefs.stream()
-                        .filter(ep -> ep.getType().equals(req.type()) && ep.getChannel().equals(req.channel()))
-                        .findFirst()
-                        .ifPresent(ep -> {
+        getNotificationPrefsRaw().ifPresent(existingPrefs ->
+                prefs.forEach(req -> existingPrefs.stream()    // loop over incoming prefs
+                        .filter(ep -> ep.compareToReq(req)).findFirst() // find matching existing pref
+                        .ifPresent(ep -> {                        // update and save
                             ep.setSelected(req.selected());
                             notificationPreferenceRepository.save(ep);
                         })));

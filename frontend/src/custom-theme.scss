@@ -25,6 +25,46 @@ $frontend-theme: mat.define-theme((
 // that you are using.
 :root {
   @include mat.all-component-themes($frontend-theme);
+
+  @include mat.slide-toggle-overrides((
+    pressed-handle-size: 1.5rem,
+    selected-handle-horizontal-margin: 0,
+    selected-pressed-handle-horizontal-margin: 0,
+    selected-track-outline-color: transparent,
+    selected-track-outline-width: 0,
+    track-height: 1.5rem,
+    track-outline-width: 0,
+    track-width: 3rem,
+    unselected-handle-horizontal-margin: 0,
+    unselected-handle-size: 1.5rem,
+    unselected-pressed-handle-horizontal-margin: 0,
+    handle-width: 1.5rem,
+    handle-height: 1.5rem,
+    label-text-color: var(--wm-color-neutral-600),
+    selected-focus-handle-color: var(--wm-color-secondary-600),
+    label-text-size: 1rem,
+    selected-focus-track-color: var(--wm-color-neutral-200),
+    selected-handle-color: var(--wm-color-secondary-600),
+    selected-hover-handle-color: var(--wm-color-secondary-600),
+    selected-hover-track-color: var(--wm-color-neutral-200),
+    selected-pressed-handle-color: var(--wm-color-secondary-600),
+    selected-pressed-track-color: var(--wm-color-neutral-200),
+    selected-track-color: var(--wm-color-neutral-200),
+    track-outline-color: transparent,
+    unselected-focus-handle-color: var(--wm-color-neutral-400),
+    unselected-focus-track-color: var(--wm-color-neutral-200),
+    unselected-handle-color: var(--wm-color-secondary-400),
+    unselected-hover-handle-color: var(--wm-color-secondary-400),
+    unselected-hover-track-color: var(--wm-color-neutral-200),
+    unselected-pressed-handle-color: var(--wm-color-neutral-400),
+    unselected-pressed-track-color: var(--wm-color-neutral-200),
+    unselected-track-color: var(--wm-color-neutral-200),
+    handle-elevation-shadow: #0000003D 0 0 .5em 0,
+  ));
+
+  mat-slide-toggle .mdc-switch__track {
+    box-shadow: 0 .125em .125em 0 #0000003D inset;
+  }
 }
 
 // Comment out the line below if you want to use the pre-defined typography utility classes.

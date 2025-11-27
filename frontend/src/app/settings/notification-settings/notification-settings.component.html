@@ -1,5 +1,24 @@
 <h2>Benachrichtigungen</h2>
 
-@for (notification of notifications(); track $index) {
-  <mat-slide-toggle hideIcon>{{ notification.type | notificationTypePipe }}</mat-slide-toggle>
-}
+<form [formGroup]="form">
+  <ng-container formArrayName="channels">
+    @for (channel of form.controls.channels.controls; track $index) {
+      <ng-container [formGroup]="channel">
+        <mat-slide-toggle hideIcon formControlName="enabled">{{ channel.controls.data.value }}</mat-slide-toggle>
+        @if (channel.controls.enabled.value) {
+          <ng-container formArrayName="preferences">
+            @for (preference of channel.controls.preferences.controls; track $index) {
+              <ng-container [formGroup]="preference">
+                <mat-slide-toggle hideIcon
+                                  formControlName="enabled">{{ preference.controls.data.value.type | notificationType }}
+                </mat-slide-toggle>
+              </ng-container>
+            }
+          </ng-container>
+        }
+      </ng-container>
+    }
+  </ng-container>
+</form>
+
+<pre>{{ form.getRawValue() | json }}</pre>

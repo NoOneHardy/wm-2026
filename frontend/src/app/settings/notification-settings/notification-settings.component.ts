@@ -4,19 +4,21 @@ import {Store} from '@ngrx/store'
 import {fetchNotificationPreferences} from '../../user-management/store/user.actions'
 import {NotificationPreference} from '../../user-management/model/notification-preference'
 import {selectNotificationPreferences} from '../../user-management/store/user.feature'
-import {NotificationTypePipePipe} from '../../shared/pipes/notification-type.pipe'
+import {NotificationTypePipe} from '../../shared/pipes/notification-type.pipe'
 import {FormArray, FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {NotificationChannel} from '../../user-management/model/notification-channel'
-import {JsonPipe} from '@angular/common'
+import {NotificationChannelPipe} from '../../shared/pipes/notification-channel.pipe'
+import {ButtonComponent} from '../../shared/components/button/button.component'
 
 @Component({
   selector: 'wm-notification-settings',
   standalone: true,
   imports: [
     MatSlideToggle,
-    NotificationTypePipePipe,
+    NotificationTypePipe,
     ReactiveFormsModule,
-    JsonPipe
+    NotificationChannelPipe,
+    ButtonComponent
   ],
   templateUrl: './notification-settings.component.html',
   styleUrl: './notification-settings.component.css'

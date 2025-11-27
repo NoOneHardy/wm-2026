@@ -3,10 +3,11 @@
 <form [formGroup]="form">
   <ng-container formArrayName="channels">
     @for (channel of form.controls.channels.controls; track $index) {
-      <ng-container [formGroup]="channel">
-        <mat-slide-toggle hideIcon formControlName="enabled">{{ channel.controls.data.value }}</mat-slide-toggle>
+      <div class="channel" [formGroup]="channel">
+        <mat-slide-toggle hideIcon formControlName="enabled" class="-primary-toggle">{{ channel.controls.data.value | notificationChannel }}
+        </mat-slide-toggle>
         @if (channel.controls.enabled.value) {
-          <ng-container formArrayName="preferences">
+          <div class="preferences" formArrayName="preferences">
             @for (preference of channel.controls.preferences.controls; track $index) {
               <ng-container [formGroup]="preference">
                 <mat-slide-toggle hideIcon
@@ -14,11 +15,11 @@
                 </mat-slide-toggle>
               </ng-container>
             }
-          </ng-container>
+          </div>
         }
-      </ng-container>
+      </div>
     }
   </ng-container>
 </form>
 
-<pre>{{ form.getRawValue() | json }}</pre>
+<wm-button>Speichern</wm-button>

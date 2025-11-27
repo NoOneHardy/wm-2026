@@ -5,7 +5,7 @@ import {NotificationType} from '../../user-management/model/notification-type'
   name: 'notificationType',
   standalone: true
 })
-export class NotificationTypePipePipe implements PipeTransform {
+export class NotificationTypePipe implements PipeTransform {
   transform(type: NotificationType): string {
     switch (type) {
       case NotificationType.NEW_GAME:

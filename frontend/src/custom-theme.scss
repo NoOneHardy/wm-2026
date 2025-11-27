@@ -62,8 +62,15 @@ $frontend-theme: mat.define-theme((
     handle-elevation-shadow: #0000003D 0 0 .5em 0,
   ));
 
-  mat-slide-toggle .mdc-switch__track {
-    box-shadow: 0 .125em .125em 0 #0000003D inset;
+  mat-slide-toggle {
+    .mdc-switch__track {
+      box-shadow: 0 .125em .125em 0 #0000003D inset;
+    }
+
+    &.-primary-toggle label {
+      font-size: 1.125em;
+      font-weight: 600;
+    }
   }
 }
 

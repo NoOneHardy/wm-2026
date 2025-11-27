@@ -3,13 +3,13 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser,
+  createUser, fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
   logout,
   markedNotificationAsRead,
-  markNotificationAsRead,
-  rejectLogin,
+  markNotificationAsRead, notificationPreferencesFetched, notificationPreferencesUpdated,
+  rejectLogin, updateNotificationPreferences,
   updateUser,
   uploadAvatar,
   userCreated,
@@ -160,4 +160,27 @@ export class UserEffects {
     }),
     map(action => userInfoFetched({user: action.user}))
   ))
+
+  fetchNotificationPreferences = createEffect(() => this.actions$.pipe(
+    ofType(fetchNotificationPreferences),
+    exhaustMap(() => this.userService.fetchNotificationPreferences().pipe(
+      map(preferences => notificationPreferencesFetched({preferences}))
+    ))
+  ))
+
+  updateNotificationPreferences = createEffect(() => this.actions$.pipe(
+    ofType(updateNotificationPreferences),
+    exhaustMap((action) => this.userService.updateNotificationPreferences(action.preferences).pipe(
+      map(preferences => notificationPreferencesFetched({preferences}))
+    ))
+  ))
+
+  notificationPreferencesUpdated = createEffect(() => this.actions$.pipe(
+    ofType(notificationPreferencesUpdated),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Einstellungen erfolgreich aktualisiert'
+      })
+    })
+  ), {dispatch: false})
 }

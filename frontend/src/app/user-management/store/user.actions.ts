@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store'
 import {NewUser, UpdateUser, User} from '../../model/user/user'
 import {LoginData} from '../model/login'
 import {Notification} from '../model/notification'
+import {NotificationPreference} from '../model/notification-preference'
 
 export const createUser = createAction('[User] create user', props<{ user: NewUser }>())
 export const userCreated = createAction('[User] user created', props<LoginData>())
@@ -22,3 +23,15 @@ export const uploadAvatar = createAction('[User] Upload avatar', props<{ file: F
 export const avatarUploaded = createAction('[User] Avatar uploaded', props<{ avatarUrl?: string | null }>())
 export const updateUser = createAction('[User] Update user', props<{ user: UpdateUser }>())
 export const userUpdated = createAction('[User] User updated', props<{ user: User }>())
+
+// Preferences
+export const updateNotificationPreferences = createAction('[User Preferences] Update notification preferences', props<{
+  preferences: NotificationPreference[]
+}>())
+export const notificationPreferencesUpdated = createAction('[User Preferences] Notification preferences updated', props<{
+  preferences: NotificationPreference[]
+}>())
+export const fetchNotificationPreferences = createAction('[User Preferences] Fetch notification preferences')
+export const notificationPreferencesFetched = createAction('[User Preferences] Notification preferences fetched', props<{
+  preferences: NotificationPreference[]
+}>())

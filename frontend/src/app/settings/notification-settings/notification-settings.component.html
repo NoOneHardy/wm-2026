@@ -1,0 +1,5 @@
+<h2>Benachrichtigungen</h2>
+
+@for (notification of notifications(); track $index) {
+  <mat-slide-toggle hideIcon>{{ notification.type | notificationTypePipe }}</mat-slide-toggle>
+}

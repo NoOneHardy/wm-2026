@@ -3,7 +3,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {NotificationsComponent} from './notifications.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectNotifications} from '../../../../../user-management/store/user.feature'
-import {NotificationType} from '../../../../../user-management/model/notification'
+import {NotificationType} from '../../../../../user-management/model/notification-type'
 import {provideRouter} from '@angular/router'
 import {markNotificationAsRead} from '../../../../../user-management/store/user.actions'
 

@@ -1,7 +1,7 @@
 import {Component, effect, inject, OnInit, Signal} from '@angular/core'
 import {MatSlideToggle} from '@angular/material/slide-toggle'
 import {Store} from '@ngrx/store'
-import {fetchNotificationPreferences} from '../../user-management/store/user.actions'
+import {fetchNotificationPreferences, updateNotificationPreferences} from '../../user-management/store/user.actions'
 import {NotificationPreference} from '../../user-management/model/notification-preference'
 import {selectNotificationPreferences} from '../../user-management/store/user.feature'
 import {NotificationTypePipe} from '../../shared/pipes/notification-type.pipe'
@@ -39,6 +39,7 @@ export class NotificationSettingsComponent implements OnInit {
   constructor() {
     effect(() => {
       this.form.reset()
+      this.form.controls.channels.clear()
       const prefs = this.notifications()
       if (prefs) {
         const channels = prefs.map(p => p.channel)
@@ -53,14 +54,12 @@ export class NotificationSettingsComponent implements OnInit {
   }
 
   private disableChannel(channelGroup: ChannelFormGroup): void {
-    channelGroup.controls.enabled.setValue(false)
     for (const prefGroup of channelGroup.controls.preferences.controls) {
       prefGroup.controls.enabled.setValue(false)
     }
   }
 
   private enableChannel(channelGroup: ChannelFormGroup): void {
-    channelGroup.controls.enabled.setValue(true)
     for (const prefGroup of channelGroup.controls.preferences.controls) {
       prefGroup.controls.enabled.setValue(true)
     }
@@ -86,6 +85,19 @@ export class NotificationSettingsComponent implements OnInit {
       else this.disableChannel(group)
     })
     return group
+  }
+
+  save(): void {
+    const updatedPreferences: NotificationPreference[] = this.form.controls.channels.controls.flatMap(c => {
+      return c.controls.preferences.controls.map(p => {
+        return {
+          ...p.controls.data.value,
+          selected: p.controls.enabled.value
+        }
+      })
+    })
+
+    this.store.dispatch(updateNotificationPreferences({preferences: updatedPreferences}))
   }
 }
 

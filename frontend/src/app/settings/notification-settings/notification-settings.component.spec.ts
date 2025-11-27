@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import { NotificationSettingsComponent } from './notification-settings.component'
+import {NotificationSettingsComponent} from './notification-settings.component'
+import {provideMockStore} from '@ngrx/store/testing'
 
 describe('EmailSettingsComponent', () => {
   let component: NotificationSettingsComponent
@@ -8,9 +9,9 @@ describe('EmailSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NotificationSettingsComponent]
-    })
-    .compileComponents()
+      imports: [NotificationSettingsComponent],
+      providers: [provideMockStore()]
+    }).compileComponents()
 
     fixture = TestBed.createComponent(NotificationSettingsComponent)
     component = fixture.componentInstance

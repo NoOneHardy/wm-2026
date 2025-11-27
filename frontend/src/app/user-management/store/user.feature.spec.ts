@@ -5,7 +5,7 @@ import * as feature from './user.feature'
 import {selectIsAdmin, UserState} from './user.feature'
 import {markedNotificationAsRead, markNotificationAsRead, updateNotifications, userLoggedIn} from './user.actions'
 import {mockUser1} from '../../model/mock/user.mock'
-import {NotificationType} from '../model/notification'
+import {NotificationType} from '../model/notification-type'
 
 describe('UserFeature', () => {
   let store: FeatureSlice<UserState>

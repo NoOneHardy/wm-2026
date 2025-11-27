@@ -5,7 +5,7 @@ import {MatMenu, MatMenuTrigger} from '@angular/material/menu'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
 import {markNotificationAsRead} from '../../../../../user-management/store/user.actions'
-import {NotificationType} from '../../../../../user-management/model/notification'
+import {NotificationType} from '../../../../../user-management/model/notification-type'
 
 @Component({
   selector: 'wm-notifications',

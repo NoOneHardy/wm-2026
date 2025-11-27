@@ -4,6 +4,7 @@ import {AvailabilityCheck} from './model/availability-check'
 import {NewUser, UpdateUser, User} from '../model/user/user'
 import {LoginData} from './model/login'
 import {BaseHttpService} from '../shared/services/base-http/base-http.service'
+import {NotificationPreference} from './model/notification-preference'
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +51,13 @@ export class UserService extends BaseHttpService {
 
   updateUser(user: UpdateUser): Observable<User> {
     return this.put<User>(`/api/user/${user.id}`, user)
+  }
+
+  fetchNotificationPreferences(): Observable<NotificationPreference[]> {
+    return this.get<NotificationPreference[]>('/api/preferences/notifications')
+  }
+
+  updateNotificationPreferences(preferences: NotificationPreference[]): Observable<NotificationPreference[]> {
+    return this.put<NotificationPreference[]>('/api/preferences/notifications', preferences)
   }
 }

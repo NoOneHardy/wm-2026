@@ -36,6 +36,7 @@ export class NotificationSettingsComponent implements OnInit {
 
   constructor() {
     effect(() => {
+      this.form.reset()
       const prefs = this.notifications()
       if (prefs) {
         const channels = prefs.map(p => p.channel)
@@ -49,7 +50,21 @@ export class NotificationSettingsComponent implements OnInit {
     })
   }
 
-  createFormGroup(prefs: NotificationPreference[]): ChannelFormGroup | null {
+  private disableChannel(channelGroup: ChannelFormGroup): void {
+    channelGroup.controls.enabled.setValue(false)
+    for (const prefGroup of channelGroup.controls.preferences.controls) {
+      prefGroup.controls.enabled.setValue(false)
+    }
+  }
+
+  private enableChannel(channelGroup: ChannelFormGroup): void {
+    channelGroup.controls.enabled.setValue(true)
+    for (const prefGroup of channelGroup.controls.preferences.controls) {
+      prefGroup.controls.enabled.setValue(true)
+    }
+  }
+
+  private createFormGroup(prefs: NotificationPreference[]): ChannelFormGroup | null {
     if (prefs.length === 0) return null
 
     const channel = prefs[0].channel
@@ -59,11 +74,16 @@ export class NotificationSettingsComponent implements OnInit {
     }))
     const isEnabled = preferences.some(p => p.controls.enabled.value)
 
-    return new FormGroup({
+    const group = new FormGroup({
       data: new FormControl<NotificationChannel>(channel, {nonNullable: true}),
       enabled: new FormControl<boolean>(isEnabled, {nonNullable: true}),
       preferences: new FormArray<PreferenceFormGroup>(preferences)
     })
+    group.controls.enabled.valueChanges.subscribe(v => {
+      if (v) this.enableChannel(group)
+      else this.disableChannel(group)
+    })
+    return group
   }
 }
 

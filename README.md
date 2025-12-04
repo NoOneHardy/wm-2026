@@ -2,6 +2,10 @@
 
 A betting game for the FIFA World Cup 2026.
 
+## Demo Version
+
+You can find a live demo version here: [https://wm-dev.no1hardy.ch](https://wm-dev.no1hardy.ch)
+
 ## Commit types
 
 | Commit Type | Title                   | Description                                                      |

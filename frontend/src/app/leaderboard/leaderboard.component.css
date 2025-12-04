@@ -72,5 +72,18 @@
 @media screen and (max-width: 576px) {
   .leaderboard {
     padding: var(--wm-spacer-6) var(--wm-spacer-4);
+    overflow-y: scroll;
+
+    h1 {
+      font: var(--wm-font-h2);
+    }
+
+    p.sub-heading {
+      display: none;
+    }
+
+    .board {
+      overflow-y: unset;
+    }
   }
 }

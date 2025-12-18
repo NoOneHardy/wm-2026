@@ -21,3 +21,9 @@ form {
     }
   }
 }
+
+@media screen and (max-width: 768px) {
+  h2 {
+    font: var(--wm-font-h3);
+  }
+}

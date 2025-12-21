@@ -29,7 +29,6 @@ public class DashboardServiceTest {
     @MockitoBean
     private UserService userService;
 
-
     @MockitoBean
     private AuthService authService;
 
@@ -336,5 +335,15 @@ public class DashboardServiceTest {
         int jokersWasted = service.getJokersWasted(user);
 
         assertEquals(1, jokersWasted);
+    }
+
+    @Test
+    @DisplayName("participationFee - should load from application properties")
+    void participationFee01() throws Exception {
+        var field = DashboardService.class.getDeclaredField("participationFee");
+        field.setAccessible(true);
+        Object value = field.get(service);
+
+        assertEquals(10, value);
     }
 }

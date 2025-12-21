@@ -5,19 +5,24 @@ import ch.no1hardy.service.front.dashboard.DashboardData;
 import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
 import ch.no1hardy.service.front.dashboard.UserSummary;
+import ch.no1hardy.service.front.home.HomeRes;
 import ch.no1hardy.service.front.leaderboard.RankingRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DashboardService {
+    @Value("${wm.participation.fee}")
+    private Integer participationFee;
+
     private final AuthService authService;
     private final UserService userService;
     private final GameService gameService;
@@ -139,5 +144,27 @@ public class DashboardService {
                 .filter(bet -> bet.getJoker() > 1 && userService.calculateUserPoints(bet, bet.getGame().getResult()) <= 0)
                 .mapToInt(bet -> bet.getJoker() - 1)
                 .sum();
+    }
+
+    public HomeRes getHomeData() {
+        return new HomeRes(
+                getJackpot(),
+                getParticipantsCount(),
+                getGamesCount()
+        );
+    }
+
+    public int getJackpot() {
+        return userService.listConfirmedRaw().stream()
+                .mapToInt(u -> this.participationFee)
+                .sum();
+    }
+
+    public int getParticipantsCount() {
+        return userService.listConfirmedRaw().size();
+    }
+
+    public int getGamesCount() {
+        return gameService.getAllActiveGames().size();
     }
 }

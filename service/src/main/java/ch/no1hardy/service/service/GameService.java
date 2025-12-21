@@ -135,8 +135,7 @@ public class GameService {
      * @throws NotLoggedInException if the user is not logged in
      */
     public List<BetGameRes> getUpcomingGames() throws NotLoggedInException {
-        return repository.findAll().stream()
-                .filter(Game::isActive)
+        return getAllActiveGames().stream()
                 .filter(g -> !g.hasResult())
                 .filter(g -> g.getTimestamp().isAfter(LocalDateTime.now()))
                 .filter(g -> g.getTimestamp().isBefore(LocalDateTime.now().plusDays(5)))
@@ -152,11 +151,16 @@ public class GameService {
      * @throws NotLoggedInException if the user is not logged in
      */
     public List<BetGameRes> getRecentResults() throws NotLoggedInException, UserNotFoundException {
-        return repository.findAll().stream()
-                .filter(Game::isActive)
+        return getAllActiveGames().stream()
                 .filter(Game::hasResult)
                 .sorted((g1, g2) -> g2.getResult().getUpdatedAt().compareTo(g1.getResult().getUpdatedAt()))
                 .limit(5)
                 .map(mapper::toDto).toList();
+    }
+
+    public List<Game> getAllActiveGames() {
+        return repository.findAll().stream()
+                .filter(Game::isActive)
+                .toList();
     }
 }

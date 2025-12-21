@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "wm.participation.fee",
+      "type": "java.lang.Double",
+      "description": "How much the user has to pay to participate."
+  }
+] }

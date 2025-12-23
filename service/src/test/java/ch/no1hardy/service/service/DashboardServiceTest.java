@@ -5,6 +5,7 @@ import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.front.dashboard.GlobalStatistics;
 import ch.no1hardy.service.front.dashboard.Statistics;
+import ch.no1hardy.service.front.home.HomeRes;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.user.User;
@@ -31,6 +32,9 @@ public class DashboardServiceTest {
 
     @MockitoBean
     private AuthService authService;
+
+    @MockitoBean
+    private GameService gameService;
 
     @Test
     @DisplayName("getGlobalStatistics() - should return zero statistics if no users exist")
@@ -345,5 +349,50 @@ public class DashboardServiceTest {
         Object value = field.get(service);
 
         assertEquals(10, value);
+    }
+
+    @Test
+    @DisplayName("getGamesCount() - should count how many games are online")
+    void getGamesCount01() {
+        when(gameService.getAllActiveGames()).thenReturn(List.of(new Game(), new Game(), new Game()));
+        assertEquals(3, service.getGamesCount());
+    }
+
+    @Test
+    @DisplayName("getGamesCount() - should return null if there are no games")
+    void getGamesCount02() {
+        when(gameService.getAllActiveGames()).thenReturn(List.of());
+        assertEquals(0, service.getGamesCount());
+    }
+
+    @Test
+    @DisplayName("getParticipantsCount() - should return number of approved players")
+    void getParticipantsCount01() {
+        when(userService.listConfirmedRaw()).thenReturn(List.of(new User(), new User(), new User()));
+        assertEquals(3, service.getParticipantsCount());
+    }
+
+    @Test
+    @DisplayName("getParticipantsCount() - should return 0 if no players where found")
+    void getParticipantsCount02() {
+        when(userService.listConfirmedRaw()).thenReturn(List.of());
+        assertEquals(0, service.getParticipantsCount());
+    }
+
+    @Test
+    @DisplayName("getJackpot() - should calculate using particpants count and participation fee")
+    void getJackpot01() {
+        when(userService.listConfirmedRaw()).thenReturn(List.of(new User(), new User()));
+        assertEquals(2, service.getParticipantsCount());
+        assertEquals(20, service.getJackpot());
+    }
+
+    @Test
+    @DisplayName("getHomeData() - should bundle data for home screen as HomeRes record")
+    void getHomeData01() {
+        when(userService.listConfirmedRaw()).thenReturn(List.of(new User(), new User()));
+        when(gameService.getAllActiveGames()).thenReturn(List.of(new Game()));
+
+        assertEquals(new HomeRes(20, 2, 1), service.getHomeData());
     }
 }

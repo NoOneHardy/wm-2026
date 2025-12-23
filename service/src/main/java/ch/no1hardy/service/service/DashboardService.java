@@ -146,6 +146,14 @@ public class DashboardService {
                 .sum();
     }
 
+    /**
+     * Get a record of the data that is displayed on the home screen:
+     * - jackpot - how much money is in the jackpot
+     * - participants - how many players are playing in total
+     * - games - how many games are online
+     *
+     * @return the necessary data for the home screen as record
+     */
     public HomeRes getHomeData() {
         return new HomeRes(
                 getJackpot(),
@@ -154,16 +162,27 @@ public class DashboardService {
         );
     }
 
+    /**
+     * Calculate how much money is in the jackpot.
+     * The jackpot is the product of the participation fee and the number of approved players.
+     * @return an integer representing the amount of money in the jackpot
+     */
     public int getJackpot() {
-        return userService.listConfirmedRaw().stream()
-                .mapToInt(u -> this.participationFee)
-                .sum();
+        return getParticipantsCount() * this.participationFee;
     }
 
+    /**
+     * How many players are confirmed.
+     * @return an integer representing the amonut of confirmed players.
+     */
     public int getParticipantsCount() {
         return userService.listConfirmedRaw().size();
     }
 
+    /**
+     * How many games are online.
+     * @return an integer representing the amount of confirmed players.
+     */
     public int getGamesCount() {
         return gameService.getAllActiveGames().size();
     }

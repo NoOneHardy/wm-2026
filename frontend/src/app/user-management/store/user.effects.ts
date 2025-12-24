@@ -3,13 +3,17 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser, fetchNotificationPreferences,
+  createUser,
+  fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
   logout,
   markedNotificationAsRead,
-  markNotificationAsRead, notificationPreferencesFetched, notificationPreferencesUpdated,
-  rejectLogin, updateNotificationPreferences,
+  markNotificationAsRead,
+  notificationPreferencesFetched,
+  notificationPreferencesUpdated,
+  rejectLogin,
+  updateNotificationPreferences,
   updateUser,
   uploadAvatar,
   userCreated,
@@ -22,6 +26,7 @@ import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {noAction} from '../../shared/store/global.actions'
+import {ServiceError} from '../../model/error'
 
 // noinspection JSUnusedGlobalSymbols
 @Injectable({
@@ -123,10 +128,13 @@ export class UserEffects {
     exhaustMap((action) => {
       return this.userService.uploadAvatar(action.file).pipe(
         map((res) => avatarUploaded({avatarUrl: res.avatarUrl})),
-        catchError(() => {
+        catchError((error: ServiceError) => {
+          let message = 'Avatar konnte nicht hochgeladen werden'
+          if (error.message === 'Maximum upload size exceeded') message = 'Die Datei ist zu groß oder hat ein ungültiges Format'
           this.snackbarService.addMessage({
-            message: 'Avatar konnte nicht hochgeladen werden',
-            type: 'error'
+            message,
+            type: 'error',
+            duration: 10000
           })
           return of(noAction())
         })
@@ -140,6 +148,7 @@ export class UserEffects {
       this.snackbarService.addMessage({
         message: 'Avatar erfolgreich hochgeladen',
       })
+      this.router.navigateByUrl('/').then()
     })
   ), {dispatch: false})
 

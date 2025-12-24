@@ -62,7 +62,8 @@ services:
     ports:
       - '26000:80'
     volumes:
-      - './proxy/nginx.conf:/etc/nginx/templates/default.conf.template:ro'
+      - './proxy/default.conf:/etc/nginx/templates/default.conf.template:ro'
+      - './proxy/nginx.conf:/etc/nginx/nginx.conf'
     env_file:
       - './proxy/.env'
     restart: unless-stopped

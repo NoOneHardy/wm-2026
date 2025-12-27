@@ -17,11 +17,14 @@ import ch.no1hardy.service.model.group.GroupRepository;
 import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserRepository;
+import ch.no1hardy.service.model.verification.VerificationCode;
+import ch.no1hardy.service.model.verification.VerificationCodeType;
 import io.micrometer.common.lang.Nullable;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -36,8 +39,11 @@ import java.util.Optional;
 @Service
 @Data
 @EqualsAndHashCode(callSuper = false)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
+    @Value("${wm.verification.email.validity}")
+    private Integer emailConfirmationValidity;
+
     private final UserRepository repository;
     private final GroupRepository groupRepository;
     private final UserMapper mapper;
@@ -47,6 +53,7 @@ public class UserService {
     private final FileService fileService;
     private final AuthService authService;
     private final VerificationService verificationService;
+    private final MailService mailService;
 
     /**
      * List all active users.
@@ -147,6 +154,7 @@ public class UserService {
      * @return CheckRes containing availability status of username and email.
      */
     public CheckRes check(@Nullable String username, @Nullable String email) {
+        clearExpiredUsers();
         return CheckRes.builder()
                 .isUsernameAvailable(username == null || isUsernameAvailable(username))
                 .isEmailAvailable(email == null || isEmailAvailable(email))
@@ -195,12 +203,19 @@ public class UserService {
      * @throws UserValidationException if the dto is invalid
      */
     public UserRes create(@NotNull UserReq dto) throws UserValidationException {
+        clearExpiredUsers();
+
         checkAvailableDtoValues(dto);
         dto.validateAll();
-
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
         User entity = mapper.toEntity(dto);
-        return mapper.toDto(repository.save(entity));
+        repository.save(entity);
+
+        VerificationCode code = entity.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
+        verificationService.saveVerificationCode(code);
+        mailService.sendMail(entity.getEmail(), "Please confirm your email", "Your confirmation code is: " + code.getCode());
+
+        return mapper.toDto(entity);
     }
 
     /**
@@ -259,6 +274,7 @@ public class UserService {
      * @throws UserNotFoundException   if the user with the given username does not exist.
      */
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
+        clearExpiredUsers();
         return repository.findByUsername(dto.getUsername()).map(user -> {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -372,5 +388,18 @@ public class UserService {
                     verificationService.deleteVerificationCode(verifyEmailReq.code());
                     return mapper.toDto(user);
                 }).orElseThrow(() -> new UserNotFoundException(verifyEmailReq.userId()));
+    }
+
+    public void clearExpiredUsers() {
+        verificationService.clearExpiredCodes();
+        repository.findAll().stream()
+                .filter(u -> !u.isEmailConfirmed())
+                .filter(user -> user.getMostRecentEmailVerificationCode()
+                        .map(VerificationCode::isExpired)
+                        .orElse(true))
+                .forEach(user -> {
+                    user.delete();
+                    repository.save(user);
+                });
     }
 }

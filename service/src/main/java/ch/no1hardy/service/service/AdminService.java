@@ -24,11 +24,11 @@ public class AdminService {
      * @return the confirmed user as a UserRes object
      * @throws UserNotFoundException if the user with the given ID does not exist
      */
-    public UserRes confirmUser(@NotNull String id) throws UserNotFoundException {
+    public UserRes approveUser(@NotNull String id) throws UserNotFoundException {
         User user = userService.getRaw(id);
-        if (user.isConfirmed()) return userMapper.toDto(user);
+        if (user.isApproved()) return userMapper.toDto(user);
 
-        user.confirm();
+        user.approve();
         notificationService.notifyUserApproval(user);
         return userMapper.toDto(userRepository.save(user));
     }

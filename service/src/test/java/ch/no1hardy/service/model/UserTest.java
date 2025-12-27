@@ -1,6 +1,6 @@
 package ch.no1hardy.service.model;
 
-import ch.no1hardy.service.common.DateHelper;
+import ch.no1hardy.service.TestUtils;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.user.UserApplicationStatus;
 import ch.no1hardy.service.model.verification.VerificationCode;
@@ -24,74 +24,121 @@ public class UserTest {
     }
 
     @Test
-    void shouldSetUserUnconfirmedByDefault() {
+    @DisplayName("isConfirmed() - should return false by default")
+    void isConfirmed01() {
         assertFalse(user.isConfirmed());
     }
 
     @Test
-    void shouldNotConfirmUserIfApplicationStatusIsDenied() {
+    @DisplayName("isConfirmed() - should return false if application status is denied")
+    void isConfirmed02() {
         user.deny();
+        user.setEmailConfirmedAt(LocalDateTime.now());
+        user.setDeletedAt(null);
+
         assertFalse(user.isConfirmed());
     }
 
     @Test
-    void shouldConfirmUserIfApplicationStatusIsAccepted() {
-        user.confirm();
-        assertTrue(user.isConfirmed());
+    @DisplayName("isConfirmed() - should return false if email is not confirmed")
+    void isConfirmed03() {
+        user.approve();
+        user.setEmailConfirmedAt(null);
+        user.setDeletedAt(null);
+
+        assertFalse(user.isConfirmed());
     }
 
     @Test
-    void shouldNotConfirmUserIfUserIsNotActive() {
-        user.confirm();
+    @DisplayName("isConfirmed() - should return false if user is not active")
+    void isConfirmed04() {
+        user.approve();
+        user.setEmailConfirmedAt(LocalDateTime.now());
         user.setDeletedAt(LocalDateTime.now());
 
         assertFalse(user.isConfirmed());
     }
 
     @Test
-    void shouldConfirmUserIfNotAlreadyConfirmed() {
-        assertFalse(user.isConfirmed());
-        user.confirm();
+    @DisplayName("isConfirmed() - should return true if user matches all criteria for being confirmed")
+    void isConfirmed05() {
+        user.approve();
+        user.setEmailConfirmedAt(LocalDateTime.now());
+        user.setDeletedAt(null);
+
         assertTrue(user.isConfirmed());
-        user.setApplicationReviewedAt(LocalDateTime.of(2026, 6, 17, 9, 0, 0));
-
-        user.confirm();
-        assertEquals(LocalDateTime.of(2026, 6, 17, 9, 0, 0), user.getApplicationReviewedAt());
     }
 
     @Test
-    void shouldDenyUserIfNotAlreadyDenied() {
-        user.deny();
-        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
-        assertNotNull(user.getApplicationReviewedAt());
-        user.setApplicationReviewedAt(LocalDateTime.of(2026, 6, 17, 9, 0, 0));
+    @DisplayName("approve() - should approve user")
+    void approve01() {
+        assertFalse(user.isApproved());
 
-        user.deny();
-        assertEquals(LocalDateTime.of(2026, 6, 17, 9, 0, 0), user.getApplicationReviewedAt());
-    }
-
-    @Test
-    void shouldAllowConfirmAfterDeny() {
-        user.deny();
-        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
-        assertNotNull(user.getApplicationReviewedAt());
-        user.setApplicationReviewedAt(LocalDateTime.of(2026, 6, 17, 9, 0, 0));
-
-        user.confirm();
+        TestUtils.checkTime(user::approve, user::getApplicationReviewedAt);
         assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
-        assertNotEquals(LocalDateTime.of(2026, 6, 17, 9, 0, 0), user.getApplicationReviewedAt());
     }
 
     @Test
-    void shouldAllowDenyAfterConfirm() {
-        user.confirm();
-        assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
-        assertNotNull(user.getApplicationReviewedAt());
-        user.setApplicationReviewedAt(LocalDateTime.of(2026, 6, 17, 9, 0, 0));
+    @DisplayName("approve() - should approve user if not already confirmed")
+    void approve02() {
+        assertFalse(user.isApproved());
 
-        user.deny();
+        TestUtils.CheckTimeResult firstApproval = TestUtils.checkTime(user::approve, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
+
+        TestUtils.sleep(10);
+
+        TestUtils.checkTime(user::approve, user::getApplicationReviewedAt, false);
+        assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
+        TestUtils.checkTimeByResult(user.getApplicationReviewedAt(), firstApproval);
+    }
+
+    @Test
+    @DisplayName("approve() - should approve user if denied")
+    void approve03() {
+        TestUtils.CheckTimeResult denialResult = TestUtils.checkTime(user::deny, user::getApplicationReviewedAt);
         assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
-        assertNotEquals(LocalDateTime.of(2026, 6, 17, 9, 0, 0), user.getApplicationReviewedAt());
+
+        TestUtils.sleep(10);
+
+        TestUtils.checkTime(user::approve, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
+        TestUtils.checkTimeByResult(user.getApplicationReviewedAt(), denialResult, false);
+    }
+
+    @Test
+    @DisplayName("deny() - should deny user")
+    void deny01() {
+        assertFalse(user.isDenied());
+
+        TestUtils.checkTime(user::deny, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
+    }
+
+    @Test
+    @DisplayName("deny() - should deny user if approved")
+    void deny02() {
+        TestUtils.CheckTimeResult approvalResult = TestUtils.checkTime(user::approve, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.ACCEPTED, user.getUserApplicationStatus());
+
+        TestUtils.sleep(10);
+
+        TestUtils.checkTime(user::deny, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
+        TestUtils.checkTimeByResult(user.getApplicationReviewedAt(), approvalResult, false);
+    }
+
+    @Test
+    @DisplayName("deny() - should not deny user if already denied")
+    void deny03() {
+        TestUtils.CheckTimeResult firstDenial = TestUtils.checkTime(user::deny, user::getApplicationReviewedAt);
+        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
+
+        TestUtils.sleep(10);
+
+        TestUtils.checkTime(user::deny, user::getApplicationReviewedAt, false);
+        assertEquals(UserApplicationStatus.DENIED, user.getUserApplicationStatus());
+        TestUtils.checkTimeByResult(user.getApplicationReviewedAt(), firstDenial);
     }
 
     @Test
@@ -211,20 +258,16 @@ public class UserTest {
 
     @Test
     @DisplayName("VerificationCode createVerificationCode(VerificationCodeType type, int validMinutes) - should set the expiration time correctly")
-    void createVerificationCodeExpiration() {
+    void createVerificationCodeExpiration01() {
         User user = new User();
         int validMinutes = 15;
 
-        LocalDateTime beforeCreation = LocalDateTime.now();
-        VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, validMinutes);
-        LocalDateTime afterCreation = LocalDateTime.now();
-
-        LocalDateTime expectedExpirationStart = beforeCreation.plusMinutes(validMinutes);
-        LocalDateTime expectedExpirationEnd = afterCreation.plusMinutes(validMinutes);
-
-        assertNotNull(code);
-        assertFalse(code.isExpired());
-        assertTrue(DateHelper.isBetween(code.getExpiresAt(), expectedExpirationStart, expectedExpirationEnd));
+        TestUtils.checkTime(() -> {
+            VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, validMinutes);
+            assertNotNull(code);
+            assertFalse(code.isExpired());
+            return code;
+        }, code -> code.getExpiresAt().minusMinutes(validMinutes));
     }
 
     @Test

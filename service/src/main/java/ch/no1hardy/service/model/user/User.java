@@ -1,9 +1,12 @@
 package ch.no1hardy.service.model.user;
 
+import ch.no1hardy.service.common.ListHelper;
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.notification.Notification;
 import ch.no1hardy.service.model.preferences.NotificationPreference;
+import ch.no1hardy.service.model.verification.VerificationCode;
+import ch.no1hardy.service.model.verification.VerificationCodeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -18,7 +21,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 @Entity
@@ -114,6 +119,11 @@ public class User extends BaseEntity implements UserDetails {
     @ToString.Exclude
     private List<NotificationPreference> notificationPreferences = List.of();
 
+    @OneToMany(mappedBy = "user")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<VerificationCode> verificationCodes = List.of();
+
     /**
      * The authorities granted to the user. This is used for authorization.
      */
@@ -199,5 +209,18 @@ public class User extends BaseEntity implements UserDetails {
 
         this.setApplicationReviewedAt(LocalDateTime.now());
         this.setUserApplicationStatus(UserApplicationStatus.DENIED);
+    }
+
+    public VerificationCode createVerificationCode(VerificationCodeType type, int validMinutes) {
+        VerificationCode code = new VerificationCode(validMinutes, type, this);
+        this.setVerificationCodes(ListHelper.add(this.verificationCodes, code));
+        return code;
+    }
+
+    public Optional<VerificationCode> getMostRecentEmailVerificationCode() {
+        return getVerificationCodes().stream()
+                .filter(code -> code.getType() == VerificationCodeType.EMAIL)
+                .filter(VerificationCode::isValid)
+                .max(Comparator.comparing(BaseEntity::getCreatedAt));
     }
 }

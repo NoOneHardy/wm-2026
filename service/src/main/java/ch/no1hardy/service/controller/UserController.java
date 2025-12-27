@@ -8,7 +8,6 @@ import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.service.JwtService;
 import ch.no1hardy.service.service.NotificationService;
 import ch.no1hardy.service.service.UserService;
-import ch.no1hardy.service.service.VerificationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,6 @@ import java.util.List;
 public class UserController {
     private final UserService service;
     private final NotificationService notificationService;
-    private final VerificationService verificationService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final JwtService jwtService;
 
@@ -128,6 +126,6 @@ public class UserController {
     @PostMapping("/user/confirm")
     public UserRes confirmEmail(@RequestBody VerifyEmailReq verifyEmailReq) {
         logger.info("POST /user/confirm");
-        return this.verificationService.confirmEmail(verifyEmailReq);
+        return this.service.confirmEmail(verifyEmailReq);
     }
 }

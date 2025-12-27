@@ -87,13 +87,11 @@ public class User extends BaseEntity implements UserDetails {
 
     /**
      * The avatar URL of the user. This is used for display purposes.
-     * TODO: Implement avatar upload
      */
     private String avatarUrl;
 
     /**
-     * The date when the user confirmed his email address
-     * TODO: Implement email confirmation
+     * The date when the user confirmed his email address.
      */
     private LocalDateTime emailConfirmedAt;
 
@@ -167,10 +165,10 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     /**
-     * Returns whether the user has been confirmed by an admin. This is used to determine if the user should be included in the ranking.
+     * Returns whether the user has confirmed their email and has been manually approved by an admin and. This is used to determine if the user should be included in the ranking.
      */
     public boolean isConfirmed() {
-        return isActive() && isApproved();
+        return isActive() && isApproved() && isEmailConfirmed();
     }
 
     /**
@@ -180,6 +178,15 @@ public class User extends BaseEntity implements UserDetails {
      */
     public boolean isApproved() {
         return getApplicationReviewedAt() != null && getUserApplicationStatus() == UserApplicationStatus.ACCEPTED;
+    }
+
+    /**
+     * Returns whether the user has confirmed their email address.
+     *
+     * @return true if the email is confirmed, false otherwise
+     */
+    public boolean isEmailConfirmed() {
+        return getEmailConfirmedAt() != null;
     }
 
     /**

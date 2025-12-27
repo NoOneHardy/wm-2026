@@ -7,8 +7,8 @@ import {BaseHttpService} from '../shared/services/base-http/base-http.service'
   providedIn: 'root'
 })
 export class AdminService extends BaseHttpService {
-  getAllUsers(): Observable<User[]> {
-    return this.get<User[]>('/api/user/all')
+  getUsers(): Observable<User[]> {
+    return this.get<User[]>('/api/user')
   }
 
   confirmUser(id: string): Observable<User> {

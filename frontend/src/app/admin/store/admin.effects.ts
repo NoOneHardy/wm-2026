@@ -15,7 +15,7 @@ export class AdminEffects {
   loadUsers = createEffect(() => this.actions$.pipe(
     ofType(loadUsers),
     exhaustMap(() => {
-      return this.adminService.getAllUsers().pipe(map(users => {
+      return this.adminService.getUsers().pipe(map(users => {
         return usersLoaded({users})
       }))
     })

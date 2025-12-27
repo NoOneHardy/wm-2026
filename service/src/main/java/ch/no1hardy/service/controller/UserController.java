@@ -4,9 +4,11 @@ import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.service.JwtService;
 import ch.no1hardy.service.service.NotificationService;
 import ch.no1hardy.service.service.UserService;
+import ch.no1hardy.service.service.VerificationService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 public class UserController {
     private final UserService service;
     private final NotificationService notificationService;
+    private final VerificationService verificationService;
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final JwtService jwtService;
 
@@ -120,5 +123,11 @@ public class UserController {
     public UserRes delete(@PathVariable String id) {
         logger.info("DELETE /user/{}", id);
         return this.service.delete(id);
+    }
+
+    @PostMapping("/user/confirm")
+    public UserRes confirmEmail(@RequestBody VerifyEmailReq verifyEmailReq) {
+        logger.info("POST /user/confirm");
+        return this.verificationService.confirmEmail(verifyEmailReq);
     }
 }

@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -83,6 +84,17 @@ public class UserService {
      */
     public User getRaw(String id) throws UserNotFoundException {
         return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    /**
+     * Get a user by their ID.
+     *
+     * @param id the ID of the user to retrieve.
+     * @return the user if found
+     * @throws UserNotFoundException if the user with the given ID does not exist.
+     */
+    public Optional<User> getRawOptional(String id) {
+        return repository.findById(id);
     }
 
     /**
@@ -335,5 +347,13 @@ public class UserService {
      */
     public List<Notification> getNotifications(@NotNull User user) {
         return repository.listNotifications(user).stream().filter(Notification::isUnread).toList();
+    }
+
+    /**
+     * Confirm the user's email.
+     */
+    public void confirmEmail(@NotNull User user) {
+        user.setEmailConfirmedAt(java.time.LocalDateTime.now());
+        repository.save(user);
     }
 }

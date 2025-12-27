@@ -1,0 +1,56 @@
+package ch.no1hardy.service.service;
+
+import ch.no1hardy.service.exception.user.UserNotFoundException;
+import ch.no1hardy.service.exception.verification.VerificationException;
+import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.verification.VerifyEmailReq;
+import ch.no1hardy.service.mapper.UserMapper;
+import ch.no1hardy.service.model.user.User;
+import ch.no1hardy.service.model.verification.VerificationCode;
+import ch.no1hardy.service.model.verification.VerificationCodeRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+@AllArgsConstructor
+public class VerificationService {
+    private final UserService userService;
+    private final UserMapper mapper;
+    private final VerificationCodeRepository verificationCodeRepository;
+
+    /**
+     * Confirms the logged-in user's email address and returns the updated user.
+     *
+     * @return the updated user as UserRes DTO.
+     */
+    public UserRes confirmEmail(VerifyEmailReq verifyEmailReq) {
+        return userService.getRawOptional(verifyEmailReq.userId())
+                .filter(user -> verifyEmailCode(user, verifyEmailReq))
+                .map(user -> {
+                    userService.confirmEmail(user);
+                    deleteVerificationCode(verifyEmailReq.code());
+                    return mapper.toDto(user);
+                }).orElseThrow(() -> new UserNotFoundException(verifyEmailReq.userId()));
+    }
+
+    public void deleteVerificationCode(String code) {
+        verificationCodeRepository.findByCode(code)
+                .ifPresent(verificationCodeRepository::delete);
+    }
+
+    public boolean verifyEmailCode(User user, VerifyEmailReq req) {
+        return verifyCode(user.getMostRecentEmailVerificationCode(), req);
+    }
+
+    public boolean verifyCode(Optional<VerificationCode> code, VerifyEmailReq req) {
+        return code.map(VerificationCode::getCode)
+                .map(c -> verifyCode(code, req))
+                .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
+    }
+
+    public boolean verifyCode(VerificationCode code, VerifyEmailReq req) {
+        return code.getCode().equals(req.code());
+    }
+}

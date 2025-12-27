@@ -8,7 +8,8 @@ import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
-import ch.no1hardy.service.mapper.UserMapperImpl;
+import ch.no1hardy.service.front.verification.VerifyEmailReq;
+import ch.no1hardy.service.mapper.UserMapper;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.game.Score;
@@ -39,12 +40,13 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository repository;
     private final GroupRepository groupRepository;
-    private final UserMapperImpl mapper;
+    private final UserMapper mapper;
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final FileService fileService;
     private final AuthService authService;
+    private final VerificationService verificationService;
 
     /**
      * List all active users.
@@ -355,5 +357,20 @@ public class UserService {
     public void confirmEmail(@NotNull User user) {
         user.setEmailConfirmedAt(java.time.LocalDateTime.now());
         repository.save(user);
+    }
+
+    /**
+     * Confirms a user's email address and returns the updated user.
+     *
+     * @return the updated user as UserRes DTO.
+     */
+    public UserRes confirmEmail(VerifyEmailReq verifyEmailReq) {
+        return getRawOptional(verifyEmailReq.userId())
+                .filter(user -> verificationService.verifyEmailCode(user, verifyEmailReq))
+                .map(user -> {
+                    confirmEmail(user);
+                    verificationService.deleteVerificationCode(verifyEmailReq.code());
+                    return mapper.toDto(user);
+                }).orElseThrow(() -> new UserNotFoundException(verifyEmailReq.userId()));
     }
 }

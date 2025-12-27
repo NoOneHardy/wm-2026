@@ -240,6 +240,9 @@ public class UserService {
             dto.setPassword(passwordEncoder.encode(dto.getPasswordChange().password()));
         }
 
+        // temporarily disable email change because it requires re-verification
+        // TODO: implement email change with re-verification
+        dto.setEmail(user.getEmail());
 
         dto.validate();
         mapper.update(dto, user);

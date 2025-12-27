@@ -39,7 +39,10 @@ export class AccountSettingsComponent {
       validators: [Validators.required, Validators.minLength(5)],
       asyncValidators: [this.userValidatorService.usernameAvailable()]
     }),
-    email: new FormControl<string>(this.user()?.email ?? '', {
+    email: new FormControl<string>({
+      value: this.user()?.email ?? '',
+      disabled: true // Email change is disabled for now TODO: enable later
+    }, {
       nonNullable: true,
       validators: [Validators.required, Validators.email, this.userValidatorService.emailAvailable],
     })

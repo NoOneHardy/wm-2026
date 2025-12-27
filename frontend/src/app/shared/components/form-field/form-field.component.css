@@ -103,6 +103,7 @@ wm-form-field {
 
       &:disabled {
         box-shadow: none;
+        color: var(--wm-color-neutral-400);
       }
     }
 

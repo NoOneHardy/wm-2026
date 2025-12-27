@@ -35,21 +35,21 @@ describe('AdminService', () => {
   it('should return a list of users', () => {
     const mockUsers: User[] = [mockUser]
 
-    service.getAllUsers().subscribe(users => {
+    service.getUsers().subscribe(users => {
       expect(users).toEqual(mockUsers)
     })
 
-    const req = httpMock.expectOne('/api/user/all')
+    const req = httpMock.expectOne('/api/user')
     expect(req.request.method).toBe('GET')
     flushApiResponse(req, mockUsers)
   })
 
   it('should return an empty list if no users are found', () => {
-    service.getAllUsers().subscribe(users => {
+    service.getUsers().subscribe(users => {
       expect(users).toEqual([])
     })
 
-    const req = httpMock.expectOne('/api/user/all')
+    const req = httpMock.expectOne('/api/user')
     expect(req.request.method).toBe('GET')
     flushApiResponse(req, [])
   })

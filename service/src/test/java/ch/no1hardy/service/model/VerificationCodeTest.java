@@ -1,5 +1,6 @@
 package ch.no1hardy.service.model;
 
+import ch.no1hardy.service.TestUtils;
 import ch.no1hardy.service.common.DateHelper;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.verification.VerificationCode;
@@ -49,13 +50,7 @@ public class VerificationCodeTest {
     @DisplayName("VerificationCode(VerificationCodeType, User) - should set default expiration time to 10 minutes")
     void VerificationCode04() {
         User user = new User();
-        LocalDateTime start = LocalDateTime.now();
-        this.code = new VerificationCode(VerificationCodeType.EMAIL, user);
-        LocalDateTime end = LocalDateTime.now();
-
-
-        assertNotNull(code.getExpiresAt());
-        assertTrue(DateHelper.isBetween(code.getExpiresAt(), start.plusMinutes(10), end.plusMinutes(10)));
+        TestUtils.checkTime(() -> new VerificationCode(VerificationCodeType.EMAIL, user), VerificationCode::getExpiresAt, true, 10);
     }
 
     @Test

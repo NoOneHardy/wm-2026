@@ -267,7 +267,7 @@ public class UserTest {
             assertNotNull(code);
             assertFalse(code.isExpired());
             return code;
-        }, code -> code.getExpiresAt().minusMinutes(validMinutes));
+        }, VerificationCode::getExpiresAt, true,15);
     }
 
     @Test

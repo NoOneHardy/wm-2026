@@ -20,5 +20,6 @@ public class UserRes {
     private String avatarUrl;
     private Role role;
     private LocalDateTime applicationReviewedAt;
+    private LocalDateTime emailConfirmedAt;
     private UserApplicationStatus userApplicationStatus;
 }

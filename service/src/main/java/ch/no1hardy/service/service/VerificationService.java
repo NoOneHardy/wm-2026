@@ -45,8 +45,8 @@ public class VerificationService {
     }
 
     public boolean verifyCode(Optional<VerificationCode> code, VerifyEmailReq req) {
-        return code.map(VerificationCode::getCode)
-                .map(c -> verifyCode(code, req))
+        return code.map(c -> verifyCode(c, req))
+                .filter(Boolean::booleanValue)
                 .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
     }
 

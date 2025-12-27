@@ -26,25 +26,25 @@ public class LeaderboardServiceTest {
         user1.setId("user-1");
         user1.setPoints(100);
         user1.setLastReviewedPoints(50);
-        user1.confirm();
+        user1.approve();
 
         User user2 = new User();
         user2.setId("user-2");
         user2.setPoints(200);
         user2.setLastReviewedPoints(150);
-        user2.confirm();
+        user2.approve();
 
         User user3 = new User();
         user3.setId("user-3");
         user3.setPoints(200);
         user3.setLastReviewedPoints(100);
-        user3.confirm();
+        user3.approve();
 
         User user4 = new User();
         user4.setId("user-4");
         user4.setPoints(150);
         user4.setLastReviewedPoints(0);
-        user4.confirm();
+        user4.approve();
 
         when(userService.listConfirmedRaw()).thenReturn(List.of(user1, user2, user3, user4));
 

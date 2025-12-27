@@ -17,12 +17,12 @@ public class AdminController {
     private final AdminService service;
 
     @GetMapping("/user/{id}/confirm")
-    public UserRes confirmUser(@PathVariable("id") String id) {
-        return service.confirmUser(id);
+    public UserRes confirmUser(@PathVariable String id) {
+        return service.approveUser(id);
     }
 
     @GetMapping("/user/{id}/deny")
-    public UserRes denyUser(@PathVariable("id") String id) {
+    public UserRes denyUser(@PathVariable String id) {
         return service.denyUser(id);
     }
 }

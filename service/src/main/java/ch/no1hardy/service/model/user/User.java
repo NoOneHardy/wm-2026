@@ -201,7 +201,7 @@ public class User extends BaseEntity implements UserDetails {
     /**
      * Accepts the user application and sets the application reviewed date to now.
      */
-    public void confirm() {
+    public void approve() {
         if (getUserApplicationStatus() == UserApplicationStatus.ACCEPTED) return;
 
         this.setApplicationReviewedAt(LocalDateTime.now());

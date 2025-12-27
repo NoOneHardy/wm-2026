@@ -33,4 +33,14 @@ public class VerificationService {
     public boolean verifyCode(VerificationCode code, VerifyEmailReq req) {
         return code.getCode().equals(req.code());
     }
+
+    public void clearExpiredCodes() {
+        verificationCodeRepository.findAll().stream()
+                .filter(VerificationCode::isExpired)
+                .forEach(verificationCodeRepository::delete);
+    }
+
+    public void saveVerificationCode(VerificationCode code) {
+        verificationCodeRepository.save(code);
+    }
 }

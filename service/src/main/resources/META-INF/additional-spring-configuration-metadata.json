@@ -4,5 +4,11 @@
       "name": "wm.participation.fee",
       "type": "java.lang.Double",
       "description": "How much the user has to pay to participate."
-  }
-] }
+    },
+    {
+      "name": "wm.verification.email.validity",
+      "type": "java.lang.Integer",
+      "description": "The validity period (in minutes) of the email verification code sent to users during registration."
+    }
+  ]
+}

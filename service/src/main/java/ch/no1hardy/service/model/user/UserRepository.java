@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends ListCrudRepository<User, String> {
+    @Query("SELECT u FROM User u WHERE u.username = :username AND u.deletedAt IS NULL")
     Optional<User> findByUsername(String username);
 
+    @Query("SELECT u FROM User u WHERE u.email = :email AND u.deletedAt IS NULL")
     Optional<User> findByEmail(String email);
 
     User getUserById(String id);

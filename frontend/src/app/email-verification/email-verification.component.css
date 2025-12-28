@@ -1,0 +1,9 @@
+.sub-heading {
+  margin: 2em 0 1em;
+}
+
+.spinner-container {
+  display: grid;
+  place-items: center;
+  font-size: 1.25em;
+}

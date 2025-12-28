@@ -4,6 +4,7 @@ import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.user.UserValidationException;
 import ch.no1hardy.service.exception.user.UsernameNotFoundException;
+import ch.no1hardy.service.exception.verification.VerificationException;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
@@ -34,7 +35,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Data
@@ -93,17 +93,6 @@ public class UserService {
      */
     public User getRaw(String id) throws UserNotFoundException {
         return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-    }
-
-    /**
-     * Get a user by their ID.
-     *
-     * @param id the ID of the user to retrieve.
-     * @return the user if found
-     * @throws UserNotFoundException if the user with the given ID does not exist.
-     */
-    public Optional<User> getRawOptional(String id) {
-        return repository.findById(id);
     }
 
     /**
@@ -381,12 +370,14 @@ public class UserService {
      * @return the updated user as UserRes DTO.
      */
     public UserRes confirmEmail(VerifyEmailReq verifyEmailReq) {
-        return getRawOptional(verifyEmailReq.userId())
+        return verificationService.getVerificationCode(verifyEmailReq.code())
+                .map(VerificationCode::getUser)
                 .filter(user -> verificationService.verifyEmailCode(user, verifyEmailReq))
                 .map(user -> {
                     confirmEmail(user);
                     verificationService.deleteVerificationCode(verifyEmailReq.code());
                     return mapper.toDto(user);
-                }).orElseThrow(() -> new UserNotFoundException(verifyEmailReq.userId()));
+                })
+                .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
     }
 }

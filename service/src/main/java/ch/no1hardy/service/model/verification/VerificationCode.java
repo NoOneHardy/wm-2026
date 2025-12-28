@@ -47,7 +47,6 @@ public class VerificationCode extends BaseEntity {
     }
 
     private String generateCode() {
-        String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-        return uuid.substring(uuid.length() - 6);
+        return UUID.randomUUID().toString();
     }
 }

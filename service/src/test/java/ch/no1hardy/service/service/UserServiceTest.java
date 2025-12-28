@@ -2,7 +2,6 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.TestUtils;
-import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.verification.VerificationException;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.UserReq;
@@ -462,7 +461,7 @@ public class UserServiceTest {
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, 10);
         when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
 
-        VerifyEmailReq req = new VerifyEmailReq(code.getCode(), "user-1");
+        VerifyEmailReq req = new VerifyEmailReq(code.getCode());
 
         TestUtils.checkTime(() -> {
             UserRes res = service.confirmEmail(req);
@@ -471,24 +470,14 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("confirmEmail(VerifyEmailReq) - should throw UserNotFoundException when user not found")
-    void confirmEmail02() {
-        try {
-            service.confirmEmail(new VerifyEmailReq("some-code", "non-existing-user"));
-        } catch (Exception e) {
-            assertEquals(UserNotFoundException.class, e.getClass());
-        }
-    }
-
-    @Test
     @DisplayName("confirmEmail(VerifyEmailReq) - should throw VerificationException when no code is found")
-    void confirmEmail03() {
+    void confirmEmail02() {
         try {
             User user = new User();
             user.setId("user-1");
             when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
-            service.confirmEmail(new VerifyEmailReq("invalid-code", "user-1"));
+            service.confirmEmail(new VerifyEmailReq("invalid-code"));
         } catch (Exception e) {
             assertEquals(VerificationException.class, e.getClass());
             assertEquals("Invalid verification code", e.getMessage());
@@ -497,7 +486,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("confirmEmail(VerifyEmailReq) - should delete verification code after confirming email")
-    void confirmEmail04() {
+    void confirmEmail03() {
         User user = new User();
         user.setId("user-1");
         when(repository.findById("user-1")).thenReturn(Optional.of(user));
@@ -505,14 +494,14 @@ public class UserServiceTest {
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, 10);
         when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
 
-        VerifyEmailReq req = new VerifyEmailReq(code.getCode(), "user-1");
+        VerifyEmailReq req = new VerifyEmailReq(code.getCode());
         service.confirmEmail(req);
         Mockito.verify(verificationCodeRepository, Mockito.times(1)).delete(code);
     }
 
     @Test
     @DisplayName("confirmEmail(VerifyEmailReq) - should throw VerificationException if code is invalid")
-    void confirmEmail05() {
+    void confirmEmail04() {
         try {
             User user = new User();
             user.setId("user-1");
@@ -521,7 +510,7 @@ public class UserServiceTest {
             VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, 10);
             when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
 
-            VerifyEmailReq req = new VerifyEmailReq("ABC1234", "user-1");
+            VerifyEmailReq req = new VerifyEmailReq("ABC1234");
             service.confirmEmail(req);
         } catch (Exception e) {
             assertEquals(VerificationException.class, e.getClass());

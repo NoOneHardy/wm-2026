@@ -10,7 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDateTime;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,7 +25,7 @@ public class VerificationCodeTest {
     @Test
     @DisplayName("VerificationCode() - should generate a code upon creation")
     void VerificationCode01() {
-        assertEquals(6, code.getCode().length());
+        assertEquals(36, code.getCode().length());
     }
 
     @Test
@@ -35,15 +34,8 @@ public class VerificationCodeTest {
         VerificationCode anotherCode = new VerificationCode();
         anotherCode.setId("code-1");
 
-        assertEquals(6, anotherCode.getCode().length());
+        assertEquals(36, anotherCode.getCode().length());
         assertNotEquals(code.getCode(), anotherCode.getCode());
-    }
-
-    @Test
-    @DisplayName("VerificationCode() - should match expected code format")
-    void VerificationCode03() {
-        Pattern pattern = Pattern.compile("^[A-Z0-9]{6}$");
-        assertTrue(pattern.matcher(code.getCode()).matches());
     }
 
     @Test

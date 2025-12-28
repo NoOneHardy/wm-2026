@@ -15,8 +15,12 @@ import java.util.Optional;
 public class VerificationService {
     private final VerificationCodeRepository verificationCodeRepository;
 
+    public Optional<VerificationCode> getVerificationCode(String code) {
+        return verificationCodeRepository.findByCode(code);
+    }
+
     public void deleteVerificationCode(String code) {
-        verificationCodeRepository.findByCode(code)
+        getVerificationCode(code)
                 .ifPresent(verificationCodeRepository::delete);
     }
 

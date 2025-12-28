@@ -154,7 +154,6 @@ public class UserService {
      * @return CheckRes containing availability status of username and email.
      */
     public CheckRes check(@Nullable String username, @Nullable String email) {
-        clearExpiredUsers();
         return CheckRes.builder()
                 .isUsernameAvailable(username == null || isUsernameAvailable(username))
                 .isEmailAvailable(email == null || isEmailAvailable(email))
@@ -203,8 +202,6 @@ public class UserService {
      * @throws UserValidationException if the dto is invalid
      */
     public UserRes create(@NotNull UserReq dto) throws UserValidationException {
-        clearExpiredUsers();
-
         checkAvailableDtoValues(dto);
         dto.validateAll();
         dto.setPassword(passwordEncoder.encode(dto.getPassword()));
@@ -277,7 +274,7 @@ public class UserService {
      * @throws UserNotFoundException   if the user with the given username does not exist.
      */
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
-        clearExpiredUsers();
+        verificationService.clearExpiredCodes();
         return repository.findByUsername(dto.getUsername()).map(user -> {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -391,18 +388,5 @@ public class UserService {
                     verificationService.deleteVerificationCode(verifyEmailReq.code());
                     return mapper.toDto(user);
                 }).orElseThrow(() -> new UserNotFoundException(verifyEmailReq.userId()));
-    }
-
-    public void clearExpiredUsers() {
-        verificationService.clearExpiredCodes();
-        repository.findAll().stream()
-                .filter(u -> !u.isEmailConfirmed())
-                .filter(user -> user.getMostRecentEmailVerificationCode()
-                        .map(VerificationCode::isExpired)
-                        .orElse(true))
-                .forEach(user -> {
-                    user.delete();
-                    repository.save(user);
-                });
     }
 }

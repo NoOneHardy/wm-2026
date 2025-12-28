@@ -44,6 +44,9 @@ public class UserService {
     @Value("${wm.verification.email.validity}")
     private Integer emailConfirmationValidity;
 
+    @Value("${wm.host.name}")
+    private String hostName;
+
     private final UserRepository repository;
     private final GroupRepository groupRepository;
     private final UserMapper mapper;
@@ -199,7 +202,11 @@ public class UserService {
 
         VerificationCode code = entity.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
         verificationService.saveVerificationCode(code);
-        mailService.sendMail(entity.getEmail(), "Please confirm your email", "Your confirmation code is: " + code.getCode());
+
+        // TODO: extract to separate method and call after login as well
+        String link = hostName + "/verify-email?code=" + code.getCode();
+        String body = "Klicke hier, um Deine E-Mail zu bestätigen: <a href=\"" + link + "\">" + link + "</a>";
+        mailService.sendMail(entity.getEmail(), "Bitte bestätige Deine Email", body);
 
         return mapper.toDto(entity);
     }

@@ -200,13 +200,7 @@ public class UserService {
         User entity = mapper.toEntity(dto);
         repository.save(entity);
 
-        VerificationCode code = entity.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
-        verificationService.saveVerificationCode(code);
-
-        // TODO: extract to separate method and call after login as well
-        String link = hostName + "/verify-email?code=" + code.getCode();
-        String body = "Klicke hier, um Deine E-Mail zu bestätigen: <a href=\"" + link + "\">" + link + "</a>";
-        mailService.sendMail(entity.getEmail(), "Bitte bestätige Deine Email", body);
+        sendEmailConfirmationMail(entity);
 
         return mapper.toDto(entity);
     }
@@ -271,15 +265,20 @@ public class UserService {
      */
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
         verificationService.clearExpiredCodes();
-        return repository.findByUsername(dto.getUsername()).map(user -> {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getId(),
-                            dto.getPassword()
-                    )
-            );
-            return mapper.toDto(user);
-        }).orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
+        return repository.findByUsername(dto.getUsername())
+                .map(user -> {
+                    // TODO: remove after implementing banner about unconfirmed email
+                    if (!user.isEmailConfirmed()) {
+                        this.sendEmailConfirmationMail(user);
+                    }
+                    authenticationManager.authenticate(
+                            new UsernamePasswordAuthenticationToken(
+                                    user.getId(),
+                                    dto.getPassword()
+                            )
+                    );
+                    return mapper.toDto(user);
+                }).orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
     }
 
     /**
@@ -386,5 +385,14 @@ public class UserService {
                     return mapper.toDto(user);
                 })
                 .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
+    }
+
+    public void sendEmailConfirmationMail(@NotNull User user) {
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
+        verificationService.saveVerificationCode(code);
+
+        String link = hostName + "/verify-email?code=" + code.getCode();
+        String body = "Klicke hier, um Deine E-Mail zu best&auml;tigen: <a href=\"" + link + "\">" + link + "</a>";
+        mailService.sendMail(user.getEmail(), "Bitte bestätige Deine Email", body);
     }
 }

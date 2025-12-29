@@ -15,8 +15,10 @@ import ch.no1hardy.service.model.user.UserRepository;
 import ch.no1hardy.service.model.verification.VerificationCode;
 import ch.no1hardy.service.model.verification.VerificationCodeRepository;
 import ch.no1hardy.service.model.verification.VerificationCodeType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +39,7 @@ public class UserServiceTest {
     @Autowired
     private UserService service;
 
-    @MockitoBean
+    @MockitoSpyBean
     private UserRepository repository;
 
     @MockitoBean
@@ -49,6 +51,15 @@ public class UserServiceTest {
     @MockitoSpyBean
     private VerificationCodeRepository verificationCodeRepository;
 
+    @MockitoSpyBean
+    private MailService mailService;
+
+    @BeforeEach
+    void beforeEach() {
+        verificationCodeRepository.deleteAll();
+        repository.deleteAll();
+    }
+
     @Test
     @DisplayName("should create")
     void contextLoads() {
@@ -57,7 +68,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("listAll() - should return all users including deleted ones")
-    void listAll() {
+    void listAll01() {
         User user1 = new User();
         user1.setUsername("No1Hardy");
         User user2 = new User();
@@ -76,7 +87,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("list() - should return only active users")
-    void list() {
+    void list01() {
         User user1 = new User();
         user1.setUsername("No1Hardy");
         User user2 = new User();
@@ -93,8 +104,8 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("should check if username and email are available")
-    void shouldCheckIfUsernameAndEmailAreAvailable() {
+    @DisplayName("check(String, String) - should check if username and email are available")
+    void check01() {
         User user1 = new User();
         user1.setUsername("No1Hardy");
         user1.setEmail("no1hardy@no1hardy.ch");
@@ -128,7 +139,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("isUsernameAvailable() - should return false if username is not available")
-    void shouldCheckIfUsernameIsNotAvailable() {
+    void isUsernameAvailable01() {
         User user = new User();
         user.setUsername("No1Hardy");
 
@@ -139,13 +150,13 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("isUsernameAvailable() - should return true if username is available")
-    void shouldCheckIfUsernameIsAvailable() {
+    void isUsernameAvailable02() {
         assertTrue(service.isUsernameAvailable("NoOneHardy"));
     }
 
     @Test
     @DisplayName("isUsernameAvailable() - should ignore inactive users")
-    void shouldIgnoreInactiveUsernames() {
+    void isUsernameAvailable03() {
         User user = new User();
         user.setUsername("No1Hardy");
         user.setDeletedAt(LocalDateTime.now());
@@ -157,7 +168,7 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("isEmailAvailable() - should return false if username is not available")
-    void shouldCheckIfEmailIsNotAvailable() {
+    void isEmailAvailable01() {
         User user = new User();
         user.setEmail("no1hardy@no1hardy.ch");
 
@@ -168,13 +179,13 @@ public class UserServiceTest {
 
     @Test
     @DisplayName("isEmailAvailable() - should return true if username is available")
-    void shouldCheckIfEmailIsAvailable() {
+    void isEmailAvailable02() {
         assertTrue(service.isEmailAvailable("noonehardy@no1hardy.ch"));
     }
 
     @Test
     @DisplayName("isEmailAvailable() - should ignore inactive users")
-    void shouldIgnoreInactiveEmails() {
+    void isEmailAvailable03() {
         User user = new User();
         user.setEmail("no1hardy@no1hardy.ch");
         user.setDeletedAt(LocalDateTime.now());
@@ -374,6 +385,68 @@ public class UserServiceTest {
     }
 
     @Test
+    @DisplayName("UserRes create(UserReq) - should create new user")
+    void create01() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1Hardy");
+        dto.setEmail("no1hardy@test.ch");
+        dto.setFirstname("Silas");
+        dto.setLastname("Hardy");
+        dto.setPassword("securepassword");
+
+        UserRes response = service.create(dto);
+        assertNotNull(response);
+        assertNotNull(response.getId());
+        assertEquals("No1Hardy", response.getUsername());
+        assertEquals("no1hardy@test.ch", response.getEmail());
+        assertEquals("Silas", response.getFirstname());
+        assertEquals("Hardy", response.getLastname());
+
+        Mockito.verify(repository, Mockito.times(1)).save(ArgumentMatchers.any(User.class));
+    }
+
+    @Test
+    @DisplayName("UserRes create(UserReq) - should hash password")
+    void create02() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1Hardy");
+        dto.setEmail("no1hardy@test.ch");
+        dto.setFirstname("Silas");
+        dto.setLastname("Hardy");
+        dto.setPassword("securepassword");
+
+        UserRes response = service.create(dto);
+        assertNotNull(response);
+        assertNotNull(response.getId());
+        assertEquals("No1Hardy", response.getUsername());
+        assertEquals("no1hardy@test.ch", response.getEmail());
+        assertEquals("Silas", response.getFirstname());
+        assertEquals("Hardy", response.getLastname());
+
+        repository.findById(response.getId())
+                .ifPresentOrElse(
+                        user -> assertNotEquals("securepassword", user.getPassword()),
+                        () -> fail("UserRes create(UserReq) - should hash password")
+                );
+    }
+
+    @Test
+    @DisplayName("UserRes create(UserReq) - should send verification email")
+    void create03() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1Hardy");
+        dto.setEmail("silas@test.ch");
+        dto.setFirstname("Silas");
+        dto.setLastname("Hardy");
+        dto.setPassword("securepassword");
+
+        UserRes response = service.create(dto);
+        assertNotNull(response);
+        Mockito.verify(mailService, Mockito.times(1))
+                .sendMail(ArgumentMatchers.eq("silas@test.ch"), ArgumentMatchers.eq("Bitte bestätige Deine Email"), ArgumentMatchers.anyString());
+    }
+
+    @Test
     @DisplayName("UserRes update(String, UserReq) - should update user information")
     void update01() {
         UserReq dto = new UserReq();
@@ -391,7 +464,8 @@ public class UserServiceTest {
         existingUser.setLastname("Hardy");
         existingUser.setPassword("oldhashedpassword");
 
-        when(repository.findById("user-id-123")).thenReturn(Optional.of(existingUser));
+        Mockito.doReturn(existingUser).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(existingUser)).when(repository).findById("user-id-123");
         service.update("user-id-123", dto);
 
         assertEquals("No1HardyUpdated", existingUser.getUsername());
@@ -416,7 +490,8 @@ public class UserServiceTest {
         existingUser.setLastname("Hardy");
         existingUser.setPassword("oldhashedpassword");
 
-        when(repository.findById("user-id-123")).thenReturn(Optional.of(existingUser));
+        Mockito.doReturn(existingUser).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(existingUser)).when(repository).findById("user-id-123");
 
         service.update("user-id-123", dto);
 
@@ -456,7 +531,8 @@ public class UserServiceTest {
     void confirmEmail01() {
         User user = new User();
         user.setId("user-1");
-        when(repository.findById("user-1")).thenReturn(Optional.of(user));
+        Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(user)).when(repository).findById("user-1");
 
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, 10);
         when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
@@ -489,7 +565,8 @@ public class UserServiceTest {
     void confirmEmail03() {
         User user = new User();
         user.setId("user-1");
-        when(repository.findById("user-1")).thenReturn(Optional.of(user));
+        Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(user)).when(repository).findById("user-1");
 
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, 10);
         when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));

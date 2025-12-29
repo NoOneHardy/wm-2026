@@ -22,7 +22,7 @@ public class GlobalExceptionHandlerTest {
     public void storageException01() {
         StorageException exception = new StorageException("Storage exception", "display message");
 
-        ResponseEntity<ApiError> response500 = handler.handleStorageException(exception);
+        ResponseEntity<ApiError> response500 = handler.handleApiException(exception);
         ApiError body = response500.getBody();
         assertNotNull(body);
         assertEquals(500, body.getStatus());
@@ -35,7 +35,7 @@ public class GlobalExceptionHandlerTest {
     public void storageException02() {
         StorageException exception = new StorageException("Storage exception", "display message", HttpStatus.BAD_REQUEST);
 
-        ResponseEntity<ApiError> response500 = handler.handleStorageException(exception);
+        ResponseEntity<ApiError> response500 = handler.handleApiException(exception);
         ApiError body = response500.getBody();
         assertNotNull(body);
         assertEquals(400, body.getStatus());

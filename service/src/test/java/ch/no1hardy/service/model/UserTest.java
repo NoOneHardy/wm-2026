@@ -33,7 +33,7 @@ public class UserTest {
     @DisplayName("isConfirmed() - should return false if application status is denied")
     void isConfirmed02() {
         user.deny();
-        user.setEmailConfirmedAt(LocalDateTime.now());
+        user.setEmailVerifiedAt(LocalDateTime.now());
         user.setDeletedAt(null);
 
         assertFalse(user.isConfirmed());
@@ -43,7 +43,7 @@ public class UserTest {
     @DisplayName("isConfirmed() - should return false if email is not confirmed")
     void isConfirmed03() {
         user.approve();
-        user.setEmailConfirmedAt(null);
+        user.setEmailVerifiedAt(null);
         user.setDeletedAt(null);
 
         assertFalse(user.isConfirmed());
@@ -53,7 +53,7 @@ public class UserTest {
     @DisplayName("isConfirmed() - should return false if user is not active")
     void isConfirmed04() {
         user.approve();
-        user.setEmailConfirmedAt(LocalDateTime.now());
+        user.setEmailVerifiedAt(LocalDateTime.now());
         user.setDeletedAt(LocalDateTime.now());
 
         assertFalse(user.isConfirmed());
@@ -63,7 +63,7 @@ public class UserTest {
     @DisplayName("isConfirmed() - should return true if user matches all criteria for being confirmed")
     void isConfirmed05() {
         user.approve();
-        user.setEmailConfirmedAt(LocalDateTime.now());
+        user.setEmailVerifiedAt(LocalDateTime.now());
         user.setDeletedAt(null);
 
         assertTrue(user.isConfirmed());

@@ -443,7 +443,7 @@ public class UserServiceTest {
         UserRes response = service.create(dto);
         assertNotNull(response);
         Mockito.verify(mailService, Mockito.times(1))
-                .sendMail(ArgumentMatchers.eq("silas@test.ch"), ArgumentMatchers.eq("Bitte bestätige Deine Email"), ArgumentMatchers.anyString());
+                .sendEmailVerificationMail(ArgumentMatchers.any(User.class), ArgumentMatchers.any(VerificationCode.class));
     }
 
     @Test
@@ -527,8 +527,8 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("confirmEmail(VerifyEmailReq) - should confirm email and return updated user")
-    void confirmEmail01() {
+    @DisplayName("verifyEmail(VerifyEmailReq) - should verify email and return updated user")
+    void verifyEmail01() {
         User user = new User();
         user.setId("user-1");
         Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
@@ -540,20 +540,20 @@ public class UserServiceTest {
         VerifyEmailReq req = new VerifyEmailReq(code.getCode());
 
         TestUtils.checkTime(() -> {
-            UserRes res = service.confirmEmail(req);
+            UserRes res = service.verifyEmail(req);
             assertEquals("user-1", res.getId());
-        }, user::getEmailConfirmedAt);
+        }, user::getEmailVerifiedAt);
     }
 
     @Test
-    @DisplayName("confirmEmail(VerifyEmailReq) - should throw VerificationException when no code is found")
-    void confirmEmail02() {
+    @DisplayName("verifyEmail(VerifyEmailReq) - should throw VerificationException when no code is found")
+    void verifyEmail02() {
         try {
             User user = new User();
             user.setId("user-1");
             when(repository.findById("user-1")).thenReturn(Optional.of(user));
 
-            service.confirmEmail(new VerifyEmailReq("invalid-code"));
+            service.verifyEmail(new VerifyEmailReq("invalid-code"));
         } catch (Exception e) {
             assertEquals(VerificationException.class, e.getClass());
             assertEquals("Invalid verification code", e.getMessage());
@@ -561,8 +561,8 @@ public class UserServiceTest {
     }
 
     @Test
-    @DisplayName("confirmEmail(VerifyEmailReq) - should delete verification code after confirming email")
-    void confirmEmail03() {
+    @DisplayName("verifyEmail(VerifyEmailReq) - should delete verification code after confirming email")
+    void verifyEmail03() {
         User user = new User();
         user.setId("user-1");
         Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
@@ -572,13 +572,13 @@ public class UserServiceTest {
         when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
 
         VerifyEmailReq req = new VerifyEmailReq(code.getCode());
-        service.confirmEmail(req);
+        service.verifyEmail(req);
         Mockito.verify(verificationCodeRepository, Mockito.times(1)).delete(code);
     }
 
     @Test
-    @DisplayName("confirmEmail(VerifyEmailReq) - should throw VerificationException if code is invalid")
-    void confirmEmail04() {
+    @DisplayName("verifyEmail(VerifyEmailReq) - should throw VerificationException if code is invalid")
+    void verifyEmail04() {
         try {
             User user = new User();
             user.setId("user-1");
@@ -588,7 +588,7 @@ public class UserServiceTest {
             when(verificationCodeRepository.findByCode(code.getCode())).thenReturn(Optional.of(code));
 
             VerifyEmailReq req = new VerifyEmailReq("ABC1234");
-            service.confirmEmail(req);
+            service.verifyEmail(req);
         } catch (Exception e) {
             assertEquals(VerificationException.class, e.getClass());
             assertEquals("Invalid verification code", e.getMessage());

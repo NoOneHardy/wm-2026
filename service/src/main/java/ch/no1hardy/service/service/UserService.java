@@ -25,6 +25,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -57,6 +59,7 @@ public class UserService {
     private final AuthService authService;
     private final VerificationService verificationService;
     private final MailService mailService;
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     /**
      * List all active users.
@@ -394,5 +397,15 @@ public class UserService {
         String link = hostName + "/verify-email?code=" + code.getCode();
         String body = "Klicke hier, um Deine E-Mail zu best&auml;tigen: <a href=\"" + link + "\">" + link + "</a>";
         mailService.sendMail(user.getEmail(), "Bitte bestätige Deine Email", body);
+    }
+
+    public boolean sendEmailConfirmationMailForLoggedInUser() {
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
+        if (user.isEmailConfirmed()) {
+            this.logger.info("Not sending verification email to {} because email is already verified", user.getUsername());
+            return false;
+        }
+        this.sendEmailConfirmationMail(user);
+        return true;
     }
 }

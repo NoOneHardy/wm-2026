@@ -9,3 +9,8 @@ Content-Type: application/json
 
 GET http://localhost:26000/api/user
 Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJObzFIYXJkeSIsImlhdCI6MTc2MDM5MzE3NSwiZXhwIjoxNzYwMzk2Nzc1fQ.PZbtPkPmAAKraigVlkHcyNH1PwoYdLKBQ-k_l_R9TWI; Max-Age=3600; Expires=Mon, 13 Oct 2025 23:06:15 GMT; Path=/; Secure; HttpOnly
+###
+
+PUT http://localhost:26000/api/user/resend-verification
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhNTE0ZDU4Ny1iYjdiLTQyODktOWJjYi1jNGViMDJlZGQ3NjYiLCJpYXQiOjE3NjcwNDYzNzQsImV4cCI6MTc2NzA0OTk3NH0.bUN6baDyqaDDPQzFhwAzzNiILkxMo2rHZZcidf4g4eA; Max-Age=3600; Expires=Mon, 29 Dec 2025 23:12:54 GMT; Path=/; Secure; HttpOnly
+###

@@ -13,18 +13,6 @@ import java.time.LocalDateTime;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ApiError> handleResourceNotFound(NotFoundException ex) {
-        return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<ApiError> handleBadRequest(BadRequestException ex) {
-        return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
-    }
-
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ApiError> handleSignatureException() {
         return ResponseEntity.status(401)
@@ -54,20 +42,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(403).body(new ApiError(ex.getMessage(), "Die Session ist abgelaufen",403, LocalDateTime.now()));
     }
 
-    @ExceptionHandler(BetPlaceException.class)
-    public ResponseEntity<ApiError> handleBetPlaceException(BetPlaceException ex) {
-        return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
-    }
-
-    @ExceptionHandler(KnockoutTieException.class)
-    public ResponseEntity<ApiError> handleKnockoutTieException(KnockoutTieException ex) {
-        return ResponseEntity.status(ex.getStatus())
-                .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
-    }
-
-    @ExceptionHandler(StorageException.class)
-    public ResponseEntity<ApiError> handleStorageException(StorageException ex) {
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<ApiError> handleApiException(ApiException ex) {
         return ResponseEntity.status(ex.getStatus())
                 .body(new ApiError(ex.getMessage(), ex.getDisplayMessage(), ex.getStatus().value(), LocalDateTime.now()));
     }

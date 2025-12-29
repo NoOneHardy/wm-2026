@@ -60,4 +60,8 @@ export class UserService extends BaseHttpService {
   updateNotificationPreferences(preferences: NotificationPreference[]): Observable<NotificationPreference[]> {
     return this.put<NotificationPreference[]>('/api/preferences/notifications', preferences)
   }
+
+  verifyEmail(body: { code: string }): Observable<User> {
+    return this.post<User>('/api/user/confirm', body)
+  }
 }

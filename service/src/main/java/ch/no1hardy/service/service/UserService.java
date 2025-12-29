@@ -46,9 +46,6 @@ public class UserService {
     @Value("${wm.verification.email.validity}")
     private Integer emailConfirmationValidity;
 
-    @Value("${wm.host.name}")
-    private String hostName;
-
     private final UserRepository repository;
     private final GroupRepository groupRepository;
     private final UserMapper mapper;
@@ -203,7 +200,7 @@ public class UserService {
         User entity = mapper.toEntity(dto);
         repository.save(entity);
 
-        sendEmailConfirmationMail(entity);
+        sendEmailVerificationMail(entity);
 
         return mapper.toDto(entity);
     }
@@ -272,7 +269,7 @@ public class UserService {
                 .map(user -> {
                     // TODO: remove after implementing banner about unconfirmed email
                     if (!user.isEmailConfirmed()) {
-                        this.sendEmailConfirmationMail(user);
+                        this.sendEmailVerificationMail(user);
                     }
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(
@@ -366,46 +363,55 @@ public class UserService {
     }
 
     /**
-     * Confirm the user's email.
+     * Verify the user's email.
      */
-    public void confirmEmail(@NotNull User user) {
-        user.setEmailConfirmedAt(java.time.LocalDateTime.now());
+    public void verifyEmail(@NotNull User user) {
+        user.setEmailVerifiedAt(java.time.LocalDateTime.now());
         repository.save(user);
     }
 
     /**
-     * Confirms a user's email address and returns the updated user.
+     * Verifies a user's email address and returns the updated user.
      *
      * @return the updated user as UserRes DTO.
      */
-    public UserRes confirmEmail(VerifyEmailReq verifyEmailReq) {
+    public UserRes verifyEmail(VerifyEmailReq verifyEmailReq) {
         return verificationService.getVerificationCode(verifyEmailReq.code())
                 .map(VerificationCode::getUser)
                 .filter(user -> verificationService.verifyEmailCode(user, verifyEmailReq))
                 .map(user -> {
-                    confirmEmail(user);
+                    verifyEmail(user);
                     verificationService.deleteVerificationCode(verifyEmailReq.code());
                     return mapper.toDto(user);
                 })
                 .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
     }
 
-    public void sendEmailConfirmationMail(@NotNull User user) {
+    /**
+     * Generate a new verification code and send the email verification mail to a user
+     * @param user the user to send the email to
+     */
+    public void sendEmailVerificationMail(@NotNull User user) {
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
         verificationService.saveVerificationCode(code);
 
-        String link = hostName + "/verify-email?code=" + code.getCode();
-        String body = "Klicke hier, um Deine E-Mail zu best&auml;tigen: <a href=\"" + link + "\">" + link + "</a>";
-        mailService.sendMail(user.getEmail(), "Bitte bestätige Deine Email", body);
+        mailService.sendEmailVerificationMail(user, code);
     }
 
-    public boolean sendEmailConfirmationMailForLoggedInUser() {
+    /**
+     * Send an email verification mail to the currently logged-in user if their email is not yet verified.
+     *
+     * @return true if the email was sent, false if the email is already verified.
+     * @throws NotLoggedInException if no user is logged in.
+     */
+    public boolean sendEmailVerificationMail() {
         User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         if (user.isEmailConfirmed()) {
             this.logger.info("Not sending verification email to {} because email is already verified", user.getUsername());
             return false;
         }
-        this.sendEmailConfirmationMail(user);
+
+        this.sendEmailVerificationMail(user);
         return true;
     }
 }

@@ -126,12 +126,12 @@ public class UserController {
     @PostMapping("/user/confirm")
     public UserRes confirmEmail(@RequestBody VerifyEmailReq verifyEmailReq) {
         logger.info("POST /user/confirm");
-        return this.service.confirmEmail(verifyEmailReq);
+        return this.service.verifyEmail(verifyEmailReq);
     }
 
     @PutMapping("/user/resend-verification")
     public boolean resendVerificationEmail() {
         logger.info("PUT /user/resend-verification");
-        return this.service.sendEmailConfirmationMailForLoggedInUser();
+        return this.service.sendEmailVerificationMail();
     }
 }

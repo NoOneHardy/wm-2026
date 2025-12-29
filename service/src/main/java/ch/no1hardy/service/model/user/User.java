@@ -91,9 +91,9 @@ public class User extends BaseEntity implements UserDetails {
     private String avatarUrl;
 
     /**
-     * The date when the user confirmed his email address.
+     * The date the user verified their email address.
      */
-    private LocalDateTime emailConfirmedAt;
+    private LocalDateTime emailVerifiedAt;
 
     /**
      * The date when an admin has reviewed the user and accepted or denied it
@@ -181,12 +181,12 @@ public class User extends BaseEntity implements UserDetails {
     }
 
     /**
-     * Returns whether the user has confirmed their email address.
+     * Returns whether the user has verified their email address.
      *
-     * @return true if the email is confirmed, false otherwise
+     * @return true if the email is verified, false otherwise
      */
     public boolean isEmailConfirmed() {
-        return getEmailConfirmedAt() != null;
+        return getEmailVerifiedAt() != null;
     }
 
     /**

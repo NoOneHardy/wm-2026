@@ -12,6 +12,7 @@ export interface User {
   avatarUrl?: string | null
   role: Role
   applicationReviewedAt?: Date | null
+  emailConfirmedAt?: Date | null
   userApplicationStatus: UserApplicationStatus
 }
 

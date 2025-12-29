@@ -35,3 +35,7 @@ export const fetchNotificationPreferences = createAction('[User Preferences] Fet
 export const notificationPreferencesFetched = createAction('[User Preferences] Notification preferences fetched', props<{
   preferences: NotificationPreference[]
 }>())
+
+// Email verification
+export const verifyEmail = createAction('[User] Verify email', props<{ code: string }>())
+export const emailVerified = createAction('[User] Email verified', props<{ user: User }>())

@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser,
+  createUser, emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
@@ -20,7 +20,7 @@ import {
   userInfoFetched,
   userLoggedIn,
   userLogin,
-  userUpdated
+  userUpdated, verifyEmail
 } from './user.actions'
 import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
@@ -189,6 +189,28 @@ export class UserEffects {
     tap(() => {
       this.snackbarService.addMessage({
         message: 'Einstellungen erfolgreich aktualisiert'
+      })
+    })
+  ), {dispatch: false})
+
+  verifyEmail = createEffect(() => this.actions$.pipe(
+    ofType(verifyEmail),
+    exhaustMap((action) => this.userService.verifyEmail({code: action.code}).pipe(
+      map(user => emailVerified({user})),
+      catchError(() => {
+        this.router.navigateByUrl('/').then()
+        return of()
+      })
+    ))
+  ))
+
+  emailVerified = createEffect(() => this.actions$.pipe(
+    ofType(emailVerified),
+    tap(() => {
+      this.router.navigateByUrl('/').then(() => {
+        this.snackbarService.addMessage({
+          message: 'E-Mail erfolgreich verifiziert'
+        })
       })
     })
   ), {dispatch: false})

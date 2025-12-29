@@ -128,4 +128,10 @@ public class UserController {
         logger.info("POST /user/confirm");
         return this.service.confirmEmail(verifyEmailReq);
     }
+
+    @PutMapping("/user/resend-verification")
+    public boolean resendVerificationEmail() {
+        logger.info("PUT /user/resend-verification");
+        return this.service.sendEmailConfirmationMailForLoggedInUser();
+    }
 }

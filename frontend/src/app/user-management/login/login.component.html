@@ -15,7 +15,7 @@
       <span class="login-error" *ngIf="userError() as error">{{error}}</span>
     </ng-container>
     <ng-container wm-actions>
-      <a>Passwort vergessen?</a>
+      <a routerLink="/forgot-password">Passwort vergessen?</a>
       <wm-button (clickEvent)="login()" submit>Anmelden</wm-button>
     </ng-container>
   </wm-user-management-panel>

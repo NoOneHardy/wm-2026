@@ -226,7 +226,7 @@ export class UserEffects {
     ofType(emailVerificationLinkSent),
     tap(({isSent}) => {
       if (isSent) return this.snackbarService.addMessage({
-        message: 'E-Mail erfolgreich verifiziert'
+        message: 'E-Mail erfolgreich gesendet'
       })
 
       this.snackbarService.addMessage({

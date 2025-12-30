@@ -1,7 +1,7 @@
 import {User} from '../../model/user/user'
 import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {
-  createUser,
+  createUser, emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
@@ -135,6 +135,12 @@ export const userFeature = createFeature({
           ...state.preferences,
           notifications: action.preferences
         }
+      }
+    }),
+    on(emailVerified, (state, action): UserState => {
+      return {
+        ...state,
+        user: action.user
       }
     })
   )

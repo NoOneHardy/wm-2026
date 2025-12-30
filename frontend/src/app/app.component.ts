@@ -6,11 +6,12 @@ import {
 } from './shared/components/snackbar/components/snackbar-display/snackbar-display.component'
 import {Store} from '@ngrx/store'
 import {fetchUserInfo} from './user-management/store/user.actions'
+import {BannerDisplayComponent} from './shared/components/banner-display/banner-display.component'
 
 @Component({
   selector: 'wm-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent],
+  imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, BannerDisplayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

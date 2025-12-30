@@ -2,6 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 
 import {LoginComponent} from './login.component'
 import {provideMockStore} from '@ngrx/store/testing'
+import {provideRouter} from '@angular/router'
 
 describe('LoginComponent', () => {
   let component: LoginComponent
@@ -10,7 +11,7 @@ describe('LoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [LoginComponent],
-      providers: [provideMockStore()]
+      providers: [provideMockStore(), provideRouter([])]
     }).compileComponents()
 
     fixture = TestBed.createComponent(LoginComponent)

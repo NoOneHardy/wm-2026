@@ -11,6 +11,11 @@
       "description": "The validity period (in minutes) of the email verification code sent to users during registration."
     },
     {
+      "name": "wm.verification.password_reset.validity",
+      "type": "java.lang.Integer",
+      "description": "The validity period (in minutes) of the password reset code sent to users in order to reset their password."
+    },
+    {
       "name": "wm.host.name",
       "type": "java.lang.String",
       "description": "The host name of the application, used in email links and notifications."

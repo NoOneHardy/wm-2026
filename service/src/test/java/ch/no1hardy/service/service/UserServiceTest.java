@@ -2,10 +2,12 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.TestUtils;
+import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.verification.VerificationException;
 import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.verification.ResetPasswordReq;
 import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Score;
@@ -593,5 +595,81 @@ public class UserServiceTest {
             assertEquals(VerificationException.class, e.getClass());
             assertEquals("Invalid verification code", e.getMessage());
         }
+    }
+
+    @Test
+    @DisplayName("sendPasswordResetMail(String) - should send password reset mail to user")
+    void sendPasswordResetMail01() {
+        User user = new User();
+        user.setId("user-1");
+        user.setEmail("silas@test.ch");
+
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, 10);
+
+        Mockito.doReturn(Optional.of(user)).when(repository).findByEmail("silas@test.ch");
+        Mockito.doReturn(code).when(verificationCodeRepository).save(Mockito.any());
+
+        boolean result = service.sendPasswordResetMail("silas@test.ch");
+        assertTrue(result);
+        Mockito.verify(mailService, Mockito.times(1))
+                .sendPasswordResetMail(ArgumentMatchers.eq(user), ArgumentMatchers.any(VerificationCode.class));
+        Mockito.verify(verificationCodeRepository, Mockito.times(1))
+                .save(ArgumentMatchers.any(VerificationCode.class));
+    }
+
+    @Test
+    @DisplayName("sendPasswordResetMail(String) - should throw exception when email is not found")
+    void sendPasswordResetMail02() {
+        Mockito.doReturn(Optional.empty()).when(repository).findByEmail("silas@test.ch");
+
+        UserNotFoundException e = assertThrows(UserNotFoundException.class, () -> service.sendPasswordResetMail("silas@test.ch"));
+        assertEquals("User ('silas@test.ch') not found.", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("resetPassword(ResetPasswordReq) - should reset password with valid code")
+    void resetPassword01() {
+        User user = new User();
+        user.setId("user-1");
+        user.setEmail("silas@test.ch");
+        user.setPassword("oldhashedpassword");
+
+        Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(user)).when(repository).findById("user-1");
+
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, 10);
+        Mockito.doReturn(Optional.of(code)).when(verificationCodeRepository).findByCode(code.getCode());
+        Mockito.doNothing().when(verificationCodeRepository).delete(code);
+
+        boolean result = service.resetPassword(new ResetPasswordReq(code.getCode(), "newsecurepassword"));
+
+        assertTrue(result);
+        Mockito.verify(repository, Mockito.times(1)).save(ArgumentMatchers.any());
+        assertNotEquals("oldhashedpassword", user.getPassword());
+        assertNotEquals("newsecurepassword", user.getPassword());
+        Mockito.verify(verificationCodeRepository, Mockito.times(1)).delete(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("resetPassword(ResetPasswordReq) - throw VerificationException with invalid code")
+    void resetPassword02() {
+        User user = new User();
+        user.setId("user-1");
+        user.setEmail("silas@test.ch");
+        user.setPassword("oldhashedpassword");
+
+        Mockito.doReturn(user).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(user)).when(repository).findById("user-1");
+
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, 10);
+        Mockito.doReturn(Optional.of(code)).when(verificationCodeRepository).findByCode(code.getCode());
+        Mockito.doNothing().when(verificationCodeRepository).delete(code);
+
+        VerificationException e = assertThrows(VerificationException.class, () -> service.resetPassword(new ResetPasswordReq("ABCDEF", "newsecurepassword")));
+
+        assertEquals("Invalid password reset code", e.getMessage());
+        Mockito.verify(repository, Mockito.times(0)).save(ArgumentMatchers.any());
+        assertEquals("oldhashedpassword", user.getPassword());
+        Mockito.verify(verificationCodeRepository, Mockito.times(0)).delete(ArgumentMatchers.any());
     }
 }

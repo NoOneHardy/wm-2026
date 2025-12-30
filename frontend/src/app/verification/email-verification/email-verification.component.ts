@@ -1,7 +1,7 @@
 import {Component, inject, OnInit} from '@angular/core'
-import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
+import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
 import {Store} from '@ngrx/store'
-import {verifyEmail} from '../user-management/store/user.actions'
+import {verifyEmail} from '../../user-management/store/user.actions'
 import {ActivatedRoute} from '@angular/router'
 
 @Component({

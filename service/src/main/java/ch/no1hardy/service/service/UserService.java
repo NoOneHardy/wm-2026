@@ -9,6 +9,7 @@ import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.verification.ResetPasswordReq;
 import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.mapper.UserMapper;
 import ch.no1hardy.service.model.game.Bet;
@@ -37,6 +38,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Data
@@ -45,6 +47,8 @@ import java.util.List;
 public class UserService {
     @Value("${wm.verification.email.validity}")
     private Integer emailConfirmationValidity;
+    @Value("${wm.verification.password_reset.validity}")
+    private Integer passwordResetValidity;
 
     private final UserRepository repository;
     private final GroupRepository groupRepository;
@@ -107,6 +111,16 @@ public class UserService {
      */
     public User getRawByUsername(@NotNull String username) throws UserNotFoundException {
         return repository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    }
+
+    /**
+     * Get a user by their email.
+     *
+     * @param email the email of the user to retrieve.
+     * @return the user as optional if found
+     */
+    public Optional<User> getRawByEmail(@NotNull String email) {
+        return repository.findByEmail(email);
     }
 
     /**
@@ -409,6 +423,29 @@ public class UserService {
         }
 
         this.sendEmailVerificationMail(user);
+        return true;
+    }
+
+    public boolean sendPasswordResetMail(@NotNull String email) {
+        User user = getRawByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, this.emailConfirmationValidity);
+        verificationService.saveVerificationCode(code);
+
+        mailService.sendPasswordResetMail(user, code);
+        return true;
+    }
+
+    public boolean resetPassword(ResetPasswordReq resetPasswordReq) {
+        verificationService.getVerificationCode(resetPasswordReq.code())
+                .map(VerificationCode::getUser)
+                .filter(user -> verificationService.verifyPasswordResetCode(user, resetPasswordReq))
+                .ifPresentOrElse(user -> {
+                    user.setPassword(passwordEncoder.encode(resetPasswordReq.newPassword()));
+                    repository.save(user);
+                    verificationService.deleteVerificationCode(resetPasswordReq.code());
+                }, () -> {
+                    throw new VerificationException("Invalid password reset code", "Ungültiger Passwort-Zurücksetzungs-Code");
+                });
         return true;
     }
 }

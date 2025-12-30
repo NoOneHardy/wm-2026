@@ -104,4 +104,15 @@ public class MailService {
                 addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
         sendMail(user.getEmail(), subject, body);
     }
+
+    public void sendPasswordResetMail(User user, VerificationCode code) {
+        String subject = "Password zurücksetzen";
+        String link = hostName + "/password-reset?code=" + code.getCode();
+
+        String body = addParagraph("Hallo <b>" + user.getUsername() + "</b>,") +
+                addParagraph("Für dein Konto wurde eine Zurücksetzung des Password beantragt.<br>Sollte dieser Antrag nicht von dir erstellt worden sein, empfehlen wir dir dein Password sicherheitshalber zu ändern und diese Mail zu ignorieren.") +
+                addParagraph("Um dein Password zu ändern, klicke auf den folgenden Link:&nbsp;" + addLink(link, link)) +
+                addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
+        sendMail(user.getEmail(), subject, body);
+    }
 }

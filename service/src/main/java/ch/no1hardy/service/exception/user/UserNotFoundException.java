@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotNull;
 public class UserNotFoundException extends NotFoundException {
     public UserNotFoundException(@NotNull String id) {
         super(
-                "User with id '" + id + "' not found.",
-                "Benutzer mit der ID '" + StringHelper.getFormattedId(id) + "' nicht gefunden."
+                "User ('" + id + "') not found.",
+                "Benutzer ('" + StringHelper.getFormattedId(id) + "') nicht gefunden."
         );
     }
 }

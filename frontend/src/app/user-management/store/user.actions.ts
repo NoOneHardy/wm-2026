@@ -39,3 +39,5 @@ export const notificationPreferencesFetched = createAction('[User Preferences] N
 // Email verification
 export const verifyEmail = createAction('[User] Verify email', props<{ code: string }>())
 export const emailVerified = createAction('[User] Email verified', props<{ user: User }>())
+export const sendEmailVerificationLink = createAction('[User] Send email verification link')
+export const emailVerificationLinkSent = createAction('[User] Email verification link sent', props<{ isSent: boolean }>())

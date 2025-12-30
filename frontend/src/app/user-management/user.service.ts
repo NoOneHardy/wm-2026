@@ -64,4 +64,8 @@ export class UserService extends BaseHttpService {
   verifyEmail(body: { code: string }): Observable<User> {
     return this.post<User>('/api/user/confirm', body)
   }
+
+  sendEmailVerificationLink(): Observable<boolean> {
+    return this.put<boolean>('/api/user/resend-verification', {})
+  }
 }

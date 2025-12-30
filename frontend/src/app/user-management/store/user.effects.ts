@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser, emailVerified,
+  createUser, emailVerificationLinkSent, emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
@@ -12,7 +12,7 @@ import {
   markNotificationAsRead,
   notificationPreferencesFetched,
   notificationPreferencesUpdated,
-  rejectLogin,
+  rejectLogin, sendEmailVerificationLink,
   updateNotificationPreferences,
   updateUser,
   uploadAvatar,
@@ -211,6 +211,26 @@ export class UserEffects {
         this.snackbarService.addMessage({
           message: 'E-Mail erfolgreich verifiziert'
         })
+      })
+    })
+  ), {dispatch: false})
+
+  sendEmailVerificationLink = createEffect(() => this.actions$.pipe(
+    ofType(sendEmailVerificationLink),
+    exhaustMap(() => this.userService.sendEmailVerificationLink().pipe(
+      map(isSent => emailVerificationLinkSent({isSent}))
+    ))
+  ))
+
+  emailVerificationLinkSent = createEffect(() => this.actions$.pipe(
+    ofType(emailVerificationLinkSent),
+    tap(({isSent}) => {
+      if (isSent) return this.snackbarService.addMessage({
+        message: 'E-Mail erfolgreich verifiziert'
+      })
+
+      this.snackbarService.addMessage({
+        message: 'E-Mail wurde bereits bestätigt',
       })
     })
   ), {dispatch: false})

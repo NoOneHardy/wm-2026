@@ -267,10 +267,6 @@ public class UserService {
         verificationService.clearExpiredCodes();
         return repository.findByUsername(dto.getUsername())
                 .map(user -> {
-                    // TODO: remove after implementing banner about unconfirmed email
-                    if (!user.isEmailConfirmed()) {
-                        this.sendEmailVerificationMail(user);
-                    }
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(
                                     user.getId(),
@@ -389,6 +385,7 @@ public class UserService {
 
     /**
      * Generate a new verification code and send the email verification mail to a user
+     *
      * @param user the user to send the email to
      */
     public void sendEmailVerificationMail(@NotNull User user) {

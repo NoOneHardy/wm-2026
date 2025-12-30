@@ -4,6 +4,9 @@ import {LoginData} from '../model/login'
 import {Notification} from '../model/notification'
 import {NotificationPreference} from '../model/notification-preference'
 
+// General
+export const resetUserLoading = createAction('[User] Reset user loading')
+
 export const createUser = createAction('[User] create user', props<{ user: NewUser }>())
 export const userCreated = createAction('[User] user created', props<LoginData>())
 export const userLogin = createAction('[User] login', props<LoginData>())

@@ -12,7 +12,7 @@ import {
   markNotificationAsRead,
   notificationPreferencesFetched,
   notificationPreferencesUpdated, passwordResetDone, passwordResetLinkRequested,
-  rejectLogin, requestPasswordResetLink, resetPassword, sendEmailVerificationLink,
+  rejectLogin, requestPasswordResetLink, resetPassword, resetUserLoading, sendEmailVerificationLink,
   updateNotificationPreferences,
   updateUser,
   uploadAvatar,
@@ -156,6 +156,7 @@ export class UserEffects {
     ofType(updateUser),
     exhaustMap((action) => this.userService.updateUser(action.user).pipe(
       map((user) => userUpdated({user})),
+      catchError(() => of(resetUserLoading()))
     ))
   ))
 
@@ -258,8 +259,8 @@ export class UserEffects {
     exhaustMap((action) => this.userService.resetPassword(action.newPassword, action.code).pipe(
       map(() => passwordResetDone({success: true})),
       catchError(() => of(passwordResetDone({success: false}))
-    ))
-  )))
+      ))
+    )))
 
   passwordResetDone = createEffect(() => this.actions$.pipe(
     ofType(passwordResetDone),

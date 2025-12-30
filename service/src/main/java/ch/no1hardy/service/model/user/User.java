@@ -224,10 +224,18 @@ public class User extends BaseEntity implements UserDetails {
         return code;
     }
 
-    public Optional<VerificationCode> getMostRecentEmailVerificationCode() {
+    private Optional<VerificationCode> getMostRecentVerificationCode(VerificationCodeType type) {
         return getVerificationCodes().stream()
-                .filter(code -> code.getType() == VerificationCodeType.EMAIL)
+                .filter(code -> code.getType() == type)
                 .filter(VerificationCode::isValid)
                 .max(Comparator.comparing(BaseEntity::getCreatedAt));
+    }
+
+    public Optional<VerificationCode> getMostRecentEmailVerificationCode() {
+        return getMostRecentVerificationCode(VerificationCodeType.EMAIL);
+    }
+
+    public Optional<VerificationCode> getMostRecentPasswordResetCode() {
+        return getMostRecentVerificationCode(VerificationCodeType.PASSWORD_RESET);
     }
 }

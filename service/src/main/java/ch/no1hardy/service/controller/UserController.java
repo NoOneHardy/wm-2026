@@ -4,6 +4,7 @@ import ch.no1hardy.service.front.user.CheckRes;
 import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
+import ch.no1hardy.service.front.verification.ResetPasswordReq;
 import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.service.JwtService;
 import ch.no1hardy.service.service.NotificationService;
@@ -133,5 +134,17 @@ public class UserController {
     public boolean resendVerificationEmail() {
         logger.info("PUT /user/resend-verification");
         return this.service.sendEmailVerificationMail();
+    }
+
+    @PutMapping("/user/password-reset/request-link")
+    public boolean requestPasswordResetLink(@RequestParam String email) {
+        logger.info("PUT /user/password-reset/request-link");
+        return this.service.sendPasswordResetMail(email);
+    }
+
+    @PutMapping("/user/password-reset")
+    public boolean resetPassword(@RequestBody ResetPasswordReq resetPasswordReq) {
+        logger.info("PUT /user/password-reset");
+        return this.service.resetPassword(resetPasswordReq);
     }
 }

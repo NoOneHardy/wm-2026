@@ -1,6 +1,8 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.verification.VerificationException;
+import ch.no1hardy.service.front.verification.ResetPasswordReq;
+import ch.no1hardy.service.front.verification.VerificationReq;
 import ch.no1hardy.service.front.verification.VerifyEmailReq;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.model.verification.VerificationCode;
@@ -28,13 +30,17 @@ public class VerificationService {
         return verifyCode(user.getMostRecentEmailVerificationCode(), req);
     }
 
-    public boolean verifyCode(Optional<VerificationCode> code, VerifyEmailReq req) {
+    public boolean verifyPasswordResetCode(User user, ResetPasswordReq req) {
+        return verifyCode(user.getMostRecentPasswordResetCode(), req);
+    }
+
+    public boolean verifyCode(Optional<VerificationCode> code, VerificationReq req) {
         return code.map(c -> verifyCode(c, req))
                 .filter(Boolean::booleanValue)
                 .orElseThrow(() -> new VerificationException("Invalid verification code", "Ungültiger Verifizierungscode"));
     }
 
-    public boolean verifyCode(VerificationCode code, VerifyEmailReq req) {
+    public boolean verifyCode(VerificationCode code, VerificationReq req) {
         return code.getCode().equals(req.code());
     }
 

@@ -250,7 +250,6 @@ export class UserEffects {
       this.snackbarService.addMessage({
         message: 'Link zum Zurücksetzen des Passworts versendet'
       })
-      this.router.navigateByUrl('/').then()
     })
   ), {dispatch: false})
 

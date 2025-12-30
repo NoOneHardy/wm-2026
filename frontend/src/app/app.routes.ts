@@ -103,5 +103,9 @@ export const routes: Routes = [
   {
     path: 'password-reset',
     loadComponent: () => import('./verification/password-reset/password-reset.component').then(m => m.PasswordResetComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./verification/request-password-reset/request-password-reset.component').then(m => m.RequestPasswordResetComponent)
   }
 ]

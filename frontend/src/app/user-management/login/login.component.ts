@@ -7,6 +7,7 @@ import {hasError} from '../../shared/helper/form-field-error'
 import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
 import {selectError} from '../store/user.feature'
+import {RouterLink} from '@angular/router'
 
 @Component({
   selector: 'wm-login',
@@ -16,7 +17,8 @@ import {selectError} from '../store/user.feature'
     FormFieldComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

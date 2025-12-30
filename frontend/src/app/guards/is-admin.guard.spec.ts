@@ -26,6 +26,7 @@ describe('isAdminGuard', () => {
 
     result = null
     store = TestBed.inject(MockStore)
+    store.overrideSelector(selectIsUserLoading, false)
   })
 
   it('should return true if user is admin', () => {

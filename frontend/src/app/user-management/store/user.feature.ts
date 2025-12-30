@@ -14,7 +14,7 @@ import {
   passwordResetLinkRequested,
   rejectLogin,
   requestPasswordResetLink,
-  resetError, resetPassword,
+  resetError, resetPassword, resetUserLoading,
   updateNotificationPreferences,
   updateNotifications,
   updateUser,
@@ -58,7 +58,7 @@ export const userFeature = createFeature({
         isUserLoading: true
       }
     }),
-    on(passwordResetDone, markedNotificationAsRead, userCreated, passwordResetLinkRequested, (state): UserState => {
+    on(passwordResetDone, markedNotificationAsRead, userCreated, passwordResetLinkRequested, resetUserLoading, (state): UserState => {
       return {
         ...state,
         isUserLoading: false

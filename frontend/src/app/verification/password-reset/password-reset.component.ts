@@ -8,6 +8,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
 import {Store} from '@ngrx/store'
 import {selectIsUserLoading} from '../../user-management/store/user.feature'
 import {ActivatedRoute, Router} from '@angular/router'
+import {resetPassword} from '../../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-password-reset',
@@ -51,6 +52,12 @@ export class PasswordResetComponent implements OnInit {
   resetPassword(): void {
     this.formGroup.markAllAsTouched()
     if (this.formGroup.invalid) return
+
+    const newPassword = this.formGroup.controls.password.value
+    this.store.dispatch(resetPassword({
+      code: this.code,
+      newPassword
+    }))
   }
 
   protected readonly hasError = hasError

@@ -255,14 +255,16 @@ export class UserEffects {
 
   resetPassword = createEffect(() => this.actions$.pipe(
     ofType(resetPassword),
-    exhaustMap((action) => this.userService.resetPassword(action.code, action.newPassword).pipe(
-      map(() => passwordResetDone())
+    exhaustMap((action) => this.userService.resetPassword(action.newPassword, action.code).pipe(
+      map(() => passwordResetDone({success: true})),
+      catchError(() => of(passwordResetDone({success: false}))
     ))
-  ))
+  )))
 
   passwordResetDone = createEffect(() => this.actions$.pipe(
     ofType(passwordResetDone),
-    tap(() => {
+    tap(success => {
+      if (!success.success) return
       this.snackbarService.addMessage({
         message: 'Passwort erfolgreich zurückgesetzt'
       })

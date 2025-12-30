@@ -111,7 +111,7 @@ describe('UserFeature', () => {
       isUserLoading: true
     }
     expect(state.isUserLoading).toBeTrue()
-    state = store.reducer(state, passwordResetDone())
+    state = store.reducer(state, passwordResetDone({success: true}))
     expect(state.isUserLoading).toBeFalse()
   })
 })

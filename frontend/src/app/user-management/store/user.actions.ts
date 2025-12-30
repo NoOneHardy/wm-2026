@@ -46,4 +46,4 @@ export const emailVerificationLinkSent = createAction('[User] Email verification
 export const requestPasswordResetLink = createAction('[User] Request password reset link', props<{ email: string }>())
 export const passwordResetLinkRequested = createAction('[User] Password reset link requested')
 export const resetPassword = createAction('[User] Reset password', props<{ newPassword: string, code: string }>())
-export const passwordResetDone = createAction('[User] Password reset done')
+export const passwordResetDone = createAction('[User] Password reset done', props<{ success: boolean }>())

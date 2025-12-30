@@ -111,4 +111,67 @@ describe('UserService', () => {
     expect(req.request.method).toBe('DELETE')
     flushApiErrorResponse(req)
   })
+
+  it('should request password reset link', () => {
+    const email = 'silas@test.ch'
+    service.requestPasswordResetLink(email).subscribe(res => {
+      expect(res).toBeTrue()
+    })
+
+    const req = httpMock.expectOne(`/api/user/password-reset/request-link?email=${email}`)
+    expect(req.request.method).toBe('PUT')
+    flushApiResponse(req, true)
+  })
+
+  it('should throw error on request password reset link', () => {
+    const email = 'silas@test.ch'
+    service.requestPasswordResetLink(email).subscribe({
+      error: (err: ServiceError) => {
+        expect(err.status).toBe(404)
+        expect(err.message).toEqual('User (\'silas@test.ch\') not found.')
+      }
+    })
+
+    const req = httpMock.expectOne(`/api/user/password-reset/request-link?email=${email}`)
+    expect(req.request.method).toBe('PUT')
+    flushApiErrorResponse(req, {
+      status: 404,
+      message: 'User (\'silas@test.ch\') not found.',
+      displayMessage: 'Benutzer (\'silas@test.ch\') nicht gefunden.'
+    })
+  })
+
+  it('should request password reset', () => {
+    const newPassword = 'silas@test.ch'
+    const code = 'reset-code-123'
+    service.resetPassword(newPassword, code).subscribe(res => {
+      expect(res).toBeTrue()
+    })
+
+    const req = httpMock.expectOne(`/api/user/password-reset`)
+    expect(req.request.body).toEqual({newPassword, code})
+    expect(req.request.method).toBe('PUT')
+    flushApiResponse(req, true)
+  })
+
+  it('should throw error on request password reset', () => {
+    const newPassword = 'silas@test.ch'
+    const code = 'reset-code-123'
+    service.resetPassword(newPassword, code).subscribe({
+      error: (err: ServiceError) => {
+        expect(err.status).toBe(400)
+        expect(err.message).toEqual('Invalid password reset code.')
+        expect(err.displayMessage).toEqual('Ungültiger Password-Zurücksetzungs-Code')
+      }
+    })
+
+    const req = httpMock.expectOne(`/api/user/password-reset`)
+    expect(req.request.method).toBe('PUT')
+    expect(req.request.body).toEqual({newPassword, code})
+    flushApiErrorResponse(req, {
+      status: 400,
+      message: 'Invalid password reset code.',
+      displayMessage: 'Ungültiger Password-Zurücksetzungs-Code'
+    })
+  })
 })

@@ -68,4 +68,14 @@ export class UserService extends BaseHttpService {
   sendEmailVerificationLink(): Observable<boolean> {
     return this.put<boolean>('/api/user/resend-verification', {})
   }
+
+  requestPasswordResetLink(email: string): Observable<boolean> {
+    return this.put<boolean>('/api/user/password-reset/request-link', {}, {
+      params: {email}
+    })
+  }
+
+  resetPassword(newPassword: string, code: string): Observable<boolean> {
+    return this.put<boolean>('/api/user/password-reset', {newPassword, code})
+  }
 }

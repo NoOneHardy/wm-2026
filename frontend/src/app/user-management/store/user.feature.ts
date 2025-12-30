@@ -1,7 +1,8 @@
 import {User} from '../../model/user/user'
 import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {
-  createUser, emailVerified,
+  createUser,
+  emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
@@ -9,9 +10,11 @@ import {
   markedNotificationAsRead,
   markNotificationAsRead,
   notificationPreferencesFetched,
-  notificationPreferencesUpdated,
+  notificationPreferencesUpdated, passwordResetDone,
+  passwordResetLinkRequested,
   rejectLogin,
-  resetError,
+  requestPasswordResetLink,
+  resetError, resetPassword,
   updateNotificationPreferences,
   updateNotifications,
   updateUser,
@@ -49,13 +52,13 @@ export const userFeature = createFeature({
   name: 'user',
   reducer: createReducer(
     initialState,
-    on(createUser, markNotificationAsRead, updateNotificationPreferences, fetchNotificationPreferences, updateUser, (state): UserState => {
+    on(resetPassword, logout, fetchUserInfo, createUser, markNotificationAsRead, updateNotificationPreferences, fetchNotificationPreferences, updateUser, requestPasswordResetLink, (state): UserState => {
       return {
         ...state,
         isUserLoading: true
       }
     }),
-    on(userCreated, (state): UserState => {
+    on(passwordResetDone, markedNotificationAsRead, userCreated, passwordResetLinkRequested, (state): UserState => {
       return {
         ...state,
         isUserLoading: false
@@ -88,12 +91,6 @@ export const userFeature = createFeature({
         error: 'Username oder Passwort ungültig'
       }
     }),
-    on(fetchUserInfo, (state): UserState => {
-      return {
-        ...state,
-        isUserLoading: true
-      }
-    }),
     on(userInfoFetched, userUpdated, (state, action): UserState => {
       return {
         ...state,
@@ -107,24 +104,12 @@ export const userFeature = createFeature({
         notifications: action.notifications
       }
     }),
-    on(logout, (state): UserState => {
-      return {
-        ...state,
-        isUserLoading: true
-      }
-    }),
     on(loggedOut, (state): UserState => {
       return {
         ...state,
         isUserLoading: false,
         user: null,
         notifications: []
-      }
-    }),
-    on(markedNotificationAsRead, (state): UserState => {
-      return {
-        ...state,
-        isUserLoading: false
       }
     }),
     on(notificationPreferencesFetched, notificationPreferencesUpdated, (state, action): UserState => {

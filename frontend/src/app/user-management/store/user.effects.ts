@@ -11,8 +11,8 @@ import {
   markedNotificationAsRead,
   markNotificationAsRead,
   notificationPreferencesFetched,
-  notificationPreferencesUpdated,
-  rejectLogin, sendEmailVerificationLink,
+  notificationPreferencesUpdated, passwordResetDone, passwordResetLinkRequested,
+  rejectLogin, requestPasswordResetLink, resetPassword, sendEmailVerificationLink,
   updateNotificationPreferences,
   updateUser,
   uploadAvatar,
@@ -232,6 +232,42 @@ export class UserEffects {
       this.snackbarService.addMessage({
         message: 'E-Mail wurde bereits bestätigt',
       })
+    })
+  ), {dispatch: false})
+
+  requestPasswordResetLink = createEffect(() => this.actions$.pipe(
+    ofType(requestPasswordResetLink),
+    exhaustMap((action) => this.userService.requestPasswordResetLink(action.email).pipe(
+      map(() => passwordResetLinkRequested()),
+      catchError(() => of(passwordResetLinkRequested()
+      ))
+    ))
+  ))
+
+  passwordResetLinkRequested = createEffect(() => this.actions$.pipe(
+    ofType(passwordResetLinkRequested),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Link zum Zurücksetzen des Passworts versendet'
+      })
+      this.router.navigateByUrl('/').then()
+    })
+  ), {dispatch: false})
+
+  resetPassword = createEffect(() => this.actions$.pipe(
+    ofType(resetPassword),
+    exhaustMap((action) => this.userService.resetPassword(action.code, action.newPassword).pipe(
+      map(() => passwordResetDone())
+    ))
+  ))
+
+  passwordResetDone = createEffect(() => this.actions$.pipe(
+    ofType(passwordResetDone),
+    tap(() => {
+      this.snackbarService.addMessage({
+        message: 'Passwort erfolgreich zurückgesetzt'
+      })
+      this.router.navigateByUrl('/').then()
     })
   ), {dispatch: false})
 }

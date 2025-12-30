@@ -12,7 +12,7 @@ import {isLoggedOutGuard} from './guards/is-logged-out.guard'
 import {SettingsComponent} from './settings/settings.component'
 import {AccountSettingsComponent} from './settings/account-settings/account-settings.component'
 import {NotificationSettingsComponent} from './settings/notification-settings/notification-settings.component'
-import {EmailVerificationComponent} from './email-verification/email-verification.component'
+import {EmailVerificationComponent} from './verification/email-verification/email-verification.component'
 
 export const routes: Routes = [
   {
@@ -99,5 +99,9 @@ export const routes: Routes = [
   {
     path: 'verify-email',
     component: EmailVerificationComponent
+  },
+  {
+    path: 'password-reset',
+    loadComponent: () => import('./verification/password-reset/password-reset.component').then(m => m.PasswordResetComponent)
   }
 ]

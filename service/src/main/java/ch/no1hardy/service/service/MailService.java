@@ -56,7 +56,7 @@ public class MailService {
                 .replace("Ü", "&Uuml;");
     }
 
-    public void sendMail(String to, String subject, String body) {
+    public boolean sendMail(String to, String subject, String body) {
         try {
             Message message = new MimeMessage(createSession());
             message.setFrom(new InternetAddress(username));
@@ -74,8 +74,10 @@ public class MailService {
             Transport.send(message);
 
             System.out.println("Sent email '" + subject + "' to " + to);
+            return true;
         } catch (MessagingException e) {
             System.err.println(e.getMessage());
+            return false;
         }
     }
 
@@ -91,7 +93,7 @@ public class MailService {
         return "<a href=\"" + url + "\">" + text + "</a>";
     }
 
-    public void sendEmailVerificationMail(User user, VerificationCode code) {
+    public boolean sendEmailVerificationMail(User user, VerificationCode code) {
         String subject = "Bestätige deine Emailadresse";
         String link = hostName + "/verify-email?code=" + code.getCode();
 
@@ -102,10 +104,10 @@ public class MailService {
                         "Du wirst per Email benachrichtigt, sobald dein Account freigeschaltet wurde.<br>" +
                         "In der Zwischenzeit kannst du aber bereits unlimitiert deine <b>Wetten platzieren.</b>") +
                 addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
-        sendMail(user.getEmail(), subject, body);
+        return sendMail(user.getEmail(), subject, body);
     }
 
-    public void sendPasswordResetMail(User user, VerificationCode code) {
+    public boolean sendPasswordResetMail(User user, VerificationCode code) {
         String subject = "Password zurücksetzen";
         String link = hostName + "/password-reset?code=" + code.getCode();
 
@@ -113,6 +115,6 @@ public class MailService {
                 addParagraph("Für dein Konto wurde eine Zurücksetzung des Password beantragt.<br>Sollte dieser Antrag nicht von dir erstellt worden sein, empfehlen wir dir dein Password sicherheitshalber zu ändern und diese Mail zu ignorieren.") +
                 addParagraph("Um dein Password zu ändern, klicke auf den folgenden Link:&nbsp;" + addLink(link, link)) +
                 addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
-        sendMail(user.getEmail(), subject, body);
+        return sendMail(user.getEmail(), subject, body);
     }
 }

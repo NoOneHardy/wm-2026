@@ -402,11 +402,11 @@ public class UserService {
      *
      * @param user the user to send the email to
      */
-    public void sendEmailVerificationMail(@NotNull User user) {
+    public boolean sendEmailVerificationMail(@NotNull User user) {
         VerificationCode code = user.createVerificationCode(VerificationCodeType.EMAIL, this.emailConfirmationValidity);
         verificationService.saveVerificationCode(code);
 
-        mailService.sendEmailVerificationMail(user, code);
+        return mailService.sendEmailVerificationMail(user, code);
     }
 
     /**
@@ -422,8 +422,7 @@ public class UserService {
             return false;
         }
 
-        this.sendEmailVerificationMail(user);
-        return true;
+        return this.sendEmailVerificationMail(user);
     }
 
     public boolean sendPasswordResetMail(@NotNull String email) {
@@ -431,8 +430,7 @@ public class UserService {
         VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, this.emailConfirmationValidity);
         verificationService.saveVerificationCode(code);
 
-        mailService.sendPasswordResetMail(user, code);
-        return true;
+        return mailService.sendPasswordResetMail(user, code);
     }
 
     public boolean resetPassword(ResetPasswordReq resetPasswordReq) {

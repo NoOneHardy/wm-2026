@@ -608,6 +608,7 @@ public class UserServiceTest {
 
         Mockito.doReturn(Optional.of(user)).when(repository).findByEmail("silas@test.ch");
         Mockito.doReturn(code).when(verificationCodeRepository).save(Mockito.any());
+        Mockito.doReturn(true).when(mailService).sendPasswordResetMail(ArgumentMatchers.eq(user), ArgumentMatchers.any(VerificationCode.class));
 
         boolean result = service.sendPasswordResetMail("silas@test.ch");
         assertTrue(result);

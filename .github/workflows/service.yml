@@ -30,6 +30,7 @@ jobs:
           smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
           smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
           smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
+          base_url: ${{ secrets.BASE_URL }}
       - name: Set up gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -57,6 +58,7 @@ jobs:
           smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
           smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
           smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
+          base_url: ${{ secrets.BASE_URL }}
       - name: 'Build docker image'
         uses: ./.github/actions/build-docker-image
         with:

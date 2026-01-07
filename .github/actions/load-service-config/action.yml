@@ -26,6 +26,9 @@ inputs:
   smtp_pw:
     description: 'SMTP_PW'
     required: true
+  base_url:
+    description: 'BASE_URL'
+    required: true
 runs:
   using: composite
   steps:
@@ -53,3 +56,6 @@ runs:
     - name: 'Load smtp password'
       shell: bash
       run: echo "SMTP_PW=${{ inputs.smtp_pw }}" >> service/.env
+    - name: 'Load base url'
+      shell: bash
+      run: echo "BASE_URL=${{ inputs.base_url }}" >> service/.env

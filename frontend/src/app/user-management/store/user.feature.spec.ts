@@ -5,8 +5,11 @@ import * as feature from './user.feature'
 import {selectIsAdmin, UserState} from './user.feature'
 import {
   markedNotificationAsRead,
-  markNotificationAsRead, passwordResetDone, passwordResetLinkRequested,
-  requestPasswordResetLink, resetPassword,
+  markNotificationAsRead,
+  passwordResetDone,
+  passwordResetLinkRequested,
+  requestPasswordResetLink,
+  resetPassword,
   updateNotifications,
   userLoggedIn
 } from './user.actions'
@@ -93,7 +96,7 @@ describe('UserFeature', () => {
       isUserLoading: true
     }
     expect(state.isUserLoading).toBeTrue()
-    state = store.reducer(state, passwordResetLinkRequested())
+    state = store.reducer(state, passwordResetLinkRequested({isSent: true}))
     expect(state.isUserLoading).toBeFalse()
   })
 

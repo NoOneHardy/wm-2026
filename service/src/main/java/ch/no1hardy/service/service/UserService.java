@@ -427,7 +427,7 @@ public class UserService {
 
     public boolean sendPasswordResetMail(@NotNull String email) {
         User user = getRawByEmail(email).orElseThrow(() -> new UserNotFoundException(email));
-        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, this.emailConfirmationValidity);
+        VerificationCode code = user.createVerificationCode(VerificationCodeType.PASSWORD_RESET, this.passwordResetValidity);
         verificationService.saveVerificationCode(code);
 
         return mailService.sendPasswordResetMail(user, code);

@@ -3,7 +3,9 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser, emailVerificationLinkSent, emailVerified,
+  createUser,
+  emailVerificationLinkSent,
+  emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
   loggedOut,
@@ -11,8 +13,14 @@ import {
   markedNotificationAsRead,
   markNotificationAsRead,
   notificationPreferencesFetched,
-  notificationPreferencesUpdated, passwordResetDone, passwordResetLinkRequested,
-  rejectLogin, requestPasswordResetLink, resetPassword, resetUserLoading, sendEmailVerificationLink,
+  notificationPreferencesUpdated,
+  passwordResetDone,
+  passwordResetLinkRequested,
+  rejectLogin,
+  requestPasswordResetLink,
+  resetPassword,
+  resetUserLoading,
+  sendEmailVerificationLink,
   updateNotificationPreferences,
   updateUser,
   uploadAvatar,
@@ -20,7 +28,8 @@ import {
   userInfoFetched,
   userLoggedIn,
   userLogin,
-  userUpdated, verifyEmail
+  userUpdated,
+  verifyEmail
 } from './user.actions'
 import {catchError, exhaustMap, map, of, tap} from 'rxjs'
 import {Router} from '@angular/router'
@@ -231,7 +240,8 @@ export class UserEffects {
       })
 
       this.snackbarService.addMessage({
-        message: 'E-Mail wurde bereits bestätigt',
+        message: 'Es ist ein Fehler aufgetreten',
+        type: 'error'
       })
     })
   ), {dispatch: false})
@@ -239,15 +249,19 @@ export class UserEffects {
   requestPasswordResetLink = createEffect(() => this.actions$.pipe(
     ofType(requestPasswordResetLink),
     exhaustMap((action) => this.userService.requestPasswordResetLink(action.email).pipe(
-      map(() => passwordResetLinkRequested()),
-      catchError(() => of(passwordResetLinkRequested()
+      map((isSent) => passwordResetLinkRequested({isSent})),
+      catchError(() => of(passwordResetLinkRequested({isSent: false})
       ))
     ))
   ))
 
   passwordResetLinkRequested = createEffect(() => this.actions$.pipe(
     ofType(passwordResetLinkRequested),
-    tap(() => {
+    tap(({isSent}) => {
+      if (!isSent) return this.snackbarService.addMessage({
+        message: 'Es ist ein Fehler aufgetreten',
+        type: 'error'
+      })
       this.snackbarService.addMessage({
         message: 'Link zum Zurücksetzen des Passworts versendet'
       })

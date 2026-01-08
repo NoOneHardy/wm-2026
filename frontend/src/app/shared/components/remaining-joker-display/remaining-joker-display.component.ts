@@ -10,10 +10,9 @@ import {Component, input} from '@angular/core'
 export class RemainingJokerDisplayComponent {
   jokersRemaining = input.required<number>()
   jokersMax = input.required<number>()
-  jokerType = input.required<number>()
-
+  jokerMultiplier = input.required<number>()
 
   get jokerArray(): number[] {
-    return Array(this.jokerType()).map((_, i) => i)
+    return Array.from({length: this.jokerMultiplier()}, (_, i) => i)
   }
 }

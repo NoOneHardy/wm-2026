@@ -3,6 +3,7 @@ package ch.no1hardy.service.mapper;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.service.AuthService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,18 @@ public class UserHelperTest {
     private final User user = new User();
 
     @Test
+    @DisplayName("getMaxDoubleJokers() - should return the maximum number of double jokers from application properties")
+    void shouldReturnMaxDoubleJokers() {
+        assertThat(userHelper.getDoubleJokerLimit()).isEqualTo(10);
+    }
+
+    @Test
+    @DisplayName("getMaxTripleJokers() - should return the maximum number of triple jokers from application properties")
+    void shouldReturnMaxTripleJokers() {
+        assertThat(userHelper.getTripleJokerLimit()).isEqualTo(6);
+    }
+
+    @Test
     void shouldCalculateAvailable2Jokers() {
         Bet bet = new Bet();
         bet.setJoker(2);
@@ -35,7 +48,7 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(6);
+        assertThat(userHelper.getAvailableDoubleJokers()).isEqualTo(8);
     }
 
     @Test
@@ -44,13 +57,13 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(8);
+        assertThat(userHelper.getAvailableDoubleJokers()).isEqualTo(10);
     }
 
     @Test
     void shouldReturnMax2JokersIfNoUserIsFound() {
         when(service.getLoggedInUser()).thenReturn(Optional.empty());
-        assertThat(userHelper.getAvailableDoubleJokers(2)).isEqualTo(2);
+        assertThat(userHelper.getAvailableDoubleJokers()).isEqualTo(10);
     }
 
     @Test
@@ -68,7 +81,7 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableDoubleJokers(8)).isEqualTo(7);
+        assertThat(userHelper.getAvailableDoubleJokers()).isEqualTo(9);
     }
 
     @Test
@@ -82,7 +95,7 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableTripleJokers(6)).isEqualTo(4);
+        assertThat(userHelper.getAvailableTripleJokers()).isEqualTo(4);
     }
 
     @Test
@@ -91,13 +104,13 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableTripleJokers(6)).isEqualTo(6);
+        assertThat(userHelper.getAvailableTripleJokers()).isEqualTo(6);
     }
 
     @Test
     void shouldReturnMax3JokersIfNoUserIsFound() {
         when(service.getLoggedInUser()).thenReturn(Optional.empty());
-        assertThat(userHelper.getAvailableTripleJokers(3)).isEqualTo(3);
+        assertThat(userHelper.getAvailableTripleJokers()).isEqualTo(6);
     }
 
     @Test
@@ -115,6 +128,6 @@ public class UserHelperTest {
 
         when(service.getLoggedInUser()).thenReturn(Optional.of(user));
 
-        assertThat(userHelper.getAvailableTripleJokers(4)).isEqualTo(3);
+        assertThat(userHelper.getAvailableTripleJokers()).isEqualTo(5);
     }
 }

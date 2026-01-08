@@ -37,11 +37,7 @@
   margin-top: 5em;
 }
 
-.actions {
-  position: fixed;
-  bottom: 4em;
-  left: 50%;
-  transform: translateX(-50%);
+.panel {
   display: flex;
   align-items: center;
   gap: 1em;
@@ -55,6 +51,20 @@
     padding: 0 1em;
     cursor: pointer;
   }
+}
+
+.remaining-jokers {
+  display: flex;
+  gap: 1.5em;
+}
+
+.bottom-panel {
+  position: fixed;
+  bottom: 4em;
+  left: 50%;
+  gap: .5em;
+  transform: translateX(-50%);
+  padding: 0 0 0 1em;
 }
 
 @media screen and (max-width: 992px) {

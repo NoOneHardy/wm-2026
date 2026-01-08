@@ -44,10 +44,12 @@
     </form>
 
     <div class="panel bottom-panel">
-      <div class="remaining-jokers">
-        <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="2"/>
-        <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="3"/>
-      </div>
+      @if (mode() === 'bet') {
+        <div class="remaining-jokers">
+          <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="2"/>
+          <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="3"/>
+        </div>
+      }
 
       <div class="panel">
         <a role="button" tabindex="0"

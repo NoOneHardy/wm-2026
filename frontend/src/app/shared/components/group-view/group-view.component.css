@@ -56,6 +56,7 @@
 .remaining-jokers {
   display: flex;
   gap: 1.5em;
+  padding-left: 1em;
 }
 
 .bottom-panel {
@@ -64,17 +65,17 @@
   left: 50%;
   gap: .5em;
   transform: translateX(-50%);
-  padding: 0 0 0 1em;
+  padding: 0;
 }
 
 @media screen and (max-width: 992px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-5) calc(var(--wm-spacer-6) + var(--wm-spacer-7));
+    padding: var(--wm-spacer-6) var(--wm-spacer-5) calc(var(--wm-spacer-8) + var(--wm-spacer-7));
   }
 }
 
 @media screen and (max-width: 576px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-4) calc(var(--wm-spacer-6) + var(--wm-spacer-7));
+    padding: var(--wm-spacer-6) var(--wm-spacer-4) calc(var(--wm-spacer-8) + var(--wm-spacer-7));
   }
 }

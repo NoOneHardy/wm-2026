@@ -1,6 +1,11 @@
 import {Component, effect, inject, input, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
-import {selectActiveGroup, selectIsTournamentLoading, selectIsTournamentSaving} from '../../store/tournament.feature'
+import {
+  selectActiveGroup,
+  selectAvailableJokers,
+  selectIsTournamentLoading,
+  selectIsTournamentSaving
+} from '../../store/tournament.feature'
 import {Mode} from '../../../model/mode'
 import {Group} from '../../../model/group/group'
 import {saveBets, saveResults} from '../../store/tournament.actions'
@@ -34,6 +39,7 @@ export class GroupViewComponent {
   private store = inject(Store)
   private router = inject(Router)
 
+  jokers = this.store.selectSignal(selectAvailableJokers)
   group: Signal<Group | null> = this.store.selectSignal(selectActiveGroup)
   isLoading = this.store.selectSignal(selectIsTournamentLoading)
   isSaving = this.store.selectSignal(selectIsTournamentSaving)

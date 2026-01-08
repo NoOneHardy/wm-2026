@@ -14,6 +14,9 @@ describe('RemainingJokerDisplayComponent', () => {
 
     fixture = TestBed.createComponent(RemainingJokerDisplayComponent)
     component = fixture.componentInstance
+    fixture.componentRef.setInput('jokerType', 2)
+    fixture.componentRef.setInput('jokersRemaining', 5)
+    fixture.componentRef.setInput('jokersMax', 10)
     fixture.detectChanges()
   })
 

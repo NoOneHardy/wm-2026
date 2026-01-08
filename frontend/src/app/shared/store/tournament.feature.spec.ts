@@ -5,12 +5,12 @@ import {
   grantJDouble,
   grantJTriple,
   groupLoaded,
+  loadGroup,
   overviewGroupsLoaded,
   resultsSaved,
   revokeJDouble,
   revokeJTriple,
-  saveResults,
-  loadGroup
+  saveResults
 } from './tournament.actions'
 import {Group} from '../../model/group/group'
 
@@ -25,7 +25,9 @@ const mockGroup: Group = {
   percentageResult: 100,
   availableJokers: {
     jdouble: 2,
-    jtriple: 3
+    jtriple: 3,
+    jdoubleMax: 10,
+    jtripleMax: 6
   }
 }
 

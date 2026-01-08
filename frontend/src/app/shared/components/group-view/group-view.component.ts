@@ -13,6 +13,7 @@ import {Router} from '@angular/router'
 import {SpinnerComponent} from '../spinner/spinner.component'
 import {BetGame} from '../../../model/game/bet-game'
 import {ScoreForm} from '../../../model/game/score-form'
+import {RemainingJokerDisplayComponent} from '../remaining-joker-display/remaining-joker-display.component'
 
 @Component({
   selector: 'wm-group-view',
@@ -23,7 +24,8 @@ import {ScoreForm} from '../../../model/game/score-form'
     BetFormComponent,
     ReactiveFormsModule,
     ButtonComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    RemainingJokerDisplayComponent
   ],
   templateUrl: './group-view.component.html',
   styleUrl: './group-view.component.css'

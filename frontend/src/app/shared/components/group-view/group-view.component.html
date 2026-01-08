@@ -43,13 +43,20 @@
       </div>
     </form>
 
-    <div class="actions">
-      <a role="button" tabindex="0"
-         (click)="back()" (touchend)="back()"
-         (keyup.enter)="back()" (keyup.space)="back()"
-         class="wm-link">Abbrechen</a>
-      <div>
-        <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
+    <div class="panel bottom-panel">
+      <div class="remaining-jokers">
+        <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="2"/>
+        <wm-remaining-joker-display [jokersMax]="8" [jokersRemaining]="2" [jokerType]="3"/>
+      </div>
+
+      <div class="panel">
+        <a role="button" tabindex="0"
+           (click)="back()" (touchend)="back()"
+           (keyup.enter)="back()" (keyup.space)="back()"
+           class="wm-link">Abbrechen</a>
+        <div>
+          <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
+        </div>
       </div>
     </div>
 

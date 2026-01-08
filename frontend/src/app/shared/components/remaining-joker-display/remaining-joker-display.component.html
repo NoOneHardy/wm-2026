@@ -1,0 +1,6 @@
+<div class="jokers">
+  @for (_ of jokerArray; track $index) {
+    <span class="joker material-symbols-rounded">star</span>
+  }
+</div>
+<span class="text"><b>{{ jokersRemaining() }}</b>&nbsp;/&nbsp;{{ jokersMax() }}</span>

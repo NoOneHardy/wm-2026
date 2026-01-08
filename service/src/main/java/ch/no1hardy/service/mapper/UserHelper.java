@@ -6,8 +6,9 @@ import ch.no1hardy.service.model.game.Game;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.service.AuthService;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.mapstruct.Named;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -16,9 +17,24 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserHelper {
-    private AuthService authService;
+    @Value("${wm.joker.double}")
+    private Integer doubleJokerLimit;
+    @Value("${wm.joker.triple}")
+    private Integer tripleJokerLimit;
+
+    private final AuthService authService;
+
+    @Named("getDoubleJokerLimit")
+    public Integer getDoubleJokerLimit() {
+        return doubleJokerLimit;
+    }
+
+    @Named("getTripleJokerLimit")
+    public Integer getTripleJokerLimit() {
+        return tripleJokerLimit;
+    }
 
     /**
      * Returns the user's bet from a list of bets.
@@ -38,27 +54,26 @@ public class UserHelper {
 
     /**
      * Returns the number of available double jokers for the current user.
-     * @param maxDoubleJokers the maximum number of double jokers a user can have
      * @return the number of available double jokers
      */
     @Named("getAvailableDoubleJokers")
-    public int getAvailableDoubleJokers(int maxDoubleJokers) {
+    public int getAvailableDoubleJokers() {
         Optional<User> user$ = authService.getLoggedInUser();
-        if (user$.isEmpty()) return maxDoubleJokers;
+        if (user$.isEmpty()) return getDoubleJokerLimit();
 
         User user = user$.get();
         int usedDoubleJokers = user.getBets().stream().filter(b -> b.getJoker() == 2).toList().size();
-        return maxDoubleJokers - usedDoubleJokers;
+        return getDoubleJokerLimit() - usedDoubleJokers;
     }
 
     @Named("getAvailableTripleJokers")
-    public int getAvailableTripleJokers(int maxTripleJokers) {
+    public int getAvailableTripleJokers() {
         Optional<User> user$ = authService.getLoggedInUser();
-        if (user$.isEmpty()) return maxTripleJokers;
+        if (user$.isEmpty()) return getTripleJokerLimit();
 
         User user = user$.get();
         int usedTripleJokers = user.getBets().stream().filter(b -> b.getJoker() == 3).toList().size();
-        return maxTripleJokers - usedTripleJokers;
+        return getTripleJokerLimit() - usedTripleJokers;
     }
 
     @Named("getPercentage")

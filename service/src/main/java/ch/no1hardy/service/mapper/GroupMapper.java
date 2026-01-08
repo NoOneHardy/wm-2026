@@ -27,8 +27,10 @@ public interface GroupMapper extends EntityMapper<Group, GroupReq, GroupRes> {
     @Mapping(target = "lastSavedAt", source = "games", qualifiedByName = "getLastSavedAt")
     @Mapping(target = "percentageResult", source = "games", qualifiedByName = "getPercentageResult")
     @Mapping(target = "lastSavedAtResult", source = "games", qualifiedByName = "getLastSavedAtResult")
-    @Mapping(target = "availableJokers.JDouble", constant = "10", qualifiedByName = "getAvailableDoubleJokers")
-    @Mapping(target = "availableJokers.JTriple", constant = "6", qualifiedByName = "getAvailableTripleJokers")
+    @Mapping(target = "availableJokers.JDouble", expression = "java(userHelper.getAvailableDoubleJokers())")
+    @Mapping(target = "availableJokers.JTriple", expression = "java(userHelper.getAvailableTripleJokers())")
+    @Mapping(target = "availableJokers.JDoubleMax", expression = "java(userHelper.getDoubleJokerLimit())")
+    @Mapping(target = "availableJokers.JTripleMax", expression = "java(userHelper.getTripleJokerLimit())")
     GroupRes toDto(Group entity);
 
     @Mapping(target = "percentage", source = "games", qualifiedByName = "getPercentage")

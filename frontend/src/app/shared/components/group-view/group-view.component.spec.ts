@@ -15,7 +15,9 @@ const mockGroup: Group = {
   name: 'Gruppe A',
   availableJokers: {
     jdouble: 0,
-    jtriple: 0
+    jtriple: 0,
+    jdoubleMax: 10,
+    jtripleMax: 6
   },
   games: [
     {

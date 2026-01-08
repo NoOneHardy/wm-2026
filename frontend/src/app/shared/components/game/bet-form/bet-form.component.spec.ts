@@ -30,7 +30,9 @@ describe('BetFormComponent', () => {
     mockStore = TestBed.inject(MockStore)
     mockStore.overrideSelector(selectAvailableJokers, {
       jdouble: 5,
-      jtriple: 3
+      jtriple: 3,
+      jdoubleMax: 10,
+      jtripleMax: 6
     })
     mockGame = {
       groupId: 'group-1',
@@ -75,7 +77,9 @@ describe('BetFormComponent', () => {
   it('should load available jokers from store', () => {
     expect(component.availableJokers()).toEqual({
       jdouble: 5,
-      jtriple: 3
+      jtriple: 3,
+      jdoubleMax: 10,
+      jtripleMax: 6
     })
   })
 
@@ -237,7 +241,9 @@ describe('BetFormComponent', () => {
   it('should return false if checked joker is 2 and available jokers are 0', () => {
     mockStore.overrideSelector(selectAvailableJokers, {
       jdouble: 0,
-      jtriple: 3
+      jtriple: 3,
+      jdoubleMax: 10,
+      jtripleMax: 6
     })
     mockStore.refreshState()
     expect(component.hasJokersAvailable(2)).toBeFalse()
@@ -250,7 +256,9 @@ describe('BetFormComponent', () => {
   it('should return false if checked joker is 3 and available jokers are 0', () => {
     mockStore.overrideSelector(selectAvailableJokers, {
       jdouble: 5,
-      jtriple: 0
+      jtriple: 0,
+      jdoubleMax: 10,
+      jtripleMax: 6
     })
     mockStore.refreshState()
     expect(component.hasJokersAvailable(3)).toBeFalse()

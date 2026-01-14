@@ -10,6 +10,10 @@ jobs:
           sparse-checkout: |
             frontend
             gradle
+            gradlew
+            gradlew.bat
+            settings.gradle
+            build.gradle
       - name: Install gradle gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -25,6 +29,10 @@ jobs:
           sparse-checkout: |
             frontend
             gradle
+            gradlew
+            gradlew.bat
+            settings.gradle
+            build.gradle
       - name: Install gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew

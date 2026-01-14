@@ -17,6 +17,10 @@ jobs:
             .github
             service
             gradle
+            gradlew
+            gradlew.bat
+            settings.gradle
+            build.gradle
       - name: Java version
         run: java -version
       - name: 'Get configuration'

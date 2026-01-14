@@ -1,23 +1,23 @@
-FROM gradle:9.1.0-jdk21-alpine AS setup
+FROM gradle:8.10-jdk21-alpine AS setup
 
 WORKDIR /app
 
-COPY ./service ./
+COPY . .
 
 RUN chmod 755 ./gradlew
-RUN ./gradlew
+RUN ./gradlew :service:help
 
-FROM gradle:9.1.0-jdk21-alpine AS build
+FROM gradle:8.10-jdk21-alpine AS build
 
 COPY --from=setup /app /app
 
 WORKDIR /app
 
-RUN ./gradlew build
+RUN ./gradlew :service:build
 
 FROM eclipse-temurin:21-alpine AS final
 
-COPY --from=build /app/build/libs/*.jar /app/app.jar
+COPY --from=build /app/service/build/libs/*.jar /app/app.jar
 
 WORKDIR /app
 

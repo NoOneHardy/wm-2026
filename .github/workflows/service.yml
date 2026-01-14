@@ -51,6 +51,11 @@ jobs:
           sparse-checkout: |
             .github
             service
+            gradle
+            gradlew
+            gradlew.bat
+            settings.gradle
+            build.gradle
       - name: 'Get service configuration'
         uses: ./.github/actions/load-service-config
         with:
@@ -78,6 +83,11 @@ jobs:
           sparse-checkout: |
             .github
             service
+            gradle
+            gradlew
+            gradlew.bat
+            settings.gradle
+            build.gradle
       - name: 'Download docker image artifact'
         uses: actions/download-artifact@v4
         with:

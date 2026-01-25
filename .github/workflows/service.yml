@@ -9,7 +9,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
-          java-version: '23'
+          java-version: '21'
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -17,10 +17,6 @@ jobs:
             .github
             service
             gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: Java version
         run: java -version
       - name: 'Get configuration'
@@ -52,10 +48,6 @@ jobs:
             .github
             service
             gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: 'Get service configuration'
         uses: ./.github/actions/load-service-config
         with:
@@ -82,12 +74,6 @@ jobs:
         with:
           sparse-checkout: |
             .github
-            service
-            gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: 'Download docker image artifact'
         uses: actions/download-artifact@v4
         with:

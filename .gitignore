@@ -7,3 +7,10 @@ build
 *.env
 
 ./storage
+
+# Ignore IDE specific files
+.idea/*
+.vscode
+
+# Include run configuration files
+!.idea/runConfigurations

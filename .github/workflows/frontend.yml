@@ -10,10 +10,6 @@ jobs:
           sparse-checkout: |
             frontend
             gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: Install gradle gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -29,10 +25,6 @@ jobs:
           sparse-checkout: |
             frontend
             gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: Install gradle
         uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission to gradlew
@@ -50,10 +42,6 @@ jobs:
             .github
             frontend
             gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: 'Build docker image'
         uses: ./.github/actions/build-docker-image
         with:
@@ -68,12 +56,6 @@ jobs:
         with:
           sparse-checkout: |
             .github
-            frontend
-            gradle
-            gradlew
-            gradlew.bat
-            settings.gradle
-            build.gradle
       - name: 'Download docker image artifact'
         uses: actions/download-artifact@v4
         with:

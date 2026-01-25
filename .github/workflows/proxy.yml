@@ -25,7 +25,6 @@ jobs:
         with:
           sparse-checkout: |
             .github
-            proxy
       - name: 'Download docker image artifact'
         uses: actions/download-artifact@v4
         with:

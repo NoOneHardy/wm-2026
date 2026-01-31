@@ -10,7 +10,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public final class User {
     private final String id;
-    private final String email;
+    private Email email;
     private String username;
     private String firstname;
     private String lastname;
@@ -18,7 +18,14 @@ public final class User {
     private String avatarUrl;
     private UserApplicationStatus userApplicationStatus = UserApplicationStatus.PENDING;
     private LocalDateTime applicationReviewedAt;
-    private LocalDateTime emailVerifiedAt;
+
+    public void setEmail(Email email) {
+        this.email = email;
+    }
+
+    public void setEmail(String email) {
+        this.email = new Email(email, Optional.empty());
+    }
 
     public Optional<String> getAvatarUrl() {
         return Optional.ofNullable(avatarUrl);
@@ -26,10 +33,6 @@ public final class User {
 
     public Optional<LocalDateTime> getApplicationReviewedAt() {
         return Optional.ofNullable(applicationReviewedAt);
-    }
-
-    public Optional<LocalDateTime> getEmailVerifiedAt() {
-        return Optional.ofNullable(emailVerifiedAt);
     }
 
     public boolean isApplicationReviewed() {
@@ -61,5 +64,9 @@ public final class User {
 
         setApplicationReviewed(true);
         setUserApplicationStatus(UserApplicationStatus.DENIED);
+    }
+
+    public void verifyEmail() {
+        setEmail(email.verify());
     }
 }

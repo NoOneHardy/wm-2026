@@ -1,7 +1,6 @@
 package ch.no1hardy.service.user.application.validation;
 
-import ch.no1hardy.service.user.domain.model.Email;
-import ch.no1hardy.service.user.domain.model.User;
+import ch.no1hardy.service.user.application.dto.UserRegistrationDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +14,8 @@ public class UserRegistrationValidatorTest {
     private FirstnameValidator firstnameValidator;
     private LastnameValidator lastnameValidator;
 
+    private UserRegistrationDto user;
+
     @BeforeEach
     void setUp() {
         usernameValidator = Mockito.mock(UsernameValidator.class);
@@ -24,66 +25,62 @@ public class UserRegistrationValidatorTest {
         lastnameValidator = Mockito.mock(LastnameValidator.class);
 
         Mockito.doNothing().when(usernameValidator).validate(Mockito.anyString());
-        Mockito.doNothing().when(emailValidator).validate(Mockito.any(Email.class));
+        Mockito.doNothing().when(emailValidator).validate(Mockito.anyString());
         Mockito.doNothing().when(passwordValidator).validate(Mockito.anyString());
         Mockito.doNothing().when(firstnameValidator).validate(Mockito.anyString());
         Mockito.doNothing().when(lastnameValidator).validate(Mockito.anyString());
 
         validator = new UserRegistrationValidator(usernameValidator, emailValidator, passwordValidator, firstnameValidator, lastnameValidator);
+        user = new UserRegistrationDto("username", "password", "available@email.com", "firstname", "lastname");
     }
 
     @Test
     @DisplayName("validate() - should call username validator")
     void validate01() {
-        User user = new User();
         try {
             validator.validate(user);
         } finally {
-            Mockito.verify(usernameValidator).validate(user.getUsername());
+            Mockito.verify(usernameValidator).validate(user.username());
         }
     }
 
     @Test
     @DisplayName("validate() - should call email validator")
     void validate02() {
-        User user = new User();
         try {
             validator.validate(user);
         } finally {
-            Mockito.verify(emailValidator).validate(user.getEmail());
+            Mockito.verify(emailValidator).validate(user.email());
         }
     }
 
     @Test
     @DisplayName("validate() - should call password validator")
     void validate03() {
-        User user = new User();
         try {
             validator.validate(user);
         } finally {
-            Mockito.verify(passwordValidator).validate(user.getPasswordHash());
+            Mockito.verify(passwordValidator).validate(user.password());
         }
     }
 
     @Test
     @DisplayName("validate() - should call firstname validator")
     void validate04() {
-        User user = new User();
         try {
             validator.validate(user);
         } finally {
-            Mockito.verify(firstnameValidator).validate(user.getFirstname());
+            Mockito.verify(firstnameValidator).validate(user.firstname());
         }
     }
 
     @Test
     @DisplayName("validate() - should call lastname validator")
     void validate05() {
-        User user = new User();
         try {
             validator.validate(user);
         } finally {
-            Mockito.verify(lastnameValidator).validate(user.getLastname());
+            Mockito.verify(lastnameValidator).validate(user.lastname());
         }
     }
 }

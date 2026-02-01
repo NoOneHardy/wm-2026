@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 @RequiredArgsConstructor
-public class EmailValidator implements BaseValidator<Email> {
+public class EmailValidator implements BaseValidator<String> {
     private final EmailAvailabilityService availabilityService;
     private final RequiredValidator requiredValidator;
 
-    public void validate(Email email) throws UserValidationException {
+    public void validate(String email) throws UserValidationException {
         List<String> errors = new ArrayList<>();
 
-        if (isBlank(email)) errors.add("email is required");
-        else if (!validatePattern(email.address())) errors.add("invalid email format");
-        else if (!availabilityService.isAvailable(email.address())) errors.add("email is already taken");
+        if (requiredValidator.isBlank(email)) errors.add("email is required");
+        else if (!validatePattern(email)) errors.add("invalid email format");
+        else if (!availabilityService.isAvailable(email)) errors.add("email is already taken");
 
         if (errors.isEmpty()) return;
         throw new UserValidationException(String.join(", ", errors));
@@ -29,9 +29,5 @@ public class EmailValidator implements BaseValidator<Email> {
 
     private boolean validatePattern(String email) {
         return Pattern.compile("^[A-z0-9-.]+@([A-z0-9-]+\\.)+[A-z-]{2,4}$").matcher(email).matches();
-    }
-
-    private boolean isBlank(Email email) {
-        return email == null || requiredValidator.isBlank(email.address());
     }
 }

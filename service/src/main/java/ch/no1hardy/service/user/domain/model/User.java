@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Data
 @RequiredArgsConstructor
@@ -19,10 +18,6 @@ public final class User {
     private UserRole role = UserRole.USER;
     private String avatarUrl;
     private UserApplication userApplication = UserApplication.pending();
-
-    public User() {
-        this.id = new UserId(UUID.randomUUID());
-    }
 
     public void setEmail(Email email) {
         this.email = email;

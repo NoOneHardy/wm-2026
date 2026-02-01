@@ -38,8 +38,8 @@ public class EmailTest {
         Email email = new Email("someemail");
         Email verifiedEmail = email.verify();
         assertNotSame(email, verifiedEmail);
-        assertFalse(email.isVerified());
-        assertTrue(email.verifiedAt().isPresent());
+        assertTrue(verifiedEmail.isVerified());
+        assertTrue(verifiedEmail.verifiedAt().isPresent());
     }
 
     @Test

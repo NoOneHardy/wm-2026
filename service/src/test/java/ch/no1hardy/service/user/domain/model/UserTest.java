@@ -12,7 +12,7 @@ public class UserTest {
     @Test
     @DisplayName("getAvatarUrl() - should return avatarUrl if set")
     void getAvatarUrl01() {
-        User user = new User("id");
+        User user = new User();
         user.setAvatarUrl("https://example.com/avatar.png");
         assertTrue(user.getAvatarUrl().isPresent());
         assertEquals("https://example.com/avatar.png", user.getAvatarUrl().get());
@@ -21,14 +21,14 @@ public class UserTest {
     @Test
     @DisplayName("getAvatarUrl() - should return empty if avatarUrl is not set")
     void getAvatarUrl02() {
-        User user = new User("id");
+        User user = new User();
         assertTrue(user.getAvatarUrl().isEmpty());
     }
 
     @Test
     @DisplayName("verifyEmail() - should call Email::verify and replace user email")
     void verifyEmail01() {
-        User user = new User("id");
+        User user = new User();
         Email email = Mockito.spy(new Email("someemail", Optional.empty()));
         user.setEmail(email);
         user.verifyEmail();
@@ -39,7 +39,7 @@ public class UserTest {
     @Test
     @DisplayName("accept() - should call UserApplication::accept and replace user application")
     void accept01() {
-        User user = new User("id");
+        User user = new User();
         UserApplication application = Mockito.spy(UserApplication.pending());
         user.setUserApplication(application);
         user.accept();
@@ -50,7 +50,7 @@ public class UserTest {
     @Test
     @DisplayName("deny() - should call UserApplication::deny and replace user application")
     void deny01() {
-        User user = new User("id");
+        User user = new User();
         UserApplication application = Mockito.spy(UserApplication.pending());
         user.setUserApplication(application);
         user.deny();

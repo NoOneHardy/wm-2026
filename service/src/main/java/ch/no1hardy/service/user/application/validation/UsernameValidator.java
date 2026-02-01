@@ -15,6 +15,7 @@ public class UsernameValidator extends BaseValidator<String> {
     public void validate(String username) throws UserValidationException {
         List<String> errors = new ArrayList<>();
         if (isBlank(username)) errors.add("username is required");
+        else if (username.length() < 3) errors.add("username must be at least 3 characters long");
         else if (!availabilityService.isAvailable(username)) errors.add("username is already taken");
 
         if (errors.isEmpty()) return;

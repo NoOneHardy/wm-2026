@@ -60,4 +60,12 @@ public class UsernameValidatorTest {
         assertEquals("username is already taken", e.getMessage());
         Mockito.verify(usernameAvailabilityService).isAvailable("taken1234");
     }
+
+    @Test
+    @DisplayName("validate(String) - should throw UserValidationException when username is too short")
+    void validate06() {
+        UserValidationException e = assertThrows(UserValidationException.class, () -> validator.validate("ab"));
+        assertEquals("username must be at least 3 characters long", e.getMessage());
+        Mockito.verify(usernameAvailabilityService, Mockito.never()).isAvailable("ab");
+    }
 }

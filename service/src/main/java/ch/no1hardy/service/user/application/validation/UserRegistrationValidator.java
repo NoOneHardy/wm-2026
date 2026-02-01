@@ -9,10 +9,12 @@ public class UserRegistrationValidator implements BaseValidator<User> {
     private final UsernameValidator usernameValidator;
     private final EmailValidator emailValidator;
     private final PasswordValidator passwordValidator;
+    private final FirstnameValidator firstnameValidator;
 
     public void validate(User user) {
         usernameValidator.validate(user.getUsername());
         emailValidator.validate(user.getEmail());
         passwordValidator.validate(user.getPasswordHash());
+        firstnameValidator.validate(user.getFirstname());
     }
 }

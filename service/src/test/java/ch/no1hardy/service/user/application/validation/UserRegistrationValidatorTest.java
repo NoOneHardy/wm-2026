@@ -12,18 +12,21 @@ public class UserRegistrationValidatorTest {
     private UsernameValidator usernameValidator;
     private EmailValidator emailValidator;
     private PasswordValidator passwordValidator;
+    private FirstnameValidator firstnameValidator;
 
     @BeforeEach
     void setUp() {
         usernameValidator = Mockito.mock(UsernameValidator.class);
         emailValidator = Mockito.mock(EmailValidator.class);
         passwordValidator = Mockito.mock(PasswordValidator.class);
+        firstnameValidator = Mockito.mock(FirstnameValidator.class);
 
         Mockito.doNothing().when(usernameValidator).validate(Mockito.anyString());
         Mockito.doNothing().when(emailValidator).validate(Mockito.any(Email.class));
         Mockito.doNothing().when(passwordValidator).validate(Mockito.anyString());
+        Mockito.doNothing().when(firstnameValidator).validate(Mockito.anyString());
 
-        validator = new UserRegistrationValidator(usernameValidator, emailValidator, passwordValidator);
+        validator = new UserRegistrationValidator(usernameValidator, emailValidator, passwordValidator, firstnameValidator);
     }
 
     @Test
@@ -56,6 +59,17 @@ public class UserRegistrationValidatorTest {
             validator.validate(user);
         } finally {
             Mockito.verify(passwordValidator).validate(user.getPasswordHash());
+        }
+    }
+
+    @Test
+    @DisplayName("validate() - should call firstname validator")
+    void validate04() {
+        User user = new User();
+        try {
+            validator.validate(user);
+        } finally {
+            Mockito.verify(firstnameValidator).validate(user.getFirstname());
         }
     }
 }

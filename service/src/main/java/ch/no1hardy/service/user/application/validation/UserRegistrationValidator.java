@@ -8,12 +8,11 @@ import lombok.RequiredArgsConstructor;
 public class UserRegistrationValidator implements BaseValidator<User> {
     private final UsernameValidator usernameValidator;
     private final EmailValidator emailValidator;
+    private final PasswordValidator passwordValidator;
 
     public void validate(User user) {
         usernameValidator.validate(user.getUsername());
         emailValidator.validate(user.getEmail());
-//        if (isBlank(user.getPasswordHash())) errors.add("password is required");
-
-//        if (!errors.isEmpty()) throw new UserValidationException(String.join(", ", errors));
+        passwordValidator.validate(user.getPasswordHash());
     }
 }

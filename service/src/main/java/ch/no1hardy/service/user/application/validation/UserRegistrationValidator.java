@@ -5,7 +5,7 @@ import ch.no1hardy.service.user.domain.model.User;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class UserRegistrationValidator extends BaseValidator<User> {
+public class UserRegistrationValidator implements BaseValidator<User> {
     private final UsernameValidator usernameValidator;
     private final EmailValidator emailValidator;
 

@@ -7,17 +7,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ValidatorTest {
-    private BaseValidator<?> validator;
+public class RequiredValidatorTest {
+    private RequiredValidator validator;
 
     @BeforeEach
     void setUp() {
-        validator = new BaseValidator<>() {
-            @Override
-            protected void validate(Object object) {
-                // No implementation needed for testing isBlank
-            }
-        };
+        validator = new RequiredValidator();
     }
 
     @Test
@@ -28,12 +23,5 @@ public class ValidatorTest {
         assertTrue(validator.isBlank("   "));
         assertFalse(validator.isBlank("a"));
         assertFalse(validator.isBlank("   a    "));
-    }
-
-    @Test
-    @DisplayName("isNull(Object) - should return true for null objects")
-    void isNull01() {
-        assertTrue(validator.isNull(null));
-        assertFalse(validator.isNull(new Object()));
     }
 }

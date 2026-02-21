@@ -1,0 +1,51 @@
+name: Feature Request
+description: Propose a new feature or improvement
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please describe the feature you would like to see added and provide as much context as possible.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      description: Which part of the application should this feature be added to?
+      options:
+        - Service (Backend)
+        - Frontend
+        - Proxy / Infrastructure
+        - Dev / CI
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: Goal
+      description: What is the purpose of this feature? What problem does it solve?
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the feature in detail.
+    validations:
+      required: true
+  - type: textarea
+    id: dod
+    attributes:
+      label: Definition of Done
+      description: What criteria must be met for this feature to be considered complete?
+      placeholder: |
+        - [ ] ...
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional Context
+      description: Any mockups, references, or other information that may be helpful.

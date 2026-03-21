@@ -1,5 +1,6 @@
 package ch.no1hardy.service.config;
 
+import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.model.user.User;
 import ch.no1hardy.service.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -59,7 +60,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (id != null && authentication == null) {
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(id);
+                UserDetails userDetails;
+                try {
+                    userDetails = this.userDetailsService.loadUserByUsername(id);
+                } catch (NotFoundException e) {
+                    clearCookie(response);
+                    handlerExceptionResolver.resolveException(request, response, null, e);
+                    return;
+                }
 
                 if (jwtService.isTokenValid(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
@@ -77,16 +85,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             filterChain.doFilter(request, response);
         } catch (ExpiredJwtException exception) {
-            Cookie cookie = new Cookie("jwt", null);
-            cookie.setHttpOnly(true);
-            cookie.setSecure(true);
-            cookie.setPath("/");
-            cookie.setMaxAge(0);
-
-            response.addCookie(cookie);
+            clearCookie(response);
             handlerExceptionResolver.resolveException(request, response, null, exception);
         } catch (Exception exception) {
             handlerExceptionResolver.resolveException(request, response, null, exception);
         }
+    }
+
+    private void clearCookie(HttpServletResponse response) {
+        Cookie cookie = new Cookie("jwt", null);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+
+        response.addCookie(cookie);
     }
 }

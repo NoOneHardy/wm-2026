@@ -8,7 +8,7 @@ button {
   border: none;
   border-radius: .25em;
   box-shadow: 0 .125em .25em 0 #0000003d;
-  color: #fff;
+  color: #000;
   background-image: var(--wm-gradient-primary-600);
   font-size: 1em;
   font-weight: 600;
@@ -47,7 +47,7 @@ button {
   }
 
   &.secondary {
-    color: var(--wm-color-neutral-500);
+    color: #000;
     background-image: none;
     background-color: var(--wm-color-neutral-200);
   }

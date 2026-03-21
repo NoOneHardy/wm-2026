@@ -12,6 +12,7 @@ import {isLoggedOutGuard} from './guards/is-logged-out.guard'
 import {SettingsComponent} from './settings/settings.component'
 import {AccountSettingsComponent} from './settings/account-settings/account-settings.component'
 import {NotificationSettingsComponent} from './settings/notification-settings/notification-settings.component'
+import {AppearanceSettingsComponent} from './settings/appearance-settings/appearance-settings.component'
 import {EmailVerificationComponent} from './verification/email-verification/email-verification.component'
 
 export const routes: Routes = [
@@ -93,6 +94,10 @@ export const routes: Routes = [
       {
         path: 'notifications',
         component: NotificationSettingsComponent
+      },
+      {
+        path: 'appearance',
+        component: AppearanceSettingsComponent
       }
     ]
   },

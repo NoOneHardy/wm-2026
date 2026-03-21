@@ -7,6 +7,7 @@ import {
 import {Store} from '@ngrx/store'
 import {fetchUserInfo} from './user-management/store/user.actions'
 import {BannerDisplayComponent} from './shared/components/banner-display/banner-display.component'
+import {AppearanceService} from './shared/services/appearance/appearance.service'
 
 @Component({
   selector: 'wm-root',
@@ -17,8 +18,10 @@ import {BannerDisplayComponent} from './shared/components/banner-display/banner-
 })
 export class AppComponent implements OnInit {
   private store = inject(Store)
+  private appearanceService = inject(AppearanceService)
 
   ngOnInit(): void {
+    this.appearanceService.initialize()
     this.store.dispatch(fetchUserInfo())
   }
 }

@@ -17,8 +17,8 @@
       min-width: 10em;
       width: 100%;
       margin-top: .5em;
-      background-color: #fff;
-      box-shadow: .125em .125em 1.25em 0 #0000005f;
+      background-color: var(--wm-color-white-600);
+      box-shadow: var(--wm-menu-shadow);
       z-index: 10;
       font-size: 1em;
 

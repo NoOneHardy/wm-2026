@@ -32,6 +32,7 @@
       background-image: var(--wm-gradient-primary-600);
       border: none;
       border-radius: var(--wm-spacer-4);
+      color: #000;
       font: var(--wm-font-regular-bold);
       box-shadow: 0 0 .5em 0 #00000088;
       transition: box-shadow .25s ease;

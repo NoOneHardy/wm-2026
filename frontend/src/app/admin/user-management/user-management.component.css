@@ -20,7 +20,7 @@
       height: 5em;
       padding: 1em 1.25em;
       border-radius: .5em;
-      background-color: #fff;
+      background-color: var(--wm-color-white-600);
       box-shadow: 0 0 .5em 0 #0000003d;
       font-size: .75em;
       overflow: hidden;
@@ -86,7 +86,7 @@
           height: 2.5em;
           border: none;
           border-radius: .25em;
-          color: #000000;
+          color: var(--wm-color-neutral-600);
           cursor: pointer;
           transition: background-color .25s ease;
           user-select: none;

@@ -21,6 +21,37 @@ XXL: >  1400px
 }
 
 :root {
+  --wm-header-height: 3.75em;
+
+  @media screen and (max-width: 992px) {
+    --wm-header-height: 5.5em;
+  }
+
+  --wm-spacer-1: .5rem;
+  --wm-spacer-2: .75rem;
+  --wm-spacer-3: 1rem;
+  --wm-spacer-4: 1.5rem;
+  --wm-spacer-5: 2rem;
+  --wm-spacer-6: 3rem;
+  --wm-spacer-7: 4rem;
+  --wm-spacer-8: 5rem;
+
+  --wm-font-large-text: 500 2.25rem/3rem 'Montserrat';
+  --wm-font-medium-text: 500 1.5rem/2.5rem 'Montserrat';
+  --wm-font-medium-bold: 700 1.5rem/2.5rem 'Montserrat';
+  --wm-font-regular-text: 400 1rem/1.5rem 'Montserrat';
+  --wm-font-regular-bold: 700 1rem/1.5rem 'Montserrat';
+  --wm-font-small-text: 400 .75rem/1rem 'Montserrat';
+  --wm-font-small-bold: 700 .75rem/1rem 'Montserrat';
+
+  --wm-font-h1: 600 3rem/3.5rem 'Montserrat';
+  --wm-font-h2: 600 2.25rem/3rem 'Montserrat';
+  --wm-font-h3: var(--wm-font-medium-bold);
+  --wm-font-h4: 600 1.25rem/1.5rem 'Montserrat';
+}
+
+:root,
+:root[data-wm-theme='light'] {
   --wm-color-primary-600: #57c152ff;
   --wm-color-primary-400: #9ada97ff;
   --wm-color-primary-200: #bce6baff;
@@ -28,6 +59,7 @@ XXL: >  1400px
   --wm-color-secondary-900: #195125ff;
   --wm-color-secondary-600: #29873dff;
   --wm-color-secondary-500: #549f64ff;
+  --wm-color-secondary-400: #7db889ff;
   --wm-color-secondary-200: #a9cfb2ff;
 
   --wm-color-neutral-600: #000000ff;
@@ -56,34 +88,62 @@ XXL: >  1400px
 
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
   --wm-shadow-header: .125em .125em 1.25em 0 #000000bf;
+  --wm-surface-shadow: 0 .25em 1em 0 #00000028;
+  --wm-menu-shadow: .125em .125em 1.25em 0 #0000005f;
+  --wm-app-background: radial-gradient(circle at top right, #f7fff4 0%, #f2f7f0 32%, #ffffff 100%);
+}
 
-  --wm-header-height: 3.75em;
+:root[data-wm-theme='dark'] {
+  --wm-color-primary-600: #9de86dff;
+  --wm-color-primary-400: #c0f2a2ff;
+  --wm-color-primary-200: #274730ff;
 
-  @media screen and (max-width: 992px){
-    --wm-header-height: 5.5em;
-  }
+  --wm-color-secondary-900: #d6ffe0ff;
+  --wm-color-secondary-600: #5fd48dff;
+  --wm-color-secondary-500: #45b777ff;
+  --wm-color-secondary-400: #79c79bff;
+  --wm-color-secondary-200: #173425ff;
 
-  --wm-spacer-1: .5rem;
-  --wm-spacer-2: .75rem;
-  --wm-spacer-3: 1rem;
-  --wm-spacer-4: 1.5rem;
-  --wm-spacer-5: 2rem;
-  --wm-spacer-6: 3rem;
-  --wm-spacer-7: 4rem;
-  --wm-spacer-8: 5rem;
+  --wm-color-neutral-600: #f5f5f5ff;
+  --wm-color-neutral-500: #c7c7c7ff;
+  --wm-color-neutral-400: #8f8f8fff;
+  --wm-color-neutral-200: #303030ff;
+  --wm-color-neutral-100: #171717ff;
 
-  --wm-font-large-text: 500 2.25rem/3rem 'Montserrat';
-  --wm-font-medium-text: 500 1.5rem/2.5rem 'Montserrat';
-  --wm-font-medium-bold: 700 1.5rem/2.5rem 'Montserrat';
-  --wm-font-regular-text: 400 1rem/1.5rem 'Montserrat';
-  --wm-font-regular-bold: 700 1rem/1.5rem 'Montserrat';
-  --wm-font-small-text: 400 .75rem/1rem 'Montserrat';
-  --wm-font-small-bold: 700 .75rem/1rem 'Montserrat';
+  --wm-color-white-600: #080808ff;
 
-  --wm-font-h1: 600 3rem/3.5rem 'Montserrat';
-  --wm-font-h2: 600 2.25rem/3rem 'Montserrat';
-  --wm-font-h3: var(--wm-font-medium-bold);
-  --wm-font-h4: 600 1.25rem/1.5rem 'Montserrat';
+  --wm-color-orange-900: #341600ff;
+  --wm-color-orange-600: #ff9800ff;
+  --wm-color-orange-500: #ffae2bff;
+  --wm-color-orange-400: #ffc15aff;
+  --wm-color-orange-200: #563100ff;
+
+  --wm-color-red-900: #ffc7ccff;
+  --wm-color-red-600: #ff5e69ff;
+  --wm-color-red-500: #ff7a83ff;
+  --wm-color-red-400: #ff99a1ff;
+  --wm-color-red-200: #4b1d22ff;
+  --wm-color-red-100: #311215ff;
+
+  --wm-gradient-primary-600: linear-gradient(to bottom, #9de86d 0%, #2ec58d 90%);
+  --wm-gradient-primary-200: linear-gradient(to bottom, #31553b 0%, #173a2c 90%);
+
+  --wm-shadow-flag: inset 0 0 .25em .25em #00000066;
+  --wm-shadow-header: 0 .35em 1.5em 0 #000000d9;
+  --wm-surface-shadow: 0 .25em 1em 0 #00000066;
+  --wm-menu-shadow: .125em .125em 1.25em 0 #00000099;
+  --wm-app-background: radial-gradient(circle at top, #171717 0%, #0b0b0b 42%, #000000 100%);
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--wm-app-background);
+  color: var(--wm-color-neutral-600);
+  transition: background .35s ease, color .35s ease;
 }
 
 h1 {
@@ -187,5 +247,5 @@ a.link-with-icon {
 div.mat-mdc-menu-panel {
   border-radius: 0;
   background-color: var(--wm-color-white-600);
-  box-shadow: .125em .125em 1.25em 0 #0000005f;;
+  box-shadow: var(--wm-menu-shadow);
 }

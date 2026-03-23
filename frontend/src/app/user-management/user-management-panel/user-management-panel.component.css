@@ -7,7 +7,7 @@
   border-radius: 1em;
   margin: 8em auto 0;
   box-shadow: 0 .25em 1em 0 #0000003d;
-  background-color: #ffffff;
+  background-color: var(--wm-color-white-600);
 
   h2 {
     margin-bottom: calc(5em / 6);

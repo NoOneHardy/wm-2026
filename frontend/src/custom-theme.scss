@@ -9,9 +9,20 @@
 @include mat.core();
 
 // Define the theme object.
-$frontend-theme: mat.define-theme((
+$frontend-light-theme: mat.define-theme((
   color: (
     theme-type: light,
+    primary: mat.$azure-palette,
+    tertiary: mat.$blue-palette,
+  ),
+  density: (
+    scale: 0,
+  )
+));
+
+$frontend-dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
     primary: mat.$azure-palette,
     tertiary: mat.$blue-palette,
   ),
@@ -24,7 +35,7 @@ $frontend-theme: mat.define-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 :root {
-  @include mat.all-component-themes($frontend-theme);
+  @include mat.all-component-themes($frontend-light-theme);
 
   @include mat.slide-toggle-overrides((
     pressed-handle-size: 1.5rem,
@@ -70,6 +81,39 @@ $frontend-theme: mat.define-theme((
     &.-primary-toggle label {
       font-size: 1.125em;
       font-weight: 600;
+    }
+  }
+}
+
+:root[data-wm-theme='dark'] {
+  @include mat.all-component-colors($frontend-dark-theme);
+
+  @include mat.slide-toggle-overrides((
+    label-text-color: var(--wm-color-neutral-600),
+    selected-focus-handle-color: var(--wm-color-primary-600),
+    selected-focus-track-color: var(--wm-color-neutral-200),
+    selected-handle-color: var(--wm-color-primary-600),
+    selected-hover-handle-color: var(--wm-color-primary-400),
+    selected-hover-track-color: var(--wm-color-neutral-200),
+    selected-pressed-handle-color: var(--wm-color-primary-400),
+    selected-pressed-track-color: var(--wm-color-neutral-200),
+    selected-track-color: var(--wm-color-neutral-200),
+    selected-track-outline-color: transparent,
+    track-outline-color: transparent,
+    unselected-focus-handle-color: var(--wm-color-neutral-500),
+    unselected-focus-track-color: var(--wm-color-neutral-200),
+    unselected-handle-color: var(--wm-color-neutral-500),
+    unselected-hover-handle-color: var(--wm-color-neutral-400),
+    unselected-hover-track-color: var(--wm-color-neutral-200),
+    unselected-pressed-handle-color: var(--wm-color-neutral-400),
+    unselected-pressed-track-color: var(--wm-color-neutral-200),
+    unselected-track-color: var(--wm-color-neutral-200),
+    handle-elevation-shadow: #00000080 0 0 .5em 0,
+  ));
+
+  mat-slide-toggle {
+    .mdc-switch__track {
+      box-shadow: 0 0 0 1px #ffffff1f inset;
     }
   }
 }

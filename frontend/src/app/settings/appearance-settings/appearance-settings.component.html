@@ -1,0 +1,71 @@
+<h2>Darstellung</h2>
+<p class="intro">
+  Stell das Stadionlicht für deine Turnierzentrale ein. Deine Auswahl wird auf diesem Gerät gespeichert und sofort im
+  ganzen Spielbereich übernommen.
+</p>
+
+<section class="match-preview" [class.-dark]="theme() === 'dark'" aria-live="polite">
+  <div class="sky" aria-hidden="true">
+    <div class="sun"></div>
+    <div class="moon"></div>
+    <div class="light-beam left"></div>
+    <div class="light-beam right"></div>
+  </div>
+
+  <div class="scoreboard">
+    <span class="label">Aktueller Modus</span>
+    <strong>{{ selectedOption().title }}</strong>
+    <span class="kickoff">Anstoss {{ selectedOption().kickoff }}</span>
+    <p>{{ selectedOption().subtitle }} {{ selectedOption().description }}</p>
+  </div>
+
+  <div class="pitch" aria-hidden="true">
+    <div class="penalty-area left"></div>
+    <div class="penalty-area right"></div>
+    <div class="center-line"></div>
+    <div class="center-circle"></div>
+    <div class="goal left"></div>
+    <div class="goal right"></div>
+    <div class="ball"></div>
+  </div>
+</section>
+
+<div class="mode-grid" role="radiogroup" aria-label="Darstellungsmodus">
+  @for (option of options; track option.theme) {
+    <button
+      type="button"
+      class="mode-card"
+      [class.-night]="option.theme === 'dark'"
+      [class.-selected]="theme() === option.theme"
+      role="radio"
+      [attr.aria-checked]="theme() === option.theme"
+      (click)="selectTheme(option.theme)">
+      <div class="card-top">
+        <span class="kickoff-chip">{{ option.kickoff }}</span>
+        @if (theme() === option.theme) {
+          <span class="active-chip">Aktiv</span>
+        }
+      </div>
+
+      <div class="icon-badge">
+        <span class="material-symbols-rounded">{{ option.icon }}</span>
+      </div>
+
+      <div class="copy">
+        <h3>{{ option.title }}</h3>
+        <p class="subtitle">{{ option.subtitle }}</p>
+        <p class="description">{{ option.description }}</p>
+      </div>
+
+      <div class="mini-pitch" aria-hidden="true">
+        <div class="mini-center-line"></div>
+        <div class="mini-circle"></div>
+        <div class="mini-ball"></div>
+      </div>
+    </button>
+  }
+</div>
+
+<p class="hint">
+  Tagspiel bringt eine helle Oberfläche, Flutlichtspiel setzt auf dunkle Stadionstimmung mit kräftigen Kontrasten.
+</p>

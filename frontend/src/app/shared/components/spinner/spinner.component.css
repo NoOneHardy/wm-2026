@@ -30,7 +30,7 @@
     height: .6em;
     width: .6em;
     border-radius: 50%;
-    background-color: #ffffff;
+    background-color: var(--wm-color-white-600);
   }
 }
 

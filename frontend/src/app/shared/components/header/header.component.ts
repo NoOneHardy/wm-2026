@@ -15,7 +15,8 @@ import {NotificationsComponent} from './components/notifications/notifications.c
   selector: 'wm-header',
   standalone: true,
   host: {
-    '(document:click)': 'closeMenuOnBlur($event)'
+    '(document:click)': 'closeMenuOnBlur($event)',
+    '(document:keydown.escape)': 'closeMenu()'
   },
   imports: [
     NavItemComponent,
@@ -31,11 +32,15 @@ import {NotificationsComponent} from './components/notifications/notifications.c
     trigger('expandable', [
       state('collapsed', style({
         'height': '0px',
-        'padding-top': '0px'
+        'padding-top': '0px',
+        'padding-bottom': '0px',
+        'opacity': 0
       })),
       state('expanded', style({
         'height': '*',
-        'padding-top': '*'
+        'padding-top': '*',
+        'padding-bottom': '*',
+        'opacity': 1
       })),
       transition('collapsed <=> expanded', [
         animate(200)

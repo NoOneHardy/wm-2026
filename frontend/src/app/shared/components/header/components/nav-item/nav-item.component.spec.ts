@@ -66,4 +66,13 @@ describe('NavItemComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement
     expect(compiled.textContent).toContain('Home')
   })
+
+  it('should render an action button when no route is provided', () => {
+    fixture.componentRef.setInput('route', null)
+    fixture.detectChanges()
+
+    const compiled = fixture.nativeElement as HTMLElement
+    expect(compiled.querySelector('button.nav-item')).toBeTruthy()
+    expect(compiled.querySelector('a.nav-item')).toBeNull()
+  })
 })

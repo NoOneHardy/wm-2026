@@ -1,7 +1,24 @@
-<a class="nav-item" [class.gradient-text]="gradient()" [routerLink]="route()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: exact()}"
-   tabindex="0" role="navigation" matRipple
-   (click)="clickEvent.emit()" (touchend)="clickEvent.emit()" (keyup.enter)="clickEvent.emit()"
-   (keyup.space)="clickEvent.emit()">
+<a *ngIf="route() as route; else actionItem"
+   class="nav-item"
+   [class.gradient-text]="gradient()"
+   [routerLink]="route"
+   routerLinkActive="active"
+   [routerLinkActiveOptions]="{exact: exact()}"
+   [attr.aria-label]="displayName()"
+   matRipple
+   (click)="clickEvent.emit()">
   <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>
   <span class="display-name">{{ displayName() }}</span>
 </a>
+
+<ng-template #actionItem>
+  <button type="button"
+          class="nav-item"
+          [class.gradient-text]="gradient()"
+          [attr.aria-label]="displayName()"
+          matRipple
+          (click)="clickEvent.emit()">
+    <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>
+    <span class="display-name">{{ displayName() }}</span>
+  </button>
+</ng-template>

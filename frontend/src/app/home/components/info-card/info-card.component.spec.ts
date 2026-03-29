@@ -12,6 +12,8 @@ describe('InfoCardComponent', () => {
     }).compileComponents()
 
     fixture = TestBed.createComponent(InfoCardComponent)
+    fixture.componentRef.setInput('name', 'Info Card')
+    fixture.componentRef.setInput('icon', 'info')
     component = fixture.componentInstance
     fixture.detectChanges()
   })

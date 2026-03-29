@@ -2,6 +2,7 @@ import {Component} from '@angular/core'
 import {NgOptimizedImage} from '@angular/common'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
+import {InfoCardComponent} from './components/info-card/info-card.component'
 
 @Component({
   selector: 'wm-home',
@@ -9,7 +10,8 @@ import {MatRipple} from '@angular/material/core'
   imports: [
     NgOptimizedImage,
     RouterLink,
-    MatRipple
+    MatRipple,
+    InfoCardComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

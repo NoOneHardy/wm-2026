@@ -257,6 +257,9 @@
 @media screen and (max-width: 768px) {
   :host {
     min-height: 14.5em;
+    position: relative;
+    inset: auto;
+    width: 100%;
 
     .pitch {
       width: min(100%, 16.75em);

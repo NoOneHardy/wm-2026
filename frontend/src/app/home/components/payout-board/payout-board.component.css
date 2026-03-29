@@ -13,22 +13,27 @@
     align-items: center;
     gap: var(--wm-spacer-2);
 
-    &.-first .place-badge {
-      background-image: linear-gradient(to bottom, #ffcf66, #ffb347);
-      color: var(--wm-color-orange-900);
+    &.-first {
+      .place-badge {
+
+        background-image: linear-gradient(to bottom, #ffcf66, #ffb347);
+        color: var(--wm-color-orange-900);
+      }
+
+      .share-bar .fill {
+        background-image: linear-gradient(to right, #ffcf66, #ffb347);
+      }
     }
 
-    &.-first .fill {
-      background-image: linear-gradient(to right, #ffcf66, #ffb347);
-    }
+    &.-second {
+      .place-badge {
+        background-image: linear-gradient(to bottom, #dfe7ea, #b9c7ce);
+        color: #3f555e;
+      }
 
-    &.-second .place-badge {
-      background-image: linear-gradient(to bottom, #dfe7ea, #b9c7ce);
-      color: #3f555e;
-    }
-
-    &.-second .fill {
-      background-image: linear-gradient(to right, #dfe7ea, #b9c7ce);
+      .share-bar .fill {
+        background-image: linear-gradient(to right, #dfe7ea, #b9c7ce);
+      }
     }
 
     .place-badge {

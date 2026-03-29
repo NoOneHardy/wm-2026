@@ -20,6 +20,10 @@ XXL: >  1400px
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 :root {
   --wm-color-primary-600: #57c152ff;
   --wm-color-primary-400: #9ada97ff;
@@ -188,4 +192,10 @@ div.mat-mdc-menu-panel {
   border-radius: 0;
   background-color: var(--wm-color-white-600);
   box-shadow: .125em .125em 1.25em 0 #0000005f;;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

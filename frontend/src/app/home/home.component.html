@@ -5,7 +5,7 @@
     <button matRipple routerLink="/signup">Jetzt mitmachen</button>
   </div>
   <div class="img">
-    <img [ngSrc]="'/assets/home.jpg'" fill alt="Home Image">
+    <img ngSrc="/assets/home.jpg" fill alt="Home Image">
   </div>
 
   <div class="scroll-down">
@@ -14,7 +14,7 @@
   </div>
 </div>
 
-<div class="stats">
+<section class="stats">
   <div class="stat">
     <span class="material-symbols-rounded">savings</span>
     <h2 class="gradient-text">CHF 210</h2>
@@ -32,4 +32,177 @@
     <h2 class="gradient-text">35</h2>
     <p>Spiele</p>
   </div>
-</div>
+</section>
+
+<section class="info-section">
+  <div class="section-heading">
+    <h2>So nimmst du teil</h2>
+    <p class="section-copy">
+      Nach der Registrierung kannst du direkt Tipps erfassen. Für die definitive Freischaltung braucht es aber noch
+      zwei weitere Schritte.
+    </p>
+  </div>
+
+  <div class="card-grid">
+    <wm-info-card
+      icon="how_to_reg"
+      name="In 4 Schritten zur Freischaltung"
+    >
+      <ol class="instruction-list">
+        <li>
+          <span class="step">1</span>
+          <div>
+            <strong>Registrieren und tippen</strong>
+            <p>Nach deiner Registrierung kannst du sofort deine Tipps erfassen und verwalten.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step">2</span>
+          <div>
+            <strong>Teilnahmegebühr bezahlen</strong>
+            <p>Zahle CHF 10.00 via TWINT an 076 440 43 58 und schreibe deinen Username in die Beschreibung.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step">3</span>
+          <div>
+            <strong>Email bestätigen</strong>
+            <p>Bestätige deine Email-Adresse über den Link, den du nach der Registrierung erhältst.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step">4</span>
+          <div>
+            <strong>Manuelle Freigabe abwarten</strong>
+            <p>Ein Spielleiter schaltet deinen Account frei, sobald Zahlung und Email-Bestätigung vorliegen.</p>
+          </div>
+        </li>
+      </ol>
+    </wm-info-card>
+
+    <wm-info-card accent
+                  icon="leaderboard"
+                  name="Wann erscheine ich in der Rangliste?">
+      <p>
+        In der Rangliste werden nur Benutzer angezeigt, die sowohl ihre Email bestätigt haben als auch manuell
+        freigeschaltet wurden.
+      </p>
+      <div class="highlight-box">
+        <span class="material-symbols-rounded">info</span>
+        <p>
+          Sobald beide Kriterien erfüllt sind, erscheint dein Benutzer automatisch in der Rangliste und deine Punkte
+          zählen offiziell mit.
+        </p>
+      </div>
+    </wm-info-card>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="section-heading">
+    <h2>Spielregeln im Überblick</h2>
+    <p class="section-copy">
+      Diese Regeln entsprechen dem aktuellen Verhalten der App bei Tipps, Joker-Einsatz und Punktevergabe.
+    </p>
+  </div>
+
+  <div class="card-grid">
+    <wm-info-card
+      icon="schedule"
+      name="Tipps abgeben">
+      <ul class="rule-list">
+        <li>Tipps können nur bis zum Spielbeginn gespeichert oder geändert werden.</li>
+        <li>Nach dem Anpfiff oder sobald ein Resultat erfasst ist, wird der Tipp gesperrt.</li>
+        <li>Wenn du nur eine Seite ausfüllst, ergänzt das System die andere automatisch mit 0.</li>
+        <li>In der K.O.-Phase sind keine Unentschieden-Tipps erlaubt.</li>
+      </ul>
+    </wm-info-card>
+
+    <wm-info-card accent
+                  icon="star"
+                  name="Punkte und Joker">
+      <ul class="rule-list">
+        <li>Richtiger Sieger oder richtiges Unentschieden: 5 Punkte.</li>
+        <li>Exakt richtige Tore Heimteam: 2 Punkte.</li>
+        <li>Exakt richtige Tore Auswärtsteam: 2 Punkte.</li>
+        <li>Richtige Gesamtzahl aller Tore: 1 Punkt.</li>
+        <li>Joker multiplizieren die erreichten Punkte mit x2 oder x3.</li>
+        <li>Pro Account stehen insgesamt 10 Doppel-Joker und 6 Triple-Joker zur Verfügung.</li>
+      </ul>
+    </wm-info-card>
+
+    <wm-info-card accent
+                  icon="trophy"
+                  name="Rangliste">
+      <ul class="rule-list">
+        <li>Die Rangliste basiert auf deinen insgesamt erreichten Punkten.</li>
+        <li>Nur freigeschaltete und per Email bestätigte Benutzer werden gewertet.</li>
+        <li>Bei gleicher Punktzahl teilen sich Spieler denselben Rang.</li>
+      </ul>
+    </wm-info-card>
+
+    <wm-info-card
+      icon="payments"
+      name="Preisgeld">
+      <p>Das gesamte Preisgeld wird aus den Teilnahmegebühren gesammelt und nach Abschluss der WM an die Top 5
+        ausbezahlt.</p>
+
+      <div class="payout-board">
+        <div class="payout-row -first" style="--share: 50%;">
+          <div class="place-badge">
+            <span class="place">1.</span>
+            <span class="label">Platz</span>
+          </div>
+          <div class="share-bar">
+            <div class="fill"></div>
+          </div>
+          <strong class="share">50%</strong>
+        </div>
+
+        <div class="payout-row -second" style="--share: 20%;">
+          <div class="place-badge">
+            <span class="place">2.</span>
+            <span class="label">Platz</span>
+          </div>
+          <div class="share-bar">
+            <div class="fill"></div>
+          </div>
+          <strong class="share">20%</strong>
+        </div>
+
+        <div class="payout-row" style="--share: 15%;">
+          <div class="place-badge">
+            <span class="place">3.</span>
+            <span class="label">Platz</span>
+          </div>
+          <div class="share-bar">
+            <div class="fill"></div>
+          </div>
+          <strong class="share">15%</strong>
+        </div>
+
+        <div class="payout-row" style="--share: 10%;">
+          <div class="place-badge">
+            <span class="place">4.</span>
+            <span class="label">Platz</span>
+          </div>
+          <div class="share-bar">
+            <div class="fill"></div>
+          </div>
+          <strong class="share">10%</strong>
+        </div>
+
+        <div class="payout-row" style="--share: 5%;">
+          <div class="place-badge">
+            <span class="place">5.</span>
+            <span class="label">Platz</span>
+          </div>
+          <div class="share-bar">
+            <div class="fill"></div>
+          </div>
+          <strong class="share">5%</strong>
+        </div>
+      </div>
+    </wm-info-card>
+  </div>
+</section>

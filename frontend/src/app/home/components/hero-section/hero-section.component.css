@@ -435,7 +435,7 @@
     }
   }
 
-  .floating-chip, .stadium {
+  .floating-chip {
     position: relative;
     inset: auto;
     width: 100%;

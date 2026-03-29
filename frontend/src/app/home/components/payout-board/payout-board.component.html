@@ -1,0 +1,12 @@
+@for (position of positions; track $index; let i = $index) {
+  <div class="payout-row" [class]="position.class" [style.--share.%]="position.percentage">
+    <div class="place-badge">
+      <span class="place">{{ i + 1 }}.</span>
+      <span class="label">Platz</span>
+    </div>
+    <div class="share-bar">
+      <div class="fill"></div>
+    </div>
+    <strong class="share">{{ position.percentage }}%</strong>
+  </div>
+}

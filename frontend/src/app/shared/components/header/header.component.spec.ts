@@ -10,11 +10,25 @@ import {Role} from '../../../model/user/role'
 import {UserApplicationStatus} from '../../../model/user/user-application-status'
 import {logout} from '../../../user-management/store/user.actions'
 import {provideAnimations} from '@angular/platform-browser/animations'
+import {ViewportService} from '../../services/viewport/viewport.service'
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent
   let fixture: ComponentFixture<HeaderComponent>
   let store: MockStore
+  let viewportService: ViewportService
+
+  const user = {
+    id: 'user-1',
+    username: 'User',
+    email: 'user@no1hardy.ch',
+    firstname: 'Silas',
+    lastname: 'No1hardy',
+    role: Role.USER,
+    points: 0,
+    lastReviewedPoints: 0,
+    userApplicationStatus: UserApplicationStatus.PENDING
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,6 +37,7 @@ describe('HeaderComponent', () => {
     }).compileComponents()
 
     store = TestBed.inject(MockStore)
+    viewportService = TestBed.inject(ViewportService)
     store.overrideSelector(selectUser, null)
     store.overrideSelector(selectNotifications, [])
     store.refreshState()
@@ -43,17 +58,7 @@ describe('HeaderComponent', () => {
   it('should load user from store', () => {
     expect(component.user()).toBeNull()
 
-    store.overrideSelector(selectUser, {
-      id: 'user-1',
-      username: 'User',
-      email: 'user@no1hardy.ch',
-      firstname: 'Silas',
-      lastname: 'No1hardy',
-      role: Role.USER,
-      points: 0,
-      lastReviewedPoints: 0,
-      userApplicationStatus: UserApplicationStatus.PENDING
-    })
+    store.overrideSelector(selectUser, user)
     store.refreshState()
     fixture.detectChanges()
 
@@ -106,5 +111,48 @@ describe('HeaderComponent', () => {
     component.closeMenuOnBlur(event)
 
     expect(component.isExpanded).toBeTrue()
+  })
+
+  it('should show the menu button on mobile for guests', () => {
+    viewportService.viewportWidth.set(480)
+    fixture.detectChanges()
+
+    expect(fixture.nativeElement.querySelector('.menu-button')).toBeTruthy()
+  })
+
+  it('should render guest navigation and auth links in the mobile menu', () => {
+    viewportService.viewportWidth.set(480)
+    component.isExpanded = true
+    fixture.detectChanges()
+
+    const mobileMenu = fixture.nativeElement.querySelector('#mobile-menu') as HTMLElement | null
+    expect(mobileMenu?.textContent).toContain('Home')
+    expect(mobileMenu?.textContent).toContain('Rangliste')
+    expect(mobileMenu?.textContent).toContain('Anmelden')
+    expect(mobileMenu?.textContent).toContain('Registrieren')
+  })
+
+  it('should show the account menu button on mobile for logged in users', () => {
+    store.overrideSelector(selectUser, user)
+    store.refreshState()
+    viewportService.viewportWidth.set(480)
+    fixture.detectChanges()
+
+    expect(fixture.nativeElement.querySelector('.menu-button')).toBeTruthy()
+  })
+
+  it('should render admin actions in the mobile menu', () => {
+    store.overrideSelector(selectUser, user)
+    store.overrideSelector(selectIsAdmin, true)
+    store.refreshState()
+    viewportService.viewportWidth.set(480)
+    component.isExpanded = true
+    fixture.detectChanges()
+
+    const mobileMenu = fixture.nativeElement.querySelector('#mobile-menu') as HTMLElement | null
+    expect(mobileMenu).toBeTruthy()
+    expect(mobileMenu?.textContent).toContain('Resultate')
+    expect(mobileMenu?.textContent).toContain('Teilnehmer')
+    expect(mobileMenu?.textContent).toContain('Abmelden')
   })
 })

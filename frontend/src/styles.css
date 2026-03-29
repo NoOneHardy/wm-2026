@@ -61,10 +61,12 @@ html {
   --wm-shadow-flag: inset 0 0 .25em .25em #0000003d;
   --wm-shadow-header: .125em .125em 1.25em 0 #000000bf;
 
-  --wm-header-height: 3.75em;
+  --wm-header-top-height: 3.75em;
+  --wm-header-height: var(--wm-header-top-height);
 
   @media screen and (max-width: 992px){
-    --wm-header-height: 5.5em;
+    --wm-header-top-height: 5.5em;
+    --wm-header-height: var(--wm-header-top-height);
   }
 
   --wm-spacer-1: .5rem;

@@ -18,7 +18,7 @@ import {MatRipple} from '@angular/material/core'
 export class NavItemComponent {
   icon = input<string | null>(null)
   displayName = input<string | null>(null)
-  route = input<string>('/')
+  route = input<string | null>('/')
   exact = input<boolean, boolean | ''>(false, {
     transform: v => v === '' || v
   })

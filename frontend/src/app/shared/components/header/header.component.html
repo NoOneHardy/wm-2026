@@ -34,36 +34,66 @@
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
         <wm-notifications mobile *ngIf="user()"/>
-        <button class="menu-button" (click)="toggleMenu()">
+        <button type="button"
+                class="menu-button"
+                [class.-active]="isExpanded"
+                [attr.aria-expanded]="isExpanded"
+                aria-controls="mobile-menu"
+                [attr.aria-label]="isExpanded ? 'Navigation schliessen' : 'Navigation anzeigen'"
+                (click)="toggleMenu()">
           <span *ngIf="isExpanded" class="material-symbols-rounded">close</span>
           <span *ngIf="!isExpanded" class="material-symbols-rounded open">dehaze</span>
         </button>
       </div>
     </div>
-    <nav class="nav-bottom" [@expandable]="isExpanded ? 'expanded' : 'collapsed'">
-      <ng-container *ngIf="user()">
-        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
-        <wm-nav-item displayName="Einstellungen" icon="settings" route="/settings"/>
-      </ng-container>
 
-      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>
+    <button *ngIf="isExpanded"
+            type="button"
+            class="menu-backdrop"
+            aria-label="Navigation schliessen"
+            (click)="closeMenu()"></button>
 
-      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+    <nav id="mobile-menu"
+         class="nav-bottom"
+         [class.-expanded]="isExpanded"
+         [@expandable]="isExpanded ? 'expanded' : 'collapsed'"
+         [attr.aria-hidden]="!isExpanded">
+      <div class="menu-section">
+        <p class="section-title">Navigation</p>
 
-      <ng-container *ngIf="isAdmin()">
+        <ng-container *ngIf="user(); else guestNavigation">
+          <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
+          <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
+          <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+        </ng-container>
+
+        <ng-template #guestNavigation>
+          <wm-nav-item displayName="Home" icon="home" route="/" exact/>
+          <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+        </ng-template>
+      </div>
+
+      <div class="menu-section" *ngIf="user() as user">
+        <p class="section-title">Konto</p>
+        <p class="user-name">{{ user.username }}</p>
+        <wm-nav-item displayName="Einstellungen" icon="manage_accounts" route="/settings"/>
+      </div>
+
+      <div class="menu-section" *ngIf="!user()">
+        <p class="section-title">Zugang</p>
+        <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
+        <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
+      </div>
+
+      <div class="menu-section" *ngIf="isAdmin()">
+        <p class="section-title">Verwaltung</p>
         <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
         <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
-      </ng-container>
+      </div>
 
-      <div class="user-actions">
-        <wm-nav-item *ngIf="user()" displayName="Abmelden" icon="logout" route="/settings"
-                     (clickEvent)="logout()"/>
-
-        <ng-container *ngIf="!user()">
-          <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
-          <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
-        </ng-container>
+      <div class="menu-section user-actions" *ngIf="user()">
+        <p class="section-title">Aktionen</p>
+        <wm-nav-item displayName="Abmelden" icon="logout" [route]="null" (clickEvent)="logout()"/>
       </div>
     </nav>
   </header>

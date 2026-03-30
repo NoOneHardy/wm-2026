@@ -6,6 +6,7 @@ import {User} from '../model/user/user'
 import {mockUser1} from '../model/mock/user.mock'
 import {selectUser} from '../user-management/store/user.feature'
 import {provideRouter} from '@angular/router'
+import {selectHomeData} from '../home/store/home.feature'
 
 describe('RootComponent', () => {
   let component: RootComponent
@@ -22,6 +23,7 @@ describe('RootComponent', () => {
     fixture = TestBed.createComponent(RootComponent)
     mockUser = {...mockUser1}
     store = TestBed.inject(MockStore)
+    store.overrideSelector(selectHomeData, null)
     component = fixture.componentInstance
     store.refreshState()
     fixture.detectChanges()

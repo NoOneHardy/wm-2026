@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.UUID;
 
 @Service
 public class FileService implements StorageService {
@@ -71,6 +72,10 @@ public class FileService implements StorageService {
 
     public String storeAvatar(MultipartFile avatarFile, @NotNull String userId) {
         return store(avatarFile, "avatars", userId);
+    }
+
+    public String storeFlag(MultipartFile flagFile) {
+        return store(flagFile, "flags", UUID.randomUUID().toString());
     }
 
     private String getUrlPath(Path path) {

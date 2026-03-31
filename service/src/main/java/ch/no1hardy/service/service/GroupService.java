@@ -2,12 +2,15 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.exception.BetPlaceException;
 import ch.no1hardy.service.exception.KnockoutTieException;
+import ch.no1hardy.service.exception.MissingRequestBodyException;
+import ch.no1hardy.service.exception.MissingRequestPropertyException;
 import ch.no1hardy.service.exception.NotFoundException;
 import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ResultReq;
 import ch.no1hardy.service.front.game.ScoreReq;
 import ch.no1hardy.service.front.group.CardGroupRes;
+import ch.no1hardy.service.front.group.GroupOptionRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.front.group.OverviewRes;
@@ -21,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -32,6 +36,11 @@ public class GroupService {
     private final AuthService authService;
 
     public GroupRes create(GroupReq dto) {
+        if (dto == null) throw new MissingRequestBodyException();
+        if (dto.getName() == null) throw new MissingRequestPropertyException("name", "string");
+        if (dto.getIsKnockout() == null) throw new MissingRequestPropertyException("isKnockout", "boolean");
+        if (dto.getOrder() == null) throw new MissingRequestPropertyException("order", "number");
+
         Group group = repository.save(mapper.toEntity(dto));
         return mapper.toDto(group);
     }
@@ -44,6 +53,19 @@ public class GroupService {
     public List<Group> listRaw() {
         return repository.findAll().stream()
                 .filter(Group::isActive)
+                .toList();
+    }
+
+    public List<GroupOptionRes> listOptions() {
+        return listRaw().stream()
+                .sorted(Comparator.comparing(Group::getOrder).thenComparing(Group::getName))
+                .map(group -> new GroupOptionRes(
+                        group.getId(),
+                        group.getName(),
+                        group.getIsKnockout(),
+                        group.getOrder(),
+                        group.getThumbnail()
+                ))
                 .toList();
     }
 

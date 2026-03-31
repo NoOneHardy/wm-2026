@@ -2,7 +2,7 @@
   <div class="movement material-symbols-rounded" [class]="movementIcon()">{{ movementIcon() }}</div>
   <div class="ranking">{{ ranking.ranking }}</div>
   <div class="avatar flag">
-    <img [ngSrc]="ranking.avatar ?? '/assets/user.jpg'" [alt]="ranking.username" fill>
+    <img [ngSrc]="ranking.avatar || '/assets/user.jpg'" [alt]="ranking.username" fill>
   </div>
   <div class="name">{{ ranking.username }}</div>
   <div class="points">{{ ranking.points }} Pt.</div>

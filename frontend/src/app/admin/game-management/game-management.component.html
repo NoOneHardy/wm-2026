@@ -1,0 +1,215 @@
+<div class="admin-page">
+  <section class="admin-intro">
+    <h1>Spiele anlegen</h1>
+    <p>Wähle Gruppe sowie Heim- und Gastteam aus.</p>
+  </section>
+
+  <section class="admin-card" [formGroup]="formGroup">
+    @if (isLoadingOptions()) {
+      <div class="loader-wrapper">
+        <wm-spinner/>
+      </div>
+    } @else {
+      @if (!groups().length || teams().length < 2) {
+        <div class="admin-callout">
+          <span class="material-symbols-rounded">info</span>
+          <div>
+            <p class="title">Noch nicht genug Daten vorhanden</p>
+            <p class="copy">Lege zuerst mindestens eine Gruppe und zwei Teams an, bevor du ein Spiel erstellst.</p>
+          </div>
+        </div>
+      }
+
+      <div class="admin-form-grid">
+        <wm-form-field>
+          <label for="game-timestamp">Anpfiff</label>
+          <input id="game-timestamp" type="datetime-local" formControlName="timestamp">
+          <span *ngIf="hasError(formGroup.get('timestamp'), 'required')">Pflichtfeld</span>
+        </wm-form-field>
+
+        <div>
+          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+            <mat-label>Gruppe</mat-label>
+            <mat-select formControlName="group"
+                        class="wm-select-control"
+                        panelClass="wm-select-panel"
+                        (openedChange)="handleSelectOpened('group', $event)">
+              <mat-select-trigger>
+                {{ selectedGroup() ? getGroupLabel(selectedGroup()!) : '' }}
+              </mat-select-trigger>
+
+              <mat-option class="wm-select-search-option">
+                <div class="wm-select-search" (pointerup)="preventPanelClose($event)" tabindex="0">
+                  <span class="material-symbols-rounded">search</span>
+                  <input #groupSearchInput
+                         type="text"
+                         [value]="groupSearch()"
+                         placeholder="Gruppe suchen"
+                         (input)="updateSearch('group', $event)"
+                         (click)="preventPanelClose($event)"
+                         (keydown)="preventPanelClose($event)">
+                </div>
+              </mat-option>
+
+              @for (group of filteredGroups(); track trackById($index, group)) {
+                <mat-option [value]="group.id">{{ getGroupLabel(group) }}</mat-option>
+              }
+
+              @if (!filteredGroups().length) {
+                <mat-option disabled>Keine Gruppen gefunden</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="hasError(formGroup.get('group'), 'required')">Pflichtfeld</mat-error>
+          </mat-form-field>
+
+          @if (selectedGroup(); as group) {
+            <div class="entity-preview">
+              <div>
+                <p class="title">{{ group.name }}</p>
+                <p class="copy">Reihenfolge {{ group.order }}{{ group.isKnockout ? ' · K.O.-Runde' : ' · Gruppenphase' }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div>
+          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+            <mat-label>Heimteam</mat-label>
+            <mat-select formControlName="teamHome"
+                        class="wm-select-control"
+                        panelClass="wm-select-panel"
+                        (openedChange)="handleSelectOpened('teamHome', $event)">
+              <mat-select-trigger>
+                @if (selectedHomeTeam(); as team) {
+                  <span class="option-with-flag -trigger">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ team.name }}</span>
+                  </span>
+                }
+              </mat-select-trigger>
+
+              <mat-option class="wm-select-search-option">
+                <div class="wm-select-search" (click)="preventPanelClose($event)" (mousedown)="preventPanelClose($event)">
+                  <span class="material-symbols-rounded">search</span>
+                  <input #teamHomeSearchInput
+                         type="text"
+                         [value]="teamHomeSearch()"
+                         placeholder="Heimteam suchen"
+                         (input)="updateSearch('teamHome', $event)"
+                         (click)="preventPanelClose($event)"
+                         (keydown)="preventPanelClose($event)">
+                </div>
+              </mat-option>
+
+              @for (team of filteredHomeTeams(); track trackById($index, team)) {
+                <mat-option [value]="team.id">
+                  <span class="option-with-flag">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ team.name }} ({{ team.shortName }})</span>
+                  </span>
+                </mat-option>
+              }
+
+              @if (!filteredHomeTeams().length) {
+                <mat-option disabled>Keine Teams gefunden</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="hasError(formGroup.get('teamHome'), 'required')">Pflichtfeld</mat-error>
+          </mat-form-field>
+
+          @if (selectedHomeTeam(); as team) {
+            <div class="entity-preview">
+              <div class="flag">
+                <img [ngSrc]="team.flag" [alt]="team.name" fill>
+              </div>
+              <div>
+                <p class="title">{{ team.name }}</p>
+                <p class="copy">{{ team.shortName }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div>
+          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+            <mat-label>Gastteam</mat-label>
+            <mat-select formControlName="teamGuest"
+                        class="wm-select-control"
+                        panelClass="wm-select-panel"
+                        (openedChange)="handleSelectOpened('teamGuest', $event)">
+              <mat-select-trigger>
+                @if (selectedGuestTeam(); as team) {
+                  <span class="option-with-flag -trigger">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ team.name }}</span>
+                  </span>
+                }
+              </mat-select-trigger>
+
+              <mat-option class="wm-select-search-option">
+                <div class="wm-select-search" (click)="preventPanelClose($event)" (mousedown)="preventPanelClose($event)">
+                  <span class="material-symbols-rounded">search</span>
+                  <input #teamGuestSearchInput
+                         type="text"
+                         [value]="teamGuestSearch()"
+                         placeholder="Gastteam suchen"
+                         (input)="updateSearch('teamGuest', $event)"
+                         (click)="preventPanelClose($event)"
+                         (keydown)="preventPanelClose($event)">
+                </div>
+              </mat-option>
+
+              @for (team of filteredGuestTeams(); track trackById($index, team)) {
+                <mat-option [value]="team.id">
+                  <span class="option-with-flag">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ team.name }} ({{ team.shortName }})</span>
+                  </span>
+                </mat-option>
+              }
+
+              @if (!filteredGuestTeams().length) {
+                <mat-option disabled>Keine Teams gefunden</mat-option>
+              }
+            </mat-select>
+            <mat-error *ngIf="hasError(formGroup.get('teamGuest'), 'required')">Pflichtfeld</mat-error>
+            <mat-error *ngIf="hasError(formGroup, 'sameTeams') && !hasError(formGroup.get('teamGuest'))">
+              Heim- und Gastteam müssen unterschiedlich sein
+            </mat-error>
+          </mat-form-field>
+
+          @if (selectedGuestTeam(); as team) {
+            <div class="entity-preview">
+              <div class="flag">
+                <img [ngSrc]="team.flag" [alt]="team.name" fill>
+              </div>
+              <div>
+                <p class="title">{{ team.name }}</p>
+                <p class="copy">{{ team.shortName }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <wm-button icon="add_circle" (clickEvent)="submit()"
+                 [disabled]="isSaving() || !groups().length || teams().length < 2">Spiel erstellen
+      </wm-button>
+
+      @if (createdGame(); as game) {
+        <div class="entity-preview">
+          <div class="flag">
+            <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+          </div>
+          <div>
+            <p class="title">{{ game.teamHome.name }} vs. {{ game.teamGuest.name }}</p>
+            <p class="copy">{{ game.groupName }}</p>
+          </div>
+          <div class="flag">
+            <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
+          </div>
+        </div>
+      }
+    }
+  </section>
+</div>

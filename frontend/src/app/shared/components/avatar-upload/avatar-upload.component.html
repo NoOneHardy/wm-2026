@@ -1,9 +1,9 @@
 <div class="avatar flag">
-  <img [ngSrc]="url" fill alt="avatar"/>
+  <img [ngSrc]="url" fill alt/>
 </div>
 <button class="label" (click)="input.showPicker()">
   <span class="material-symbols-rounded">arrow_upload_ready</span>
-  <span class="text">Profilbild ändern</span>
+  <span class="text">{{ buttonLabel() }}</span>
 </button>
 <div class="input">
   <input type="file" accept="image/*" #input (change)="onInputChange($event)">

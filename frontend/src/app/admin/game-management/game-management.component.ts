@@ -1,0 +1,217 @@
+import {Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core'
+import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms'
+import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
+import {ButtonComponent} from '../../shared/components/button/button.component'
+import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
+import {AdminService} from '../admin.service'
+import {forkJoin, finalize} from 'rxjs'
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
+import {GroupOption} from '../model/group-option'
+import {LightTeam} from '../../model/team/light-team'
+import {hasError} from '../../shared/helper/form-field-error'
+import {BetGame} from '../../model/game/bet-game'
+import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
+import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatSelectModule} from '@angular/material/select'
+
+@Component({
+  selector: 'wm-game-management',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormFieldComponent,
+    ButtonComponent,
+    NgIf,
+    NgForOf,
+    NgOptimizedImage,
+    SpinnerComponent,
+    MatFormFieldModule,
+    MatSelectModule
+  ],
+  templateUrl: './game-management.component.html',
+  styleUrl: './game-management.component.css'
+})
+export class GameManagementComponent implements OnInit {
+  private adminService = inject(AdminService)
+  private snackbarService = inject(SnackbarService)
+  private destroyRef = inject(DestroyRef)
+
+  isLoadingOptions = signal(true)
+  isSaving = signal(false)
+  groups = signal<GroupOption[]>([])
+  teams = signal<LightTeam[]>([])
+  createdGame = signal<BetGame | null>(null)
+  groupSearch = signal('')
+  teamHomeSearch = signal('')
+  teamGuestSearch = signal('')
+
+  @ViewChild('groupSearchInput') private groupSearchInput?: ElementRef<HTMLInputElement>
+  @ViewChild('teamHomeSearchInput') private teamHomeSearchInput?: ElementRef<HTMLInputElement>
+  @ViewChild('teamGuestSearchInput') private teamGuestSearchInput?: ElementRef<HTMLInputElement>
+
+  filteredGroups = computed(() => this.filterOptions(this.groups(), this.groupSearch(), group => this.getGroupLabel(group)))
+  filteredHomeTeams = computed(() => this.filterOptions(this.teams(), this.teamHomeSearch(), team => this.getTeamLabel(team)))
+  filteredGuestTeams = computed(() => this.filterOptions(this.teams(), this.teamGuestSearch(), team => this.getTeamLabel(team)))
+
+  formGroup = new FormGroup({
+    timestamp: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    group: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    teamHome: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    teamGuest: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    })
+  }, {
+    validators: [this.differentTeamsValidator()]
+  })
+
+  ngOnInit(): void {
+    forkJoin({
+      groups: this.adminService.getGroupOptions(),
+      teams: this.adminService.getTeams()
+    }).pipe(
+      finalize(() => this.isLoadingOptions.set(false)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(({groups, teams}) => {
+      this.groups.set([...groups].sort((a, b) => a.order - b.order || a.name.localeCompare(b.name)))
+      this.teams.set([...teams].sort((a, b) => a.name.localeCompare(b.name)))
+      this.formGroup.controls.group.updateValueAndValidity({emitEvent: false})
+      this.formGroup.controls.teamHome.updateValueAndValidity({emitEvent: false})
+      this.formGroup.controls.teamGuest.updateValueAndValidity({emitEvent: false})
+    })
+  }
+
+  submit(): void {
+    this.formGroup.markAllAsTouched()
+    if (this.formGroup.invalid) return
+
+    const value = this.formGroup.getRawValue()
+    const group = this.findGroupById(value.group)
+    const teamHome = this.findTeamById(value.teamHome)
+    const teamGuest = this.findTeamById(value.teamGuest)
+    if (!group || !teamHome || !teamGuest) return
+
+    this.isSaving.set(true)
+    this.adminService.createGame({
+      timestamp: value.timestamp,
+      group: group.id,
+      teamHome: teamHome.id,
+      teamGuest: teamGuest.id
+    }).pipe(
+      finalize(() => this.isSaving.set(false)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(game => {
+      this.createdGame.set(game)
+      this.snackbarService.addMessage({
+        type: 'success',
+        message: `${teamHome.name} gegen ${teamGuest.name} wurde angelegt`
+      })
+      this.formGroup.reset({
+        timestamp: '',
+        group: '',
+        teamHome: '',
+        teamGuest: ''
+      })
+      this.resetSearch('group')
+      this.resetSearch('teamHome')
+      this.resetSearch('teamGuest')
+    })
+  }
+
+  getGroupLabel(group: GroupOption): string {
+    return `${group.order}. ${group.name}${group.isKnockout ? ' (K.O.)' : ''}`
+  }
+
+  getTeamLabel(team: LightTeam): string {
+    return `${team.name} (${team.shortName})`
+  }
+
+  selectedGroup(): GroupOption | null {
+    return this.findGroupById(this.formGroup.controls.group.value)
+  }
+
+  selectedHomeTeam(): LightTeam | null {
+    return this.findTeamById(this.formGroup.controls.teamHome.value)
+  }
+
+  selectedGuestTeam(): LightTeam | null {
+    return this.findTeamById(this.formGroup.controls.teamGuest.value)
+  }
+
+  handleSelectOpened(type: 'group' | 'teamHome' | 'teamGuest', isOpen: boolean): void {
+    if (!isOpen) {
+      this.resetSearch(type)
+      return
+    }
+
+    setTimeout(() => {
+      this.getSearchInput(type)?.nativeElement.focus()
+    })
+  }
+
+  updateSearch(type: 'group' | 'teamHome' | 'teamGuest', event: Event): void {
+    const value = event.target instanceof HTMLInputElement ? event.target.value : ''
+    this.getSearchSignal(type).set(value)
+  }
+
+  preventPanelClose(event: MouseEvent | KeyboardEvent): void {
+    if (event instanceof KeyboardEvent && event.key === 'Escape') return
+    event.stopPropagation()
+  }
+
+  trackById(_: number, option: { id: string }): string {
+    return option.id
+  }
+
+  private resetSearch(type: 'group' | 'teamHome' | 'teamGuest'): void {
+    this.getSearchSignal(type).set('')
+  }
+
+  private getSearchSignal(type: 'group' | 'teamHome' | 'teamGuest') {
+    if (type === 'group') return this.groupSearch
+    if (type === 'teamHome') return this.teamHomeSearch
+    return this.teamGuestSearch
+  }
+
+  private getSearchInput(type: 'group' | 'teamHome' | 'teamGuest') {
+    if (type === 'group') return this.groupSearchInput
+    if (type === 'teamHome') return this.teamHomeSearchInput
+    return this.teamGuestSearchInput
+  }
+
+  private filterOptions<T>(options: T[], query: string, getLabel: (option: T) => string): T[] {
+    const normalizedQuery = query.trim().toLowerCase()
+    if (!normalizedQuery) return options
+
+    return options.filter(option => getLabel(option).toLowerCase().includes(normalizedQuery))
+  }
+
+  private findGroupById(id: string): GroupOption | null {
+    return this.groups().find(group => group.id === id) ?? null
+  }
+
+  private findTeamById(id: string): LightTeam | null {
+    return this.teams().find(team => team.id === id) ?? null
+  }
+
+  private differentTeamsValidator(): ValidatorFn {
+    return (group: AbstractControl) => {
+      const teamHome = `${group.get('teamHome')?.value ?? ''}`.trim()
+      const teamGuest = `${group.get('teamGuest')?.value ?? ''}`.trim()
+      if (!teamHome || !teamGuest) return null
+      return teamHome === teamGuest ? {sameTeams: true} : null
+    }
+  }
+
+  protected readonly hasError = hasError
+}

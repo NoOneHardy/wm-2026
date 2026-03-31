@@ -8,6 +8,8 @@ import {mockUser1} from '../model/mock/user.mock'
 import {ServiceError} from '../model/error'
 import {provideMockStore} from '@ngrx/store/testing'
 import {flushApiErrorResponse, flushApiResponse} from '../shared/helper/karma.helper'
+import {LightTeam} from '../model/team/light-team'
+import {GroupOption} from './model/group-option'
 
 describe('AdminService', () => {
   let service: AdminService
@@ -110,5 +112,52 @@ describe('AdminService', () => {
       status: 403,
       message: 'Not authorized to access this method'
     })
+  })
+
+  it('should return all teams for admin selectors', () => {
+    const teams: LightTeam[] = [{
+      id: 'team-1',
+      name: 'Germany',
+      shortName: 'GER',
+      flag: '/cdn/flags/germany.png'
+    }]
+
+    service.getTeams().subscribe(response => {
+      expect(response).toEqual(teams)
+    })
+
+    const req = httpMock.expectOne('/api/team')
+    expect(req.request.method).toBe('GET')
+    flushApiResponse(req, teams)
+  })
+
+  it('should return all groups for admin selectors', () => {
+    const groups: GroupOption[] = [{
+      id: 'group-1',
+      name: 'Gruppe A',
+      order: 1,
+      isKnockout: false,
+      thumbnail: null
+    }]
+
+    service.getGroupOptions().subscribe(response => {
+      expect(response).toEqual(groups)
+    })
+
+    const req = httpMock.expectOne('/api/group/all')
+    expect(req.request.method).toBe('GET')
+    flushApiResponse(req, groups)
+  })
+
+  it('should upload a team flag', () => {
+    const file = new File(['flag'], 'flag.png', {type: 'image/png'})
+    service.uploadFlag(file).subscribe(url => {
+      expect(url).toBe('/cdn/flags/flag.png')
+    })
+
+    const req = httpMock.expectOne('/api/team/flag')
+    expect(req.request.method).toBe('POST')
+    expect(req.request.body instanceof FormData).toBeTrue()
+    flushApiResponse(req, '/cdn/flags/flag.png')
   })
 })

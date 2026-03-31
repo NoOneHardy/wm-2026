@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 public class TeamServiceTest {
     @MockitoBean
     private TeamRepository repository;
+    @MockitoBean
+    private FileService fileService;
 
     @Autowired
     private TeamService teamService;
@@ -53,6 +55,35 @@ public class TeamServiceTest {
         assertEquals("Team 1", res.getName());
         assertEquals("T1", res.getShortName());
         assertEquals("team-1", res.getId());
+    }
+
+    @Test
+    void shouldListActiveTeamsSortedByName() {
+        Team activeB = new Team();
+        activeB.setId("team-2");
+        activeB.setName("Zulu");
+        activeB.setShortName("ZU");
+        activeB.setFlag("flag-2");
+
+        Team activeA = new Team();
+        activeA.setId("team-1");
+        activeA.setName("Alpha");
+        activeA.setShortName("AL");
+        activeA.setFlag("flag-1");
+
+        Team deleted = new Team();
+        deleted.setId("team-3");
+        deleted.setName("Bravo");
+        deleted.setShortName("BR");
+        deleted.setFlag("flag-3");
+        deleted.delete();
+
+        when(repository.findAll()).thenReturn(List.of(activeB, activeA, deleted));
+
+        List<TeamRes> teams = teamService.list();
+        assertEquals(2, teams.size());
+        assertEquals("Alpha", teams.getFirst().getName());
+        assertEquals("Zulu", teams.get(1).getName());
     }
 
     @Test

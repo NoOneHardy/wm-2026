@@ -1,6 +1,7 @@
 package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.front.group.CardGroupRes;
+import ch.no1hardy.service.front.group.GroupOptionRes;
 import ch.no1hardy.service.mapper.GroupMapperImpl;
 import ch.no1hardy.service.model.game.Bet;
 import ch.no1hardy.service.model.game.Game;
@@ -76,6 +77,36 @@ public class GroupServiceTest {
         when(repository.findAll()).thenReturn(List.of(group1, group2));
         assertEquals(1, service.getCardGroups().size());
         assertEquals(CardGroupRes.class, service.getCardGroups().getFirst().getClass());
+    }
+
+    @Test
+    void shouldListGroupOptionsSortedByOrderAndIgnoreDeletedEntries() {
+        Group knockout = new Group();
+        knockout.setId("group-2");
+        knockout.setName("Halbfinale");
+        knockout.setIsKnockout(true);
+        knockout.setOrder(2);
+        knockout.setThumbnail("/cdn/knockout.png");
+
+        Group active = new Group();
+        active.setId("group-1");
+        active.setName("Gruppe A");
+        active.setIsKnockout(false);
+        active.setOrder(1);
+
+        Group deleted = new Group();
+        deleted.setId("group-3");
+        deleted.setName("Gruppe B");
+        deleted.setOrder(3);
+        deleted.delete();
+
+        when(repository.findAll()).thenReturn(List.of(knockout, active, deleted));
+
+        List<GroupOptionRes> options = service.listOptions();
+        assertEquals(2, options.size());
+        assertEquals("group-1", options.getFirst().getId());
+        assertEquals("group-2", options.get(1).getId());
+        assertEquals("/cdn/knockout.png", options.get(1).getThumbnail());
     }
 
     @Test

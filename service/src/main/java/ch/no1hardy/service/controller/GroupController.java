@@ -2,6 +2,7 @@ package ch.no1hardy.service.controller;
 
 import ch.no1hardy.service.front.game.BetReq;
 import ch.no1hardy.service.front.game.ResultReq;
+import ch.no1hardy.service.front.group.GroupOptionRes;
 import ch.no1hardy.service.front.group.GroupReq;
 import ch.no1hardy.service.front.group.GroupRes;
 import ch.no1hardy.service.front.group.OverviewRes;
@@ -26,6 +27,12 @@ public class GroupController {
     @GetMapping("/{id}")
     public GroupRes getGroup(@PathVariable("id") String id) {
         return service.getGroup(id);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/all")
+    public List<GroupOptionRes> listAll() {
+        return service.listOptions();
     }
 
     @PreAuthorize("hasRole('ADMIN')")

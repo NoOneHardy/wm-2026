@@ -151,6 +151,9 @@ describe('HeaderComponent', () => {
 
     const mobileMenu = fixture.nativeElement.querySelector('#mobile-menu') as HTMLElement | null
     expect(mobileMenu).toBeTruthy()
+    expect(mobileMenu?.textContent).toContain('Teams')
+    expect(mobileMenu?.textContent).toContain('Gruppen')
+    expect(mobileMenu?.textContent).toContain('Spiele')
     expect(mobileMenu?.textContent).toContain('Resultate')
     expect(mobileMenu?.textContent).toContain('Teilnehmer')
     expect(mobileMenu?.textContent).toContain('Abmelden')

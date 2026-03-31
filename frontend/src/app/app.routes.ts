@@ -13,6 +13,9 @@ import {SettingsComponent} from './settings/settings.component'
 import {AccountSettingsComponent} from './settings/account-settings/account-settings.component'
 import {NotificationSettingsComponent} from './settings/notification-settings/notification-settings.component'
 import {EmailVerificationComponent} from './verification/email-verification/email-verification.component'
+import {TeamManagementComponent} from './admin/team-management/team-management.component'
+import {GroupManagementComponent} from './admin/group-management/group-management.component'
+import {GameManagementComponent} from './admin/game-management/game-management.component'
 
 export const routes: Routes = [
   {
@@ -69,6 +72,18 @@ export const routes: Routes = [
       {
         path: 'results/:groupId/:gameId',
         component: ResultManagementComponent
+      },
+      {
+        path: 'teams',
+        component: TeamManagementComponent
+      },
+      {
+        path: 'groups',
+        component: GroupManagementComponent
+      },
+      {
+        path: 'games',
+        component: GameManagementComponent
       },
       {
         path: 'users',

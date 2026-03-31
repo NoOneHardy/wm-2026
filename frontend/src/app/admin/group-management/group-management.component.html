@@ -1,0 +1,58 @@
+<div class="admin-page">
+  <section class="admin-intro">
+    <h1>Gruppen anlegen</h1>
+    <p>Erstelle neue Gruppen- oder K.O.-Phasen und vergebe direkt die richtige Reihenfolge für die Turnieransicht.</p>
+  </section>
+
+  <section class="admin-card" [formGroup]="formGroup">
+    <div class="admin-section-meta">
+      <span>{{ existingGroups().length }} Gruppen bereits vorhanden</span>
+      <span>Empfohlene nächste Reihenfolge: {{ suggestedOrder() }}</span>
+    </div>
+
+    <div class="admin-form-grid">
+      <wm-form-field>
+        <label for="group-name">Name</label>
+        <input id="group-name" type="text" formControlName="name">
+        <span *ngIf="hasError(formGroup.get('name'), 'required')">Pflichtfeld</span>
+      </wm-form-field>
+
+      <wm-form-field>
+        <label for="group-order">Reihenfolge</label>
+        <input id="group-order" type="number" formControlName="order" min="1" (keyup.enter)="submit()">
+        <span *ngIf="hasError(formGroup.get('order'), 'required')">Pflichtfeld</span>
+        <span *ngIf="hasError(formGroup.get('order'), 'min')">Muss grösser als 0 sein</span>
+      </wm-form-field>
+
+      <label class="admin-checkbox -full">
+        <input type="checkbox" formControlName="isKnockout">
+        <div>
+          <p class="title">K.O.-Runde</p>
+          <p class="copy">Aktiviere diese Option für Gruppen, in denen Spiele nicht unentschieden enden dürfen.</p>
+        </div>
+      </label>
+
+      @if (formGroup.controls.isKnockout.value) {
+        <div class="-full">
+          <wm-form-field>
+            <label for="group-thumbnail">Thumbnail-URL</label>
+            <input id="group-thumbnail" type="url" formControlName="thumbnail" (keyup.enter)="submit()">
+          </wm-form-field>
+          <p class="admin-hint">Optional: Wird als Vorschaubild für K.O.-Runden genutzt.</p>
+        </div>
+      }
+    </div>
+
+    <wm-button icon="add_circle" (clickEvent)="submit()" [disabled]="isSaving()">Gruppe erstellen</wm-button>
+
+    @if (createdGroup(); as group) {
+      <div class="admin-callout">
+        <span class="material-symbols-rounded">check_circle</span>
+        <div>
+          <p class="title">{{ group.name }} wurde gespeichert</p>
+          <p class="copy">Reihenfolge {{ group.order }}{{ group.isKnockout ? ' · K.O.-Runde' : ' · Gruppenphase' }}</p>
+        </div>
+      </div>
+    }
+  </section>
+</div>

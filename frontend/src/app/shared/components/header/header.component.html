@@ -13,6 +13,9 @@
       <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
 
       <ng-container *ngIf="isAdmin()">
+        <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
+        <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
+        <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
         <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
         <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
       </ng-container>
@@ -87,6 +90,9 @@
 
       <div class="menu-section" *ngIf="isAdmin()">
         <p class="section-title">Verwaltung</p>
+        <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
+        <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
+        <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
         <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
         <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
       </div>

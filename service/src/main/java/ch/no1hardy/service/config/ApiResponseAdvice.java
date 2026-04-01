@@ -3,10 +3,14 @@ package ch.no1hardy.service.config;
 import ch.no1hardy.service.exception.ApiError;
 import ch.no1hardy.service.front.BaseResponse;
 import ch.no1hardy.service.front.GlobalData;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
@@ -14,7 +18,10 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 @ControllerAdvice
+@AllArgsConstructor
 public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
+    private final ObjectMapper objectMapper;
+
     @Override
     public boolean supports(
             @NonNull MethodParameter returnType,
@@ -39,9 +46,20 @@ public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
 
         GlobalData globalData = (GlobalData) ((ServletServerHttpRequest) request).getServletRequest()
                 .getAttribute(GlobalKey.GLOBAL_DATA.getKey());
-        return BaseResponse.builder()
+        BaseResponse<?> baseResponse = BaseResponse.builder()
                 .data(body)
                 .globalData(globalData)
                 .build();
+
+        if (StringHttpMessageConverter.class.isAssignableFrom(selectedConverterType)) {
+            response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            try {
+                return objectMapper.writeValueAsString(baseResponse);
+            } catch (JsonProcessingException e) {
+                throw new IllegalStateException("Could not serialize API response", e);
+            }
+        }
+
+        return baseResponse;
     }
 }

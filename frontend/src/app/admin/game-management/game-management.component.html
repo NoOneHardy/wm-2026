@@ -89,7 +89,7 @@
               </mat-select-trigger>
 
               <mat-option class="wm-select-search-option">
-                <div class="wm-select-search" (click)="preventPanelClose($event)" (mousedown)="preventPanelClose($event)">
+                <div class="wm-select-search" (pointerup)="preventPanelClose($event)" tabindex="0">
                   <span class="material-symbols-rounded">search</span>
                   <input #teamHomeSearchInput
                          type="text"
@@ -147,7 +147,7 @@
               </mat-select-trigger>
 
               <mat-option class="wm-select-search-option">
-                <div class="wm-select-search" (click)="preventPanelClose($event)" (mousedown)="preventPanelClose($event)">
+                <div class="wm-select-search" (pointerup)="preventPanelClose($event)" tabindex="0">
                   <span class="material-symbols-rounded">search</span>
                   <input #teamGuestSearchInput
                          type="text"

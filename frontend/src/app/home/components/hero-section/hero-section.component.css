@@ -53,9 +53,7 @@
     font: 600 clamp(2.7rem, 8vw, 5.25rem)/1.14 'Montserrat';
     letter-spacing: -.03em;
     text-align: left;
-    text-wrap: balance;
     overflow-wrap: anywhere;
-    hyphens: auto;
     background-image: var(--wm-gradient-primary-600) !important;
   }
 }

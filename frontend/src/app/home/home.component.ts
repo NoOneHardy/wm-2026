@@ -4,7 +4,8 @@ import {InfoCardComponent} from './components/info-card/info-card.component'
 import {PayoutBoardComponent} from './components/payout-board/payout-board.component'
 import {HeroSectionComponent} from './components/hero-section/hero-section.component'
 import {loadHomeData} from './store/home.actions'
-import {selectHomeData} from './store/home.feature'
+import {selectHomeData, selectIsHomeLoading} from './store/home.feature'
+import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
   selector: 'wm-home',
@@ -12,7 +13,8 @@ import {selectHomeData} from './store/home.feature'
   imports: [
     HeroSectionComponent,
     InfoCardComponent,
-    PayoutBoardComponent
+    PayoutBoardComponent,
+    SpinnerComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
@@ -20,6 +22,7 @@ import {selectHomeData} from './store/home.feature'
 export class HomeComponent implements OnInit {
   private store = inject(Store)
 
+  isLoading = this.store.selectSignal(selectIsHomeLoading)
   homeData = this.store.selectSignal(selectHomeData)
   stats = computed(() => {
     const data = this.homeData()

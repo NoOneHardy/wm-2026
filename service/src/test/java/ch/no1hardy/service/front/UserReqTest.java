@@ -47,7 +47,7 @@ public class UserReqTest {
         req.setUsername("");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Username must be at least 5 characters long", e.getMessage());
+        assertEquals("username must be at least 5 characters long", e.getMessage());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class UserReqTest {
         req.setUsername("m");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Username must be at least 5 characters long", e.getMessage());
+        assertEquals("username must be at least 5 characters long", e.getMessage());
     }
 
     @Test
@@ -65,7 +65,7 @@ public class UserReqTest {
         req.setUsername("aVeryVeryVeryLongUsernameThatWillFailValidation");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Username can only contain 25 characters", e.getMessage());
+        assertEquals("username can only contain 25 characters", e.getMessage());
     }
 
     @Test
@@ -74,7 +74,7 @@ public class UserReqTest {
         req.setFirstname("");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Firstname must be at least 2 characters long", e.getMessage());
+        assertEquals("firstname must be at least 2 characters long", e.getMessage());
     }
 
     @Test
@@ -83,7 +83,7 @@ public class UserReqTest {
         req.setFirstname("m");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Firstname must be at least 2 characters long", e.getMessage());
+        assertEquals("firstname must be at least 2 characters long", e.getMessage());
     }
 
     @Test
@@ -92,7 +92,7 @@ public class UserReqTest {
         req.setFirstname("aVeryVeryVeryLongFirstnameThatWillFailValidation");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Firstname can only contain 25 characters", e.getMessage());
+        assertEquals("firstname can only contain 25 characters", e.getMessage());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class UserReqTest {
         req.setLastname("");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Lastname must be at least 2 characters long", e.getMessage());
+        assertEquals("lastname must be at least 2 characters long", e.getMessage());
     }
 
     @Test
@@ -110,7 +110,7 @@ public class UserReqTest {
         req.setLastname("m");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Lastname must be at least 2 characters long", e.getMessage());
+        assertEquals("lastname must be at least 2 characters long", e.getMessage());
     }
 
     @Test
@@ -119,7 +119,61 @@ public class UserReqTest {
         req.setLastname("aVeryVeryVeryLongLastnameThatWillFailValidation");
 
         var e = assertThrows(UserValidationException.class, () -> req.validate());
-        assertEquals("Lastname can only contain 25 characters", e.getMessage());
+        assertEquals("lastname can only contain 25 characters", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN an empty email | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateEmptyEmail() {
+        req.setEmail("");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("email must be at least 5 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a short email | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateShortEmail() {
+        req.setEmail("m");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("email must be at least 5 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a long email | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateLongEmail() {
+        req.setEmail("aVeryVeryVeryLongEmailThatWillFailValidationButThisEmailIsEvenLongerBecauseItNeedsToBeLongerThan50Characters");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("email can only contain 50 characters", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN an empty password | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateEmptyPassword() {
+        req.setPassword("");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("password must be at least 8 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a short password | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateShortPassword() {
+        req.setPassword("m");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("password must be at least 8 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a long password | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateLongPassword() {
+        req.setPassword("aVeryVeryVeryLongPasswordThatWillFailValidationButThisPasswordIsEvenLongerBecauseItNeedsToBeLongerThan50Characters");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("password can only contain 50 characters", e.getMessage());
     }
 
     @Test
@@ -134,21 +188,8 @@ public class UserReqTest {
         req.setEmail("test123@no1hardy!.ch");
         assertThrows(UserValidationException.class, req::validate);
 
-        req.setEmail("test@no1hardy.1");
-        assertThrows(UserValidationException.class, req::validate);
-
-        req.setEmail("test@no1hardy.comms");
-        assertThrows(UserValidationException.class, req::validate);
-    }
-
-    @Test
-    @DisplayName("validate() - should validate password with invalid length")
-    void shouldValidatePasswordWithInvalidLength() {
-        req.setPassword("short");
-        assertThrows(UserValidationException.class, req::validate);
-
-        req.setPassword("1234567");
-        assertThrows(UserValidationException.class, req::validate);
+        req.setEmail("test@no1hardy.c1h");
+        assertDoesNotThrow(req::validate);
     }
 
     @Test

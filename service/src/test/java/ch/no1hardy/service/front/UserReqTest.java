@@ -7,8 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserReqTest {
     @NotNull
@@ -43,15 +42,84 @@ public class UserReqTest {
     }
 
     @Test
-    @DisplayName("validate() - should validate user request with empty values")
-    void shouldValidateUserRequestWithEmptyValues() {
+    @DisplayName("validate() - GIVEN an empty username | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateEmptyUsername() {
         req.setUsername("");
-        req.setEmail("");
-        req.setFirstname("");
-        req.setLastname("");
-        req.setPassword("");
 
-        assertDoesNotThrow(req::validate);
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Username must be at least 5 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a short username | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateShortUsername() {
+        req.setUsername("m");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Username must be at least 5 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a long username | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateLongUsername() {
+        req.setUsername("aVeryVeryVeryLongUsernameThatWillFailValidation");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Username can only contain 25 characters", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN an empty firstname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateEmptyFirstname() {
+        req.setFirstname("");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Firstname must be at least 2 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a short firstname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateShortFirstname() {
+        req.setFirstname("m");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Firstname must be at least 2 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a long firstname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateLongFirstname() {
+        req.setFirstname("aVeryVeryVeryLongFirstnameThatWillFailValidation");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Firstname can only contain 25 characters", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN an empty lastname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateEmptyLastname() {
+        req.setLastname("");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Lastname must be at least 2 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a short lastname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateShortLastname() {
+        req.setLastname("m");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Lastname must be at least 2 characters long", e.getMessage());
+    }
+
+    @Test
+    @DisplayName("validate() - GIVEN a long lastname | WHEN validating a dto | THEN a UserValidationException should be thrown")
+    void validateLongLastname() {
+        req.setLastname("aVeryVeryVeryLongLastnameThatWillFailValidation");
+
+        var e = assertThrows(UserValidationException.class, () -> req.validate());
+        assertEquals("Lastname can only contain 25 characters", e.getMessage());
     }
 
     @Test

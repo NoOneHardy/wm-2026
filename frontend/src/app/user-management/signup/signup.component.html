@@ -12,6 +12,9 @@
           @if (hasError(formGroup.get('username'), 'minlength')) {
             <mat-error>Min. 5 Zeichen</mat-error>
           }
+          @if (hasError(formGroup.get('username'), 'maxlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
+          }
           @if (hasError(formGroup.get('username'), 'usernameAvailable')) {
             <mat-error>Benutzername wird bereits verwendet</mat-error>
           }
@@ -25,6 +28,12 @@
           <input matInput formControlName="email"/>
           @if (hasError(formGroup.get('email'), 'required')) {
             <mat-error>Pflichtfeld</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'minlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'maxlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
           }
           @if (hasError(formGroup.get('email'), 'email')) {
             <mat-error>Ungültiges Format</mat-error>
@@ -47,6 +56,9 @@
           @if (hasError(formGroup.get('firstname'), 'minlength')) {
             <mat-error>Min. 2 Zeichen</mat-error>
           }
+          @if (hasError(formGroup.get('firstname'), 'maxlength')) {
+            <mat-error>Max. 25 Zeichen</mat-error>
+          }
         </mat-form-field>
         <mat-form-field
           class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
@@ -57,6 +69,9 @@
           }
           @if (hasError(formGroup.get('lastname'), 'minlength')) {
             <mat-error>Min. 2 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('lastname'), 'maxlength')) {
+            <mat-error>Max. 25 Zeichen</mat-error>
           }
         </mat-form-field>
 
@@ -71,6 +86,9 @@
             }
             @if (hasError(formGroup.get('passwords.password'), 'minlength')) {
               <mat-error>Min. 8 Zeichen</mat-error>
+            }
+            @if (hasError(formGroup.get('passwords.password'), 'maxlength')) {
+              <mat-error>Max. 50 Zeichen</mat-error>
             }
             @if (showPasswordMatchError('password')) {
               <mat-error>Passwörter müssen übereinstimmen</mat-error>
@@ -87,6 +105,9 @@
             }
             @if (hasError(formGroup.get('passwords.confirmPassword'), 'minlength')) {
               <mat-error>Min. 8 Zeichen</mat-error>
+            }
+            @if (hasError(formGroup.get('passwords.confirmPassword'), 'maxlength')) {
+              <mat-error>Max. 50 Zeichen</mat-error>
             }
             @if (showPasswordMatchError('confirmPassword')) {
               <mat-error>Passwörter müssen übereinstimmen</mat-error>

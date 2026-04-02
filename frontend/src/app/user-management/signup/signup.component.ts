@@ -43,6 +43,7 @@ export class SignupComponent {
       validators: [
         Validators.required,
         Validators.minLength(5),
+        Validators.maxLength(25)
       ],
       asyncValidators: [
         this.userValidatorService.usernameAvailable()
@@ -52,7 +53,9 @@ export class SignupComponent {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.email
+        Validators.email,
+        Validators.minLength(5),
+        Validators.maxLength(50)
       ],
       asyncValidators: [
         this.userValidatorService.emailAvailable()
@@ -62,14 +65,16 @@ export class SignupComponent {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(2)
+        Validators.minLength(2),
+        Validators.maxLength(25)
       ]
     }),
     lastname: this.fb.control<string>('', {
       nonNullable: true,
       validators: [
         Validators.required,
-        Validators.minLength(2)
+        Validators.minLength(2),
+        Validators.maxLength(25)
       ]
     }),
     passwords: this.fb.group({
@@ -77,7 +82,8 @@ export class SignupComponent {
         nonNullable: true,
         validators: [
           Validators.required,
-          Validators.minLength(8)
+          Validators.minLength(8),
+          Validators.maxLength(50)
         ]
       }),
       confirmPassword: this.fb.control<string>('', {

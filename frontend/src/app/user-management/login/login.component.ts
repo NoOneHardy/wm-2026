@@ -8,6 +8,7 @@ import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
 import {selectError} from '../store/user.feature'
 import {RouterLink} from '@angular/router'
+import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input'
 
 @Component({
   selector: 'wm-login',
@@ -16,7 +17,12 @@ import {RouterLink} from '@angular/router'
     FormFieldComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    RouterLink
+    NgIf,
+    RouterLink,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatError
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

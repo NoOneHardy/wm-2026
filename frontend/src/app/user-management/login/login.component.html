@@ -1,9 +1,14 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
   <wm-user-management-panel heading="Anmelden">
     <ng-container wm-content>
+      <mat-form-field>
+        <mat-label>Benutzername</mat-label>
+        <input matInput formControlName="username" autofocus>
+        <mat-error></mat-error>
+      </mat-form-field>
       <wm-form-field>
         <label>Username</label>
-        <input formControlName="username" autofocus>
+        <input formControlName="username">
         @if (hasError(formGroup.get('username'), 'required')) {
           <span>Pflichtfeld</span>
         }

@@ -1,0 +1,8 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+:root {
+  @include mat.form-field-overrides((
+    container-color: var(--sys-surface),
+  ));
+}

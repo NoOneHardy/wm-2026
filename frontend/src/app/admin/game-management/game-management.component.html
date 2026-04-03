@@ -30,7 +30,7 @@
         </wm-form-field>
 
         <div>
-          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+          <mat-form-field subscriptSizing="dynamic">
             <mat-label>Gruppe</mat-label>
             <mat-select formControlName="group"
                         class="wm-select-control"
@@ -78,11 +78,12 @@
         </div>
 
         <div>
-          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+          <mat-form-field subscriptSizing="dynamic">
             <mat-label>Heimteam</mat-label>
             <mat-select formControlName="teamHome"
                         class="wm-select-control"
                         panelClass="wm-select-panel"
+                        [disabled]="true"
                         (openedChange)="handleSelectOpened('teamHome', $event)">
               <mat-select-trigger>
                 @if (selectedHomeTeam(); as team) {
@@ -138,7 +139,7 @@
         </div>
 
         <div>
-          <mat-form-field class="wm-select-field" subscriptSizing="dynamic">
+          <mat-form-field subscriptSizing="dynamic">
             <mat-label>Gastteam</mat-label>
             <mat-select formControlName="teamGuest"
                         class="wm-select-control"

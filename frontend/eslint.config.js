@@ -34,7 +34,7 @@ module.exports = tseslint.config(
       '@stylistic/quotes': [
         'error',
         'single',
-        {'allowTemplateLiterals': true}
+        {'allowTemplateLiterals': 'always'}
       ],
       '@stylistic/semi': [
         'error',

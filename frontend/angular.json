@@ -63,7 +63,10 @@
               "buildTarget": "frontend:build:development"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "allowedHosts": ["host.docker.internal"]
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n"

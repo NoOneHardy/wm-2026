@@ -2,7 +2,7 @@ import {Component, inject, OnInit} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {ButtonComponent, FormFieldComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
-import {NgIf} from '@angular/common'
+
 import {hasError} from '../../shared/helper/form-field-error'
 import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
@@ -16,7 +16,6 @@ import {RouterLink} from '@angular/router'
     FormFieldComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    NgIf,
     RouterLink
   ],
   templateUrl: './login.component.html',

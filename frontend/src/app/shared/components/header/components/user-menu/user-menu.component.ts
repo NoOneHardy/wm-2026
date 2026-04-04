@@ -1,7 +1,7 @@
 import {Component, ElementRef, inject, input, signal} from '@angular/core'
 import {User} from '../../../../../model/user/user'
 import {RouterLink} from '@angular/router'
-import {NgIf} from '@angular/common'
+
 import {UserButtonComponent} from '../user-button/user-button.component'
 import {Store} from '@ngrx/store'
 import {logout} from '../../../../../user-management/store/user.actions'
@@ -14,7 +14,6 @@ import {NotificationsComponent} from '../notifications/notifications.component'
   },
   imports: [
     RouterLink,
-    NgIf,
     UserButtonComponent,
     NotificationsComponent
   ],

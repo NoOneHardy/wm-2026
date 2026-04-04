@@ -1,11 +1,10 @@
 import {AfterViewInit, Component, effect, ElementRef, inject, signal} from '@angular/core'
-import {NgIf} from '@angular/common'
+
 import {SpinnerComponent} from '../spinner/spinner.component'
 
 @Component({
   selector: 'wm-form-field',
   imports: [
-    NgIf,
     SpinnerComponent
   ],
   templateUrl: './form-field.component.html'

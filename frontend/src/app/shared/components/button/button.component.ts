@@ -1,11 +1,9 @@
 import {Component, input, output} from '@angular/core'
-import {NgIf} from '@angular/common'
+
 
 @Component({
   selector: 'wm-button',
-  imports: [
-    NgIf
-  ],
+  imports: [],
   host: {
     '[style]': 'getWidth()'
   },

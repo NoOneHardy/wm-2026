@@ -1,5 +1,5 @@
 import {Component, computed, effect, inject, input, OnInit, Signal} from '@angular/core'
-import {DecimalPipe, NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
+import { DecimalPipe, NgOptimizedImage } from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
 import {
@@ -17,11 +17,9 @@ import {CardGroup} from '../../../model/group/card-group'
 @Component({
   selector: 'wm-overview',
   imports: [
-    NgForOf,
     NgOptimizedImage,
     DecimalPipe,
     ButtonComponent,
-    NgIf,
     SpinnerComponent
   ],
   templateUrl: './overview.component.html',

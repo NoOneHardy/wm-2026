@@ -2,7 +2,7 @@ import {Component, computed, inject, OnInit} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {PositionComponent} from '../shared/components/position/position.component'
-import {DecimalPipe, NgForOf, NgIf} from '@angular/common'
+import { DecimalPipe } from '@angular/common'
 import {selectDashboard, selectIsTournamentLoading} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
 import {UpcomingGamesComponent} from './components/upcoming-games/upcoming-games.component'
@@ -14,8 +14,6 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
   selector: 'wm-dashboard',
   imports: [
     PositionComponent,
-    NgForOf,
-    NgIf,
     DecimalPipe,
     UpcomingGamesComponent,
     StatisticsComponent,

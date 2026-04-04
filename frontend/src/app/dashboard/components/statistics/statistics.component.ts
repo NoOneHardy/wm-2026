@@ -1,7 +1,7 @@
 import {Component, computed, inject, input, signal, Signal} from '@angular/core'
 import {Statistics} from '../../../model/dashboard/statistics'
 import {GlobalStatistics} from '../../../model/dashboard/global-statistics'
-import {CommonModule} from '@angular/common'
+
 import {SpinnerComponent} from '../../../shared/components/spinner/spinner.component'
 import {Store} from '@ngrx/store'
 import {selectIsTournamentLoading} from '../../../shared/store/tournament.feature'
@@ -9,7 +9,6 @@ import {selectIsTournamentLoading} from '../../../shared/store/tournament.featur
 @Component({
   selector: 'wm-statistics',
   imports: [
-    CommonModule,
     SpinnerComponent
   ],
   templateUrl: './statistics.component.html',

@@ -4,15 +4,21 @@
       <wm-form-field>
         <label>Username</label>
         <input formControlName="username" autofocus>
-        <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
+        @if (hasError(formGroup.get('username'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
       </wm-form-field>
 
       <wm-form-field>
         <label>Password</label>
         <input formControlName="password" type="password">
-        <span *ngIf="hasError(formGroup.get('password'), 'required')">Pflichtfeld</span>
+        @if (hasError(formGroup.get('password'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
       </wm-form-field>
-      <span class="login-error" *ngIf="userError() as error">{{error}}</span>
+      @if (userError(); as error) {
+        <span class="login-error">{{error}}</span>
+      }
     </ng-container>
     <ng-container wm-actions>
       <a routerLink="/forgot-password">Passwort vergessen?</a>

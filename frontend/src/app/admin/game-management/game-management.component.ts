@@ -2,7 +2,7 @@ import {Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, Vie
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import {NgIf, NgOptimizedImage} from '@angular/common'
+import {NgOptimizedImage} from '@angular/common'
 import {AdminService} from '../admin.service'
 import {finalize, forkJoin} from 'rxjs'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
@@ -21,7 +21,6 @@ import {MatSelectModule} from '@angular/material/select'
     ReactiveFormsModule,
     FormFieldComponent,
     ButtonComponent,
-    NgIf,
     NgOptimizedImage,
     SpinnerComponent,
     MatFormFieldModule,

@@ -2,7 +2,7 @@ import {Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import {NgIf} from '@angular/common'
+
 import {hasError} from '../../shared/helper/form-field-error'
 import {AdminService} from '../admin.service'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
@@ -15,8 +15,7 @@ import {finalize} from 'rxjs'
   imports: [
     ReactiveFormsModule,
     FormFieldComponent,
-    ButtonComponent,
-    NgIf
+    ButtonComponent
   ],
   templateUrl: './group-management.component.html',
   styleUrl: './group-management.component.css'

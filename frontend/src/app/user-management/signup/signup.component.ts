@@ -3,7 +3,7 @@ import {UserManagementPanelComponent} from '../user-management-panel/user-manage
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import {NgIf} from '@angular/common'
+
 import {hasError} from '../../shared/helper/form-field-error'
 import {UserValidatorService} from './validators/user-validator.service'
 import {passwordMatch} from './validators/password-validator'
@@ -17,8 +17,7 @@ import {selectIsUserLoading} from '../store/user.feature'
     UserManagementPanelComponent,
     ReactiveFormsModule,
     FormFieldComponent,
-    ButtonComponent,
-    NgIf
+    ButtonComponent
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'

@@ -1,28 +1,20 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
   <wm-user-management-panel heading="Anmelden">
     <ng-container wm-content>
-      <mat-form-field>
+      <mat-form-field class="full-width">
         <mat-label>Benutzername</mat-label>
-        <input matInput formControlName="username" autofocus>
-        <mat-error></mat-error>
+        <input matInput formControlName="username">
+        <mat-error>Pflichtfeld</mat-error>
       </mat-form-field>
-      <wm-form-field>
-        <label>Username</label>
-        <input formControlName="username">
-        @if (hasError(formGroup.get('username'), 'required')) {
-          <span>Pflichtfeld</span>
-        }
-      </wm-form-field>
 
-      <wm-form-field>
-        <label>Password</label>
-        <input formControlName="password" type="password">
-        @if (hasError(formGroup.get('password'), 'required')) {
-          <span>Pflichtfeld</span>
-        }
-      </wm-form-field>
+      <mat-form-field class="full-width">
+        <mat-label>Passwort</mat-label>
+        <input matInput formControlName="password" type="password">
+        <mat-icon matSuffix wmPasswordIcon/>
+        <mat-error>Pflichtfeld</mat-error>
+      </mat-form-field>
       @if (userError(); as error) {
-        <span class="login-error">{{error}}</span>
+        <span class="login-error">{{ error }}</span>
       }
     </ng-container>
     <ng-container wm-actions>

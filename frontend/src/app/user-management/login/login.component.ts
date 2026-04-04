@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
-import {ButtonComponent, FormFieldComponent} from '../../shared/material-api'
+import {ButtonComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
 
 import {hasError} from '../../shared/helper/form-field-error'
@@ -8,21 +8,24 @@ import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
 import {selectError} from '../store/user.feature'
 import {RouterLink} from '@angular/router'
-import {MatError, MatFormField, MatInput, MatLabel} from '@angular/material/input'
+import {MatInput, MatSuffix} from '@angular/material/input'
+import {MatIcon} from '@angular/material/icon'
+import {PasswordIconDirective} from '../../shared/directives/password-icon.directive'
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 @Component({
   selector: 'wm-login',
   imports: [
     UserManagementPanelComponent,
-    FormFieldComponent,
     ButtonComponent,
     ReactiveFormsModule,
     NgIf,
     RouterLink,
-    MatFormField,
-    MatLabel,
+    MatFormFieldModule,
     MatInput,
-    MatError
+    MatSuffix,
+    MatIcon,
+    PasswordIconDirective
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'

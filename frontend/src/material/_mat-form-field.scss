@@ -4,8 +4,6 @@
 @mixin base-overrides() {
   @include mat.form-field-overrides((
     container-shape: .25em,
-    // enabled-select-arrow-color: TODO
-    // focus-select-arrow-color: TODO
     container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 94),
     disabled-container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 98),
     disabled-input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 70),
@@ -18,8 +16,6 @@
     disabled-leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
     disabled-trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
     hover-state-layer-opacity: 0.05,
-    // select-disabled-option-text-color: TODO
-    // select-option-text-color: TODO
     container-text-size: 1.125em,
     container-text-tracking: 0,
     container-text-weight: 500,

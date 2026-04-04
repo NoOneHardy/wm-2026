@@ -12,7 +12,6 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
   selector: 'wm-dashboard',
-  standalone: true,
   imports: [
     PositionComponent,
     NgForOf,

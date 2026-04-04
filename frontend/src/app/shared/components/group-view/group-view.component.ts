@@ -22,7 +22,6 @@ import {RemainingJokerDisplayComponent} from '../remaining-joker-display/remaini
 
 @Component({
   selector: 'wm-group-view',
-  standalone: true,
   imports: [
     DecimalPipe,
     DatePipe,

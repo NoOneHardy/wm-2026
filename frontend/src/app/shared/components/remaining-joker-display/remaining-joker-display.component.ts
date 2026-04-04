@@ -2,7 +2,6 @@ import {Component, input} from '@angular/core'
 
 @Component({
   selector: 'wm-remaining-joker-display',
-  standalone: true,
   imports: [],
   templateUrl: './remaining-joker-display.component.html',
   styleUrl: './remaining-joker-display.component.css'

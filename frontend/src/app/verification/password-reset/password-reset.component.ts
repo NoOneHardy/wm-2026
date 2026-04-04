@@ -12,7 +12,6 @@ import {resetPassword} from '../../user-management/store/user.actions'
 
 @Component({
   selector: 'wm-password-reset',
-  standalone: true,
   imports: [
     UserManagementPanelComponent,
     FormFieldComponent,

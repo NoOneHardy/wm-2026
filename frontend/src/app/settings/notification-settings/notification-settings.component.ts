@@ -12,7 +12,6 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
 
 @Component({
   selector: 'wm-notification-settings',
-  standalone: true,
   imports: [
     MatSlideToggle,
     NotificationTypePipe,

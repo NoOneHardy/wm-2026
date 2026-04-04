@@ -10,7 +10,6 @@ import {BannerDisplayComponent} from './shared/components/banner-display/banner-
 
 @Component({
   selector: 'wm-root',
-  standalone: true,
   imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, BannerDisplayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

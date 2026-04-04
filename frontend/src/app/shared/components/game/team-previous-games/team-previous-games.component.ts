@@ -4,7 +4,6 @@ import {Team} from '../../../../model/team/team'
 
 @Component({
   selector: 'wm-team-previous-games',
-  standalone: true,
   imports: [
     NgOptimizedImage
   ],

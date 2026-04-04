@@ -18,6 +18,7 @@ module.exports = tseslint.config(
     },
     processor: angular.processInlineTemplates,
     rules: {
+      'indent': ['error', 2],
       '@typescript-eslint/no-unused-vars': [
         'error',
         {argsIgnorePattern: '^_'}

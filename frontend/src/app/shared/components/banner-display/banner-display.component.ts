@@ -6,7 +6,6 @@ import {sendEmailVerificationLink} from '../../../user-management/store/user.act
 
 @Component({
   selector: 'wm-banner-display',
-  standalone: true,
   imports: [],
   templateUrl: './banner-display.component.html',
   styleUrl: './banner-display.component.css'

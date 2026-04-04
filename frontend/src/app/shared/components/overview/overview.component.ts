@@ -16,7 +16,6 @@ import {CardGroup} from '../../../model/group/card-group'
 
 @Component({
   selector: 'wm-overview',
-  standalone: true,
   imports: [
     NgForOf,
     NgOptimizedImage,

@@ -51,11 +51,11 @@ export class UserEffects {
     ofType(createUser),
     exhaustMap(action => {
       return this.userService.createUser(action.user).pipe(map(() => {
-          return userCreated({
-            username: action.user.username,
-            password: action.user.password
-          })
+        return userCreated({
+          username: action.user.username,
+          password: action.user.password
         })
+      })
       )
     })
   ))
@@ -114,11 +114,11 @@ export class UserEffects {
     ofType(fetchUserInfo),
     exhaustMap(() => {
       return this.userService.fetchUserInfo().pipe(map((user) => {
-          return userInfoFetched({user})
-        }),
-        catchError(() => {
-          return of(loggedOut({showMessage: false}))
-        })
+        return userInfoFetched({user})
+      }),
+      catchError(() => {
+        return of(loggedOut({showMessage: false}))
+      })
       )
     })
   ))

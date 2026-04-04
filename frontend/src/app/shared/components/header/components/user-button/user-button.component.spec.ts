@@ -11,7 +11,7 @@ describe('UserButtonComponent', () => {
       imports: [UserButtonComponent],
       providers: [provideRouter([])]
     })
-    .compileComponents()
+      .compileComponents()
 
     fixture = TestBed.createComponent(UserButtonComponent)
     component = fixture.componentInstance

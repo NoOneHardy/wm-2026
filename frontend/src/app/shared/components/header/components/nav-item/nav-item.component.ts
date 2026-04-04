@@ -5,7 +5,6 @@ import {MatRipple} from '@angular/material/core'
 
 @Component({
   selector: 'wm-nav-item',
-  standalone: true,
   imports: [
     NgIf,
     RouterLink,

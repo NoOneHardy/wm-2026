@@ -8,10 +8,10 @@ import {NotificationChannel} from '../../user-management/model/notification-chan
 export class NotificationChannelPipe implements PipeTransform {
   transform(type: NotificationChannel): string {
     switch (type) {
-      case NotificationChannel.IN_APP:
-        return 'In-App-Benachrichtigungen'
-      case NotificationChannel.EMAIL:
-        return 'Email-Benachrichtigungen'
+    case NotificationChannel.IN_APP:
+      return 'In-App-Benachrichtigungen'
+    case NotificationChannel.EMAIL:
+      return 'Email-Benachrichtigungen'
     }
   }
 }

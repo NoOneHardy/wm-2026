@@ -10,7 +10,7 @@ describe('ScoreFormFieldComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ScoreFormFieldComponent]
     })
-    .compileComponents()
+      .compileComponents()
 
     fixture = TestBed.createComponent(ScoreFormFieldComponent)
     component = fixture.componentInstance

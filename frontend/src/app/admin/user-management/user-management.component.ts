@@ -11,7 +11,6 @@ import {SpinnerComponent} from '../../shared/components/spinner/spinner.componen
 
 @Component({
   selector: 'wm-user-management',
-  standalone: true,
   imports: [
     NgForOf,
     NgOptimizedImage,

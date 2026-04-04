@@ -13,7 +13,6 @@ import {selectIsUserLoading} from '../store/user.feature'
 
 @Component({
   selector: 'wm-signup',
-  standalone: true,
   imports: [
     UserManagementPanelComponent,
     ReactiveFormsModule,

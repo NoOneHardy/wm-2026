@@ -8,7 +8,6 @@ import {selectIsTournamentLoading} from '../../../shared/store/tournament.featur
 
 @Component({
   selector: 'wm-statistics',
-  standalone: true,
   imports: [
     CommonModule,
     SpinnerComponent

@@ -3,7 +3,6 @@ import {RouterLink, RouterLinkActive} from '@angular/router'
 
 @Component({
   selector: 'wm-side-nav-item',
-  standalone: true,
   imports: [
     RouterLink,
     RouterLinkActive

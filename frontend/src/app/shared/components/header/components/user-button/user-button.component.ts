@@ -4,7 +4,6 @@ import {MatRipple} from '@angular/material/core'
 
 @Component({
   selector: 'wm-user-button',
-  standalone: true,
   imports: [
     RouterLink,
     MatRipple

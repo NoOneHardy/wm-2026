@@ -7,7 +7,6 @@ import {RouterOutlet} from '@angular/router'
 
 @Component({
   selector: 'wm-settings',
-  standalone: true,
   imports: [
     SideNavComponent,
     SideNavItemComponent,

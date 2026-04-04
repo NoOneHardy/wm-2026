@@ -7,7 +7,6 @@ import {loadGroup} from '../shared/store/tournament.actions'
 
 @Component({
   selector: 'wm-bet-overview',
-  standalone: true,
   imports: [
     OverviewComponent,
     GroupViewComponent

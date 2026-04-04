@@ -6,7 +6,6 @@ import {SnackbarService} from '../../../../services/snackbar/snackbar.service'
 
 @Component({
   selector: 'wm-snackbar-display',
-  standalone: true,
   imports: [
     SnackbarComponent,
     NgForOf,

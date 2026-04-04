@@ -9,7 +9,6 @@ import {NotificationType} from '../../../../../user-management/model/notificatio
 
 @Component({
   selector: 'wm-notifications',
-  standalone: true,
   imports: [
     MatMenu,
     MatMenuTrigger,
@@ -35,16 +34,16 @@ export class NotificationsComponent {
 
   getIcon(type: NotificationType): string {
     switch (type) {
-      case NotificationType.NEW_GAME:
-        return 'ballot'
-      case NotificationType.NEW_RESULT:
-        return 'scoreboard'
-      case NotificationType.APPROVAL:
-        return 'check_circle'
-      case NotificationType.REJECTION:
-        return 'do_not_disturb_on'
-      case NotificationType.RANKING_UPDATE:
-        return 'bookmark_star'
+    case NotificationType.NEW_GAME:
+      return 'ballot'
+    case NotificationType.NEW_RESULT:
+      return 'scoreboard'
+    case NotificationType.APPROVAL:
+      return 'check_circle'
+    case NotificationType.REJECTION:
+      return 'do_not_disturb_on'
+    case NotificationType.RANKING_UPDATE:
+      return 'bookmark_star'
     }
   }
 }

@@ -14,7 +14,6 @@ import {passwordMatch} from '../../user-management/signup/validators/password-va
 
 @Component({
   selector: 'wm-account-settings',
-  standalone: true,
   imports: [
     AvatarUploadComponent,
     ReactiveFormsModule,

@@ -7,7 +7,6 @@ import {loadGroup} from '../../shared/store/tournament.actions'
 
 @Component({
   selector: 'wm-result-management',
-  standalone: true,
   imports: [
     GroupViewComponent,
     OverviewComponent

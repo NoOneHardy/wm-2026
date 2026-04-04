@@ -2,7 +2,6 @@ import {Component, input} from '@angular/core'
 
 @Component({
   selector: 'wm-info-card',
-  standalone: true,
   imports: [],
   templateUrl: './info-card.component.html',
   styleUrl: './info-card.component.css',

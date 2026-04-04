@@ -6,7 +6,6 @@ import {ActivatedRoute} from '@angular/router'
 
 @Component({
   selector: 'wm-email-verification',
-  standalone: true,
   imports: [
     SpinnerComponent
   ],

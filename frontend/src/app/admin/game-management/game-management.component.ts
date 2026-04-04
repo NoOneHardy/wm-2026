@@ -1,6 +1,5 @@
-import {Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, ViewChild} from '@angular/core'
+import {Component, computed, DestroyRef, ElementRef, inject, OnInit, Signal, signal, viewChild} from '@angular/core'
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {NgOptimizedImage} from '@angular/common'
 import {AdminService} from '../admin.service'
@@ -13,18 +12,25 @@ import {BetGame} from '../../model/game/bet-game'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
 import {MatFormFieldModule} from '@angular/material/form-field'
-import {MatSelectModule} from '@angular/material/select'
+import {MatInput} from '@angular/material/input'
+import {MatDatepickerModule} from '@angular/material/datepicker'
+import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete'
+import {MatIcon} from '@angular/material/icon'
 
 @Component({
   selector: 'wm-game-management',
   imports: [
     ReactiveFormsModule,
-    FormFieldComponent,
     ButtonComponent,
     NgOptimizedImage,
     SpinnerComponent,
     MatFormFieldModule,
-    MatSelectModule
+    MatDatepickerModule,
+    MatInput,
+    MatOption,
+    MatAutocompleteTrigger,
+    MatAutocomplete,
+    MatIcon
   ],
   templateUrl: './game-management.component.html',
   styleUrl: './game-management.component.css'
@@ -43,13 +49,13 @@ export class GameManagementComponent implements OnInit {
   teamHomeSearch = signal('')
   teamGuestSearch = signal('')
 
-  @ViewChild('groupSearchInput') private groupSearchInput?: ElementRef<HTMLInputElement>
-  @ViewChild('teamHomeSearchInput') private teamHomeSearchInput?: ElementRef<HTMLInputElement>
-  @ViewChild('teamGuestSearchInput') private teamGuestSearchInput?: ElementRef<HTMLInputElement>
+  private groupSearchInput: Signal<ElementRef<HTMLInputElement> | undefined> = viewChild('groupSearchInput')
+  private teamHomeSearchInput: Signal<ElementRef<HTMLInputElement> | undefined> = viewChild('teamHomeSearchInput')
+  private teamGuestSearchInput: Signal<ElementRef<HTMLInputElement> | undefined> = viewChild('teamGuestSearchInput')
 
-  filteredGroups = computed(() => this.filterOptions(this.groups(), this.groupSearch(), group => this.getGroupLabel(group)))
-  filteredHomeTeams = computed(() => this.filterOptions(this.teams(), this.teamHomeSearch(), team => this.getTeamLabel(team)))
-  filteredGuestTeams = computed(() => this.filterOptions(this.teams(), this.teamGuestSearch(), team => this.getTeamLabel(team)))
+  filteredGroups = computed(() => this.filterOptions(this.groups(), this.groupSearch(), (group) => this.groupDisplayFn(group)))
+  filteredHomeTeams = computed(() => this.filterOptions(this.teams(), this.teamHomeSearch(), team => this.teamDisplayFn(team)))
+  filteredGuestTeams = computed(() => this.filterOptions(this.teams(), this.teamGuestSearch(), team => this.teamDisplayFn(team)))
 
   formGroup = new FormGroup({
     timestamp: new FormControl<string>('', {
@@ -113,77 +119,70 @@ export class GameManagementComponent implements OnInit {
         type: 'success',
         message: `${teamHome.name} gegen ${teamGuest.name} wurde angelegt`
       })
-      this.formGroup.reset({
-        timestamp: '',
-        group: '',
-        teamHome: '',
-        teamGuest: ''
-      })
-      this.resetSearch('group')
-      this.resetSearch('teamHome')
-      this.resetSearch('teamGuest')
+      this.formGroup.reset()
+      this.resetGroupSearch()
+      this.resetHomeTeamSearch()
+      this.resetGuestTeamSearch()
     })
   }
 
-  getGroupLabel(group: GroupOption): string {
-    return `${group.order}. ${group.name}${group.isKnockout ? ' (K.O.)' : ''}`
+  groupDisplayFn(groupOrId?: GroupOption | string | null): string {
+    const group = typeof groupOrId === 'string' ? this.findGroupById(groupOrId) : groupOrId
+    if (!group) return ''
+    return group.name
   }
 
-  getTeamLabel(team: LightTeam): string {
+  teamDisplayFn(teamOrId?: LightTeam | string | null): string {
+    const team = typeof teamOrId === 'string' ? this.findTeamById(teamOrId) : teamOrId
+    if (!team) return ''
     return `${team.name} (${team.shortName})`
   }
 
-  selectedGroup(): GroupOption | null {
+  get selectedGroup(): GroupOption | null {
     return this.findGroupById(this.formGroup.controls.group.value)
   }
 
-  selectedHomeTeam(): LightTeam | null {
+  get selectedHomeTeam(): LightTeam | null {
     return this.findTeamById(this.formGroup.controls.teamHome.value)
   }
 
-  selectedGuestTeam(): LightTeam | null {
+  get selectedGuestTeam(): LightTeam | null {
     return this.findTeamById(this.formGroup.controls.teamGuest.value)
   }
 
-  handleSelectOpened(type: 'group' | 'teamHome' | 'teamGuest', isOpen: boolean): void {
-    if (!isOpen) {
-      this.resetSearch(type)
-      return
-    }
-
-    setTimeout(() => {
-      this.getSearchInput(type)?.nativeElement.focus()
-    })
+  filterGroups(): void {
+    const value = this.groupSearchInput()?.nativeElement.value ?? ''
+    this.groupSearch.set(value)
   }
 
-  updateSearch(type: 'group' | 'teamHome' | 'teamGuest', event: Event): void {
-    const value = event.target instanceof HTMLInputElement ? event.target.value : ''
-    this.getSearchSignal(type).set(value)
+  filterHomeTeams(): void {
+    const value = this.teamHomeSearchInput()?.nativeElement.value ?? ''
+    this.teamHomeSearch.set(value)
   }
 
-  preventPanelClose(event: MouseEvent | KeyboardEvent): void {
-    if (event instanceof KeyboardEvent && event.key === 'Escape') return
-    event.stopPropagation()
+  filterGuestTeams(): void {
+    const value = this.teamGuestSearchInput()?.nativeElement.value ?? ''
+    this.teamGuestSearch.set(value)
   }
 
-  trackById(_: number, option: { id: string }): string {
-    return option.id
+  findGroupById(id: string): GroupOption | null {
+    return this.groups().find(g => g.id === id) ?? null
   }
 
-  private resetSearch(type: 'group' | 'teamHome' | 'teamGuest'): void {
-    this.getSearchSignal(type).set('')
+  findTeamById(id: string): LightTeam | null {
+    return this.teams().find(t => t.id === id) ?? null
   }
 
-  private getSearchSignal(type: 'group' | 'teamHome' | 'teamGuest') {
-    if (type === 'group') return this.groupSearch
-    if (type === 'teamHome') return this.teamHomeSearch
-    return this.teamGuestSearch
+  resetGroupSearch(): void {
+    this.groupSearch.set('')
   }
 
-  private getSearchInput(type: 'group' | 'teamHome' | 'teamGuest') {
-    if (type === 'group') return this.groupSearchInput
-    if (type === 'teamHome') return this.teamHomeSearchInput
-    return this.teamGuestSearchInput
+  resetHomeTeamSearch(): void {
+    this.teamHomeSearch.set('')
+  }
+
+  resetGuestTeamSearch(): void {
+    this.teamGuestSearch.set('')
   }
 
   private filterOptions<T>(options: T[], query: string, getLabel: (option: T) => string): T[] {
@@ -191,14 +190,6 @@ export class GameManagementComponent implements OnInit {
     if (!normalizedQuery) return options
 
     return options.filter(option => getLabel(option).toLowerCase().includes(normalizedQuery))
-  }
-
-  private findGroupById(id: string): GroupOption | null {
-    return this.groups().find(group => group.id === id) ?? null
-  }
-
-  private findTeamById(id: string): LightTeam | null {
-    return this.teams().find(team => team.id === id) ?? null
   }
 
   private differentTeamsValidator(): ValidatorFn {

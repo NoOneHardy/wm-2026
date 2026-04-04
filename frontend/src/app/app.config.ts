@@ -15,6 +15,7 @@ import {provideAnimationsAsync} from '@angular/platform-browser/animations/async
 import { provideAnimations } from '@angular/platform-browser/animations'
 import {homeFeature} from './home/store/home.feature'
 import {HomeEffects} from './home/store/home.effects'
+import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,6 +28,11 @@ export const appConfig: ApplicationConfig = {
     provideState(homeFeature),
     provideState(adminFeature),
     provideAnimations(),
+    provideNativeDateAdapter(),
     provideEffects(UserEffects, TournamentEffects, HomeEffects, AdminEffects), provideAnimationsAsync(),
+    {
+      provide: MAT_DATE_LOCALE,
+      useValue: 'de-CH'
+    }
   ]
 }

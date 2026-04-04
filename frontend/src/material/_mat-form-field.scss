@@ -42,4 +42,8 @@
   .mat-form-field-disabled .mdc-text-field--filled {
     box-shadow: none;
   }
+
+  mat-form-field.full-width {
+    width: 100%;
+  }
 }

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, effect, ElementRef, inject, signal} from '@angular/core'
+import {AfterContentInit, Component, ElementRef, inject} from '@angular/core'
 
 import {SpinnerComponent} from '../spinner/spinner.component'
 
@@ -9,32 +9,25 @@ import {SpinnerComponent} from '../spinner/spinner.component'
   ],
   templateUrl: './form-field.component.html'
 })
-export class FormFieldComponent implements AfterViewInit {
+export class FormFieldComponent implements AfterContentInit {
   private el = inject(ElementRef)
-  private input = signal<HTMLInputElement | null>(null)
+  private input: HTMLInputElement | null = null
 
   isPassword = false
   isPasswordVisible = false
 
-  constructor() {
-    effect(() => {
-      const input = this.input()
-      if (input) {
-        input.placeholder = ''
-        this.isPassword = input.type === 'password'
-      }
-    })
-  }
+  ngAfterContentInit() {
+    this.input = this.el.nativeElement.querySelector('input')
+    if (!this.input) return
 
-  ngAfterViewInit() {
-    this.input.set(this.el.nativeElement.querySelector('input'))
+    this.input.placeholder = ''
+    this.isPassword = this.input.type === 'password'
   }
 
   togglePasswordVisibility() {
-    const input = this.input()
-    if (input) {
+    if (this.input) {
       this.isPasswordVisible = !this.isPasswordVisible
-      input.type = this.isPasswordVisible ? 'text' : 'password'
+      this.input.type = this.isPasswordVisible ? 'text' : 'password'
     }
   }
 }

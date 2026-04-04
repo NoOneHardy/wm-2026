@@ -34,6 +34,7 @@ describe('isLoggedInGuard', () => {
     result = null
     store = TestBed.inject(MockStore)
     store.overrideSelector(selectUser, {...mockUser})
+    store.overrideSelector(selectIsUserLoading, false)
   })
 
   it('should return true if user is not logged in', () => {

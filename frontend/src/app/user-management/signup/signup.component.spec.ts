@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {SignupComponent} from './signup.component'
 import {provideHttpClient} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
-import {Injectable} from '@angular/core'
+import {EffectRef, Injectable} from '@angular/core'
 import {of} from 'rxjs'
 import {AbstractControl, AsyncValidatorFn} from '@angular/forms'
 import {UserValidatorService} from './validators/user-validator.service'
@@ -168,7 +168,7 @@ describe('SignupComponent', () => {
 
   it('should dispatch user create action', () => {
     const spy = spyOn(component['store'], 'dispatch').and.callFake(() => {
-      return
+      return null as unknown as EffectRef
     })
     component.formGroup.setValue({
       username: 'NoOneHardy',

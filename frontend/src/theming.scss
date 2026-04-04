@@ -1,21 +1,19 @@
 @use './material/m3-theme';
 @use '@angular/material' as mat;
 @use './material/mat-form-field';
+@use 'material/mat-datepicker';
 @use '@material/layout-grid/mdc-layout-grid';
 
 @include mat.elevation-classes();
 @include mat.app-background();
 
-// Include theme styles for core and each component used in your app.
-// Alternatively, you can import and @include the theme mixins for each component
-// that you are using.
 :root {
+  color-scheme: light;
   @include mat.core-theme(m3-theme.$light-theme);
   @include mat.all-component-themes(m3-theme.$light-theme);
-  @include mat.system-level-colors(m3-theme.$light-theme);
-  @include mat.system-level-typography(m3-theme.$light-theme);
 
   @include mat-form-field.base-overrides();
+  @include mat-datepicker.base-overrides();
 
   @include mat.slide-toggle-overrides((
     pressed-handle-size: 1.5rem,

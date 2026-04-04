@@ -2,7 +2,6 @@ import {Component, inject, OnInit} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {ButtonComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
-
 import {hasError} from '../../shared/helper/form-field-error'
 import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
@@ -19,7 +18,6 @@ import {MatFormFieldModule} from '@angular/material/form-field'
     UserManagementPanelComponent,
     ButtonComponent,
     ReactiveFormsModule,
-    NgIf,
     RouterLink,
     MatFormFieldModule,
     MatInput,

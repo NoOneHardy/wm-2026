@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+@mixin base-overrides() {
+  @include mat.datepicker-overrides((
+    toggle-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 40),
+    toggle-active-state-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 40),
+  ));
+}

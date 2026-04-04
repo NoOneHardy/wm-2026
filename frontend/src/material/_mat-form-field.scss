@@ -1,8 +1,45 @@
 @use '@angular/material' as mat;
 @use './m3-theme';
 
-:root {
+@mixin base-overrides() {
   @include mat.form-field-overrides((
-    container-color: var(--sys-surface),
+    container-shape: .25em,
+    // enabled-select-arrow-color: TODO
+    // focus-select-arrow-color: TODO
+    container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 94),
+    disabled-container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 98),
+    disabled-input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 70),
+    disabled-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    focus-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 40),
+    leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    disabled-leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    disabled-trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    hover-state-layer-opacity: 0.05,
+    // select-disabled-option-text-color: TODO
+    // select-option-text-color: TODO
+    container-text-size: 1.125em,
+    container-text-tracking: 0,
+    container-text-weight: 500,
+    label-text-size: 1em,
+    label-text-tracking: 0,
+    label-text-weight: 500,
+    disabled-active-indicator-color: transparent
   ));
+
+  .mdc-text-field--filled {
+    border-bottom-right-radius: var(--mdc-filled-text-field-container-shape);
+    border-bottom-left-radius: var(--mdc-filled-text-field-container-shape);
+    box-shadow: 0 2px 4px 0 #0000001a inset;
+
+    &.mdc-text-field--invalid {
+      background-color: mat.get-theme-color(m3-theme.$light-theme, error, 90);
+    }
+  }
+
+  .mat-form-field-disabled .mdc-text-field--filled {
+    box-shadow: none;
+  }
 }

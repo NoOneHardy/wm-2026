@@ -11,7 +11,6 @@ import {RouterLink} from '@angular/router'
 
 @Component({
   selector: 'wm-login',
-  standalone: true,
   imports: [
     UserManagementPanelComponent,
     FormFieldComponent,

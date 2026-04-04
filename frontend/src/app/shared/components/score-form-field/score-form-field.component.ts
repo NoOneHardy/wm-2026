@@ -6,7 +6,6 @@ import {NgIf} from '@angular/common'
 
 @Component({
   selector: 'wm-score-form-field',
-  standalone: true,
   imports: [
     FormFieldComponent,
     FormsModule,

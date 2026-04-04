@@ -10,7 +10,7 @@ describe('PayoutBoardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [PayoutBoardComponent]
     })
-    .compileComponents()
+      .compileComponents()
 
     fixture = TestBed.createComponent(PayoutBoardComponent)
     component = fixture.componentInstance

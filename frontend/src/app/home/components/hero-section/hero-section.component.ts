@@ -5,7 +5,6 @@ import {StadiumComponent} from '../stadium/stadium.component'
 
 @Component({
   selector: 'wm-hero-section',
-  standalone: true,
   imports: [
     RouterLink,
     MatRipple,

@@ -10,7 +10,7 @@ describe('UserManagementPanelComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserManagementPanelComponent]
     })
-    .compileComponents()
+      .compileComponents()
 
     fixture = TestBed.createComponent(UserManagementPanelComponent)
     component = fixture.componentInstance

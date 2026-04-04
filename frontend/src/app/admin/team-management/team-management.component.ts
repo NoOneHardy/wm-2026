@@ -13,7 +13,6 @@ import {LightTeam} from '../../model/team/light-team'
 
 @Component({
   selector: 'wm-team-management',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     AvatarUploadComponent,

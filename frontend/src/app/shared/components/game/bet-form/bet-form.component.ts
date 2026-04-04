@@ -18,7 +18,6 @@ import {TeamPreviousGamesComponent} from '../team-previous-games/team-previous-g
 
 @Component({
   selector: 'wm-bet-form',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     DatePipe,
@@ -154,12 +153,12 @@ export class BetFormComponent implements ControlValueAccessor {
 
   hasJokersAvailable(joker: number): boolean {
     switch (joker) {
-      case 1:
-        return true
-      case 2:
-        return (this.availableJokers()?.jdouble ?? 0) > 0
-      case 3:
-        return (this.availableJokers()?.jtriple ?? 0) > 0
+    case 1:
+      return true
+    case 2:
+      return (this.availableJokers()?.jdouble ?? 0) > 0
+    case 3:
+      return (this.availableJokers()?.jtriple ?? 0) > 0
     }
     return false
   }

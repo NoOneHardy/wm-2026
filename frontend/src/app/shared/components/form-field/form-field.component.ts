@@ -4,7 +4,6 @@ import {SpinnerComponent} from '../spinner/spinner.component'
 
 @Component({
   selector: 'wm-form-field',
-  standalone: true,
   imports: [
     NgIf,
     SpinnerComponent

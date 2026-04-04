@@ -9,7 +9,6 @@ import {NotificationsComponent} from '../notifications/notifications.component'
 
 @Component({
   selector: 'wm-user-menu',
-  standalone: true,
   host: {
     '(document:click)': 'closeDropdownOnBlur($event)',
   },

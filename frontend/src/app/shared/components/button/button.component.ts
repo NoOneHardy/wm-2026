@@ -3,7 +3,6 @@ import {NgIf} from '@angular/common'
 
 @Component({
   selector: 'wm-button',
-  standalone: true,
   imports: [
     NgIf
   ],

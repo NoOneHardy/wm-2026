@@ -6,7 +6,6 @@ import {HomeComponent} from '../home/home.component'
 
 @Component({
   selector: 'wm-root',
-  standalone: true,
   imports: [
     DashboardComponent,
     HomeComponent

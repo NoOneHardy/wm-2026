@@ -14,7 +14,7 @@ export class SnackbarService {
   addMessage(message: SnackbarMessage) {
     this._messages.update(messages => [...messages, message])
     setTimeout(() => {
-        this._messages.update(messages => messages.filter(m => m !== message))
-      }, message.duration ?? 5000)
+      this._messages.update(messages => messages.filter(m => m !== message))
+    }, message.duration ?? 5000)
   }
 }

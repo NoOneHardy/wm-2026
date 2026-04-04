@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 
 @Component({
   selector: 'wm-payout-board',
-  standalone: true,
   imports: [],
   templateUrl: './payout-board.component.html',
   styleUrl: './payout-board.component.css'
@@ -12,10 +11,10 @@ export class PayoutBoardComponent {
     class?: string
     percentage: number
   }[] = [
-    {class: '-first', percentage: 40},
-    {class: '-second', percentage: 25},
-    {percentage: 20},
-    {percentage: 10},
-    {percentage: 5}
-  ]
+      {class: '-first', percentage: 40},
+      {class: '-second', percentage: 25},
+      {percentage: 20},
+      {percentage: 10},
+      {percentage: 5}
+    ]
 }

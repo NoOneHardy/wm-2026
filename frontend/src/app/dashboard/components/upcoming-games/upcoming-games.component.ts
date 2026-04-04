@@ -6,7 +6,6 @@ import {RouterLink} from '@angular/router'
 
 @Component({
   selector: 'wm-upcoming-games',
-  standalone: true,
   imports: [
     CommonModule,
     GamePreviewComponent,

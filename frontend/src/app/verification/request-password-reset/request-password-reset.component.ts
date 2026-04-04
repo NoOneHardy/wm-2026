@@ -16,7 +16,6 @@ enum STATE {
 
 @Component({
   selector: 'wm-request-password-reset',
-  standalone: true,
   imports: [
     UserManagementPanelComponent,
     ButtonComponent,

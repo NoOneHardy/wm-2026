@@ -5,14 +5,13 @@ import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-ac
 
 @Component({
   selector: 'wm-avatar-upload',
-  standalone: true,
   imports: [
     NgOptimizedImage
   ],
   templateUrl: './avatar-upload.component.html',
   styleUrl: './avatar-upload.component.css',
   providers: [
-    {provide: NG_VALUE_ACCESSOR, useExisting: AvatarUploadComponent, multi: true}
+    { provide: NG_VALUE_ACCESSOR, useExisting: AvatarUploadComponent, multi: true }
   ]
 })
 export class AvatarUploadComponent implements ControlValueAccessor {

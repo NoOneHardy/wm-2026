@@ -8,7 +8,6 @@ import {Bet} from '../../../../model/game/bet'
 
 @Component({
   selector: 'wm-game-preview',
-  standalone: true,
   imports: [
     DatePipe,
     NgOptimizedImage,

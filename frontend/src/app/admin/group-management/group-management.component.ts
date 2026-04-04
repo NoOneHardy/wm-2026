@@ -12,7 +12,6 @@ import {finalize} from 'rxjs'
 
 @Component({
   selector: 'wm-group-management',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     FormFieldComponent,

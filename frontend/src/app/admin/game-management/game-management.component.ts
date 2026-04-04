@@ -2,9 +2,9 @@ import {Component, computed, DestroyRef, ElementRef, inject, OnInit, signal, Vie
 import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import {NgForOf, NgIf, NgOptimizedImage} from '@angular/common'
+import {NgIf, NgOptimizedImage} from '@angular/common'
 import {AdminService} from '../admin.service'
-import {forkJoin, finalize} from 'rxjs'
+import {finalize, forkJoin} from 'rxjs'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 import {GroupOption} from '../model/group-option'
 import {LightTeam} from '../../model/team/light-team'
@@ -17,13 +17,11 @@ import {MatSelectModule} from '@angular/material/select'
 
 @Component({
   selector: 'wm-game-management',
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     FormFieldComponent,
     ButtonComponent,
     NgIf,
-    NgForOf,
     NgOptimizedImage,
     SpinnerComponent,
     MatFormFieldModule,

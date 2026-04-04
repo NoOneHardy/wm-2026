@@ -4,7 +4,6 @@ import {NgIf, NgOptimizedImage} from '@angular/common'
 
 @Component({
   selector: 'wm-position',
-  standalone: true,
   imports: [
     NgIf,
     NgOptimizedImage

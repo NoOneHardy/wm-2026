@@ -13,7 +13,6 @@ import {NotificationsComponent} from './components/notifications/notifications.c
 
 @Component({
   selector: 'wm-header',
-  standalone: true,
   host: {
     '(document:click)': 'closeMenuOnBlur($event)',
     '(document:keydown.escape)': 'closeMenu()'

@@ -9,7 +9,6 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
   selector: 'wm-leaderboard',
-  standalone: true,
   imports: [
     PositionComponent,
     SpinnerComponent

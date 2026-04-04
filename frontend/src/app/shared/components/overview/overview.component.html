@@ -2,10 +2,14 @@
   @case ('bet') {
     <h1>Mein Tippschein</h1>
     @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0" class="sub-heading">Du hast bereits <span
-        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der
-        Tipps ausgefüllt!</p>
-      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
+      @if (totalPercentage() > 0) {
+        <p class="sub-heading">Du hast bereits <span
+          class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der
+          Tipps ausgefüllt!</p>
+      }
+      @if (totalPercentage() <= 0) {
+        <p class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
+      }
     } @else {
       <p class="sub-heading">Tipps werden geladen...</p>
     }
@@ -13,9 +17,13 @@
   @case ('admin') {
     <h1>Resultat Management</h1>
     @if (!isLoading()) {
-      <p *ngIf="totalPercentage() > 0" class="sub-heading">Es wurden bereits <span
-        class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der Resultate hochgeladen!</p>
-      <p *ngIf="totalPercentage() <= 0" class="sub-heading">Es wurde noch keine Resultate hochgeladen.</p>
+      @if (totalPercentage() > 0) {
+        <p class="sub-heading">Es wurden bereits <span
+          class="highlight">{{ totalPercentage() | number:'1.1-1' }}%</span> der Resultate hochgeladen!</p>
+      }
+      @if (totalPercentage() <= 0) {
+        <p class="sub-heading">Es wurde noch keine Resultate hochgeladen.</p>
+      }
     } @else {
       <p class="sub-heading">Resultate werden geladen...</p>
     }
@@ -23,40 +31,50 @@
 }
 
 <h3>Gruppenphase</h3>
-<wm-spinner *ngIf="isLoading()"/>
+@if (isLoading()) {
+  <wm-spinner/>
+}
 <div class="groups">
-  <div class="group" *ngFor="let group of defaultGroups()">
-    <h3 class="gradient-text">{{ group.name }}</h3>
-    <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
-      <div class="thumbnail-progress">
-        <div class="flag" *ngFor="let flag of group.thumbnail.slice(0, 4)">
-          <img [ngSrc]="flag" alt="Flag" fill/>
+  @for (group of defaultGroups(); track group.id) {
+    <div class="group">
+      <h3 class="gradient-text">{{ group.name }}</h3>
+      <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
+        <div class="thumbnail-progress">
+          @for (flag of group.thumbnail.slice(0, 4); track flag) {
+            <div class="flag">
+              <img [ngSrc]="flag" alt="Flag" fill/>
+            </div>
+          }
         </div>
       </div>
+      <p>{{ group.percentage | number:'1.0-2' }}%</p>
+      <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
     </div>
-    <p>{{ group.percentage | number:'1.0-2' }}%</p>
-    <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
-  </div>
+  }
 </div>
 
 <h3>Finalspiele</h3>
-<wm-spinner *ngIf="isLoading()"/>
+@if (isLoading()) {
+  <wm-spinner/>
+}
 <div class="groups">
-  <div class="group" *ngFor="let group of knockoutGroups()">
-    <h3>{{ group.name }}</h3>
-    <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
-      <div class="thumbnail-progress">
-        @let thumbnail = group.thumbnail.length > 0 ? group.thumbnail[0] : '';
-        @if (thumbnail.startsWith('icon{')) {
-          @let icon = thumbnail.split('{')[1];
-          @let color = thumbnail.split('{')[2];
-          <div class="material-symbols-rounded" [style]="{color: color}">{{ icon }}</div>
-        } @else {
-          <div class="custom-thumbnail">{{ thumbnail }}</div>
-        }
+  @for (group of knockoutGroups(); track group.id) {
+    <div class="group">
+      <h3>{{ group.name }}</h3>
+      <div class="thumbnail" [style]="{'--group-progress': group.percentage + '%'}">
+        <div class="thumbnail-progress">
+          @let thumbnail = group.thumbnail.length > 0 ? group.thumbnail[0] : '';
+          @if (thumbnail.startsWith('icon{')) {
+            @let icon = thumbnail.split('{')[1];
+            @let color = thumbnail.split('{')[2];
+            <div class="material-symbols-rounded" [style]="{color: color}">{{ icon }}</div>
+          } @else {
+            <div class="custom-thumbnail">{{ thumbnail }}</div>
+          }
+        </div>
       </div>
+      <p>{{ group.percentage | number:'1.0-2' }}%</p>
+      <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
     </div>
-    <p>{{ group.percentage | number:'1.0-2' }}%</p>
-    <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
-  </div>
+  }
 </div>

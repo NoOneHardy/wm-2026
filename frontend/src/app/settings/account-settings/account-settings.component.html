@@ -10,17 +10,29 @@
       <wm-form-field>
         <label for="username">Username</label>
         <input id="username" type="text" formControlName="username"/>
-        <span *ngIf="hasError(formGroup.get('username'), 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.get('username'), 'minlength')">Min. 5 Zeichen</span>
-        <span *ngIf="hasError(formGroup.get('username'), 'usernameAvailable')">Username wird bereits verwendet</span>
+        @if (hasError(formGroup.get('username'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
+        @if (hasError(formGroup.get('username'), 'minlength')) {
+          <span>Min. 5 Zeichen</span>
+        }
+        @if (hasError(formGroup.get('username'), 'usernameAvailable')) {
+          <span>Username wird bereits verwendet</span>
+        }
       </wm-form-field>
 
       <wm-form-field>
         <label for="email">Email</label>
         <input id="email" type="email" formControlName="email" (keyup.enter)="save()"/>
-        <span *ngIf="hasError(formGroup.get('email'), 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.get('email'), 'email')">Ungültiges Format</span>
-        <span *ngIf="hasError(formGroup.get('email'), 'emailAvailable')">E-Mail wird bereits verwendet</span>
+        @if (hasError(formGroup.get('email'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
+        @if (hasError(formGroup.get('email'), 'email')) {
+          <span>Ungültiges Format</span>
+        }
+        @if (hasError(formGroup.get('email'), 'emailAvailable')) {
+          <span>E-Mail wird bereits verwendet</span>
+        }
       </wm-form-field>
 
       <wm-button (clickEvent)="save()">Speichern</wm-button>
@@ -32,33 +44,47 @@
       <wm-form-field>
         <label for="current-password">Altes Passwort</label>
         <input id="current-password" type="password" formControlName="currentPassword"/>
-        <span *ngIf="hasError(pwGroup.get('currentPassword'), 'required')">Pflichtfeld</span>
+        @if (hasError(pwGroup.get('currentPassword'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
       </wm-form-field>
       <ng-container formGroupName="changed">
         <wm-form-field>
           <label for="password">Neues Passwort</label>
           <input id="password" type="password" formControlName="password"
-                 [class.ng-invalid]="showPasswordMatchError('password') || hasError(pwGroup.get('changed.password'))"/>
-          <span *ngIf="hasError(pwGroup.get('changed.password'), 'required')">Pflichtfeld</span>
-          <span *ngIf="hasError(pwGroup.get('changed.password'), 'minlength')">Min. 8 Zeichen</span>
-          <span
-            *ngIf="showPasswordMatchError('password')">Passwörter müssen übereinstimmen</span>
-        </wm-form-field>
-        <wm-form-field>
-          <label for="confirm-password">Password bestätigen</label>
-          <input id="confirm-password" type="password" formControlName="confirmPassword"
-                 (keyup.enter)="changePassword()"
-                 [class.ng-invalid]="showPasswordMatchError('confirmPassword') || hasError(pwGroup.get('changed.confirmPassword'))"/>
-          <span *ngIf="hasError(pwGroup.get('changed.confirmPassword'), 'required')">Pflichtfeld</span>
-          <span
-            *ngIf="hasError(pwGroup.get('changed.confirmPassword'), 'minlength')">Min. 8 Zeichen</span>
-          <span *ngIf="showPasswordMatchError('confirmPassword')">Passwörter müssen übereinstimmen</span>
-        </wm-form-field>
-      </ng-container>
-      <wm-button (clickEvent)="changePassword()">Passwort ändern</wm-button>
-    </ng-container>
-  } @else {
-    <h3>Es ist ein Fehler aufgetreten</h3>
-    <p>Bitte laden Sie die Seite neu.</p>
-  }
-}
+            [class.ng-invalid]="showPasswordMatchError('password') || hasError(pwGroup.get('changed.password'))"/>
+            @if (hasError(pwGroup.get('changed.password'), 'required')) {
+              <span>Pflichtfeld</span>
+            }
+            @if (hasError(pwGroup.get('changed.password'), 'minlength')) {
+              <span>Min. 8 Zeichen</span>
+            }
+            @if (showPasswordMatchError('password')) {
+              <span
+              >Passwörter müssen übereinstimmen</span>
+            }
+          </wm-form-field>
+          <wm-form-field>
+            <label for="confirm-password">Password bestätigen</label>
+            <input id="confirm-password" type="password" formControlName="confirmPassword"
+              (keyup.enter)="changePassword()"
+              [class.ng-invalid]="showPasswordMatchError('confirmPassword') || hasError(pwGroup.get('changed.confirmPassword'))"/>
+              @if (hasError(pwGroup.get('changed.confirmPassword'), 'required')) {
+                <span>Pflichtfeld</span>
+              }
+              @if (hasError(pwGroup.get('changed.confirmPassword'), 'minlength')) {
+                <span
+                >Min. 8 Zeichen</span>
+              }
+              @if (showPasswordMatchError('confirmPassword')) {
+                <span>Passwörter müssen übereinstimmen</span>
+              }
+            </wm-form-field>
+          </ng-container>
+          <wm-button (clickEvent)="changePassword()">Passwort ändern</wm-button>
+        </ng-container>
+      } @else {
+        <h3>Es ist ein Fehler aufgetreten</h3>
+        <p>Bitte laden Sie die Seite neu.</p>
+      }
+    }

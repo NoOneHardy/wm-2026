@@ -3,7 +3,7 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avatar-upload.component'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import {NgIf, NgOptimizedImage} from '@angular/common'
+import { NgOptimizedImage } from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {AdminService} from '../admin.service'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
@@ -18,7 +18,6 @@ import {LightTeam} from '../../model/team/light-team'
     AvatarUploadComponent,
     FormFieldComponent,
     ButtonComponent,
-    NgIf,
     NgOptimizedImage
   ],
   templateUrl: './team-management.component.html',

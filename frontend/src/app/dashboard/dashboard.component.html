@@ -42,14 +42,16 @@
       <wm-spinner/>
     } @else {
       <div class="leaderboard">
-        <wm-position *ngFor="let position of leaderboardPreview()"
-                     [ranking]="position"
-                     [class.-current]="position.id === user()?.id"
-                     [highlight]="position.id === user()?.id"/>
-        <ng-container *ngIf="leaderboardPreview().length === 0">
+        @for (position of leaderboardPreview(); track position) {
+          <wm-position
+            [ranking]="position"
+            [class.-current]="position.id === user()?.id"
+            [highlight]="position.id === user()?.id"/>
+        }
+        @if (leaderboardPreview().length === 0) {
           <p>Du wurdest noch nicht bestätigt.</p>
           <p>Kontaktiere einen Administrator um in das Ranking aufgenommen zu werden.</p>
-        </ng-container>
+        }
       </div>
     }
   </div>

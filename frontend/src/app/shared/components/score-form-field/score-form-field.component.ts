@@ -2,14 +2,13 @@ import {Component, input} from '@angular/core'
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
 import {FormFieldComponent} from '../form-field/form-field.component'
-import {NgIf} from '@angular/common'
+
 
 @Component({
   selector: 'wm-score-form-field',
   imports: [
     FormFieldComponent,
-    FormsModule,
-    NgIf
+    FormsModule
   ],
   providers: [{
     provide: NG_VALUE_ACCESSOR,

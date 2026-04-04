@@ -1,11 +1,10 @@
 import {Component, computed, input} from '@angular/core'
 import {Ranking} from '../../../model/leaderboard/ranking'
-import {NgIf, NgOptimizedImage} from '@angular/common'
+import { NgOptimizedImage } from '@angular/common'
 
 @Component({
   selector: 'wm-position',
   imports: [
-    NgIf,
     NgOptimizedImage
   ],
   templateUrl: './position.component.html',

@@ -1,7 +1,7 @@
 import {Component, computed, inject, OnInit, Signal} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectIsAdminLoading, selectUsers} from '../store/admin.feature'
-import {NgForOf, NgOptimizedImage} from '@angular/common'
+import { NgOptimizedImage } from '@angular/common'
 import {confirmUser, denyUser, loadUsers} from '../store/admin.actions'
 import {User} from '../../model/user/user'
 import {UserApplicationStatus} from '../../model/user/user-application-status'
@@ -12,7 +12,6 @@ import {SpinnerComponent} from '../../shared/components/spinner/spinner.componen
 @Component({
   selector: 'wm-user-management',
   imports: [
-    NgForOf,
     NgOptimizedImage,
     MatRipple,
     SpinnerComponent

@@ -8,21 +8,31 @@
     <div class="admin-form-grid">
       <div class="-full">
         <wm-avatar-upload buttonLabel="Flagge hochladen" formControlName="flag"/>
-        <p class="admin-error" *ngIf="hasError(formGroup.get('flag'), 'required')">Bitte eine Flagge auswählen</p>
+        @if (hasError(formGroup.get('flag'), 'required')) {
+          <p class="admin-error">Bitte eine Flagge auswählen</p>
+        }
       </div>
 
       <wm-form-field>
         <label for="team-name">Teamname</label>
         <input id="team-name" type="text" formControlName="name">
-        <span *ngIf="hasError(formGroup.get('name'), 'required')">Pflichtfeld</span>
+        @if (hasError(formGroup.get('name'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
       </wm-form-field>
 
       <wm-form-field>
         <label for="team-short-name">Kurzname</label>
         <input id="team-short-name" type="text" formControlName="shortName" maxlength="4" (keyup.enter)="submit()">
-        <span *ngIf="hasError(formGroup.get('shortName'), 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.get('shortName'), 'minlength')">Min. 2 Zeichen</span>
-        <span *ngIf="hasError(formGroup.get('shortName'), 'maxlength')">Max. 4 Zeichen</span>
+        @if (hasError(formGroup.get('shortName'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
+        @if (hasError(formGroup.get('shortName'), 'minlength')) {
+          <span>Min. 2 Zeichen</span>
+        }
+        @if (hasError(formGroup.get('shortName'), 'maxlength')) {
+          <span>Max. 4 Zeichen</span>
+        }
       </wm-form-field>
     </div>
 

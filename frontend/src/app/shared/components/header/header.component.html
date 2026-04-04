@@ -1,106 +1,111 @@
-<ng-container *ngIf="isVpL(); else mobileHeader">
+@if (isVpL()) {
   <header class="header">
     <nav class="nav">
       <a routerLink="/" class="home-link gradient-text">WM 2026</a>
-
-      <ng-container *ngIf="user()">
+      @if (user()) {
         <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
         <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
-      </ng-container>
-
-      <wm-nav-item *ngIf="!user()" displayName="Home" icon="home" route="/" exact/>
-
+      }
+      @if (!user()) {
+        <wm-nav-item displayName="Home" icon="home" route="/" exact/>
+      }
       <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
-
-      <ng-container *ngIf="isAdmin()">
+      @if (isAdmin()) {
         <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
         <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
         <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
         <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
         <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
-      </ng-container>
+      }
     </nav>
     <div class="user-actions">
-      <wm-user-menu *ngIf="user() as user" [user]="user"/>
-
-      <ng-container *ngIf="!user()">
+      @if (user(); as user) {
+        <wm-user-menu [user]="user"/>
+      }
+      @if (!user()) {
         <wm-user-button route="/login" secondary content="Anmelden"/>
         <wm-user-button route="/signup" content="Registrieren"/>
-      </ng-container>
+      }
     </div>
   </header>
-</ng-container>
-
-<ng-template #mobileHeader>
+} @else {
   <header class="mobile-header">
     <div class="nav-top">
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
-        <wm-notifications mobile *ngIf="user()"/>
+        @if (user()) {
+          <wm-notifications mobile/>
+        }
         <button type="button"
-                class="menu-button"
-                [class.-active]="isExpanded"
-                [attr.aria-expanded]="isExpanded"
-                aria-controls="mobile-menu"
-                [attr.aria-label]="isExpanded ? 'Navigation schliessen' : 'Navigation anzeigen'"
-                (click)="toggleMenu()">
-          <span *ngIf="isExpanded" class="material-symbols-rounded">close</span>
-          <span *ngIf="!isExpanded" class="material-symbols-rounded open">dehaze</span>
+          class="menu-button"
+          [class.-active]="isExpanded"
+          [attr.aria-expanded]="isExpanded"
+          aria-controls="mobile-menu"
+          [attr.aria-label]="isExpanded ? 'Navigation schliessen' : 'Navigation anzeigen'"
+          (click)="toggleMenu()">
+          @if (isExpanded) {
+            <span class="material-symbols-rounded">close</span>
+          }
+          @if (!isExpanded) {
+            <span class="material-symbols-rounded open">dehaze</span>
+          }
         </button>
       </div>
     </div>
-
-    <button *ngIf="isExpanded"
-            type="button"
-            class="menu-backdrop"
-            aria-label="Navigation schliessen"
-            (click)="closeMenu()"></button>
-
+    @if (isExpanded) {
+      <button
+        type="button"
+        class="menu-backdrop"
+        aria-label="Navigation schliessen"
+      (click)="closeMenu()"></button>
+    }
     <nav id="mobile-menu"
-         class="nav-bottom"
-         [class.-expanded]="isExpanded"
-         [@expandable]="isExpanded ? 'expanded' : 'collapsed'"
-         [attr.aria-hidden]="!isExpanded">
+      class="nav-bottom"
+      [class.-expanded]="isExpanded"
+      [@expandable]="isExpanded ? 'expanded' : 'collapsed'"
+      [attr.aria-hidden]="!isExpanded">
       <div class="menu-section">
         <p class="section-title">Navigation</p>
-
-        <ng-container *ngIf="user(); else guestNavigation">
+        @if (user()) {
           <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
           <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
           <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
-        </ng-container>
-
-        <ng-template #guestNavigation>
+        } @else {
           <wm-nav-item displayName="Home" icon="home" route="/" exact/>
           <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
-        </ng-template>
+        }
       </div>
-
-      <div class="menu-section" *ngIf="user() as user">
-        <p class="section-title">Konto</p>
-        <p class="user-name">{{ user.username }}</p>
-        <wm-nav-item displayName="Einstellungen" icon="manage_accounts" route="/settings"/>
-      </div>
-
-      <div class="menu-section" *ngIf="!user()">
-        <p class="section-title">Zugang</p>
-        <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
-        <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
-      </div>
-
-      <div class="menu-section" *ngIf="isAdmin()">
-        <p class="section-title">Verwaltung</p>
-        <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
-        <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
-        <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
-        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
-        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
-      </div>
-
-      <div class="menu-section user-actions" *ngIf="user()">
-        <p class="section-title">Aktionen</p>
-        <wm-nav-item displayName="Abmelden" icon="logout" [route]="null" (clickEvent)="logout()"/>
-      </div>
+      @if (user(); as user) {
+        <div class="menu-section">
+          <p class="section-title">Konto</p>
+          <p class="user-name">{{ user.username }}</p>
+          <wm-nav-item displayName="Einstellungen" icon="manage_accounts" route="/settings"/>
+        </div>
+      }
+      @if (!user()) {
+        <div class="menu-section">
+          <p class="section-title">Zugang</p>
+          <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
+          <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
+        </div>
+      }
+      @if (isAdmin()) {
+        <div class="menu-section">
+          <p class="section-title">Verwaltung</p>
+          <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
+          <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
+          <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
+          <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+          <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
+        </div>
+      }
+      @if (user()) {
+        <div class="menu-section user-actions">
+          <p class="section-title">Aktionen</p>
+          <wm-nav-item displayName="Abmelden" icon="logout" [route]="null" (clickEvent)="logout()"/>
+        </div>
+      }
     </nav>
   </header>
-</ng-template>
+}
+

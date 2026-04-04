@@ -14,9 +14,11 @@
   <wm-spinner/>
 } @else {
   <div class="stats">
-    <div class="stat" *ngFor="let stat of stats()">
-      <span>{{ stat.key }}</span>
-      <p class="gradient-text">{{ stat.value }}</p>
-    </div>
+    @for (stat of stats(); track stat) {
+      <div class="stat">
+        <span>{{ stat.key }}</span>
+        <p class="gradient-text">{{ stat.value }}</p>
+      </div>
+    }
   </div>
 }

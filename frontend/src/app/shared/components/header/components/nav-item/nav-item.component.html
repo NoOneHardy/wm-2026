@@ -1,24 +1,29 @@
-<a *ngIf="route() as route; else actionItem"
-   class="nav-item"
-   [class.gradient-text]="gradient()"
-   [routerLink]="route"
-   routerLinkActive="active"
-   [routerLinkActiveOptions]="{exact: exact()}"
-   [attr.aria-label]="displayName()"
-   matRipple
-   (click)="clickEvent.emit()">
-  <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>
-  <span class="display-name">{{ displayName() }}</span>
-</a>
-
-<ng-template #actionItem>
+@if (route(); as route) {
+  <a
+    class="nav-item"
+    [class.gradient-text]="gradient()"
+    [routerLink]="route"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{exact: exact()}"
+    [attr.aria-label]="displayName()"
+    matRipple
+    (click)="clickEvent.emit()">
+    @if (icon(); as icon) {
+      <span class="material-symbols-rounded icon">{{ icon }}</span>
+    }
+    <span class="display-name">{{ displayName() }}</span>
+  </a>
+} @else {
   <button type="button"
-          class="nav-item"
-          [class.gradient-text]="gradient()"
-          [attr.aria-label]="displayName()"
-          matRipple
-          (click)="clickEvent.emit()">
-    <span *ngIf="icon() as icon" class="material-symbols-rounded icon">{{ icon }}</span>
+    class="nav-item"
+    [class.gradient-text]="gradient()"
+    [attr.aria-label]="displayName()"
+    matRipple
+    (click)="clickEvent.emit()">
+    @if (icon(); as icon) {
+      <span class="material-symbols-rounded icon">{{ icon }}</span>
+    }
     <span class="display-name">{{ displayName() }}</span>
   </button>
-</ng-template>
+}
+

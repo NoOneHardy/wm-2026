@@ -14,14 +14,20 @@
       <wm-form-field>
         <label for="group-name">Name</label>
         <input id="group-name" type="text" formControlName="name">
-        <span *ngIf="hasError(formGroup.get('name'), 'required')">Pflichtfeld</span>
+        @if (hasError(formGroup.get('name'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
       </wm-form-field>
 
       <wm-form-field>
         <label for="group-order">Reihenfolge</label>
         <input id="group-order" type="number" formControlName="order" min="1" (keyup.enter)="submit()">
-        <span *ngIf="hasError(formGroup.get('order'), 'required')">Pflichtfeld</span>
-        <span *ngIf="hasError(formGroup.get('order'), 'min')">Muss grösser als 0 sein</span>
+        @if (hasError(formGroup.get('order'), 'required')) {
+          <span>Pflichtfeld</span>
+        }
+        @if (hasError(formGroup.get('order'), 'min')) {
+          <span>Muss grösser als 0 sein</span>
+        }
       </wm-form-field>
 
       <label class="admin-checkbox -full">

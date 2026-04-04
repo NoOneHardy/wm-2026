@@ -7,7 +7,7 @@ import {UpdateUser, User} from '../../model/user/user'
 import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {UserValidatorService} from '../../user-management/signup/validators/user-validator.service'
-import {NgIf} from '@angular/common'
+
 import {hasError} from '../../shared/helper/form-field-error'
 import {updateUser, uploadAvatar} from '../../user-management/store/user.actions'
 import {passwordMatch} from '../../user-management/signup/validators/password-validator'
@@ -18,8 +18,7 @@ import {passwordMatch} from '../../user-management/signup/validators/password-va
     AvatarUploadComponent,
     ReactiveFormsModule,
     FormFieldComponent,
-    ButtonComponent,
-    NgIf
+    ButtonComponent
   ],
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.css'

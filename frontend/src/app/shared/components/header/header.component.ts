@@ -5,7 +5,7 @@ import {EventType, Router, RouterLink} from '@angular/router'
 import {UserButtonComponent} from './components/user-button/user-button.component'
 import {Store} from '@ngrx/store'
 import {selectIsAdmin, selectUser} from '../../../user-management/store/user.feature'
-import {NgIf} from '@angular/common'
+
 import {logout} from '../../../user-management/store/user.actions'
 import {ViewportService} from '../../services/viewport/viewport.service'
 import {animate, state, style, transition, trigger} from '@angular/animations'
@@ -22,7 +22,6 @@ import {NotificationsComponent} from './components/notifications/notifications.c
     UserMenuComponent,
     RouterLink,
     UserButtonComponent,
-    NgIf,
     NotificationsComponent
   ],
   templateUrl: './header.component.html',

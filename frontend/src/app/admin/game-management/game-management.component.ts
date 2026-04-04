@@ -16,6 +16,7 @@ import {MatInput} from '@angular/material/input'
 import {MatDatepickerModule} from '@angular/material/datepicker'
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete'
 import {MatIcon} from '@angular/material/icon'
+import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker'
 
 @Component({
   selector: 'wm-game-management',
@@ -30,7 +31,10 @@ import {MatIcon} from '@angular/material/icon'
     MatOption,
     MatAutocompleteTrigger,
     MatAutocomplete,
-    MatIcon
+    MatIcon,
+    MatTimepickerInput,
+    MatTimepickerToggle,
+    MatTimepicker
   ],
   templateUrl: './game-management.component.html',
   styleUrl: './game-management.component.css'
@@ -58,7 +62,11 @@ export class GameManagementComponent implements OnInit {
   filteredGuestTeams = computed(() => this.filterOptions(this.teams(), this.teamGuestSearch(), team => this.teamDisplayFn(team)))
 
   formGroup = new FormGroup({
-    timestamp: new FormControl<string>('', {
+    date: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required]
+    }),
+    time: new FormControl<string>('', {
       nonNullable: true,
       validators: [Validators.required]
     }),
@@ -106,7 +114,7 @@ export class GameManagementComponent implements OnInit {
 
     this.isSaving.set(true)
     this.adminService.createGame({
-      timestamp: value.timestamp,
+      timestamp: this.buildTimestamp(new Date(value.date), new Date(value.time)),
       group: group.id,
       teamHome: teamHome.id,
       teamGuest: teamGuest.id
@@ -199,6 +207,11 @@ export class GameManagementComponent implements OnInit {
       if (!teamHome || !teamGuest) return null
       return teamHome === teamGuest ? {sameTeams: true} : null
     }
+  }
+
+  private buildTimestamp(date: Date, time: Date): string {
+    date.setHours(time.getHours() + 2, time.getMinutes())
+    return date.toISOString()
   }
 
   protected readonly hasError = hasError

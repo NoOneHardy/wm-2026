@@ -53,7 +53,7 @@ describe('LoginComponent', () => {
 
   it('should call login on click', () => {
     spyOn(component, 'login')
-    fixture.nativeElement.querySelector('button').click()
+    fixture.nativeElement.querySelector('wm-button button').click()
     fixture.detectChanges()
     expect(component.login).toHaveBeenCalled()
   })

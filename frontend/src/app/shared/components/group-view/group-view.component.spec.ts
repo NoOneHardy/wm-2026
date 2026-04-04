@@ -98,10 +98,10 @@ describe('GroupViewComponent', () => {
 
     fixture = TestBed.createComponent(GroupViewComponent)
     component = fixture.componentInstance
-    fixture.detectChanges()
     mockStore = TestBed.inject(MockStore)
     mockStore.overrideSelector(selectActiveGroup, mockGroup)
     mockStore.refreshState()
+    fixture.detectChanges()
   })
 
   it('should create', () => {

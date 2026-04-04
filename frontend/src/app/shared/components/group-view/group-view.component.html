@@ -20,13 +20,13 @@
             @if (isSaving()) {
               <wm-spinner class="is-saving"/>
             }
-            <span>Zuletzt gespeichert am {{ lastSave | date:'dd.MM.YYYY - HH:mm' }}</span>
+            <span>Zuletzt gespeichert am {{ lastSave | date:'dd.MM.yyyy - HH:mm' }}</span>
           </p>
         }
       }
       @case ('admin') {
         @if (group.lastSavedAt; as lastSave) {
-          <p class="additional-info">Zuletzt geändert am {{ lastSave | date:'dd.MM.YYYY - HH:mm' }}</p>
+          <p class="additional-info">Zuletzt geändert am {{ lastSave | date:'dd.MM.yyyy - HH:mm' }}</p>
         }
       }
     }

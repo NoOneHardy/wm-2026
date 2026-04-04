@@ -9,18 +9,18 @@
   --wm-select-padding-bottom: calc(1em / 3);
   --wm-select-label-size: calc(var(--wm-form-field-font-size) * 1.125);
 
-  --mdc-filled-text-field-active-indicator-color: transparent;
-  --mdc-filled-text-field-active-indicator-height: 0;
-  --mdc-filled-text-field-container-color: var(--wm-color-neutral-100);
-  --mdc-filled-text-field-disabled-container-color: var(--wm-color-neutral-100);
-  --mdc-filled-text-field-focus-active-indicator-color: transparent;
-  --mdc-filled-text-field-focus-active-indicator-height: 0;
-  --mdc-filled-text-field-focus-label-text-color: var(--wm-color-neutral-400);
-  --mdc-filled-text-field-hover-active-indicator-color: transparent;
-  --mdc-filled-text-field-hover-active-indicator-height: 0;
-  --mdc-filled-text-field-hover-label-text-color: var(--wm-color-neutral-400);
-  --mdc-filled-text-field-input-text-color: var(--wm-color-neutral-500);
-  --mdc-filled-text-field-label-text-color: var(--wm-color-neutral-400);
+  --mat-form-field-filled-active-indicator-color: transparent;
+  --mat-form-field-filled-active-indicator-height: 0;
+  --mat-form-field-filled-container-color: var(--wm-color-neutral-100);
+  --mat-form-field-filled-disabled-container-color: var(--wm-color-neutral-100);
+  --mat-form-field-filled-focus-active-indicator-color: transparent;
+  --mat-form-field-filled-focus-active-indicator-height: 0;
+  --mat-form-field-filled-focus-label-text-color: var(--wm-color-neutral-400);
+  --mat-form-field-filled-hover-active-indicator-color: transparent;
+  --mat-form-field-filled-hover-active-indicator-height: 0;
+  --mat-form-field-filled-hover-label-text-color: var(--wm-color-neutral-400);
+  --mat-form-field-filled-input-text-color: var(--wm-color-neutral-500);
+  --mat-form-field-filled-label-text-color: var(--wm-color-neutral-400);
 
   --mat-form-field-container-height: var(--wm-select-height);
   --mat-form-field-container-text-font: 'Montserrat';
@@ -165,11 +165,11 @@
 }
 
 :host ::ng-deep .wm-select-field.mat-mdc-form-field-invalid {
-  --mdc-filled-text-field-container-color: var(--wm-color-red-100);
-  --mdc-filled-text-field-disabled-container-color: var(--wm-color-red-100);
-  --mdc-filled-text-field-focus-label-text-color: var(--wm-color-red-400);
-  --mdc-filled-text-field-hover-label-text-color: var(--wm-color-red-400);
-  --mdc-filled-text-field-label-text-color: var(--wm-color-red-400);
+  --mat-form-field-filled-container-color: var(--wm-color-red-100);
+  --mat-form-field-filled-disabled-container-color: var(--wm-color-red-100);
+  --mat-form-field-filled-focus-label-text-color: var(--wm-color-red-400);
+  --mat-form-field-filled-hover-label-text-color: var(--wm-color-red-400);
+  --mat-form-field-filled-label-text-color: var(--wm-color-red-400);
   --mat-select-arrow-color: var(--wm-color-red-600);
   --mat-select-enabled-trigger-text-color: var(--wm-color-red-600);
   --mat-select-focused-arrow-color: var(--wm-color-red-600);

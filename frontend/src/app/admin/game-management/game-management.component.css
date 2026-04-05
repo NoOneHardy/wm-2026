@@ -9,37 +9,6 @@
   --wm-select-padding-bottom: calc(1em / 3);
   --wm-select-label-size: calc(var(--wm-form-field-font-size) * 1.125);
 
-  --mat-form-field-filled-active-indicator-color: transparent;
-  --mat-form-field-filled-active-indicator-height: 0;
-  --mat-form-field-filled-container-color: var(--wm-color-neutral-100);
-  --mat-form-field-filled-disabled-container-color: var(--wm-color-neutral-100);
-  --mat-form-field-filled-focus-active-indicator-color: transparent;
-  --mat-form-field-filled-focus-active-indicator-height: 0;
-  --mat-form-field-filled-focus-label-text-color: var(--wm-color-neutral-400);
-  --mat-form-field-filled-hover-active-indicator-color: transparent;
-  --mat-form-field-filled-hover-active-indicator-height: 0;
-  --mat-form-field-filled-hover-label-text-color: var(--wm-color-neutral-400);
-  --mat-form-field-filled-input-text-color: var(--wm-color-neutral-500);
-  --mat-form-field-filled-label-text-color: var(--wm-color-neutral-400);
-
-  --mat-form-field-container-height: var(--wm-select-height);
-  --mat-form-field-container-text-font: 'Montserrat';
-  --mat-form-field-container-text-line-height: 1.25rem;
-  --mat-form-field-container-text-size: var(--wm-select-label-size);
-  --mat-form-field-container-text-weight: 500;
-  --mat-form-field-container-vertical-padding: 0;
-  --mat-form-field-filled-with-label-container-padding-bottom: 0;
-  --mat-form-field-filled-with-label-container-padding-top: 0;
-  --mat-select-arrow-color: var(--wm-color-neutral-400);
-  --mat-select-disabled-trigger-text-color: var(--wm-color-neutral-400);
-  --mat-select-enabled-trigger-text-color: var(--wm-color-neutral-500);
-  --mat-select-focused-arrow-color: var(--wm-color-neutral-400);
-  --mat-select-placeholder-text-color: transparent;
-  --mat-select-trigger-text-font: 'Montserrat';
-  --mat-select-trigger-text-line-height: 1.25rem;
-  --mat-select-trigger-text-size: var(--wm-select-label-size);
-  --mat-select-trigger-text-weight: 500;
-
   width: 100%;
   margin-bottom: calc(var(--wm-form-field-font-size) * 1.5 / 1.125);
 }

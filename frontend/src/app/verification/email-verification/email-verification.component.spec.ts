@@ -1,6 +1,6 @@
 import {provideMockStore} from '@ngrx/store/testing'
 import {ComponentFixture, TestBed} from '@angular/core/testing'
-import {EmailVerificationComponent} from './email-verification.component'
+import EmailVerificationComponent from './email-verification.component'
 import {verifyEmail} from '../../user-management/store/user.actions'
 import {ActivatedRoute} from '@angular/router'
 

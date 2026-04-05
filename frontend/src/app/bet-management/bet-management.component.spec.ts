@@ -2,7 +2,7 @@
 
 import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {BetManagementComponent} from './bet-management.component'
+import BetManagementComponent from './bet-management.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectGroups} from '../shared/store/tournament.feature'
 import {provideRouter} from '@angular/router'

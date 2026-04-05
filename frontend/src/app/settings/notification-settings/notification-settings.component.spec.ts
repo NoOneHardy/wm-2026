@@ -1,6 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
-
-import {NotificationSettingsComponent} from './notification-settings.component'
+import NotificationSettingsComponent from './notification-settings.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectNotificationPreferences} from '../../user-management/store/user.feature'
 import {NotificationPreference} from '../../user-management/model/notification-preference'

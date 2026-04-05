@@ -2,23 +2,40 @@ import {Component, inject, Signal} from '@angular/core'
 import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avatar-upload.component'
 import {Store} from '@ngrx/store'
 import {selectIsUserLoading, selectUser} from '../../user-management/store/user.feature'
-import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms'
 import {UpdateUser, User} from '../../model/user/user'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {UserValidatorService} from '../../user-management/signup/validators/user-validator.service'
 
 import {hasError} from '../../shared/helper/form-field-error'
 import {updateUser, uploadAvatar} from '../../user-management/store/user.actions'
 import {passwordMatch} from '../../user-management/signup/validators/password-validator'
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatInput} from '@angular/material/input'
+import {MatProgressSpinner} from '@angular/material/progress-spinner'
+import {ErrorStateMatcher} from '@angular/material/core'
+import {PasswordIconDirective} from '../../shared/directives/password-icon.directive'
+import {MatIcon} from '@angular/material/icon'
 
 @Component({
   selector: 'wm-account-settings',
   imports: [
     AvatarUploadComponent,
     ReactiveFormsModule,
-    FormFieldComponent,
-    ButtonComponent
+    ButtonComponent,
+    MatFormFieldModule,
+    MatInput,
+    MatProgressSpinner,
+    PasswordIconDirective,
+    MatIcon
   ],
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.css'
@@ -99,7 +116,19 @@ export class AccountSettingsComponent {
     }))
   }
 
-  showPasswordMatchError(formField: string): boolean {
+  passwordErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState: (control: AbstractControl | null, _: FormGroupDirective | NgForm | null): boolean => {
+      return !!control && (hasError(control) || this.showPasswordMatchError('password'))
+    }
+  }
+
+  confirmPasswordErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState: (control: AbstractControl | null, _: FormGroupDirective | NgForm | null): boolean => {
+      return !!control && (hasError(control) || this.showPasswordMatchError('confirmPassword'))
+    }
+  }
+
+  showPasswordMatchError(formField: 'password' | 'confirmPassword'): boolean {
     const changedGroup = this.pwGroup.get('changed')
     if (!changedGroup) return false
 

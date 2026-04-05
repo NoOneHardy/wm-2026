@@ -5,9 +5,10 @@ import {requestPasswordResetLink} from '../../user-management/store/user.actions
 import {UserManagementPanelComponent} from '../../user-management/user-management-panel/user-management-panel.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {RouterLink} from '@angular/router'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {hasError} from '../../shared/helper/form-field-error'
 import {selectIsUserLoading} from '../../user-management/store/user.feature'
+import {MatInput} from '@angular/material/input'
+import {MatFormFieldModule} from '@angular/material/form-field'
 
 enum STATE {
   FORM,
@@ -21,7 +22,8 @@ enum STATE {
     ButtonComponent,
     RouterLink,
     ReactiveFormsModule,
-    FormFieldComponent
+    MatFormFieldModule,
+    MatInput
   ],
   templateUrl: './request-password-reset.component.html',
   styleUrl: './request-password-reset.component.css'

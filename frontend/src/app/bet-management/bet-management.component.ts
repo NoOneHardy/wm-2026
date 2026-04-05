@@ -13,7 +13,7 @@ import {loadGroup} from '../shared/store/tournament.actions'
   ],
   templateUrl: './bet-management.component.html'
 })
-export class BetManagementComponent implements OnInit {
+export default class BetManagementComponent implements OnInit {
   private activatedRoute = inject(ActivatedRoute)
   private store = inject(Store)
 

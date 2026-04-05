@@ -12,7 +12,7 @@ import {ActivatedRoute} from '@angular/router'
   templateUrl: './email-verification.component.html',
   styleUrl: './email-verification.component.css'
 })
-export class EmailVerificationComponent implements OnInit {
+export default class EmailVerificationComponent implements OnInit {
   private store = inject(Store)
   private activatedRoute = inject(ActivatedRoute)
 

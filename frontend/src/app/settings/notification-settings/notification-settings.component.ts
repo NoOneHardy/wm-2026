@@ -22,7 +22,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
   templateUrl: './notification-settings.component.html',
   styleUrl: './notification-settings.component.css'
 })
-export class NotificationSettingsComponent implements OnInit {
+export default class NotificationSettingsComponent implements OnInit {
   private store = inject(Store)
 
   notifications: Signal<NotificationPreference[]> = this.store.selectSignal(selectNotificationPreferences)

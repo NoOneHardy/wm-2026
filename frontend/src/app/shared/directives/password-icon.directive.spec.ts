@@ -4,7 +4,6 @@ import {By} from '@angular/platform-browser'
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatIcon} from '@angular/material/icon'
 import {MatInput, MatSuffix} from '@angular/material/input'
-import {provideNoopAnimations} from '@angular/platform-browser/animations'
 
 import {PasswordIconDirective} from './password-icon.directive'
 
@@ -23,7 +22,8 @@ import {PasswordIconDirective} from './password-icon.directive'
     </mat-form-field>
   `
 })
-class HostComponent {}
+class HostComponent {
+}
 
 describe('PasswordIconDirective', () => {
   let fixture: ComponentFixture<HostComponent>
@@ -31,7 +31,7 @@ describe('PasswordIconDirective', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [HostComponent],
-      providers: [provideNoopAnimations()]
+      providers: []
     }).compileComponents()
 
     fixture = TestBed.createComponent(HostComponent)
@@ -54,7 +54,7 @@ describe('PasswordIconDirective', () => {
     const directive = getDirective()
 
     expect(directive).toBeTruthy()
-    expect(directive.input).toBe(getInput())
+    expect(directive['input']()).toBe(getInput())
     expect(directive.isVisible()).toBeFalse()
     expect(getInput().type).toBe('password')
     expect(getIcon().textContent?.trim()).toBe('visibility')

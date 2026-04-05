@@ -1,13 +1,13 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
   <wm-user-management-panel heading="Anmelden">
     <ng-container wm-content>
-      <mat-form-field class="full-width">
+      <mat-form-field>
         <mat-label>Benutzername</mat-label>
         <input matInput formControlName="username">
         <mat-error>Pflichtfeld</mat-error>
       </mat-form-field>
 
-      <mat-form-field class="full-width">
+      <mat-form-field>
         <mat-label>Passwort</mat-label>
         <input matInput formControlName="password" type="password">
         <mat-icon matSuffix wmPasswordIcon/>

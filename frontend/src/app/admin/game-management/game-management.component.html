@@ -34,6 +34,7 @@
           <input matInput formControlName="time" [matTimepicker]="timePicker">
           <mat-timepicker-toggle matIconSuffix [for]="timePicker"/>
           <mat-timepicker #timePicker/>
+          <mat-error>Pflichtfeld</mat-error>
         </mat-form-field>
 
         <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__inner">
@@ -77,7 +78,7 @@
         </div>
 
         <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
-          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
+          <mat-form-field subscriptSizing="fixed" class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
             <mat-label>Heimteam</mat-label>
             <input #teamHomeSearchInput
                    type="text"
@@ -85,7 +86,7 @@
                    formControlName="teamHome"
                    [matAutocomplete]="autoTeamHome"
                    (input)="filterHomeTeams()"
-                   (focus)="filterHomeTeams()"
+                   (focus)="resetHomeTeamSearch()"
                    (blur)="resetHomeTeamSearch()">
 
             <mat-icon matPrefix>search</mat-icon>
@@ -126,19 +127,27 @@
         </div>
 
         <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
-          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
+          <mat-form-field subscriptSizing="fixed" class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
             <mat-label>Gastteam</mat-label>
             <input #teamGuestSearchInput
                    type="text"
                    matInput
                    formControlName="teamGuest"
                    [matAutocomplete]="autoTeamGuest"
+                   [errorStateMatcher]="guestTeamErrorStateMatcher"
                    (input)="filterGuestTeams()"
-                   (focus)="filterGuestTeams()"
+                   (focus)="resetGuestTeamSearch()"
                    (blur)="resetGuestTeamSearch()">
 
             <mat-icon matPrefix>search</mat-icon>
-            <mat-error>Pflichtfeld</mat-error>
+
+            @if (hasError(formGroup.get('teamGuest'), 'required')) {
+              <mat-error>Pflichtfeld</mat-error>
+            }
+
+            @if (hasError(formGroup, 'sameTeams') && !hasError(formGroup.get('teamGuest'))) {
+              <mat-error>Gastteam muss sich vom Heimteam unterscheiden</mat-error>
+            }
 
             <mat-autocomplete
               requireSelection

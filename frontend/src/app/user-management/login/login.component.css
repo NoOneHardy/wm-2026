@@ -1,5 +1,7 @@
-mat-form-field {
-  width: 18em;
+wm-user-management-panel {
+  display: block;
+  margin: 0 auto;
+  max-width: 24em;
 }
 
 span.login-error {

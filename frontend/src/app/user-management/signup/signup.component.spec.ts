@@ -4,7 +4,7 @@ import {provideHttpClient} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
 import {EffectRef, Injectable} from '@angular/core'
 import {of} from 'rxjs'
-import {AbstractControl, AsyncValidatorFn} from '@angular/forms'
+import {AbstractControl, AsyncValidatorFn, FormControl} from '@angular/forms'
 import {UserValidatorService} from './validators/user-validator.service'
 
 
@@ -164,6 +164,27 @@ describe('SignupComponent', () => {
     passwordControl.setValue('password')
     confirmControl.setValue('password')
     expect(passwordGroup.valid).toBeTrue()
+  })
+
+  it('should surface passwordMatch on the password field', () => {
+    const passwordGroup = component.formGroup.get('passwords')
+    const passwordControl = passwordGroup?.get('password')
+    const confirmControl = passwordGroup?.get('confirmPassword')
+
+    expect(passwordGroup).toBeTruthy()
+    expect(passwordControl).toBeTruthy()
+    expect(confirmControl).toBeTruthy()
+    if (!passwordGroup || !passwordControl || !confirmControl) return
+
+    passwordControl.setValue('password1')
+    confirmControl.setValue('password2')
+    passwordGroup.markAsTouched()
+    passwordControl.markAsTouched()
+    confirmControl.markAsTouched()
+
+    expect(component.showPasswordMatchError('password')).toBeTrue()
+    expect(component.showPasswordMatchError('confirmPassword')).toBeTrue()
+    expect(component.passwordErrorStateMatcher.isErrorState(passwordControl as FormControl, null)).toBeTrue()
   })
 
   it('should dispatch user create action', () => {

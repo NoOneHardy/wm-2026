@@ -49,8 +49,7 @@ export class GroupManagementComponent implements OnInit {
       nonNullable: true
     }),
     thumbnail: new FormControl<string>('', {
-      nonNullable: true,
-      validators: [Validators.maxLength(3)]
+      nonNullable: true
     })
   })
 

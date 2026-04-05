@@ -1,6 +1,5 @@
 import {Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 
 import {hasError} from '../../shared/helper/form-field-error'
@@ -9,13 +8,16 @@ import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 import {GroupOption} from '../model/group-option'
 import {finalize} from 'rxjs'
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatInput} from '@angular/material/input'
 
 @Component({
   selector: 'wm-group-management',
   imports: [
     ReactiveFormsModule,
-    FormFieldComponent,
-    ButtonComponent
+    ButtonComponent,
+    MatFormFieldModule,
+    MatInput,
   ],
   templateUrl: './group-management.component.html',
   styleUrl: './group-management.component.css'
@@ -47,7 +49,8 @@ export class GroupManagementComponent implements OnInit {
       nonNullable: true
     }),
     thumbnail: new FormControl<string>('', {
-      nonNullable: true
+      nonNullable: true,
+      validators: [Validators.maxLength(3)]
     })
   })
 

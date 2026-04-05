@@ -11,24 +11,22 @@
     </div>
 
     <div class="admin-form-grid">
-      <wm-form-field>
-        <label for="group-name">Name</label>
-        <input id="group-name" type="text" formControlName="name">
-        @if (hasError(formGroup.get('name'), 'required')) {
-          <span>Pflichtfeld</span>
-        }
-      </wm-form-field>
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+        <mat-error>Pflichtfeld</mat-error>
+      </mat-form-field>
 
-      <wm-form-field>
-        <label for="group-order">Reihenfolge</label>
-        <input id="group-order" type="number" formControlName="order" min="1" (keyup.enter)="submit()">
+      <mat-form-field>
+        <mat-label>Reihenfolge</mat-label>
+        <input matInput type="number" formControlName="order" min="0" (keyup.enter)="submit()">
         @if (hasError(formGroup.get('order'), 'required')) {
-          <span>Pflichtfeld</span>
+          <mat-error>Pflichtfeld</mat-error>
         }
         @if (hasError(formGroup.get('order'), 'min')) {
-          <span>Muss grösser als 0 sein</span>
+          <mat-error>Muss grösser als 0 sein</mat-error>
         }
-      </wm-form-field>
+      </mat-form-field>
 
       <label class="admin-checkbox -full">
         <input type="checkbox" formControlName="isKnockout">
@@ -39,13 +37,12 @@
       </label>
 
       @if (formGroup.controls.isKnockout.value) {
-        <div class="-full">
-          <wm-form-field>
-            <label for="group-thumbnail">Thumbnail-URL</label>
-            <input id="group-thumbnail" type="url" formControlName="thumbnail" (keyup.enter)="submit()">
-          </wm-form-field>
-          <p class="admin-hint">Optional: Wird als Vorschaubild für K.O.-Runden genutzt.</p>
-        </div>
+        <mat-form-field class="full-width">
+          <mat-label>Thumbnail</mat-label>
+          <input matInput formControlName="thumbnail" (keyup.enter)="submit()">
+          <mat-hint>Optional: Wird als Vorschaubild für K.O.-Runden genutzt.</mat-hint>
+          <mat-error>Das Thumbnail darf maximal 3 Zeichen enthalten.</mat-error>
+        </mat-form-field>
       }
     </div>
 

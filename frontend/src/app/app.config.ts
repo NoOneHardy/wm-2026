@@ -14,7 +14,6 @@ import {adminFeature} from './admin/store/admin.feature'
 import {homeFeature} from './home/store/home.feature'
 import {HomeEffects} from './home/store/home.effects'
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
-import {provideAnimations} from '@angular/platform-browser/animations'
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async'
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field'
 
@@ -28,7 +27,6 @@ export const appConfig: ApplicationConfig = {
     provideState(tournamentFeature),
     provideState(homeFeature),
     provideState(adminFeature),
-    provideAnimations(),
     provideNativeDateAdapter(),
     provideEffects(UserEffects, TournamentEffects, HomeEffects, AdminEffects),
     provideAnimationsAsync(),

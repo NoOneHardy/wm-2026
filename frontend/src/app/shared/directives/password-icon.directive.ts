@@ -5,7 +5,6 @@ import {AfterViewInit, Directive, effect, ElementRef, inject, signal} from '@ang
   standalone: true,
   host: {
     '(pointerup)': 'toggleVisibility()',
-    tabindex: '0',
     '[style.cursor]': '"pointer"'
   },
 })

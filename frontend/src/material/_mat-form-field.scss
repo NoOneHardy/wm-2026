@@ -2,6 +2,8 @@
 @use './m3-theme';
 
 @mixin base-overrides() {
+  $iconColor: mat.get-theme-color(m3-theme.$light-theme, neutral, 60);
+
   @include mat.form-field-overrides((
     filled-container-shape: .25em,
     filled-container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 94),
@@ -11,8 +13,8 @@
     filled-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
     filled-focus-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
     filled-input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 40),
-    leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
-    trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    leading-icon-color: $iconColor,
+    trailing-icon-color: $iconColor,
     disabled-leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
     disabled-trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
     hover-state-layer-opacity: 0.05,
@@ -42,5 +44,11 @@
 
   mat-form-field.full-width {
     width: 100%;
+  }
+
+  mat-form-field mat-spinner {
+    @include mat.progress-spinner-overrides((
+      active-indicator-color: $iconColor
+    ));
   }
 }

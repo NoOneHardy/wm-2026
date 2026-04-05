@@ -16,6 +16,7 @@ import {HomeEffects} from './home/store/home.effects'
 import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
 import {provideAnimations} from '@angular/platform-browser/animations'
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async'
+import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field'
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -34,6 +35,12 @@ export const appConfig: ApplicationConfig = {
     {
       provide: MAT_DATE_LOCALE,
       useValue: 'de-CH'
+    },
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: {
+        subscriptSizing: 'dynamic'
+      }
     }
   ]
 }

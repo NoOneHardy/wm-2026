@@ -1,7 +1,6 @@
 import {Component, inject, Signal} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
+import {FormBuilder, FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators} from '@angular/forms'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 
 import {hasError} from '../../shared/helper/form-field-error'
@@ -10,14 +9,24 @@ import {passwordMatch} from './validators/password-validator'
 import {Store} from '@ngrx/store'
 import {createUser} from '../store/user.actions'
 import {selectIsUserLoading} from '../store/user.feature'
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {ErrorStateMatcher} from '@angular/material/core'
+import {MatInput} from '@angular/material/input'
+import {MatProgressSpinner} from '@angular/material/progress-spinner'
+import {MatIcon} from '@angular/material/icon'
+import {PasswordIconDirective} from '../../shared/directives/password-icon.directive'
 
 @Component({
   selector: 'wm-signup',
   imports: [
     UserManagementPanelComponent,
     ReactiveFormsModule,
-    FormFieldComponent,
-    ButtonComponent
+    ButtonComponent,
+    MatFormFieldModule,
+    MatInput,
+    MatProgressSpinner,
+    MatIcon,
+    PasswordIconDirective
   ],
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.css'
@@ -83,6 +92,18 @@ export class SignupComponent {
     })
   })
 
+  passwordErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState: (control: FormControl | null, _: FormGroupDirective | NgForm | null): boolean => {
+      return !!control && (hasError(control) || this.showPasswordMatchError('password'))
+    }
+  }
+
+  confirmPasswordErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState: (control: FormControl | null, _: FormGroupDirective | NgForm | null): boolean => {
+      return !!control && (hasError(control) || this.showPasswordMatchError('confirmPassword'))
+    }
+  }
+
   submit(): void {
     this.formGroup.markAllAsTouched()
     if (this.formGroup.invalid) return
@@ -94,6 +115,13 @@ export class SignupComponent {
         password: value.passwords.password
       }
     }))
+  }
+
+  showPasswordMatchError(formField: 'password' | 'confirmPassword'): boolean {
+    const passwordGroup = this.formGroup.get('passwords')
+    if (!passwordGroup) return false
+
+    return hasError(passwordGroup, 'passwordMatch') && !hasError(passwordGroup.get(formField))
   }
 
   protected readonly hasError = hasError

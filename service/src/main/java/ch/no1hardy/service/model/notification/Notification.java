@@ -3,6 +3,8 @@ package ch.no1hardy.service.model.notification;
 import ch.no1hardy.service.model.BaseEntity;
 import ch.no1hardy.service.model.user.User;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import lombok.*;
 
@@ -31,6 +33,7 @@ public class Notification extends BaseEntity {
     /**
      * The type of the notification
      */
+    @Enumerated(EnumType.STRING)
     private NotificationType type;
 
     /**

@@ -112,7 +112,7 @@ export class BetFormComponent implements ControlValueAccessor {
         }
         this.onChange(this.value)
       }
-    }, {allowSignalWrites: true})
+    })
   }
 
   writeValue(bet: {

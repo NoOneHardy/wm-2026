@@ -1,4 +1,4 @@
-import {Directive, effect, ElementRef, inject, signal} from '@angular/core'
+import {AfterViewInit, Directive, effect, ElementRef, inject, signal} from '@angular/core'
 import {MatFormField} from '@angular/material/input'
 
 @Directive({
@@ -10,9 +10,11 @@ import {MatFormField} from '@angular/material/input'
     '[style.cursor]': '"pointer"'
   },
 })
-export class PasswordIconDirective {
-  private matFormField = inject(MatFormField)
-  private elRef: ElementRef<HTMLElement> = inject(ElementRef)
+export class PasswordIconDirective implements AfterViewInit {
+  private _matFormField = inject(MatFormField)
+  private _elRef: ElementRef<HTMLElement> = inject(ElementRef)
+  private input = signal<HTMLInputElement | null>(null)
+
   isVisible = signal(false)
 
   toggleVisibility(): void {
@@ -21,18 +23,19 @@ export class PasswordIconDirective {
 
   constructor() {
     effect(() => {
-      if (!this.input) return
+      const input = this.input()
+      if (!input) return
       if (this.isVisible()) {
-        this.input.type = 'text'
-        this.elRef.nativeElement.innerHTML = 'visibility_off'
+        input.type = 'text'
+        this._elRef.nativeElement.innerHTML = 'visibility_off'
       } else {
-        this.input.type = 'password'
-        this.elRef.nativeElement.innerHTML = 'visibility'
+        input.type = 'password'
+        this._elRef.nativeElement.innerHTML = 'visibility'
       }
     })
   }
 
-  get input(): HTMLInputElement | null {
-    return this.matFormField._textField.nativeElement.querySelector('input[matInput]')
+  ngAfterViewInit(): void {
+    this.input.set(this._matFormField._textField.nativeElement.querySelector('input[matInput]'))
   }
 }

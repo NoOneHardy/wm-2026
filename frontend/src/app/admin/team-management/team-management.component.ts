@@ -1,24 +1,26 @@
 import {Component, DestroyRef, inject, signal} from '@angular/core'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
 import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avatar-upload.component'
-import {FormFieldComponent} from '../../shared/components/form-field/form-field.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
-import { NgOptimizedImage } from '@angular/common'
+import {NgOptimizedImage} from '@angular/common'
 import {hasError} from '../../shared/helper/form-field-error'
 import {AdminService} from '../admin.service'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {finalize, switchMap} from 'rxjs'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 import {LightTeam} from '../../model/team/light-team'
+import {MatFormFieldModule} from '@angular/material/form-field'
+import {MatInput} from '@angular/material/input'
 
 @Component({
   selector: 'wm-team-management',
   imports: [
     ReactiveFormsModule,
     AvatarUploadComponent,
-    FormFieldComponent,
+    MatFormFieldModule,
     ButtonComponent,
-    NgOptimizedImage
+    NgOptimizedImage,
+    MatInput
   ],
   templateUrl: './team-management.component.html',
   styleUrl: './team-management.component.css'

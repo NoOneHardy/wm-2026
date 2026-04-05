@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
 
-import {AccountSettingsComponent} from './account-settings.component'
+import AccountSettingsComponent from './account-settings.component'
 import {provideMockStore} from '@ngrx/store/testing'
 import {provideHttpClient} from '@angular/common/http'
 

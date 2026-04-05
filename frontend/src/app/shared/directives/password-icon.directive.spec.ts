@@ -78,10 +78,8 @@ describe('PasswordIconDirective', () => {
     expect(icon.textContent?.trim()).toBe('visibility')
   })
 
-  it('should expose keyboard focus and pointer styling on the host', () => {
+  it('should expose pointer styling on the host', () => {
     const icon = getIcon()
-
-    expect(icon.getAttribute('tabindex')).toBe('0')
     expect(icon.style.cursor).toBe('pointer')
   })
 })

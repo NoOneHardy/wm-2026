@@ -15,7 +15,7 @@ import {RouterOutlet} from '@angular/router'
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css'
 })
-export class SettingsComponent {
+export default class SettingsComponent {
   private store = inject(Store)
 
   logout(): void {

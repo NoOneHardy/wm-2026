@@ -1,16 +1,11 @@
 import {Routes} from '@angular/router'
 import {SignupComponent} from './user-management/signup/signup.component'
 import {LoginComponent} from './user-management/login/login.component'
-import {BetManagementComponent} from './bet-management/bet-management.component'
 import {isLoggedInGuard} from './guards/is-logged-in.guard'
 import {isAdminGuard} from './guards/is-admin.guard'
 import {LeaderboardComponent} from './leaderboard/leaderboard.component'
 import {RootComponent} from './root/root.component'
 import {isLoggedOutGuard} from './guards/is-logged-out.guard'
-import {SettingsComponent} from './settings/settings.component'
-import {AccountSettingsComponent} from './settings/account-settings/account-settings.component'
-import {NotificationSettingsComponent} from './settings/notification-settings/notification-settings.component'
-import {EmailVerificationComponent} from './verification/email-verification/email-verification.component'
 
 export const routes: Routes = [
   {
@@ -34,17 +29,17 @@ export const routes: Routes = [
   },
   {
     path: 'bets',
-    component: BetManagementComponent,
+    loadComponent: () => import('./bet-management/bet-management.component'),
     canActivate: [isLoggedInGuard]
   },
   {
     path: 'bets/:groupId',
-    component: BetManagementComponent,
+    loadComponent: () => import('./bet-management/bet-management.component'),
     canActivate: [isLoggedInGuard]
   },
   {
     path: 'bets/:groupId/:gameId',
-    component: BetManagementComponent,
+    loadComponent: () => import('./bet-management/bet-management.component'),
     canActivate: [isLoggedInGuard]
   },
   {
@@ -55,26 +50,12 @@ export const routes: Routes = [
   {
     path: 'settings',
     canActivate: [isLoggedInGuard],
-    component: SettingsComponent,
-    children: [
-      {
-        path: '',
-        redirectTo: 'profile',
-        pathMatch: 'full'
-      },
-      {
-        path: 'profile',
-        component: AccountSettingsComponent
-      },
-      {
-        path: 'notifications',
-        component: NotificationSettingsComponent
-      }
-    ]
+    loadComponent: () => import('./settings/settings.component'),
+    loadChildren: () => import('./settings/settings.routes')
   },
   {
     path: 'verify-email',
-    component: EmailVerificationComponent
+    loadComponent: () => import('./verification/email-verification/email-verification.component')
   },
   {
     path: 'password-reset',

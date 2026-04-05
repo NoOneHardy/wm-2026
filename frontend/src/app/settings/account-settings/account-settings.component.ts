@@ -40,7 +40,7 @@ import {MatIcon} from '@angular/material/icon'
   templateUrl: './account-settings.component.html',
   styleUrl: './account-settings.component.css'
 })
-export class AccountSettingsComponent {
+export default class AccountSettingsComponent {
   private store = inject(Store)
   private userValidatorService = inject(UserValidatorService)
 

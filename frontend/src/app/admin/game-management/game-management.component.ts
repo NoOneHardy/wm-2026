@@ -1,5 +1,13 @@
 import {Component, computed, DestroyRef, ElementRef, inject, OnInit, Signal, signal, viewChild} from '@angular/core'
-import {AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidatorFn, Validators} from '@angular/forms'
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  FormGroupDirective, NgForm,
+  ReactiveFormsModule,
+  ValidatorFn,
+  Validators
+} from '@angular/forms'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {NgOptimizedImage} from '@angular/common'
 import {AdminService} from '../admin.service'
@@ -17,6 +25,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker'
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from '@angular/material/autocomplete'
 import {MatIcon} from '@angular/material/icon'
 import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/material/timepicker'
+import {ErrorStateMatcher} from '@angular/material/core'
 
 @Component({
   selector: 'wm-game-management',
@@ -191,6 +200,12 @@ export class GameManagementComponent implements OnInit {
 
   resetGuestTeamSearch(): void {
     this.teamGuestSearch.set('')
+  }
+
+  guestTeamErrorStateMatcher: ErrorStateMatcher = {
+    isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
+      return !!control && (hasError(control) || form?.hasError('sameTeams') || false)
+    }
   }
 
   private filterOptions<T>(options: T[], query: string, getLabel: (option: T) => string): T[] {

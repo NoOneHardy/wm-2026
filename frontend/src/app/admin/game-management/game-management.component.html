@@ -21,7 +21,7 @@
       }
 
       <div class="mdc-layout-grid__inner">
-        <mat-form-field class="mdc-layout-grid__cell--span-6">
+        <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6">
           <mat-label>Spieltag</mat-label>
           <input matInput formControlName="date" [matDatepicker]="picker">
           <mat-datepicker-toggle matIconSuffix [for]="picker"/>
@@ -29,15 +29,15 @@
           <mat-hint>MM.DD.YYYY</mat-hint>
           <mat-error>Pflichtfeld</mat-error>
         </mat-form-field>
-        <mat-form-field class="mdc-layout-grid__cell--span-6">
+        <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6">
           <mat-label>Anpfiff</mat-label>
           <input matInput formControlName="time" [matTimepicker]="timePicker">
           <mat-timepicker-toggle matIconSuffix [for]="timePicker"/>
           <mat-timepicker #timePicker/>
         </mat-form-field>
 
-        <div class="mdc-layout-grid__cell--span-12 mdc-layout-grid__inner">
-          <mat-form-field class="mdc-layout-grid__cell--span-12">
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__inner">
+          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
             <mat-label>Gruppe</mat-label>
             <input #groupSearchInput
                    type="text"
@@ -67,7 +67,7 @@
           </mat-form-field>
 
           @if (selectedGroup; as group) {
-            <div class="entity-preview mdc-layout-grid__cell--span-12">
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
               <div>
                 <p class="title">{{ group.name }}</p>
                 <p class="copy">{{ group.isKnockout ? 'K.O.-Runde' : 'Gruppenphase' }}</p>
@@ -76,8 +76,8 @@
           }
         </div>
 
-        <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
-          <mat-form-field class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top">
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
+          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
             <mat-label>Heimteam</mat-label>
             <input #teamHomeSearchInput
                    type="text"
@@ -113,7 +113,7 @@
           </mat-form-field>
 
           @if (selectedHomeTeam; as team) {
-            <div class="entity-preview mdc-layout-grid__cell--span-12">
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
               <div class="flag">
                 <img [ngSrc]="team.flag" [alt]="team.name" fill>
               </div>
@@ -125,8 +125,8 @@
           }
         </div>
 
-        <div class="mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
-          <mat-form-field class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top">
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
+          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
             <mat-label>Gastteam</mat-label>
             <input #teamGuestSearchInput
                    type="text"
@@ -162,7 +162,7 @@
           </mat-form-field>
 
           @if (selectedGuestTeam; as team) {
-            <div class="entity-preview mdc-layout-grid__cell--span-12">
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
               <div class="flag">
                 <img [ngSrc]="team.flag" [alt]="team.name" fill>
               </div>

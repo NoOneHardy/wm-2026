@@ -1,5 +1,4 @@
 import {AfterViewInit, Directive, effect, ElementRef, inject, signal} from '@angular/core'
-import {MatFormField} from '@angular/material/input'
 
 @Directive({
   selector: '[wmPasswordIcon]',
@@ -11,7 +10,6 @@ import {MatFormField} from '@angular/material/input'
   },
 })
 export class PasswordIconDirective implements AfterViewInit {
-  private _matFormField = inject(MatFormField)
   private _elRef: ElementRef<HTMLElement> = inject(ElementRef)
   private input = signal<HTMLInputElement | null>(null)
 
@@ -36,6 +34,7 @@ export class PasswordIconDirective implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.input.set(this._matFormField._textField.nativeElement.querySelector('input[matInput]'))
+    const matFormField = this._elRef.nativeElement.closest('mat-form-field')
+    this.input.set(matFormField?.querySelector('input[matInput]') ?? null)
   }
 }

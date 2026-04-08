@@ -3,7 +3,8 @@ import {
   AbstractControl,
   FormControl,
   FormGroup,
-  FormGroupDirective, NgForm,
+  FormGroupDirective,
+  NgForm,
   ReactiveFormsModule,
   ValidatorFn,
   Validators

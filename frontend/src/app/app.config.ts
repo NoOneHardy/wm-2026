@@ -1,6 +1,6 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core'
+import {ApplicationConfig, LOCALE_ID, provideZoneChangeDetection} from '@angular/core'
 import {provideRouter} from '@angular/router'
-
+import {de} from 'date-fns/locale/de'
 import {routes} from './app.routes'
 import {provideHttpClient} from '@angular/common/http'
 import {provideState, provideStore} from '@ngrx/store'
@@ -13,9 +13,13 @@ import {AdminEffects} from './admin/store/admin.effects'
 import {adminFeature} from './admin/store/admin.feature'
 import {homeFeature} from './home/store/home.feature'
 import {HomeEffects} from './home/store/home.effects'
-import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core'
+import {MAT_DATE_LOCALE} from '@angular/material/core'
 import {provideAnimationsAsync} from '@angular/platform-browser/animations/async'
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field'
+import {registerLocaleData} from '@angular/common'
+import {provideDateFnsAdapter} from '@angular/material-date-fns-adapter'
+
+registerLocaleData(de, 'de')
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,12 +31,16 @@ export const appConfig: ApplicationConfig = {
     provideState(tournamentFeature),
     provideState(homeFeature),
     provideState(adminFeature),
-    provideNativeDateAdapter(),
+    provideDateFnsAdapter(),
     provideEffects(UserEffects, TournamentEffects, HomeEffects, AdminEffects),
     provideAnimationsAsync(),
     {
+      provide: LOCALE_ID,
+      useValue: 'de',
+    },
+    {
       provide: MAT_DATE_LOCALE,
-      useValue: 'de-CH'
+      useValue: de
     },
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,

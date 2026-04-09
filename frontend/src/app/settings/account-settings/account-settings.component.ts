@@ -51,7 +51,7 @@ export default class AccountSettingsComponent {
     avatar: new FormControl<File | null>(null),
     username: new FormControl<string>(this.user()?.username ?? '', {
       nonNullable: true,
-      validators: [Validators.required, Validators.minLength(5)],
+      validators: [Validators.required, Validators.minLength(5), Validators.maxLength(50)],
       asyncValidators: [this.userValidatorService.usernameAvailable()]
     }),
     email: new FormControl<string>({
@@ -71,7 +71,7 @@ export default class AccountSettingsComponent {
     changed: new FormGroup({
       password: new FormControl<string>('', {
         nonNullable: true,
-        validators: [Validators.required, Validators.minLength(8)]
+        validators: [Validators.required, Validators.minLength(8), Validators.maxLength(50)]
       }),
       confirmPassword: new FormControl<string>('', {
         nonNullable: true,

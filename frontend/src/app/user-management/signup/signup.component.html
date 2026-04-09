@@ -13,7 +13,7 @@
             <mat-error>Min. 5 Zeichen</mat-error>
           }
           @if (hasError(formGroup.get('username'), 'maxlength')) {
-            <mat-error>Max. 50 Zeichen</mat-error>
+            <mat-error>Max. 25 Zeichen</mat-error>
           }
           @if (hasError(formGroup.get('username'), 'usernameAvailable')) {
             <mat-error>Benutzername wird bereits verwendet</mat-error>
@@ -102,12 +102,6 @@
                    [errorStateMatcher]="confirmPasswordErrorStateMatcher"/>
             @if (hasError(formGroup.get('passwords.confirmPassword'), 'required')) {
               <mat-error>Pflichtfeld</mat-error>
-            }
-            @if (hasError(formGroup.get('passwords.confirmPassword'), 'minlength')) {
-              <mat-error>Min. 8 Zeichen</mat-error>
-            }
-            @if (hasError(formGroup.get('passwords.confirmPassword'), 'maxlength')) {
-              <mat-error>Max. 50 Zeichen</mat-error>
             }
             @if (showPasswordMatchError('confirmPassword')) {
               <mat-error>Passwörter müssen übereinstimmen</mat-error>

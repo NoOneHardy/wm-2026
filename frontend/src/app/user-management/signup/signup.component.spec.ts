@@ -135,9 +135,11 @@ describe('SignupComponent', () => {
 
       expect(passwordControl.value).toBe('')
       expect(passwordControl.errors?.['required']).toBeTruthy()
-      passwordControl.setValue('pass')
-      expect(passwordControl.errors?.['required']).toBeFalsy()
-      expect(passwordControl.errors?.['minlength']).toBeTruthy()
+      if (control === 'password') {
+        passwordControl.setValue('pass')
+        expect(passwordControl.errors?.['required']).toBeFalsy()
+        expect(passwordControl.errors?.['minlength']).toBeTruthy()
+      }
       passwordControl.setValue('password')
       expect(passwordControl.errors?.['minlength']).toBeFalsy()
       expect(passwordControl.valid).toBeTrue()

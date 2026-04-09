@@ -89,8 +89,7 @@ export class SignupComponent {
       confirmPassword: this.fb.control<string>('', {
         nonNullable: true,
         validators: [
-          Validators.required,
-          Validators.minLength(8)
+          Validators.required
         ]
       })
     }, {

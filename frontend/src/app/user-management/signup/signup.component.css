@@ -25,6 +25,12 @@ wm-user-management-panel {
       }
     }
   }
+
+  .continue {
+    display: flex;
+    align-items: center;
+    gap: var(--wm-spacer-3);
+  }
 }
 
 @media screen and (max-width: 992px) {

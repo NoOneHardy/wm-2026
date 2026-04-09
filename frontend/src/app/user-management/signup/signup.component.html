@@ -19,7 +19,7 @@
             <mat-error>Benutzername wird bereits verwendet</mat-error>
           }
           @if (formGroup.controls.username.pending) {
-            <mat-spinner matTextSuffix [diameter]="24"/>
+            <mat-spinner matTextSuffix [diameter]="24" mode="indeterminate"/>
           }
         </mat-form-field>
         <mat-form-field
@@ -42,7 +42,7 @@
             <mat-error>E-Mail wird bereits verwendet</mat-error>
           }
           @if (formGroup.controls.email.pending) {
-            <mat-spinner matTextSuffix [diameter]="24"/>
+            <mat-spinner matTextSuffix [diameter]="24" mode="indeterminate"/>
           }
         </mat-form-field>
 
@@ -125,7 +125,12 @@
           <a href="/login">Anmelden</a>
         </div>
 
-        <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+        <div class="continue">
+          @if (isLoading()) {
+            <mat-progress-spinner [diameter]="24" mode="indeterminate"/>
+          }
+          <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+        </div>
       </div>
     </ng-container>
   </wm-user-management-panel>

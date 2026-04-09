@@ -1,4 +1,4 @@
-import {Component, inject, Signal} from '@angular/core'
+import {Component, effect, inject, Signal} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {FormBuilder, FormControl, FormGroupDirective, NgForm, ReactiveFormsModule, Validators} from '@angular/forms'
 import {ButtonComponent} from '../../shared/components/button/button.component'
@@ -108,6 +108,16 @@ export class SignupComponent {
     isErrorState: (control: FormControl | null, _: FormGroupDirective | NgForm | null): boolean => {
       return !!control && (hasError(control) || this.showPasswordMatchError('confirmPassword'))
     }
+  }
+
+  constructor() {
+    effect(() => {
+      if (this.isLoading()) {
+        this.formGroup.disable()
+      } else {
+        this.formGroup.enable()
+      }
+    })
   }
 
   submit(): void {

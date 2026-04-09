@@ -3,7 +3,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects'
 import {UserService} from '../user.service'
 import {
   avatarUploaded,
-  createUser,
+  createUser, createUserFailed,
   emailVerificationLinkSent,
   emailVerified,
   fetchNotificationPreferences,
@@ -50,12 +50,12 @@ export class UserEffects {
   signup = createEffect(() => this.actions$.pipe(
     ofType(createUser),
     exhaustMap(action => {
-      return this.userService.createUser(action.user).pipe(map(() => {
-        return userCreated({
+      return this.userService.createUser(action.user).pipe(
+        map(() => userCreated({
           username: action.user.username,
           password: action.user.password
-        })
-      })
+        })),
+        catchError(() => of(createUserFailed()))
       )
     })
   ))
@@ -101,8 +101,8 @@ export class UserEffects {
 
   loggedOut = createEffect(() => this.actions$.pipe(
     ofType(loggedOut),
-    tap(() => {
-      this.snackbarService.addMessage({
+    tap(({showMessage}) => {
+      if (showMessage) this.snackbarService.addMessage({
         message: 'Erfolgreich abgemeldet',
       })
       this.router.navigateByUrl('/').then()
@@ -113,12 +113,9 @@ export class UserEffects {
   fetchUserInfo = createEffect(() => this.actions$.pipe(
     ofType(fetchUserInfo),
     exhaustMap(() => {
-      return this.userService.fetchUserInfo().pipe(map((user) => {
-        return userInfoFetched({user})
-      }),
-      catchError(() => {
-        return of(loggedOut({showMessage: false}))
-      })
+      return this.userService.fetchUserInfo().pipe(
+        map((user) => userInfoFetched({user})),
+        catchError(() => of(loggedOut({showMessage: false})))
       )
     })
   ))

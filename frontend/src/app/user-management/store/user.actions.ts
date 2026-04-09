@@ -9,6 +9,7 @@ export const resetUserLoading = createAction('[User] Reset user loading')
 
 export const createUser = createAction('[User] create user', props<{ user: NewUser }>())
 export const userCreated = createAction('[User] user created', props<LoginData>())
+export const createUserFailed = createAction('[User] create user failed')
 export const userLogin = createAction('[User] login', props<LoginData>())
 export const rejectLogin = createAction('[User] login rejected')
 export const resetError = createAction('[User] Reset error')

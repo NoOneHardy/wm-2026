@@ -1,7 +1,7 @@
 import {User} from '../../model/user/user'
 import {createFeature, createReducer, createSelector, on} from '@ngrx/store'
 import {
-  createUser,
+  createUser, createUserFailed,
   emailVerified,
   fetchNotificationPreferences,
   fetchUserInfo,
@@ -58,7 +58,7 @@ export const userFeature = createFeature({
         isUserLoading: true
       }
     }),
-    on(passwordResetDone, markedNotificationAsRead, userCreated, passwordResetLinkRequested, resetUserLoading, (state): UserState => {
+    on(passwordResetDone, markedNotificationAsRead, userCreated, passwordResetLinkRequested, resetUserLoading, createUserFailed, (state): UserState => {
       return {
         ...state,
         isUserLoading: false

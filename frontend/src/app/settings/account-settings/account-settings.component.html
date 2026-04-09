@@ -17,11 +17,14 @@
         @if (hasError(formGroup.get('username'), 'minlength')) {
           <mat-error>Min. 5 Zeichen</mat-error>
         }
+        @if (hasError(formGroup.get('username'), 'maxlength')) {
+          <mat-error>Max. 50 Zeichen</mat-error>
+        }
         @if (hasError(formGroup.get('username'), 'usernameAvailable')) {
           <mat-error>Benutzername wird bereits verwendet</mat-error>
         }
         @if (formGroup.controls.username.pending) {
-          <mat-spinner matTextSuffix [diameter]="24"/>
+          <mat-spinner matTextSuffix [diameter]="24" mode="indeterminate"/>
         }
       </mat-form-field>
 
@@ -62,6 +65,9 @@
           }
           @if (hasError(pwGroup.get('changed.password'), 'minlength')) {
             <mat-error>Min. 8 Zeichen</mat-error>
+          }
+          @if (hasError(pwGroup.get('changed.password'), 'maxlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
           }
           @if (showPasswordMatchError('password')) {
             <mat-error>Passwörter müssen übereinstimmen</mat-error>

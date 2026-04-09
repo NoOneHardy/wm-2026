@@ -31,6 +31,35 @@
       }
     }
 
+    <div class="action-bar">
+      @if (mode() === 'bet') {
+        @if (jokers(); as jokers) {
+          <div class="panel">
+            <p class="panel-title">Verf&uuml;gbare Joker</p>
+            <div class="panel-content">
+              <wm-remaining-joker-display [jokersMax]="jokers.jdoubleMax"
+                                          [jokersRemaining]="jokers.jdouble"
+                                          [jokerMultiplier]="2"/>
+              <wm-remaining-joker-display [jokersMax]="jokers.jtripleMax"
+                                          [jokersRemaining]="jokers.jtriple"
+                                          [jokerMultiplier]="3"/>
+            </div>
+          </div>
+        }
+      }
+
+      <div class="panel">
+        <div class="panel-title">Speichern & Verlassen</div>
+        <div class="panel-content">
+          <a role="button" tabindex="0"
+             class="wm-link" (pointerup)="back()"
+             (keyup.enter)="back()" (keyup.space)="back()"
+          >Abbrechen</a>
+          <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
+        </div>
+      </div>
+    </div>
+
     <form [formGroup]="form">
       <div class="games" formArrayName="bets">
         @for (control of form.controls.bets.controls; track $index; let i = $index) {
@@ -42,31 +71,6 @@
         }
       </div>
     </form>
-
-    <div class="panel bottom-panel">
-      @if (mode() === 'bet') {
-        @if (jokers(); as jokers) {
-          <div class="remaining-jokers">
-            <wm-remaining-joker-display [jokersMax]="jokers.jdoubleMax"
-                                        [jokersRemaining]="jokers.jdouble"
-                                        [jokerMultiplier]="2"/>
-            <wm-remaining-joker-display [jokersMax]="jokers.jtripleMax"
-                                        [jokersRemaining]="jokers.jtriple"
-                                        [jokerMultiplier]="3"/>
-          </div>
-        }
-      }
-
-      <div class="panel">
-        <a role="button" tabindex="0"
-           (click)="back()" (touchend)="back()"
-           (keyup.enter)="back()" (keyup.space)="back()"
-           class="wm-link">Abbrechen</a>
-        <div>
-          <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
-        </div>
-      </div>
-    </div>
 
   } @else {
     <h2>Es ist ein Fehler aufgetreten</h2>

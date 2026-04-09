@@ -1,6 +1,7 @@
 import {ApplicationConfig, LOCALE_ID, provideZoneChangeDetection} from '@angular/core'
 import {provideRouter} from '@angular/router'
 import {de} from 'date-fns/locale/de'
+import localeDeCh from '@angular/common/locales/de-CH'
 import {routes} from './app.routes'
 import {provideHttpClient} from '@angular/common/http'
 import {provideState, provideStore} from '@ngrx/store'
@@ -19,6 +20,7 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field'
 import {registerLocaleData} from '@angular/common'
 import {provideDateFnsAdapter} from '@angular/material-date-fns-adapter'
 
+registerLocaleData(localeDeCh, 'de-CH')
 registerLocaleData(de, 'de')
 
 export const appConfig: ApplicationConfig = {
@@ -36,7 +38,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimationsAsync(),
     {
       provide: LOCALE_ID,
-      useValue: 'de',
+      useValue: 'de-CH',
     },
     {
       provide: MAT_DATE_LOCALE,

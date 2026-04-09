@@ -4,6 +4,7 @@ import {FeatureSlice} from '@ngrx/store'
 import * as feature from './user.feature'
 import {selectIsAdmin, UserState} from './user.feature'
 import {
+  createUserFailed,
   markedNotificationAsRead,
   markNotificationAsRead,
   passwordResetDone,
@@ -115,6 +116,16 @@ describe('UserFeature', () => {
     }
     expect(state.isUserLoading).toBeTrue()
     state = store.reducer(state, passwordResetDone({success: true}))
+    expect(state.isUserLoading).toBeFalse()
+  })
+
+  it('should set isUserLoading to false on createUserFailed', () => {
+    let state: UserState = {
+      ...initialState,
+      isUserLoading: true
+    }
+    expect(state.isUserLoading).toBeTrue()
+    state = store.reducer(state, createUserFailed())
     expect(state.isUserLoading).toBeFalse()
   })
 })

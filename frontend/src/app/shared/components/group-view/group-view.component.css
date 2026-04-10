@@ -46,6 +46,7 @@
   gap: var(--wm-spacer-4);
   align-items: stretch;
   flex-wrap: wrap;
+  margin-top: var(--wm-spacer-4);
 
   .panel {
     display: flex;

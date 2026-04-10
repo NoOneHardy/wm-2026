@@ -1,6 +1,6 @@
 @if (user() && !user()?.emailVerifiedAt) {
   <div class="banner">
-    <p>Deine Email wurde noch nicht bestätigt.</p>
+    <p>Deine E-Mail wurde noch nicht bestätigt.</p>
     <a (click)="sendEmailVerificationLink()" role="button" tabindex="0" (keyup.enter)="sendEmailVerificationLink()">Jetzt
       neuen Link versenden</a>
   </div>

@@ -29,7 +29,7 @@
       </mat-form-field>
 
       <mat-form-field class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top">
-        <mat-label>Email</mat-label>
+        <mat-label>E-Mail</mat-label>
         <input matInput type="email" formControlName="email" (keyup.enter)="save()"/>
         @if (hasError(formGroup.get('email'), 'required')) {
           <mat-error>Pflichtfeld</mat-error>

@@ -43,8 +43,9 @@ export class LeaderboardComponent implements OnInit {
       } else if (movement < 0) {
         return `Schade, du bist ${movement === -1 ? '1 Rang' : `${Math.abs(movement)} Ränge`} abgestiegen.`
       }
+      return 'Keine Veränderung, das ist auch eine Leistung!'
     }
 
-    return 'Verschaffe dir eine Übersicht über das Spiel.'
+    return 'Welche Position erreichst du?'
   }
 }

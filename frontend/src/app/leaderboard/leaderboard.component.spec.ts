@@ -143,7 +143,7 @@ describe('LeaderboardComponent', () => {
     expect(component.subHeading).toBe('Schade, du bist 2 Ränge abgestiegen.')
   })
 
-  it('should return default subHeading if user did not move', () => {
+  it('should return no-movement subHeading if user did not move', () => {
     const leaderboard: Ranking[] = [
       {id: 'user-1', username: 'No1Hardy', points: 1000, ranking: 1, avatar: null, prevRanking: 1},
     ]
@@ -153,7 +153,7 @@ describe('LeaderboardComponent', () => {
 
     component.ngOnInit()
 
-    expect(component.subHeading).toBe('Verschaffe dir eine Übersicht über das Spiel.')
+    expect(component.subHeading).toBe('Keine Veränderung, das ist auch eine Leistung!')
   })
 
   it('should return default subHeading if user is not logged in', () => {
@@ -166,6 +166,6 @@ describe('LeaderboardComponent', () => {
 
     component.ngOnInit()
 
-    expect(component.subHeading).toBe('Verschaffe dir eine Übersicht über das Spiel.')
+    expect(component.subHeading).toBe('Welche Position erreichst du?')
   })
 })

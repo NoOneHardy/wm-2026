@@ -6,35 +6,54 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @Entity
-@EqualsAndHashCode(callSuper = true)
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class Team extends BaseEntity {
+
     @NotNull
+    @ToString.Include
     private String name;
 
     @NotNull
+    @ToString.Include
     private String shortName;
 
     @NotNull
     private String flag;
 
     @OneToMany(mappedBy = "teamHome")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Game> gamesHome = List.of();
+    private List<Game> gamesHome = new ArrayList<>();
 
     @OneToMany(mappedBy = "teamGuest")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Game> gamesGuest = List.of();
+    private List<Game> gamesGuest = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Team other)) {
+            return false;
+        }
+
+        return getId() != null && getId().equals(other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     @Transient
     public List<Game> getGames() {

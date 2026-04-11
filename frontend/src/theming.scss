@@ -1,7 +1,9 @@
 @use './material/m3-theme';
 @use '@angular/material' as mat;
 @use './material/mat-form-field';
-@use 'material/mat-datepicker';
+@use './material/mat-datepicker';
+@use './material/mat-icon';
+@use './material/mat-button-toggle-group';
 @use '@material/layout-grid/mdc-layout-grid';
 
 @include mat.elevation-classes();
@@ -14,6 +16,8 @@
 
   @include mat-form-field.base-overrides();
   @include mat-datepicker.base-overrides();
+  @include mat-icon.base-overrides();
+  @include mat-button-toggle-group.base-overrides();
 
   @include mat.slide-toggle-overrides((
     pressed-handle-size: 1.5rem,

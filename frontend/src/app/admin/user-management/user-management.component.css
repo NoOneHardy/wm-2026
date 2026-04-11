@@ -5,12 +5,25 @@
     margin-bottom: calc(2.5em / 3);
   }
 
+  .filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-bottom: var(--wm-spacer-2);
+    border-bottom: 1px solid var(--wm-color-neutral-100);
+    margin-bottom: var(--wm-spacer-3);
+  }
+
   .users {
     display: flex;
     flex-direction: column;
     gap: .75em;
     max-width: 50em;
     margin: 0 auto;
+
+    .no-users {
+      margin: 0 auto;
+    }
 
     .user-request {
       position: relative;

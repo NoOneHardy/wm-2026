@@ -1,0 +1,10 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+@mixin base-overrides() {
+  mat-icon {
+    &.-fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+}

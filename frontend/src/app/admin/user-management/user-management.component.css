@@ -145,26 +145,30 @@
 }
 
 @media screen and (max-width: 992px) {
-  h1 {
-    font: var(--wm-font-h2);
-    word-break: break-all;
-  }
+  .user-management {
+    padding: var(--wm-spacer-4);
 
-  .user-management .users {
-    .user-request {
-      height: fit-content;
-      grid-template-columns: 1fr auto;
+    h1 {
+      font: var(--wm-font-h2);
+      word-break: break-all;
+    }
 
-      .avatar {
-        display: none;
-      }
+    .users {
+      .user-request {
+        height: fit-content;
+        grid-template-columns: 1fr auto;
 
-      .name {
-        .info {
-          flex-direction: column;
+        .avatar {
+          display: none;
+        }
 
-          .separator {
-            display: none;
+        .name {
+          .info {
+            flex-direction: column;
+
+            .separator {
+              display: none;
+            }
           }
         }
       }

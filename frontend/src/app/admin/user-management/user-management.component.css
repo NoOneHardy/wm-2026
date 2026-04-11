@@ -8,10 +8,16 @@
   .filters {
     display: flex;
     justify-content: center;
+    align-items: center;
+    gap: var(--wm-spacer-4);
     flex-wrap: wrap;
     padding-bottom: var(--wm-spacer-2);
     border-bottom: 1px solid var(--wm-color-neutral-100);
     margin-bottom: var(--wm-spacer-3);
+
+    mat-form-field {
+      width: min(24em, 100%);
+    }
   }
 
   .users {
@@ -23,6 +29,7 @@
 
     .no-users {
       margin: 0 auto;
+      text-align: center;
     }
 
     .user-request {
@@ -162,5 +169,11 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .user-management .filters {
+    justify-content: stretch;
   }
 }

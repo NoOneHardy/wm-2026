@@ -12,6 +12,7 @@ import {MatButtonToggle, MatButtonToggleGroup} from '@angular/material/button-to
 import {MatIcon} from '@angular/material/icon'
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms'
 import {toSignal} from '@angular/core/rxjs-interop'
+import {MatFormField, MatInput, MatLabel, MatPrefix} from '@angular/material/input'
 
 @Component({
   selector: 'wm-user-management',
@@ -22,7 +23,11 @@ import {toSignal} from '@angular/core/rxjs-interop'
     MatButtonToggleGroup,
     MatButtonToggle,
     MatIcon,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatPrefix
   ],
   templateUrl: './user-management.component.html',
   styleUrl: './user-management.component.css'
@@ -35,18 +40,21 @@ export class UserManagementComponent implements OnInit {
   isLoading: Signal<boolean> = this.store.selectSignal(selectIsAdminLoading)
 
   formGroup = new FormGroup({
-    quickFilter: new FormControl<UserApplicationStatus[]>([UserApplicationStatus.PENDING])
+    quickFilter: new FormControl<UserApplicationStatus[]>([UserApplicationStatus.PENDING], {nonNullable: true}),
+    search: new FormControl<string>('', {nonNullable: true})
   })
 
   filters = toSignal(this.formGroup.valueChanges)
 
   users = computed(() => {
     const filters = this.filters()
-    const quickFilter = filters?.quickFilter ?? this.formGroup.controls.quickFilter.getRawValue() ?? []
+    const quickFilter = filters?.quickFilter ?? this.formGroup.controls.quickFilter.getRawValue()
+    const search = filters?.search ?? this.formGroup.controls.search.getRawValue()
 
     return this._users()
       .filter(user => user.id !== this.currentUser()?.id)
       .filter(user => quickFilter.length === 0 || quickFilter.includes(user.userApplicationStatus))
+      .filter(user => !search || this.checkUser(user, search))
       .sort((a, b) => {
         if (a.userApplicationStatus === b.userApplicationStatus) return a.username.localeCompare(b.username)
 
@@ -57,6 +65,15 @@ export class UserManagementComponent implements OnInit {
         return -1
       })
   })
+
+  private checkUser(user: User, search: string): boolean {
+    const normalizedSearch: string = search.toLowerCase().trim()
+
+    return user.username.toLowerCase().includes(normalizedSearch)
+      || user.email.toLowerCase().includes(normalizedSearch)
+      || user.firstname.toLowerCase().includes(normalizedSearch)
+      || user.lastname.includes(normalizedSearch)
+  }
 
   ngOnInit(): void {
     this.store.dispatch(loadUsers())

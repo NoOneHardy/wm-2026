@@ -123,3 +123,31 @@
     }
   }
 }
+
+@media screen and (max-width: 992px) {
+  h1 {
+    font: var(--wm-font-h2);
+    word-break: break-all;
+  }
+
+  .user-management .users {
+    .user-request {
+      height: fit-content;
+      grid-template-columns: 1fr auto;
+
+      .avatar {
+        display: none;
+      }
+
+      .name {
+        .info {
+          flex-direction: column;
+
+          .separator {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

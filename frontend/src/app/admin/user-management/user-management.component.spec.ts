@@ -158,6 +158,154 @@ describe('UserManagementComponent', () => {
     expect(component.users()[5].id).toBe('user-1')
   })
 
+  it('should default to pending users in the quick filter', () => {
+    store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectUsers, [
+      {
+        ...mockUser,
+        id: 'pending-user',
+        username: 'Pending User',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: null
+      },
+      {
+        ...mockUser,
+        id: 'accepted-user',
+        username: 'Accepted User',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'denied-user',
+        username: 'Denied User',
+        userApplicationStatus: UserApplicationStatus.DENIED,
+        applicationReviewedAt: new Date()
+      }
+    ])
+    store.refreshState()
+    fixture.detectChanges()
+
+    expect(component.formGroup.controls.quickFilter.getRawValue()).toEqual([UserApplicationStatus.PENDING])
+    expect(component.users().map(user => user.id)).toEqual(['pending-user'])
+  })
+
+  it('should filter users by the selected application statuses', () => {
+    store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectUsers, [
+      {
+        ...mockUser,
+        id: 'pending-user',
+        username: 'Pending User',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: null
+      },
+      {
+        ...mockUser,
+        id: 'accepted-user',
+        username: 'Accepted User',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'denied-user',
+        username: 'Denied User',
+        userApplicationStatus: UserApplicationStatus.DENIED,
+        applicationReviewedAt: new Date()
+      }
+    ])
+    store.refreshState()
+    component.formGroup.patchValue({
+      quickFilter: [UserApplicationStatus.ACCEPTED, UserApplicationStatus.DENIED]
+    })
+    fixture.detectChanges()
+
+    expect(component.users().map(user => user.id)).toEqual(['denied-user', 'accepted-user'])
+  })
+
+  it('should search users by username, email, firstname and lastname case-insensitively', () => {
+    store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectUsers, [
+      {
+        ...mockUser,
+        id: 'matching-user',
+        username: 'CaptainDemo',
+        email: 'captain@example.com',
+        firstname: 'Alex',
+        lastname: 'Anderson',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: null
+      },
+      {
+        ...mockUser,
+        id: 'other-user',
+        username: 'SecondUser',
+        email: 'second@example.com',
+        firstname: 'Chris',
+        lastname: 'Brown',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: null
+      }
+    ])
+    store.refreshState()
+    component.formGroup.patchValue({quickFilter: []})
+
+    component.formGroup.patchValue({search: '  captaindemo  '})
+    fixture.detectChanges()
+    expect(component.users().map(user => user.id)).toEqual(['matching-user'])
+
+    component.formGroup.patchValue({search: 'CAPTAIN@EXAMPLE.COM'})
+    fixture.detectChanges()
+    expect(component.users().map(user => user.id)).toEqual(['matching-user'])
+
+    component.formGroup.patchValue({search: 'aLeX'})
+    fixture.detectChanges()
+    expect(component.users().map(user => user.id)).toEqual(['matching-user'])
+
+    component.formGroup.patchValue({search: 'anDerSon'})
+    fixture.detectChanges()
+    expect(component.users().map(user => user.id)).toEqual(['matching-user'])
+  })
+
+  it('should combine the search bar with the selected quick filters', () => {
+    store.overrideSelector(selectUser, null)
+    store.overrideSelector(selectUsers, [
+      {
+        ...mockUser,
+        id: 'accepted-alex',
+        username: 'accepted-alex',
+        firstname: 'Alex',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      },
+      {
+        ...mockUser,
+        id: 'pending-alex',
+        username: 'pending-alex',
+        firstname: 'Alex',
+        userApplicationStatus: UserApplicationStatus.PENDING,
+        applicationReviewedAt: null
+      },
+      {
+        ...mockUser,
+        id: 'accepted-chris',
+        username: 'accepted-chris',
+        firstname: 'Chris',
+        userApplicationStatus: UserApplicationStatus.ACCEPTED,
+        applicationReviewedAt: new Date()
+      }
+    ])
+    store.refreshState()
+    component.formGroup.patchValue({
+      quickFilter: [UserApplicationStatus.ACCEPTED],
+      search: 'alex'
+    })
+    fixture.detectChanges()
+
+    expect(component.users().map(user => user.id)).toEqual(['accepted-alex'])
+  })
+
   it('should call confirmUser action on accept', () => {
     spyOn(store, 'dispatch')
     const userId = 'test-user-id'

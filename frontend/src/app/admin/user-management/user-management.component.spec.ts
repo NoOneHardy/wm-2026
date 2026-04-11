@@ -44,12 +44,13 @@ describe('UserManagementComponent', () => {
   })
 
   it('should filter current user from the list', () => {
-    const currentUser = {
+    const currentUser: User = {
       ...mockUser1,
       id: 'current-user-id'
     }
     store.overrideSelector(selectUsers, [currentUser, mockUser])
     store.overrideSelector(selectUser, currentUser)
+    component.formGroup.patchValue({quickFilter: []})
     store.refreshState()
     fixture.detectChanges()
 
@@ -145,6 +146,7 @@ describe('UserManagementComponent', () => {
       }
     ])
     store.refreshState()
+    component.formGroup.patchValue({quickFilter: []})
     fixture.detectChanges()
 
     expect(component.users().length).toBe(6)

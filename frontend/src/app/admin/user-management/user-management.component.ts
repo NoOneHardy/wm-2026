@@ -72,7 +72,7 @@ export class UserManagementComponent implements OnInit {
     return user.username.toLowerCase().includes(normalizedSearch)
       || user.email.toLowerCase().includes(normalizedSearch)
       || user.firstname.toLowerCase().includes(normalizedSearch)
-      || user.lastname.includes(normalizedSearch)
+      || user.lastname.toLowerCase().includes(normalizedSearch)
   }
 
   ngOnInit(): void {

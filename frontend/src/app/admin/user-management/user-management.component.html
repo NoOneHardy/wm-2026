@@ -1,5 +1,5 @@
 <div class="user-management">
-  <h1>Benutzerverwaltung</h1>
+  <h1>Teilnehmer</h1>
 
   @if (isLoading()) {
     <div class="loader-wrapper">
@@ -18,7 +18,7 @@
               <span>{{ user.username }}</span>
               <div class="info">
                 <span>{{ user.firstname }} {{ user.lastname }}</span>
-                <span>-</span>
+                <span class="separator">-</span>
                 <a class="wm-link" [href]="'mailto:' + user.email">{{ user.email }}</a>
               </div>
             </div>

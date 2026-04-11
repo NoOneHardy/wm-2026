@@ -7,7 +7,13 @@
     </div>
   } @else {
     <div class="filters" [formGroup]="formGroup">
-      <mat-button-toggle-group multiple formControlName="quickFilter">
+      <mat-form-field>
+        <mat-icon matIconPrefix>search</mat-icon>
+        <mat-label>Suchen</mat-label>
+        <input matInput formControlName="search">
+      </mat-form-field>
+
+      <mat-button-toggle-group multiple formControlName="quickFilter" class="-responsive">
         <mat-button-toggle class="-with-icon" [value]="UserApplicationStatus.PENDING">
           <mat-icon class="-fill">schedule</mat-icon>
           <span>Offen</span>
@@ -52,7 +58,7 @@
       }
 
       @if (users().length === 0) {
-        <p class="no-users">Keine Benutzeranfragen mit den ausgewählten Filtern gefunden.</p>
+        <p class="no-users">Keine Benutzeranfragen für die ausgewählten Filter gefunden.</p>
       }
     </div>
   }

@@ -16,7 +16,7 @@
   }
 
   @media screen and (max-width: 1200px) {
-    padding: var(--wm-spacer-8) 0 var(--wm-spacer-8) var(--wm-spacer-7);
+    padding: var(--wm-spacer-8) 0 0 var(--wm-spacer-7);
   }
 
   @media screen and (max-width: 992px) {

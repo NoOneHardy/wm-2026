@@ -1,0 +1,4 @@
+<div class="snackbar" [class.-error]="message().type === 'error'">
+  <span class="material-symbols-rounded icon">{{ message().type === 'error' ? 'cancel' : 'check_circle' }}</span>
+  <span class="message">{{ message().message }}</span>
+</div>

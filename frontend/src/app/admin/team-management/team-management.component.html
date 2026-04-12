@@ -1,0 +1,51 @@
+<div class="admin-page">
+  <section class="admin-intro">
+    <h1>Teams anlegen</h1>
+    <p>Lege neue Nationalteams an und lade die Flagge direkt ins CDN hoch, damit sie sofort im Turnier genutzt werden kann.</p>
+  </section>
+
+  <section class="admin-card" [formGroup]="formGroup">
+    <div class="admin-form-grid">
+      <div class="-full">
+        <wm-avatar-upload buttonLabel="Flagge hochladen" formControlName="flag"/>
+        @if (hasError(formGroup.get('flag'), 'required')) {
+          <p class="admin-error">Bitte eine Flagge auswählen</p>
+        }
+      </div>
+
+      <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+        <mat-error>Pflichtfeld</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Kurzname</mat-label>
+        <input matInput formControlName="shortName" (keyup.enter)="submit()">
+        @if (hasError(formGroup.get('shortName'), 'required')) {
+          <mat-error>Pflichtfeld</mat-error>
+        }
+        @if (hasError(formGroup.get('shortName'), 'minlength')) {
+          <mat-error>Min. 2 Zeichen</mat-error>
+        }
+        @if (hasError(formGroup.get('shortName'), 'maxlength')) {
+          <mat-error>Max. 4 Zeichen</mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <wm-button icon="add_circle" (clickEvent)="submit()" [disabled]="isSaving()">Team erstellen</wm-button>
+
+    @if (createdTeam(); as team) {
+      <div class="entity-preview">
+        <div class="flag">
+          <img [ngSrc]="team.flag" [alt]="team.name" fill>
+        </div>
+        <div>
+          <p class="title">{{ team.name }}</p>
+          <p class="copy">Kurzname: {{ team.shortName }}</p>
+        </div>
+      </div>
+    }
+  </section>
+</div>

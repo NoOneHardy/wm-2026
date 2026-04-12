@@ -1,0 +1,35 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+@mixin base-overrides() {
+  @include mat.button-toggle-overrides((
+    shape: var(--wm-spacer-2),
+    text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 30),
+  ));
+
+  mat-button-toggle-group {
+    &.-responsive {
+      @media screen and (max-width: 576px) {
+        flex-direction: column;
+        width: 100%;
+
+        .mat-button-toggle-appearance-standard.mat-button-toggle {
+          &:not(:first-child) {
+            border-left: none;
+            border-top: solid 1px var(--mat-button-toggle-divider-color);
+          }
+        }
+      }
+    }
+  }
+
+  mat-button-toggle {
+    &.-with-icon {
+      .mat-button-toggle-label-content {
+        display: flex;
+        align-items: center;
+        gap: .5em;
+      }
+    }
+  }
+}

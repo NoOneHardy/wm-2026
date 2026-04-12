@@ -1,0 +1,24 @@
+<div class="header">
+  <h3>Statistik</h3>
+  <div class="toggle">
+    <button (click)="showGlobalStats.set(false)">
+      <span [class.gradient-text]="!showGlobalStats()" class="material-symbols-rounded">person</span>
+    </button>
+    <button (click)="showGlobalStats.set(true)">
+      <span [class.gradient-text]="showGlobalStats()" class="material-symbols-rounded">globe</span>
+    </button>
+  </div>
+</div>
+
+@if (isLoading()) {
+  <wm-spinner/>
+} @else {
+  <div class="stats">
+    @for (stat of stats(); track stat) {
+      <div class="stat">
+        <span>{{ stat.key }}</span>
+        <p class="gradient-text">{{ stat.value }}</p>
+      </div>
+    }
+  </div>
+}

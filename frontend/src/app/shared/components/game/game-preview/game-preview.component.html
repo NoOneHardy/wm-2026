@@ -1,0 +1,41 @@
+@if (game(); as game) {
+  @if (openBet()) {
+    <div class="alert"><span class="material-symbols-rounded">error</span></div>
+  }
+  <h3 class="gradient-text">{{ game.groupName }}</h3>
+  <p class="timestamp">{{ game.timestamp | date:'dd.MM HH:mm' }} Uhr</p>
+  <div class="teams">
+    <div class="team-home">
+      <div class="flag">
+        <img [ngSrc]="game.teamHome.flag" fill [alt]="game.teamHome.name">
+      </div>
+      <p>{{ game.teamHome.shortName }}</p>
+    </div>
+
+    <div class="team-guest">
+      <div class="flag">
+        <img [ngSrc]="game.teamGuest.flag" fill [alt]="game.teamGuest.name">
+      </div>
+      <p>{{ game.teamGuest.shortName }}</p>
+    </div>
+  </div>
+
+  @if (game.result; as result) {
+    <div class="result">
+      <span class="result-home">{{ result.scoreTeamHome }}</span>
+      <span class="result-guest">{{ result.scoreTeamGuest }}</span>
+      @if (game.bet; as bet) {
+        <span class="bet-home">{{ bet.scoreTeamHome }}</span>
+        <span class="bet-guest">{{ bet.scoreTeamGuest }}</span>
+        <div class="bet-joker">
+          @for (i of getJokerArray(bet); track i) {
+            <span class="material-symbols-rounded">star</span>
+          }
+        </div>
+        <span class="bet-points gradient-text">+{{ points() }}</span>
+      }
+    </div>
+  }
+
+  <wm-button full-width (clickEvent)="focusGame()">Details</wm-button>
+}

@@ -1,0 +1,68 @@
+name: Frontend
+on:
+  push:
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            frontend
+            gradle
+      - name: Install gradle gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+      - name: Linting
+        run: ./gradlew :frontend:lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            frontend
+            gradle
+      - name: Install gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+      - name: Testing
+        run: ./gradlew :frontend:test
+  build:
+    needs: [ lint, test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            frontend
+            gradle
+      - name: 'Build docker image'
+        uses: ./.github/actions/build-docker-image
+        with:
+          project: 'frontend'
+  publish:
+    needs: [ build ]
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'develop'
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+      - name: 'Download docker image artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: 'wm-2026-frontend-${{ github.sha }}'
+      - name: 'Load docker image'
+        run: gunzip -c image.tar.gz | docker load
+      - name: 'Publish docker image'
+        uses: ./.github/actions/publish-docker-image
+        with:
+          project: 'frontend'

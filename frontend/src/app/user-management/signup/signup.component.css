@@ -1,0 +1,42 @@
+wm-user-management-panel {
+  display: block;
+  margin: 0 auto;
+  max-width: 56em;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  .login {
+    display: flex;
+    gap: calc(.5em / .75);
+    font-size: .875em;
+
+    a {
+      color: var(--wm-color-secondary-600);
+      text-decoration: none;
+      transition: color .2s ease;
+
+      &:hover {
+        color: var(--wm-color-secondary-900);
+      }
+    }
+  }
+
+  .continue {
+    display: flex;
+    align-items: center;
+    gap: var(--wm-spacer-3);
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .actions {
+    flex-direction: column;
+    gap: var(--wm-spacer-1);
+  }
+}
+

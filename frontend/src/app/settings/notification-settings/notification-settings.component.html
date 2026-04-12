@@ -1,0 +1,25 @@
+<h2>Benachrichtigungen</h2>
+
+<form [formGroup]="form">
+  <ng-container formArrayName="channels">
+    @for (channel of form.controls.channels.controls; track $index) {
+      <div class="channel" [formGroup]="channel">
+        <mat-slide-toggle hideIcon formControlName="enabled" class="-primary-toggle">{{ channel.controls.data.value | notificationChannel }}
+        </mat-slide-toggle>
+        @if (channel.controls.enabled.value) {
+          <div class="preferences" formArrayName="preferences">
+            @for (preference of channel.controls.preferences.controls; track $index) {
+              <ng-container [formGroup]="preference">
+                <mat-slide-toggle hideIcon
+                                  formControlName="enabled">{{ preference.controls.data.value.type | notificationType }}
+                </mat-slide-toggle>
+              </ng-container>
+            }
+          </div>
+        }
+      </div>
+    }
+  </ng-container>
+</form>
+
+<wm-button (clickEvent)="save()">Speichern</wm-button>

@@ -1,0 +1,51 @@
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  height: 100%;
+
+  .dropdown {
+    display: block;
+    position: relative;
+    height: 100%;
+    font-size: 1em;
+
+    .dropdown-content {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      min-width: 10em;
+      width: 100%;
+      margin-top: .5em;
+      background-color: #fff;
+      box-shadow: .125em .125em 1.25em 0 #0000005f;
+      z-index: 10;
+      font-size: 1em;
+
+      a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .125em;
+        height: 2.5em;
+        padding: 0 1.25em;
+        text-decoration: none;
+        color: var(--wm-color-neutral-600);
+        cursor: pointer;
+        transition: background-color .25s ease;
+
+        .material-symbols-rounded {
+          font-size: 1.25em;
+        }
+
+        .text {
+          font-size: .875em;
+        }
+
+        &:hover {
+          background-color: var(--wm-color-neutral-100);
+        }
+      }
+    }
+  }
+}

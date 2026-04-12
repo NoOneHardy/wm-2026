@@ -1,0 +1,16 @@
+POST http://localhost:26000/api/login
+Content-Type: application/json
+
+{
+  "username": "No1Hardy",
+  "password": "admin123"
+}
+###
+
+GET http://localhost:26000/api/user
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJObzFIYXJkeSIsImlhdCI6MTc2MDM5MzE3NSwiZXhwIjoxNzYwMzk2Nzc1fQ.PZbtPkPmAAKraigVlkHcyNH1PwoYdLKBQ-k_l_R9TWI; Max-Age=3600; Expires=Mon, 13 Oct 2025 23:06:15 GMT; Path=/; Secure; HttpOnly
+###
+
+PUT http://localhost:26000/api/user/resend-verification
+Cookie: jwt=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhNTE0ZDU4Ny1iYjdiLTQyODktOWJjYi1jNGViMDJlZGQ3NjYiLCJpYXQiOjE3NjcwNTAwNTgsImV4cCI6MTc2NzA1MzY1OH0.wEdBrIJNKQgx-QDtL8PSYZapm7PU-6oLC16bjlMoBvI; Max-Age=3600; Expires=Tue, 30 Dec 2025 00:14:18 GMT; Path=/; Secure; HttpOnly
+###

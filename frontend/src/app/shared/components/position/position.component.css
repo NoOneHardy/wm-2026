@@ -1,0 +1,93 @@
+.position {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr auto;
+  grid-template-areas: 'movement ranking avatar name points';
+  align-items: center;
+  height: var(--wm-spacer-7);
+  padding: 0 var(--wm-spacer-3);
+  border-radius: var(--wm-spacer-1);
+  background-color: var(--wm-color-white-600);
+  gap: .5em;
+  box-shadow: 0 0 .5em 0 #0000003d;
+  cursor: pointer;
+  transition: background-color .25s ease;
+
+  &:hover {
+    background-color: var(--wm-color-neutral-100);
+  }
+
+  &.-highlight {
+    background-color: var(--wm-color-primary-200);
+
+    &:hover {
+      background-color: var(--wm-color-primary-400);
+    }
+  }
+
+  .movement {
+    grid-area: movement;
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--wm-color-orange-600);
+
+    &.keyboard_arrow_down {
+      color: var(--wm-color-red-900);
+    }
+
+    &.keyboard_arrow_up {
+      color: var(--wm-color-secondary-600);
+    }
+
+    &.keyboard_double_arrow_down {
+      color: var(--wm-color-red-600);
+    }
+
+    &.keyboard_double_arrow_up {
+      color: var(--wm-color-primary-600);
+    }
+  }
+
+  .ranking {
+    grid-area: ranking;
+    display: grid;
+    place-items: center;
+    width: var(--wm-spacer-6);
+    font: var(--wm-font-h3);
+  }
+
+  .avatar {
+    grid-area: avatar;
+    height: 2.5em;
+    width: 2.5em;
+  }
+
+  .name {
+    grid-area: name;
+    font: var(--wm-font-medium-text);
+  }
+
+  .points {
+    font: var(--wm-font-medium-bold);
+    color: var(--wm-color-primary-600);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .position {
+    grid-template-columns: 1fr auto auto;
+    grid-template-areas:
+      'name avatar avatar'
+      'points movement ranking';
+    gap: var(--wm-spacer-1) .125em;
+    height: auto;
+    padding: var(--wm-spacer-1) var(--wm-spacer-3);
+
+    .avatar {
+      justify-self: end;
+    }
+
+    .ranking {
+      width: auto;
+    }
+  }
+}

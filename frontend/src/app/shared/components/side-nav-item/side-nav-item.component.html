@@ -1,0 +1,6 @@
+<a [routerLink]="route()" (click)="clickAction.emit($event)" routerLinkActive="-active">
+  @if (icon(); as icon) {
+    <span class="material-symbols-rounded">{{ icon }}</span>
+  }
+  <span class="label"><ng-content/></span>
+</a>

@@ -1,0 +1,61 @@
+name: load-service-config
+author: no1ha
+description: load-service-config
+inputs:
+  secret_key:
+    description: 'SECRET_KEY'
+    required: true
+  database_host:
+    description: 'DATABASE_HOST'
+    required: true
+  database_user:
+    description: 'DATABASE_USER'
+    required: true
+  database_pw:
+    description: 'DATABASE_PW'
+    required: true
+  smtp_host:
+    description: 'SMTP_HOST'
+    required: true
+  smtp_port:
+    description: 'SMTP_PORT'
+    required: true
+  smtp_user:
+    description: 'SMTP_USER'
+    required: true
+  smtp_pw:
+    description: 'SMTP_PW'
+    required: true
+  base_url:
+    description: 'BASE_URL'
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: 'Load secret key'
+      shell: bash
+      run: echo "SECRET_KEY=${{ inputs.secret_key }}" > service/.env
+    - name: 'Load db host'
+      shell: bash
+      run: echo "DATABASE_HOST=${{ inputs.database_host }}" >> service/.env
+    - name: 'Load db user'
+      shell: bash
+      run: echo "DATABASE_USER=${{ inputs.database_user }}" >> service/.env
+    - name: 'Load db password'
+      shell: bash
+      run: echo "DATABASE_PW=${{ inputs.database_pw }}" >> service/.env
+    - name: 'Load smtp host'
+      shell: bash
+      run: echo "SMTP_HOST=${{ inputs.smtp_host }}" >> service/.env
+    - name: 'Load smtp port'
+      shell: bash
+      run: echo "SMTP_PORT=${{ inputs.smtp_port }}" >> service/.env
+    - name: 'Load smtp user'
+      shell: bash
+      run: echo "SMTP_USER=${{ inputs.smtp_user }}" >> service/.env
+    - name: 'Load smtp password'
+      shell: bash
+      run: echo "SMTP_PW=${{ inputs.smtp_pw }}" >> service/.env
+    - name: 'Load base url'
+      shell: bash
+      run: echo "BASE_URL=${{ inputs.base_url }}" >> service/.env

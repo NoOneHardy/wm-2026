@@ -1,0 +1,12 @@
+<div class="heading" (pointerup)="expanded = !expanded">
+  <span class="name">{{ name() }}</span>
+  <button [class.-expanded]="expanded">
+    <span class="material-symbols-rounded">keyboard_arrow_down</span>
+  </button>
+</div>
+<div class="content" [class.-expanded]="expanded" [@expandable]="expanded ? 'expanded' : 'collapsed'">
+  <ng-content select="[wm-content]"/>
+</div>
+<div class="preview" [class.-expanded]="expanded" [@expandable]="expanded ? 'collapsed' : 'expanded'">
+  <ng-content select="[wm-preview]"/>
+</div>

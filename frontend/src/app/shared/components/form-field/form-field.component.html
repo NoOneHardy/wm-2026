@@ -1,0 +1,9 @@
+<div class="form-field">
+  <ng-content/>
+  @if (isPassword) {
+    <button type="button" class="show-password-icon material-symbols-rounded" (click)="togglePasswordVisibility()" tabindex="-1">
+      visibility{{isPasswordVisible ? '_off' : ''}}
+    </button>
+  }
+  <wm-spinner class="loader"/>
+</div>

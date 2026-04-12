@@ -1,0 +1,7 @@
+@mixin base-overrides() {
+  mat-icon {
+    &.-fill {
+      font-variation-settings: 'FILL' 1;
+    }
+  }
+}

@@ -1,0 +1,131 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <wm-user-management-panel heading="Konto erstellen">
+    <ng-container wm-content>
+      <div class="mdc-layout-grid__inner">
+        <mat-form-field
+          class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+          <mat-label>Benutzername</mat-label>
+          <input matInput formControlName="username"/>
+          @if (hasError(formGroup.get('username'), 'required')) {
+            <mat-error>Pflichtfeld</mat-error>
+          }
+          @if (hasError(formGroup.get('username'), 'minlength')) {
+            <mat-error>Min. 5 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('username'), 'maxlength')) {
+            <mat-error>Max. 25 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('username'), 'usernameAvailable')) {
+            <mat-error>Benutzername wird bereits verwendet</mat-error>
+          }
+          @if (formGroup.controls.username.pending) {
+            <mat-spinner matTextSuffix [diameter]="24" mode="indeterminate"/>
+          }
+        </mat-form-field>
+        <mat-form-field
+          class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+          <mat-label>E-Mail</mat-label>
+          <input matInput formControlName="email"/>
+          @if (hasError(formGroup.get('email'), 'required')) {
+            <mat-error>Pflichtfeld</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'minlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'maxlength')) {
+            <mat-error>Max. 50 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'email')) {
+            <mat-error>Ungültiges Format</mat-error>
+          }
+          @if (hasError(formGroup.get('email'), 'emailAvailable')) {
+            <mat-error>E-Mail wird bereits verwendet</mat-error>
+          }
+          @if (formGroup.controls.email.pending) {
+            <mat-spinner matTextSuffix [diameter]="24" mode="indeterminate"/>
+          }
+        </mat-form-field>
+
+        <mat-form-field
+          class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+          <mat-label>Vorname</mat-label>
+          <input matInput formControlName="firstname"/>
+          @if (hasError(formGroup.get('firstname'), 'required')) {
+            <mat-error>Pflichtfeld</mat-error>
+          }
+          @if (hasError(formGroup.get('firstname'), 'minlength')) {
+            <mat-error>Min. 2 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('firstname'), 'maxlength')) {
+            <mat-error>Max. 25 Zeichen</mat-error>
+          }
+        </mat-form-field>
+        <mat-form-field
+          class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+          <mat-label>Nachname</mat-label>
+          <input matInput formControlName="lastname"/>
+          @if (hasError(formGroup.get('lastname'), 'required')) {
+            <mat-error>Pflichtfeld</mat-error>
+          }
+          @if (hasError(formGroup.get('lastname'), 'minlength')) {
+            <mat-error>Min. 2 Zeichen</mat-error>
+          }
+          @if (hasError(formGroup.get('lastname'), 'maxlength')) {
+            <mat-error>Max. 25 Zeichen</mat-error>
+          }
+        </mat-form-field>
+
+        <ng-container formGroupName="passwords">
+          <mat-form-field
+            class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+            <mat-label>Passwort</mat-label>
+            <input matInput formControlName="password" type="password"
+                   [errorStateMatcher]="passwordErrorStateMatcher"/>
+            @if (hasError(formGroup.get('passwords.password'), 'required')) {
+              <mat-error>Pflichtfeld</mat-error>
+            }
+            @if (hasError(formGroup.get('passwords.password'), 'minlength')) {
+              <mat-error>Min. 8 Zeichen</mat-error>
+            }
+            @if (hasError(formGroup.get('passwords.password'), 'maxlength')) {
+              <mat-error>Max. 50 Zeichen</mat-error>
+            }
+            @if (showPasswordMatchError('password')) {
+              <mat-error>Passwörter müssen übereinstimmen</mat-error>
+            }
+            <mat-icon matIconSuffix wmPasswordIcon/>
+          </mat-form-field>
+          <mat-form-field
+            class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
+            <mat-label>Passwort bestätigen</mat-label>
+            <input matInput formControlName="confirmPassword" type="password"
+                   [errorStateMatcher]="confirmPasswordErrorStateMatcher"/>
+            @if (hasError(formGroup.get('passwords.confirmPassword'), 'required')) {
+              <mat-error>Pflichtfeld</mat-error>
+            }
+            @if (showPasswordMatchError('confirmPassword')) {
+              <mat-error>Passwörter müssen übereinstimmen</mat-error>
+            }
+            <mat-icon matIconSuffix wmPasswordIcon/>
+          </mat-form-field>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <ng-container wm-actions>
+      <div class="actions">
+        <div class="login">
+          <p>Bereits ein Konto?</p>
+          <a href="/login">Anmelden</a>
+        </div>
+
+        <div class="continue">
+          @if (isLoading()) {
+            <mat-progress-spinner [diameter]="24" mode="indeterminate"/>
+          }
+          <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+        </div>
+      </div>
+    </ng-container>
+  </wm-user-management-panel>
+</form>

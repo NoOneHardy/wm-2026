@@ -1,0 +1,54 @@
+@use '@angular/material' as mat;
+@use './m3-theme';
+
+@mixin base-overrides() {
+  $iconColor: mat.get-theme-color(m3-theme.$light-theme, neutral, 60);
+
+  @include mat.form-field-overrides((
+    filled-container-shape: .25em,
+    filled-container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 94),
+    filled-disabled-container-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 98),
+    filled-disabled-input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 70),
+    filled-disabled-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    filled-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    filled-focus-label-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 60),
+    filled-input-text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 40),
+    leading-icon-color: $iconColor,
+    trailing-icon-color: $iconColor,
+    disabled-leading-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    disabled-trailing-icon-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 80),
+    hover-state-layer-opacity: 0.05,
+    container-text-size: 1.125em,
+    container-text-tracking: 0,
+    container-text-weight: 500,
+    filled-label-text-size: 1em,
+    filled-label-text-tracking: 0,
+    filled-label-text-weight: 500,
+    filled-disabled-active-indicator-color: transparent,
+    subscript-text-size: .75em
+  ));
+
+  .mdc-text-field--filled {
+    border-bottom-right-radius: var(--mdc-filled-text-field-container-shape);
+    border-bottom-left-radius: var(--mdc-filled-text-field-container-shape);
+    box-shadow: 0 2px 4px 0 #0000001a inset;
+
+    &.mdc-text-field--invalid {
+      background-color: mat.get-theme-color(m3-theme.$light-theme, error, 90);
+    }
+  }
+
+  .mat-form-field-disabled .mdc-text-field--filled {
+    box-shadow: none;
+  }
+
+  mat-form-field.full-width {
+    width: 100%;
+  }
+
+  mat-form-field mat-spinner {
+    @include mat.progress-spinner-overrides((
+      active-indicator-color: $iconColor
+    ));
+  }
+}

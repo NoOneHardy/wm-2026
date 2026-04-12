@@ -1,0 +1,209 @@
+<div class="admin-page">
+  <section class="admin-intro">
+    <h1>Spiele anlegen</h1>
+    <p>Wähle Gruppe sowie Heim- und Gastteam aus.</p>
+  </section>
+
+  <section class="admin-card" [formGroup]="formGroup">
+    @if (isLoadingOptions()) {
+      <div class="loader-wrapper">
+        <wm-spinner/>
+      </div>
+    } @else {
+      @if (!groups().length || teams().length < 2) {
+        <div class="admin-callout">
+          <span class="material-symbols-rounded">info</span>
+          <div>
+            <p class="title">Noch nicht genug Daten vorhanden</p>
+            <p class="copy">Lege zuerst mindestens eine Gruppe und zwei Teams an, bevor du ein Spiel erstellst.</p>
+          </div>
+        </div>
+      }
+
+      <div class="mdc-layout-grid__inner">
+        <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6">
+          <mat-label>Spieltag</mat-label>
+          <input matInput formControlName="date" [matDatepicker]="picker">
+          <mat-datepicker-toggle matIconSuffix [for]="picker"/>
+          <mat-datepicker #picker/>
+          <mat-hint>DD.MM.YYYY</mat-hint>
+          <mat-error>Pflichtfeld</mat-error>
+        </mat-form-field>
+        <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6">
+          <mat-label>Anpfiff</mat-label>
+          <input matInput formControlName="time" [matTimepicker]="timePicker">
+          <mat-timepicker-toggle matIconSuffix [for]="timePicker"/>
+          <mat-timepicker #timePicker/>
+          <mat-error>Pflichtfeld</mat-error>
+        </mat-form-field>
+
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__inner">
+          <mat-form-field class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
+            <mat-label>Gruppe</mat-label>
+            <input #groupSearchInput
+                   type="text"
+                   matInput
+                   formControlName="group"
+                   [matAutocomplete]="autoGroup"
+                   (input)="filterGroups()"
+                   (focus)="filterGroups()"
+                   (blur)="resetGroupSearch()">
+
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-error>Pflichtfeld</mat-error>
+
+            <mat-autocomplete
+              requireSelection
+              autoActiveFirstOption
+              autoSelectActiveOption
+              #autoGroup="matAutocomplete"
+              [displayWith]="groupDisplayFn.bind(this)">
+              @for (group of filteredGroups(); track group.id) {
+                <mat-option [value]="group.id">{{ groupDisplayFn(group) }}</mat-option>
+              }
+              @if (!filteredGroups().length) {
+                <mat-option disabled>Keine Gruppen gefunden</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+
+          @if (selectedGroup; as group) {
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
+              <div>
+                <p class="title">{{ group.name }}</p>
+                <p class="copy">{{ group.isKnockout ? 'K.O.-Runde' : 'Gruppenphase' }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
+          <mat-form-field subscriptSizing="fixed"
+                          class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
+            <mat-label>Heimteam</mat-label>
+            <input #teamHomeSearchInput
+                   type="text"
+                   matInput
+                   formControlName="teamHome"
+                   [matAutocomplete]="autoTeamHome"
+                   (input)="filterHomeTeams()"
+                   (focus)="resetHomeTeamSearch()"
+                   (blur)="resetHomeTeamSearch()">
+
+            <mat-icon matPrefix>search</mat-icon>
+            <mat-error>Pflichtfeld</mat-error>
+
+            <mat-autocomplete
+              requireSelection
+              autoActiveFirstOption
+              autoSelectActiveOption
+              #autoTeamHome="matAutocomplete"
+              [displayWith]="teamDisplayFn.bind(this)">
+              @for (team of filteredHomeTeams(); track team.id) {
+                <mat-option [value]="team.id">
+                  <span class="option-with-flag">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ teamDisplayFn(team) }}</span>
+                  </span>
+                </mat-option>
+              }
+
+              @if (!filteredHomeTeams().length) {
+                <mat-option disabled>Keine Teams gefunden</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+
+          @if (selectedHomeTeam; as team) {
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
+              <div class="flag">
+                <img [ngSrc]="team.flag" [alt]="team.name" fill>
+              </div>
+              <div>
+                <p class="title">{{ team.name }}</p>
+                <p class="copy">{{ team.shortName }}</p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <div class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-6 mdc-layout-grid__inner">
+          <mat-form-field subscriptSizing="fixed"
+                          class="mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top mdc-layout-grid__cell--align-top">
+            <mat-label>Gastteam</mat-label>
+            <input #teamGuestSearchInput
+                   type="text"
+                   matInput
+                   formControlName="teamGuest"
+                   [matAutocomplete]="autoTeamGuest"
+                   [errorStateMatcher]="guestTeamErrorStateMatcher"
+                   (input)="filterGuestTeams()"
+                   (focus)="resetGuestTeamSearch()"
+                   (blur)="resetGuestTeamSearch()">
+
+            <mat-icon matPrefix>search</mat-icon>
+
+            @if (hasError(formGroup.get('teamGuest'), 'required')) {
+              <mat-error>Pflichtfeld</mat-error>
+            }
+
+            @if (hasError(formGroup, 'sameTeams') && !hasError(formGroup.get('teamGuest'))) {
+              <mat-error>Gastteam muss sich vom Heimteam unterscheiden</mat-error>
+            }
+
+            <mat-autocomplete
+              requireSelection
+              autoActiveFirstOption
+              autoSelectActiveOption
+              #autoTeamGuest="matAutocomplete"
+              [displayWith]="teamDisplayFn.bind(this)">
+              @for (team of filteredGuestTeams(); track team.id) {
+                <mat-option [value]="team.id">
+                  <span class="option-with-flag">
+                    <span class="flag"><img [ngSrc]="team.flag" [alt]="team.name" fill></span>
+                    <span>{{ teamDisplayFn(team) }}</span>
+                  </span>
+                </mat-option>
+              }
+
+              @if (!filteredGuestTeams().length) {
+                <mat-option disabled>Keine Teams gefunden</mat-option>
+              }
+            </mat-autocomplete>
+          </mat-form-field>
+
+          @if (selectedGuestTeam; as team) {
+            <div class="entity-preview mdc-layout-grid__cell--align-top mdc-layout-grid__cell--span-12">
+              <div class="flag">
+                <img [ngSrc]="team.flag" [alt]="team.name" fill>
+              </div>
+              <div>
+                <p class="title">{{ team.name }}</p>
+                <p class="copy">{{ team.shortName }}</p>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <wm-button icon="add_circle" (clickEvent)="submit()"
+                 [disabled]="isSaving() || !groups().length || teams().length < 2">Spiel erstellen
+      </wm-button>
+
+      @if (createdGame(); as game) {
+        <div class="entity-preview">
+          <div class="flag">
+            <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+          </div>
+          <div>
+            <p class="title">{{ game.teamHome.name }} vs. {{ game.teamGuest.name }}</p>
+            <p class="copy">{{ game.groupName }}</p>
+          </div>
+          <div class="flag">
+            <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
+          </div>
+        </div>
+      }
+    }
+  </section>
+</div>

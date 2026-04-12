@@ -1,0 +1,82 @@
+<div class="dashboard">
+  <div class="greeting">
+    <h1>{{ greeting() }}</h1>
+  </div>
+  <div class="summary">
+    @if (dashboardData()?.userSummary; as summary) {
+      @if (summary.ranking; as ranking) {
+        <div class="summary-item">
+          <h2 class="gradient-text">{{ ranking }}.</h2>
+          <span>Rang</span>
+        </div>
+      }
+      <div class="summary-item">
+        <h2 class="gradient-text">{{ summary.points }}</h2>
+        <span>Punkte</span>
+      </div>
+      <div class="summary-item">
+        <h2 class="gradient-text">{{ summary.percentage | number:'1.0-0' }}%</h2>
+        <span>Ausgefüllt</span>
+      </div>
+      <div class="summary-item">
+        @switch (summary.isConfirmed) {
+          @case (true) {
+            <i class="material-symbols-rounded confirmed gradient-text">check_circle</i>
+            <span>Bestätigt</span>
+          }
+          @case (false) {
+            <i class="material-symbols-rounded denied gradient-text">do_not_disturb_on</i>
+            <span>Abgelehnt</span>
+          }
+          @case (null) {
+            <i class="material-symbols-rounded pending gradient-text">schedule</i>
+            <span>Angefragt</span>
+          }
+        }
+      </div>
+    }
+  </div>
+  <div class="leaderboard-preview">
+    <h3>Deine Position</h3>
+    @if (isLoading()) {
+      <wm-spinner/>
+    } @else {
+      <div class="leaderboard">
+        @for (position of leaderboardPreview(); track position) {
+          <wm-position
+            [ranking]="position"
+            [class.-current]="position.id === user()?.id"
+            [highlight]="position.id === user()?.id"/>
+        }
+        @if (leaderboardPreview().length === 0) {
+          <p>Du wurdest noch nicht bestätigt.</p>
+          <p>Kontaktiere einen Administrator um in das Ranking aufgenommen zu werden.</p>
+        }
+      </div>
+    }
+  </div>
+
+  <div class="upcoming">
+    <h3>Nächste Spiele</h3>
+    @if (isLoading()) {
+      <wm-spinner/>
+    } @else {
+      @if (dashboardData(); as data) {
+        <wm-upcoming-games [games]="data.upcomingGames"/>
+      }
+    }
+  </div>
+
+  <div class="recent">
+    <h3>Kürzlich gespielt</h3>
+    @if (isLoading()) {
+      <wm-spinner/>
+    } @else {
+      @if (dashboardData(); as data) {
+        <wm-recent-results [games]="data.recentResults"/>
+      }
+    }
+  </div>
+
+  <wm-statistics [globalStats]="dashboardData()?.globalStats" [personalStats]="dashboardData()?.stats"/>
+</div>

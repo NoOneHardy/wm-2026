@@ -1,0 +1,98 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wm-spacer-2);
+  padding: var(--wm-spacer-3);
+  border-radius: 1.5em;
+
+  .payout-row {
+    --share: 0%;
+
+    display: grid;
+    grid-template-columns: 4.75em minmax(0, 1fr) 3.5em;
+    align-items: center;
+    gap: var(--wm-spacer-2);
+
+    &.-first {
+      .place-badge {
+
+        background-image: linear-gradient(to bottom, #ffcf66, #ffb347);
+        color: var(--wm-color-orange-900);
+      }
+
+      .share-bar .fill {
+        background-image: linear-gradient(to right, #ffcf66, #ffb347);
+      }
+    }
+
+    &.-second {
+      .place-badge {
+        background-image: linear-gradient(to bottom, #dfe7ea, #b9c7ce);
+        color: #3f555e;
+      }
+
+      .share-bar .fill {
+        background-image: linear-gradient(to right, #dfe7ea, #b9c7ce);
+      }
+    }
+
+    .place-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 3.25em;
+      padding: .4em .5em;
+      border-radius: 1em;
+      background-image: var(--wm-gradient-primary-200);
+      color: var(--wm-color-secondary-900);
+
+      .place {
+        font: var(--wm-font-regular-bold);
+        line-height: 1;
+      }
+
+      .label {
+        font: var(--wm-font-small-bold);
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        opacity: .75;
+      }
+    }
+
+    .share-bar {
+      position: relative;
+      height: .9em;
+      border-radius: 100vh;
+      overflow: hidden;
+      background-color: #dfeadf;
+
+      .fill {
+        width: var(--share);
+        height: 100%;
+        border-radius: inherit;
+        background-image: var(--wm-gradient-primary-200);
+        box-shadow: inset 0 0 0 1px #ffffff40;
+      }
+    }
+
+    .share {
+      justify-self: end;
+      font: var(--wm-font-regular-bold);
+      color: var(--wm-color-secondary-900);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  :host {
+    .payout-row {
+      grid-template-columns: 4.1em minmax(0, 1fr) 3em;
+
+      .place-badge {
+        min-height: 3em;
+        padding: .35em .4em;
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+name: Service
+on:
+  push:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '21'
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            service
+            gradle
+      - name: Java version
+        run: java -version
+      - name: 'Get configuration'
+        uses: ./.github/actions/load-service-config
+        with:
+          secret_key: ${{ secrets.SERVICE_CONF_SECRET_KEY }}
+          database_host: ${{ secrets.SERVICE_CONF_DATABASE_HOST }}
+          database_user: ${{ secrets.SERVICE_CONF_DATABASE_USER }}
+          database_pw: ${{ secrets.SERVICE_CONF_DATABASE_PW }}
+          smtp_host: ${{ secrets.SERVICE_CONF_SMTP_HOST }}
+          smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
+          smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
+          smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
+          base_url: ${{ secrets.BASE_URL }}
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Grant execute permission to gradlew
+        run: chmod +x ./gradlew
+      - name: Testing
+        run: ./gradlew :service:test
+  build:
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+            service
+            gradle
+      - name: 'Get service configuration'
+        uses: ./.github/actions/load-service-config
+        with:
+          secret_key: ${{ secrets.SERVICE_CONF_SECRET_KEY }}
+          database_host: ${{ secrets.SERVICE_CONF_DATABASE_HOST }}
+          database_user: ${{ secrets.SERVICE_CONF_DATABASE_USER }}
+          database_pw: ${{ secrets.SERVICE_CONF_DATABASE_PW }}
+          smtp_host: ${{ secrets.SERVICE_CONF_SMTP_HOST }}
+          smtp_port: ${{ secrets.SERVICE_CONF_SMTP_PORT }}
+          smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
+          smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
+          base_url: ${{ secrets.BASE_URL }}
+      - name: 'Build docker image'
+        uses: ./.github/actions/build-docker-image
+        with:
+          project: 'service'
+  publish:
+    needs: [ build ]
+    if: github.ref_name == 'develop'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github
+      - name: 'Download docker image artifact'
+        uses: actions/download-artifact@v4
+        with:
+          name: 'wm-2026-service-${{ github.sha }}'
+      - name: 'Load docker image'
+        run: gunzip -c image.tar.gz | docker load
+      - name: 'Publish docker image'
+        uses: ./.github/actions/publish-docker-image
+        with:
+          project: 'service'

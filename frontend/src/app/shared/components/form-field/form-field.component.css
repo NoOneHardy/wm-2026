@@ -1,0 +1,129 @@
+wm-form-field {
+  --wm-form-field-font-size: 1em;
+
+  display: block;
+  margin-bottom: calc(var(--wm-form-field-font-size) * 1.5 / 1.125);
+
+  .form-field {
+    position: relative;
+
+    &:has(input:not(:placeholder-shown)), &:focus-within {
+      label {
+        top: .3em;
+        left: 1.25em;
+        font-size: calc(var(--wm-form-field-font-size) * .5);
+      }
+
+      &:has(input[type="number"]) {
+        label {
+          display: none;
+        }
+      }
+    }
+
+    &:has(input[type="number"]) {
+      label {
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &:has(input.ng-invalid.ng-touched) {
+      label, .show-password-icon {
+        color: var(--wm-color-red-400);
+      }
+
+      input {
+        background-color: var(--wm-color-red-100);
+        color: var(--wm-color-red-600);
+      }
+
+      span {
+        opacity: 1;
+      }
+    }
+
+    &:has(input.ng-pending) {
+      .loader {
+        display: flex;
+      }
+    }
+
+    .show-password-icon {
+      position: absolute;
+      top: 50%;
+      right: .75em;
+      border: none;
+      font-size: calc(var(--wm-form-field-font-size) * 1.5);
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: var(--wm-color-neutral-400);
+      background-color: transparent;
+      transition: color .2s ease;
+    }
+
+    label {
+      position: absolute;
+      top: .5em;
+      left: calc(2em / 3);
+      color: var(--wm-color-neutral-400);
+      font-size: calc(var(--wm-form-field-font-size) * 1.125);
+      font-weight: 600;
+      transition: font-size .2s ease, top .2s ease, left .2s ease, color .2s ease;
+      pointer-events: none;
+    }
+
+    input {
+      width: 100%;
+      height: calc(1em / 16 / 1.125 * 40);
+      background-color: var(--wm-color-neutral-100);
+      border: none;
+      border-radius: calc(2em / 9);
+      outline: none;
+      padding: calc(2em / 3) calc(2em / 3) calc(1em / 3);
+      font-size: calc(var(--wm-form-field-font-size) * 1.125);
+      font-weight: 500;
+      color: var(--wm-color-neutral-500);
+      box-shadow: 0 calc(1em / 9) calc(2em / 9) 0 #0000001a inset;
+      transition: color .2s ease, background-color .2s ease;
+
+      &[type="number"] {
+        font-weight: 600;
+
+        text-align: center;
+        -moz-appearance: textfield;
+
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+
+      &:disabled {
+        box-shadow: none;
+        color: var(--wm-color-neutral-400);
+      }
+    }
+
+    span {
+      position: absolute;
+      display: block;
+      opacity: 0;
+      width: 100%;
+      font-size: .75em;
+      margin-top: calc(.125em / .75);
+      margin-left: calc(.125em / .75);
+      color: var(--wm-color-red-400);
+      transition: opacity .2s ease;
+    }
+
+    .loader {
+      display: none;
+      font-size: 1em;
+      margin-left: .125em;
+      margin-top: .125em;
+    }
+  }
+}

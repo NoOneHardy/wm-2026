@@ -1,0 +1,36 @@
+:host {
+  display: grid;
+  grid-template-columns: 18em 1fr;
+  gap: var(--wm-spacer-8);
+  height: calc(100vh - var(--wm-header-height));
+  padding: 8em 0 0 7.5em;
+
+  .side-nav {
+    margin-bottom: 8em;
+  }
+
+  .content {
+    padding: var(--wm-spacer-3) 0;
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  @media screen and (max-width: 1200px) {
+    padding: var(--wm-spacer-8) 0 0 var(--wm-spacer-7);
+  }
+
+  @media screen and (max-width: 992px) {
+    height: auto;
+    padding: var(--wm-spacer-3) var(--wm-spacer-4);
+    grid-template-columns: 1fr;
+    gap: var(--wm-spacer-5);
+
+    .side-nav {
+      margin-bottom: 0;
+    }
+
+    .content {
+      padding: 0 var(--wm-spacer-3);
+    }
+  }
+}

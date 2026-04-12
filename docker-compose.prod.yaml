@@ -1,0 +1,51 @@
+name: 'wm'
+services:
+  frontend:
+    container_name: 'wm-frontend'
+    hostname: 'wm-frontend'
+    image: docker.no1hardy.ch/wm-2026-frontend:latest
+    pull_policy: always
+    restart: unless-stopped
+  mysql:
+    container_name: 'wm-mysql'
+    hostname: 'wm-mysql'
+    image: mysql:8.3.0
+    ports:
+      - '26096:3306'
+    volumes:
+      - 'mysql-data:/var/lib/mysql'
+    env_file:
+      - mysql/.env
+    environment:
+      MYSQL_DATABASE: wm
+    restart: unless-stopped
+  proxy:
+    container_name: 'wm-proxy'
+    hostname: 'wm-proxy'
+    image: docker.no1hardy.ch/wm-2026-proxy:latest
+    pull_policy: always
+    ports:
+      - '26000:80'
+    env_file:
+      - './proxy/.env'
+    restart: unless-stopped
+  cdn:
+    container_name: 'wm-cdn'
+    hostname: 'wm-cdn'
+    image: nginx
+    volumes:
+      - './storage:/usr/share/nginx/html:ro'
+    restart: unless-stopped
+  service:
+    container_name: 'wm-service'
+    hostname: 'wm-service'
+    image: docker.no1hardy.ch/wm-2026-service:latest
+    pull_policy: always
+    env_file:
+      - ./service/.env
+    volumes:
+      - './storage:/app/storage'
+    restart: unless-stopped
+volumes:
+  mysql-data:
+    name: 'wm-mysql-data'

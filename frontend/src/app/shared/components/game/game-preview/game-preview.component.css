@@ -1,0 +1,117 @@
+:host {
+  position: relative;
+  display: block;
+  width: fit-content;
+  padding: var(--wm-spacer-4) var(--wm-spacer-4) var(--wm-spacer-3);
+  border-radius: .5em;
+  box-shadow: 0 0 .5em 0 #0000003d;
+  background-color: var(--wm-color-white-600);
+  overflow: hidden;
+
+  .alert {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: var(--wm-color-orange-400);
+    border-bottom: 1px solid var(--wm-color-orange-900);
+    box-shadow: 0 0 .25em 0 var(--wm-color-orange-600);
+
+    span {
+      display: block;
+      width: fit-content;
+      margin: .25em auto;
+      font-size: 1em;
+      color: var(--wm-color-orange-900);
+    }
+  }
+
+  h3 {
+    font: var(--wm-font-h3);
+    text-align: center;
+  }
+
+  .timestamp {
+    font: var(--wm-font-regular-text);
+    color: var(--wm-color-neutral-400);
+    text-align: center;
+    margin-bottom: var(--wm-spacer-3);
+  }
+
+  .teams {
+    display: flex;
+    gap: var(--wm-spacer-4);
+
+    .flag {
+      height: var(--wm-spacer-7);
+      width: var(--wm-spacer-7);
+      margin-bottom: var(--wm-spacer-1);
+    }
+
+    p {
+      font: var(--wm-font-regular-bold);
+      text-align: center;
+    }
+  }
+
+  .result {
+    display: grid;
+    padding: 0 var(--wm-spacer-4);
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    grid-template-areas:
+      'result-home bet-joker result-guest'
+      'bet-home bet-points bet-guest';
+
+    .result-home, .result-guest, .bet-home, .bet-guest {
+      font: var(--wm-font-regular-text);
+      text-align: center;
+      align-self: center;
+      min-width: 1ch;
+    }
+
+    .result-home {
+      grid-area: result-home;
+    }
+
+    .result-guest {
+      grid-area: result-guest;
+    }
+
+    .bet-home, .bet-guest {
+      font: var(--wm-font-small-text) !important;
+      color: var(--wm-color-neutral-400);
+    }
+
+    .bet-home {
+      grid-area: bet-home;
+    }
+
+    .bet-guest {
+      grid-area: bet-guest;
+    }
+
+    .bet-joker {
+      grid-area: bet-joker;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      span {
+        color: var(--wm-color-orange-600);
+        font-variation-settings: 'FILL' 1;
+      }
+    }
+
+    .bet-points {
+      grid-area: bet-points;
+      font: var(--wm-font-regular-bold);
+      text-align: center;
+    }
+  }
+
+  wm-button {
+    display: block;
+    margin-top: var(--wm-spacer-3);
+  }
+}

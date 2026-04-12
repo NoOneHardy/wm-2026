@@ -1,0 +1,74 @@
+name: 'wm-dev'
+services:
+  cdn:
+    container_name: 'wm-dev-cdn'
+    hostname: 'wm-dev-cdn'
+    image: nginx
+    volumes:
+      - './service/storage:/usr/share/nginx/html:ro'
+    restart: unless-stopped
+  frontend:
+    container_name: 'wm-dev-frontend'
+    hostname: 'wm-dev-frontend'
+    build:
+      dockerfile: './frontend/Dockerfile'
+      context: .
+      target: setup
+    volumes:
+      - './frontend:/app'
+      - 'nm-frontend:/app/node_modules'
+    ports:
+      - '4200:4200'
+      - '9876:9876'
+    restart: unless-stopped
+    working_dir: '/app'
+    entrypoint: [ 'npm', 'run', 'start' ]
+  mysql:
+    container_name: 'wm-dev-mysql'
+    hostname: 'wm-dev-mysql'
+    image: mysql:8.3.0
+    ports:
+      - '26006:3306'
+    volumes:
+      - 'mysql-data:/var/lib/mysql'
+    env_file:
+      - 'mysql/.env'
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: true
+      MYSQL_DATABASE: wm
+    restart: unless-stopped
+  service:
+    container_name: 'wm-dev-service'
+    hostname: 'wm-dev-service'
+    build:
+      dockerfile: './service/Dockerfile'
+      context: .
+      target: setup
+    ports:
+      - '26001:26001'
+    volumes:
+      - './service:/app'
+    env_file:
+      - './service/.env'
+    restart: unless-stopped
+    working_dir: '/app'
+    entrypoint: [ 'gradle', ':bootRun' ]
+  proxy:
+    container_name: 'wm-dev-proxy'
+    hostname: 'wm-dev-proxy'
+    build:
+      dockerfile: './proxy/Dockerfile'
+      context: .
+    ports:
+      - '26000:80'
+    volumes:
+      - './proxy/default.conf:/etc/nginx/templates/default.conf.template:ro'
+      - './proxy/nginx.conf:/etc/nginx/nginx.conf'
+    env_file:
+      - './proxy/.env'
+    restart: unless-stopped
+volumes:
+  nm-frontend:
+    name: 'wm-dev-frontend-node-modules'
+  mysql-data:
+    name: 'wm-dev-mysql-data'

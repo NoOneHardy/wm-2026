@@ -1,0 +1,15 @@
+<button [tabindex]="tabindex()"
+  [class.secondary]="secondary()"
+  [class.-with-icon]="icon()"
+  [disabled]="disabled()"
+  [type]="submit() ? 'submit' : 'button'"
+  [style.width]="fullWidth() ? '100%' : 'auto'"
+  (click)="click($event)"
+  (touchend)="click($event)"
+  (keyup.enter)="click($event)"
+  (keyup.space)="click($event)">
+  @if (icon()) {
+    <span class="material-symbols-rounded">{{ icon() }}</span>
+  }
+  <span><ng-content/></span>
+</button>

@@ -1,0 +1,20 @@
+@if (user(); as user) {
+  <div class="user-menu">
+    <wm-notifications/>
+    <div class="dropdown">
+      <wm-user-button (clickButton)="toggleDropdown()" [content]="user.username"/>
+      @if (isDropdownExpanded()) {
+        <div class="dropdown-content">
+          <a routerLink="settings">
+            <span class="material-symbols-rounded">settings</span>
+            <span class="text">Einstellungen</span>
+          </a>
+          <a (click)="logout()" (keyup.space)="logout()" (keyup.enter)="logout()" (touchend)="logout()" tabindex="0">
+            <span class="material-symbols-rounded">logout</span>
+            <span class="text">Abmelden</span>
+          </a>
+        </div>
+      }
+    </div>
+  </div>
+}

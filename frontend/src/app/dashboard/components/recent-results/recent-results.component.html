@@ -1,0 +1,15 @@
+<div class="recent-results">
+  @for (game of games(); track game) {
+    <wm-game-preview [game]="game"/>
+  }
+  @if (games().length === 0) {
+    <div class="no-games">
+      <p>Keine kürzlich gespielten Spiele gefunden.</p>
+    </div>
+  }
+</div>
+
+<a class="link-with-icon" routerLink="/bets">
+  <i class="material-symbols-rounded">arrow_right_alt</i>
+  <span>Zum Tippschein</span>
+</a>

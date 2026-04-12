@@ -1,0 +1,104 @@
+:host {
+  display: block;
+  width: 100%;
+  padding: var(--wm-spacer-8);
+
+  h1 {
+    margin-bottom: var(--wm-spacer-3);
+  }
+
+  .sub-heading.loading {
+    margin-bottom: var(--wm-spacer-3);
+  }
+
+  p.additional-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--wm-spacer-1);
+    width: 100%;
+    font: var(--wm-font-regular-text);
+    color: var(--wm-color-neutral-400);
+    margin-bottom: var(--wm-spacer-6);
+
+    .is-saving {
+      font: var(--wm-font-regular-text);
+    }
+  }
+}
+
+.games {
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--wm-spacer-4) var(--wm-spacer-5);
+  padding: 0 var(--wm-spacer-5);
+  margin-top: 5em;
+}
+
+.action-bar {
+  position: sticky;
+  top: calc(var(--wm-header-height) + var(--wm-spacer-3));
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  gap: var(--wm-spacer-4);
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-top: var(--wm-spacer-4);
+
+  .panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: var(--wm-spacer-3);
+    padding: var(--wm-spacer-3) var(--wm-spacer-4);
+    border-radius: 1em;
+    border: 1px solid #00000012;
+    background-color: #fff;
+    box-shadow: 0 .25em 1em 0 #00000024;
+
+    .panel-title {
+      font: var(--wm-font-small-bold);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--wm-color-neutral-500);
+    }
+
+    .panel-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: var(--wm-spacer-4);
+
+      .wm-link {
+        text-align: center;
+        padding: 0 var(--wm-spacer-2);
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  :host {
+    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+  }
+
+  .action-bar {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
+  .games {
+    margin-top: var(--wm-spacer-5);
+  }
+}
+
+@media screen and (max-width: 576px) {
+  :host {
+    padding: var(--wm-spacer-6) var(--wm-spacer-4);
+  }
+}

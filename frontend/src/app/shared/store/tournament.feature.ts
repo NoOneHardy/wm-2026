@@ -1,0 +1,187 @@
+import {createFeature, createReducer, on} from '@ngrx/store'
+import {CardGroup} from '../../model/group/card-group'
+import {
+  betsSaved,
+  dashboardDataLoaded,
+  getLeaderboard,
+  getOverviewGroups,
+  grantJDouble,
+  grantJTriple,
+  groupLoaded,
+  leaderboardLoaded,
+  loadDashboardData,
+  loadGroup,
+  overviewGroupsLoaded,
+  resetSaving,
+  resultsSaved,
+  revokeJDouble,
+  revokeJTriple,
+  saveBets,
+  saveResults
+} from './tournament.actions'
+import {Group} from '../../model/group/group'
+import {AvailableJokers} from '../../model/group/available-jokers'
+import {Ranking} from '../../model/leaderboard/ranking'
+import {DashboardData} from '../../model/dashboard/dashboard-data'
+
+export interface TournamentState {
+  isTournamentLoading: boolean
+  isTournamentSaving: boolean
+  dashboard: DashboardData | null
+  groups: CardGroup[]
+  percentage: number
+  percentageResult: number
+  activeGroup: Group | null
+  availableJokers: AvailableJokers | null
+  leaderboard: Ranking[]
+}
+
+export const initialState: TournamentState = {
+  isTournamentLoading: false,
+  isTournamentSaving: false,
+  dashboard: null,
+  groups: [],
+  percentage: 0,
+  percentageResult: 0,
+  activeGroup: null,
+  availableJokers: null,
+  leaderboard: []
+}
+
+export const tournamentFeature = createFeature({
+  name: 'tournament',
+  reducer: createReducer(
+    initialState,
+    on(
+      getOverviewGroups,
+      loadGroup,
+      getLeaderboard,
+      loadDashboardData,
+      (state): TournamentState => {
+        return {
+          ...state,
+          isTournamentLoading: true
+        }
+      }),
+    on(saveBets, saveResults, (state): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: true
+      }
+    }),
+    on(resetSaving, (state): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: false
+      }
+    }),
+    on(betsSaved, resultsSaved, (state, action): TournamentState => {
+      return {
+        ...state,
+        isTournamentSaving: false,
+        activeGroup: action.group,
+        availableJokers: action.group.availableJokers
+      }
+    }),
+    on(getOverviewGroups, (state): TournamentState => {
+      return {
+        ...state,
+        groups: []
+      }
+    }),
+    on(getLeaderboard, (state): TournamentState => {
+      return {
+        ...state,
+        leaderboard: []
+      }
+    }),
+    on(overviewGroupsLoaded, (state, action): TournamentState => {
+      return {
+        ...state,
+        isTournamentLoading: false,
+        groups: action.overview.groups,
+        percentage: action.overview.percentage,
+        percentageResult: action.overview.percentageResult,
+        activeGroup: null
+      }
+    }),
+    on(groupLoaded, (state, action): TournamentState => {
+      return {
+        ...state,
+        isTournamentLoading: false,
+        activeGroup: action.group,
+        availableJokers: action.group.availableJokers
+      }
+    }),
+    on(grantJDouble, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jdouble: jokers.jdouble + 1,
+        }
+      }
+    }),
+    on(revokeJDouble, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jdouble: jokers.jdouble - 1
+        }
+      }
+    }),
+    on(grantJTriple, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jtriple: jokers.jtriple + 1
+        }
+      }
+    }),
+    on(revokeJTriple, (state): TournamentState => {
+      const jokers = state.availableJokers
+      if (!jokers) return state
+      return {
+        ...state,
+        availableJokers: {
+          ...jokers,
+          jtriple: jokers.jtriple - 1
+        }
+      }
+    }),
+    on(leaderboardLoaded, (state, action): TournamentState => {
+      return {
+        ...state,
+        leaderboard: action.leaderboard,
+        isTournamentLoading: false
+      }
+    }),
+    on(dashboardDataLoaded, (state, action): TournamentState => {
+      return {
+        ...state,
+        dashboard: action.data,
+        isTournamentLoading: false
+      }
+    })
+  )
+})
+
+export const {
+  selectIsTournamentLoading,
+  selectGroups,
+  selectPercentage,
+  selectPercentageResult,
+  selectActiveGroup,
+  selectIsTournamentSaving,
+  selectAvailableJokers,
+  selectLeaderboard,
+  selectDashboard
+} = tournamentFeature

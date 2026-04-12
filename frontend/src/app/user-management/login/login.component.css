@@ -1,0 +1,25 @@
+wm-user-management-panel {
+  display: block;
+  margin: 0 auto;
+  max-width: 24em;
+}
+
+span.login-error {
+  position: relative;
+  font-size: .75em;
+  top: calc(-1em / .75);
+  margin-left: calc(.125em / .75);
+  color: var(--wm-color-red-400);
+  transition: opacity .2s ease;
+}
+
+a {
+  color: var(--wm-color-secondary-600);
+  text-decoration: none;
+  transition: color .2s ease;
+  font-size: .75em;
+
+  &:hover {
+    color: var(--wm-color-secondary-900);
+  }
+}

@@ -15,6 +15,8 @@ public class UserReq {
     private String avatar;
     private PasswordChange passwordChange;
 
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9-._]+@([A-Za-z0-9-]+\\.)+[A-Za-z0-9-]{2,}$");
+
     /**
      * Complete validation of the user request.
      *
@@ -41,7 +43,7 @@ public class UserReq {
         if (getEmail() != null) {
             validateLength(5, 50, getEmail(), "email", "Email");
 
-            if (!Pattern.compile("^[A-Za-zz0-9-.]+@([A-Za-z0-9-]+\\.)+[A-Za-z0-9-]{2,}$").matcher(getEmail()).matches()) {
+            if (!EMAIL_PATTERN.matcher(getEmail()).matches()) {
                 throw new UserValidationException("Invalid email format", "Ungültiges Email-Format");
             }
         }

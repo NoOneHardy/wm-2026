@@ -188,6 +188,18 @@ public class UserReqTest {
         req.setEmail("test123@no1hardy!.ch");
         assertThrows(UserValidationException.class, req::validate);
 
+        req.setEmail("test_123@no1hardy.ch");
+        assertDoesNotThrow(req::validate);
+
+        req.setEmail("test-123@no1hardy.ch");
+        assertDoesNotThrow(req::validate);
+
+        req.setEmail("test.123@no1hardy.ch");
+        assertDoesNotThrow(req::validate);
+
+        req.setEmail("test123@no1hardy.ch");
+        assertDoesNotThrow(req::validate);
+
         req.setEmail("test@no1hardy.c1h");
         assertDoesNotThrow(req::validate);
     }

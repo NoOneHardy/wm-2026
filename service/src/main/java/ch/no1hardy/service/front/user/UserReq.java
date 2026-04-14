@@ -41,7 +41,7 @@ public class UserReq {
         if (getEmail() != null) {
             validateLength(5, 50, getEmail(), "email", "Email");
 
-            if (!Pattern.compile("^[A-Za-zz0-9-.]+@([A-Za-z0-9-]+\\.)+[A-Za-z0-9-]{2,}$").matcher(getEmail()).matches()) {
+            if (!Pattern.compile("^[A-Za-z0-9-._]+@([A-Za-z0-9-]+\\.)+[A-Za-z0-9-]{2,}$").matcher(getEmail()).matches()) {
                 throw new UserValidationException("Invalid email format", "Ungültiges Email-Format");
             }
         }

@@ -5,9 +5,18 @@ inputs:
   project:
     description: 'The project of the image that is published'
     required: true
+  registry_username:
+    description: 'Docker registry username'
+    required: true
+  registry_password:
+    description: 'Docker registry password or token'
+    required: true
 runs:
   using: composite
   steps:
+    - name: 'Log in to Docker registry'
+      shell: bash
+      run: echo "${{ inputs.registry_password }}" | docker login docker.no1hardy.ch -u "${{ inputs.registry_username }}" --password-stdin
     - name: 'Get current date'
       shell: bash
       run: echo "NOW=$(date +'%y-%m-%d')" >> $GITHUB_ENV

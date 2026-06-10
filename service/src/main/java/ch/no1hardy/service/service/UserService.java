@@ -250,6 +250,11 @@ public class UserService {
         return mapper.toDto(repository.save(user));
     }
 
+    public UserRes update(@NotNull UserReq dto) {
+        User user = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
+        return update(user.getId(), dto);
+    }
+
     public UserRes updateAvatar(@NotNull MultipartFile avatar) {
         User currentUser = authService.getLoggedInUser().orElseThrow(NotLoggedInException::new);
         currentUser.setAvatarUrl(fileService.storeAvatar(avatar, currentUser.getId()));

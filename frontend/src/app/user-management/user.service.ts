@@ -50,7 +50,7 @@ export class UserService extends BaseHttpService {
   }
 
   updateUser(user: UpdateUser): Observable<User> {
-    return this.put<User>(`/api/user/${user.id}`, user)
+    return this.put<User>(`/api/user/me`, user)
   }
 
   fetchNotificationPreferences(): Observable<NotificationPreference[]> {

@@ -111,6 +111,13 @@ public class UserController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @PutMapping("/user/me")
+    public UserRes update(@RequestBody UserReq dto) {
+        logger.info("PUT /me");
+        return service.update(dto);
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/me/avatar")
     public UserRes updateAvatar(@RequestParam("file") MultipartFile avatar) {
         logger.info("PUT /me/avatar");

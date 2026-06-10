@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -139,6 +140,7 @@ public class GameService {
                 .filter(g -> !g.hasResult())
                 .filter(g -> g.getTimestamp().isAfter(LocalDateTime.now()))
                 .filter(g -> g.getTimestamp().isBefore(LocalDateTime.now().plusDays(5)))
+                .sorted(Comparator.comparing(Game::getTimestamp))
                 .limit(5)
                 .map(mapper::toDto)
                 .toList();

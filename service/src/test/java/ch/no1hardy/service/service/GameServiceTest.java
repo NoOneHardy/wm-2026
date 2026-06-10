@@ -252,7 +252,7 @@ public class GameServiceTest {
     }
 
     @Test
-    @DisplayName("getUpcomingGames() - should exclude game starting exactly at the 5-day boundary")
+    @DisplayName("getUpcomingGames() - should include game starting exactly at the 5-day boundary")
     void shouldExcludeGameAtExactlyFiveDaysBoundary() {
         when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
 
@@ -266,12 +266,18 @@ public class GameServiceTest {
         justBeforeGame.setBets(List.of());
         justBeforeGame.setTimestamp(LocalDateTime.now().plusDays(5).minusMinutes(1));
 
-        when(repository.findAll()).thenReturn(List.of(boundaryGame, justBeforeGame));
+        Game justAfterGame = new Game();
+        justAfterGame.setId("just-after-game");
+        justAfterGame.setBets(List.of());
+        justAfterGame.setTimestamp(LocalDateTime.now().plusDays(5).plusMinutes(1));
+
+        when(repository.findAll()).thenReturn(List.of(boundaryGame, justBeforeGame, justAfterGame));
 
         List<BetGameRes> result = service.getUpcomingGames();
 
-        assertEquals(1, result.size());
+        assertEquals(2, result.size());
         assertEquals("just-before-game", result.getFirst().getId());
+        assertEquals("boundary-game", result.get(1).getId());
     }
 
     @Test

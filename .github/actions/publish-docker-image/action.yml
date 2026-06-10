@@ -15,8 +15,11 @@ runs:
   using: composite
   steps:
     - name: 'Log in to Docker registry'
-      shell: bash
-      run: echo "${{ inputs.registry_password }}" | docker login docker.no1hardy.ch -u "${{ inputs.registry_username }}" --password-stdin
+      uses: docker/login-action@v2
+      with:
+        registry: docker.no1hardy.ch
+        username: ${{ inputs.registry_username }}
+        password: ${{ inputs.registry_password }}
     - name: 'Get current date'
       shell: bash
       run: echo "NOW=$(date +'%y-%m-%d')" >> $GITHUB_ENV

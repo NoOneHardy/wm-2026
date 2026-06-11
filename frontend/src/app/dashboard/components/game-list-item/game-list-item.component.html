@@ -1,0 +1,52 @@
+@if (game(); as game) {
+  <button type="button" class="row" (click)="openGame()">
+    <div class="when">
+      <span class="date">{{ game.timestamp | date:'dd.MM.' }}</span>
+      <span class="time">{{ game.timestamp | date:'HH:mm' }}</span>
+    </div>
+
+    <div class="match">
+      <span class="team -home">
+        <span class="name">{{ game.teamHome.shortName }}</span>
+        <span class="flag">
+          <img [ngSrc]="game.teamHome.flag" fill [alt]="game.teamHome.name">
+        </span>
+      </span>
+      <span class="score" [class.-open]="!game.result">
+        @if (game.result; as result) {
+          {{ result.scoreTeamHome }}&nbsp;:&nbsp;{{ result.scoreTeamGuest }}
+        } @else {
+          –&nbsp;:&nbsp;–
+        }
+      </span>
+      <span class="team -guest">
+        <span class="flag">
+          <img [ngSrc]="game.teamGuest.flag" fill [alt]="game.teamGuest.name">
+        </span>
+        <span class="name">{{ game.teamGuest.shortName }}</span>
+      </span>
+    </div>
+
+    <div class="meta">
+      @if (game.result) {
+        @if (game.bet; as bet) {
+          <span class="chip -result">
+            <span class="hint">Tipp {{ bet.scoreTeamHome }}:{{ bet.scoreTeamGuest }}</span>
+            <span class="points gradient-text">+{{ points() }}</span>
+          </span>
+        } @else {
+          <span class="chip -muted">Kein Tipp</span>
+        }
+      } @else {
+        @if (game.bet; as bet) {
+          <span class="chip -bet">Tipp {{ bet.scoreTeamHome }}:{{ bet.scoreTeamGuest }}</span>
+        } @else {
+          <span class="chip -warn">
+            <span class="material-symbols-rounded">error</span>
+            Tipp offen
+          </span>
+        }
+      }
+    </div>
+  </button>
+}

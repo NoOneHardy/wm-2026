@@ -1,128 +1,237 @@
 .dashboard {
-  display: grid;
-  grid-template-columns: 50% 50%;
-  grid-template-areas:
-    'greeting summary'
-    'ranking upcoming-games'
-    'stats .';
+  display: flex;
+  flex-direction: column;
   gap: var(--wm-spacer-5);
-  padding: var(--wm-spacer-8);
+  max-width: 90em;
+  margin-inline: auto;
+  padding: var(--wm-spacer-6) var(--wm-spacer-8);
+}
 
-  h3 {
-    font: var(--wm-font-h3);
-    margin-bottom: var(--wm-spacer-3);
-  }
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--wm-spacer-3);
 
-  .greeting {
-    grid-area: greeting;
-    word-break: break-word;
+  .title {
+    min-width: 0;
+
+    .date {
+      font: var(--wm-font-small-bold);
+      color: var(--wm-color-neutral-400);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
 
     h1 {
       text-align: left;
+      word-break: break-word;
+    }
+
+    .subtitle {
+      font: var(--wm-font-regular-text);
+      color: var(--wm-color-neutral-500);
     }
   }
 
-  .summary {
-    grid-area: summary;
+  .open-bets {
     display: flex;
-    place-self: end;
-    gap: var(--wm-spacer-5);
+    align-items: center;
+    gap: .5em;
+    padding: .5em 1.125em;
+    border-radius: 2em;
+    background-color: var(--wm-color-orange-200);
+    color: var(--wm-color-orange-900);
+    font: var(--wm-font-regular-bold);
+    text-decoration: none;
+    transition: transform .25s ease;
 
-    .summary-item {
-      display: flex;
-      align-items: end;
-      gap: .25em;
+    .material-symbols-rounded {
+      font-size: 1.25em;
+      font-variation-settings: 'FILL' 1;
+      color: var(--wm-color-orange-600);
+    }
 
-      h2 {
-        font: var(--wm-font-h2);
-      }
+    &:hover {
+      transform: scale(1.025);
+    }
+  }
+}
 
-      i.material-symbols-rounded {
-        font-variation-settings: 'FILL' 1;
-        font-size: 2.5em;
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--wm-spacer-4);
 
-        &.denied {
-          background-image: linear-gradient(to bottom, var(--wm-color-red-500) 0%, var(--wm-color-red-600) 90%) !important;
-        }
+  .progress {
+    width: 100%;
+    min-width: 6em;
+    height: .375em;
+    margin-top: .375em;
+    border-radius: 1em;
+    background-color: var(--wm-color-neutral-100);
+    overflow: hidden;
 
-        &.pending {
-          background-image: linear-gradient(to bottom, var(--wm-color-orange-500) 0%, var(--wm-color-orange-600) 90%) !important;
-        }
-      }
-
-      span {
-        font: var(--wm-font-regular-text);
-        color: var(--wm-color-neutral-400);
-        margin-bottom: .25em;
-      }
+    .bar {
+      height: 100%;
+      border-radius: 1em;
+      background-image: var(--wm-gradient-primary-600);
     }
   }
 
-  .leaderboard-preview {
+  .status {
+    font: var(--wm-font-medium-bold);
+
+    &.-confirmed {
+      color: var(--wm-color-secondary-600);
+    }
+
+    &.-denied {
+      color: var(--wm-color-red-600);
+    }
+
+    &.-pending {
+      color: var(--wm-color-orange-600);
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'spotlight ranking'
+    'upcoming recent'
+    'stats stats';
+  gap: var(--wm-spacer-4);
+
+  .spotlight {
+    grid-area: spotlight;
+  }
+
+  .ranking {
     grid-area: ranking;
+  }
+
+  .upcoming {
+    grid-area: upcoming;
+  }
+
+  .recent {
+    grid-area: recent;
+  }
+
+  .stats {
+    grid-area: stats;
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: var(--wm-spacer-4);
+  border-radius: .75em;
+  background-color: var(--wm-color-white-600);
+  box-shadow: 0 0 .5em 0 #0000003d;
+
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--wm-spacer-1) var(--wm-spacer-3);
+    margin-bottom: var(--wm-spacer-3);
 
     h3 {
-      margin-bottom: var(--wm-spacer-3);
-    }
-
-    .leaderboard {
       display: flex;
-      gap: var(--wm-spacer-1);
-      flex-direction: column;
+      align-items: center;
+      gap: .375em;
+      font: var(--wm-font-h4);
 
-      wm-position {
-        max-width: 40em;
-
-        &:first-child, &:last-child {
-          &:not(.-current) {
-            opacity: .6;
-          }
-        }
+      .material-symbols-rounded {
+        font-size: 1.25em;
+        font-variation-settings: 'FILL' 1;
+        color: var(--wm-color-secondary-600);
       }
     }
   }
 
-  wm-upcoming-games {
-    grid-area: upcoming-games;
+  .positions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wm-spacer-1);
+
+    wm-position {
+      &:first-child:not(.-current), &:last-child:not(.-current) {
+        opacity: .85;
+      }
+    }
   }
 
-  wm-statistics {
-    grid-area: stats;
+  .games {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--wm-spacer-1);
+    flex-grow: 1;
+    min-height: 8em;
+    padding: var(--wm-spacer-3);
+    text-align: center;
+
+    .material-symbols-rounded {
+      font-size: 2.5em;
+      color: var(--wm-color-neutral-400);
+    }
+
+    p {
+      font: var(--wm-font-regular-text);
+      color: var(--wm-color-neutral-400);
+    }
   }
 }
 
 @media screen and (max-width: 1200px) {
   .dashboard {
-    grid-template-areas:
-    'greeting greeting'
-    'summary summary'
-    'ranking upcoming-games'
-    'stats .';
+    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+  }
 
-    .summary {
-      place-self: start;
-      margin-top: calc((var(--wm-spacer-5) - var(--wm-spacer-3)) * -1);
-    }
+  .kpis {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--wm-spacer-3);
   }
 }
 
 @media screen and (max-width: 992px) {
-  .dashboard {
-    display: flex;
-    flex-direction: column;
-    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      'spotlight'
+      'ranking'
+      'upcoming'
+      'recent'
+      'stats';
   }
 }
 
 @media screen and (max-width: 576px) {
   .dashboard {
-    .greeting h1 {
-      font: var(--wm-font-h2);
-    }
+    gap: var(--wm-spacer-4);
+    padding: var(--wm-spacer-4) var(--wm-spacer-3);
+  }
 
-    .summary {
-      flex-direction: column;
-      gap: var(--wm-spacer-1);
-    }
+  .page-head .title h1 {
+    font: var(--wm-font-h2);
+  }
+
+  .card {
+    padding: var(--wm-spacer-3);
   }
 }

@@ -1,24 +1,31 @@
-import {Component, computed, inject, OnInit} from '@angular/core'
+import {Component, computed, inject, OnInit, Signal} from '@angular/core'
+import {DatePipe, DecimalPipe} from '@angular/common'
+import {RouterLink} from '@angular/router'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
-import {PositionComponent} from '../shared/components/position/position.component'
-import { DecimalPipe } from '@angular/common'
 import {selectDashboard, selectIsTournamentLoading} from '../shared/store/tournament.feature'
 import {loadDashboardData} from '../shared/store/tournament.actions'
-import {UpcomingGamesComponent} from './components/upcoming-games/upcoming-games.component'
-import {StatisticsComponent} from './components/statistics/statistics.component'
-import {RecentResultsComponent} from './components/recent-results/recent-results.component'
+import {Ranking} from '../model/leaderboard/ranking'
+import {BetGame} from '../model/game/bet-game'
+import {PositionComponent} from '../shared/components/position/position.component'
 import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
+import {StatCardComponent} from './components/stat-card/stat-card.component'
+import {NextKickoffComponent} from './components/next-kickoff/next-kickoff.component'
+import {GameListItemComponent} from './components/game-list-item/game-list-item.component'
+import {StatsPanelComponent} from './components/stats-panel/stats-panel.component'
 
 @Component({
   selector: 'wm-dashboard',
   imports: [
-    PositionComponent,
+    DatePipe,
     DecimalPipe,
-    UpcomingGamesComponent,
-    StatisticsComponent,
-    RecentResultsComponent,
-    SpinnerComponent
+    RouterLink,
+    PositionComponent,
+    SpinnerComponent,
+    StatCardComponent,
+    NextKickoffComponent,
+    GameListItemComponent,
+    StatsPanelComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css'
@@ -27,23 +34,41 @@ export class DashboardComponent implements OnInit {
   private store = inject(Store)
 
   user = this.store.selectSignal(selectUser)
+  isLoading = this.store.selectSignal(selectIsTournamentLoading)
+  dashboardData = this.store.selectSignal(selectDashboard)
+
+  today = new Date()
 
   greeting = computed(() => {
     const time = new Date().getHours()
-    let greeting: string
 
-    if (time >= 3 && time < 10) greeting = 'Guten Morgen'
-    else if (time >= 10 && time < 18) greeting = 'Hallo'
-    else greeting = 'Guten Abend'
-
-    return greeting + ' ' + this.user()?.username
+    if (time >= 3 && time < 10) return 'Guten Morgen'
+    if (time >= 10 && time < 18) return 'Hallo'
+    return 'Guten Abend'
   })
 
-  isLoading = this.store.selectSignal(selectIsTournamentLoading)
+  leaderboardPreview: Signal<Ranking[]> = computed(() => {
+    return this.dashboardData()?.leaderboardPreview.filter((item): item is Ranking => !!item) ?? []
+  })
 
-  dashboardData = this.store.selectSignal(selectDashboard)
-  leaderboardPreview = computed(() => {
-    return this.dashboardData()?.leaderboardPreview.filter((item) => !!item) ?? []
+  upcomingGames: Signal<BetGame[]> = computed(() => {
+    const games = [...(this.dashboardData()?.upcomingGames ?? [])]
+    games.sort((a, b) => new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf())
+    return games
+  })
+
+  nextGame: Signal<BetGame | null> = computed(() => this.upcomingGames()[0] ?? null)
+
+  laterGames: Signal<BetGame[]> = computed(() => this.upcomingGames().slice(1))
+
+  recentResults: Signal<BetGame[]> = computed(() => {
+    const games = [...(this.dashboardData()?.recentResults ?? [])]
+    games.sort((a, b) => new Date(b.timestamp).valueOf() - new Date(a.timestamp).valueOf())
+    return games
+  })
+
+  openBetCount: Signal<number> = computed(() => {
+    return this.upcomingGames().filter(game => !game.bet).length
   })
 
   ngOnInit(): void {

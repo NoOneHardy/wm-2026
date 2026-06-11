@@ -1,0 +1,70 @@
+@if (game(); as game) {
+  <div class="head">
+    <span class="group gradient-text">{{ game.groupName }}</span>
+    <span class="timestamp">{{ game.timestamp | date:'EEEE, dd.MM.yyyy · HH:mm' }} Uhr</span>
+  </div>
+
+  <div class="teams">
+    <div class="team">
+      <div class="flag">
+        <img [ngSrc]="game.teamHome.flag" fill [alt]="game.teamHome.name">
+      </div>
+      <p>{{ game.teamHome.shortName }}</p>
+    </div>
+
+    <div class="countdown">
+      @if (countdown(); as countdown) {
+        <div class="units">
+          <div class="unit">
+            <span class="number gradient-text">{{ countdown.days | number:'2.0-0' }}</span>
+            <span class="caption">Tage</span>
+          </div>
+          <div class="unit">
+            <span class="number gradient-text">{{ countdown.hours | number:'2.0-0' }}</span>
+            <span class="caption">Std.</span>
+          </div>
+          <div class="unit">
+            <span class="number gradient-text">{{ countdown.minutes | number:'2.0-0' }}</span>
+            <span class="caption">Min.</span>
+          </div>
+          <div class="unit">
+            <span class="number gradient-text">{{ countdown.seconds | number:'2.0-0' }}</span>
+            <span class="caption">Sek.</span>
+          </div>
+        </div>
+      } @else {
+        <span class="live">Anpfiff!</span>
+      }
+    </div>
+
+    <div class="team">
+      <div class="flag">
+        <img [ngSrc]="game.teamGuest.flag" fill [alt]="game.teamGuest.name">
+      </div>
+      <p>{{ game.teamGuest.shortName }}</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    @if (game.bet; as bet) {
+      <div class="bet">
+        <span class="material-symbols-rounded done">check_circle</span>
+        <span>Dein Tipp: {{ bet.scoreTeamHome }} : {{ bet.scoreTeamGuest }}</span>
+        @for (star of jokerStars(); track star) {
+          <span class="material-symbols-rounded star">star</span>
+        }
+      </div>
+    } @else {
+      <div class="bet -missing">
+        <span class="material-symbols-rounded">error</span>
+        <span>Noch kein Tipp abgegeben</span>
+      </div>
+    }
+    <wm-button (clickEvent)="openGame()">{{ game.bet ? 'Tipp anpassen' : 'Jetzt tippen' }}</wm-button>
+  </div>
+} @else {
+  <div class="empty">
+    <span class="material-symbols-rounded">event_available</span>
+    <p>Aktuell stehen keine weiteren Spiele an.</p>
+  </div>
+}

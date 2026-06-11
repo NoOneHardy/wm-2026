@@ -1,0 +1,20 @@
+<div class="toggle" role="group" aria-label="Statistik umschalten">
+  <button type="button" [class.-active]="!showGlobalStats()" (click)="showGlobalStats.set(false)">
+    <span class="material-symbols-rounded">person</span>
+    <span>Ich</span>
+  </button>
+  <button type="button" [class.-active]="showGlobalStats()" (click)="showGlobalStats.set(true)">
+    <span class="material-symbols-rounded">groups</span>
+    <span>Alle</span>
+  </button>
+</div>
+
+<div class="stats">
+  @for (stat of stats(); track stat.key) {
+    <div class="stat">
+      <span class="material-symbols-rounded icon">{{ stat.icon }}</span>
+      <p class="value gradient-text">{{ stat.value }}</p>
+      <span class="key">{{ stat.key }}</span>
+    </div>
+  }
+</div>

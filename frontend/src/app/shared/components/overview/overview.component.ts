@@ -1,6 +1,5 @@
 import {Component, computed, effect, inject, input, OnInit, Signal} from '@angular/core'
 import { DecimalPipe, NgOptimizedImage } from '@angular/common'
-import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
 import {
   selectGroups,
@@ -19,7 +18,6 @@ import {CardGroup} from '../../../model/group/card-group'
   imports: [
     NgOptimizedImage,
     DecimalPipe,
-    ButtonComponent,
     SpinnerComponent
   ],
   templateUrl: './overview.component.html',

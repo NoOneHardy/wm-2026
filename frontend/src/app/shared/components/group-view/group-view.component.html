@@ -1,79 +1,99 @@
-@if (isLoading()) {
-  <h1>Gruppe</h1>
-  <p class="sub-heading loading">Wird geladen...</p>
-  <div class="loader-wrapper">
-    <wm-spinner/>
-  </div>
-} @else {
-  @if (group(); as group) {
-    <h1>{{ group.name }}</h1>
-    @switch (mode()) {
-      @case ('bet') {
-        @if (group.percentage > 0) {
-          <p class="sub-heading">Du hast bereits <span
-            class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
-        } @else {
-          <p class="sub-heading">Bereit deinen ersten Tipp abzugeben?</p>
-        }
-        @if (group.lastSavedAt; as lastSave) {
-          <p class="additional-info">
-            @if (isSaving()) {
-              <wm-spinner class="is-saving"/>
+<div class="group-view">
+  @if (isLoading()) {
+    <header class="page-head">
+      <div class="title">
+        <h1>Gruppe</h1>
+        <p class="subtitle">Wird geladen...</p>
+      </div>
+    </header>
+    <div class="loader-wrapper">
+      <wm-spinner/>
+    </div>
+  } @else {
+    @if (group(); as group) {
+      <header class="page-head">
+        <div class="title">
+          <button type="button" class="back" (click)="back()">
+            <span class="material-symbols-rounded">arrow_back</span>
+            <span>Zur Übersicht</span>
+          </button>
+          <h1>{{ group.name }}</h1>
+          @switch (mode()) {
+            @case ('bet') {
+              @if (group.percentage > 0) {
+                <p class="subtitle">Du hast bereits <span class="highlight">{{ group.percentage | number:'1.1-1' }}%</span> dieser Gruppe ausgefüllt!</p>
+              } @else {
+                <p class="subtitle">Bereit, deinen ersten Tipp abzugeben?</p>
+              }
             }
-            <span>Zuletzt gespeichert am {{ lastSave | date:'dd.MM.yyyy - HH:mm' }}</span>
-          </p>
-        }
-      }
-      @case ('admin') {
-        @if (group.lastSavedAt; as lastSave) {
-          <p class="additional-info">Zuletzt geändert am {{ lastSave | date:'dd.MM.yyyy - HH:mm' }}</p>
-        }
-      }
-    }
-
-    <div class="action-bar">
-      @if (mode() === 'bet') {
-        @if (jokers(); as jokers) {
-          <div class="panel">
-            <p class="panel-title">Verfügbare Joker</p>
-            <div class="panel-content">
-              <wm-remaining-joker-display [jokersMax]="jokers.jdoubleMax"
-                                          [jokersRemaining]="jokers.jdouble"
-                                          [jokerMultiplier]="2"/>
-              <wm-remaining-joker-display [jokersMax]="jokers.jtripleMax"
-                                          [jokersRemaining]="jokers.jtriple"
-                                          [jokerMultiplier]="3"/>
-            </div>
+            @case ('admin') {
+              <p class="subtitle">Pflege die Resultate dieser Gruppe.</p>
+            }
+          }
+        </div>
+        <div class="total-progress">
+          @let percentage = mode() === 'bet' ? group.percentage : group.percentageResult;
+          <div class="numbers">
+            <span class="value gradient-text">{{ percentage | number:'1.0-1' }}%</span>
+            <span class="label">{{ mode() === 'bet' ? 'ausgefüllt' : 'erfasst' }}</span>
           </div>
-        }
-      }
+          <div class="progress">
+            <div class="bar" [style.width.%]="percentage"></div>
+          </div>
+        </div>
+      </header>
 
-      <div class="panel">
-        <div class="panel-title">Speichern & Verlassen</div>
-        <div class="panel-content">
-          <a role="button" tabindex="0"
-             class="wm-link" (pointerup)="back()"
-             (keyup.enter)="back()" (keyup.space)="back()"
-          >Abbrechen</a>
+      <div class="action-bar">
+        @if (mode() === 'bet') {
+          @if (jokers(); as jokers) {
+            <div class="jokers">
+              <span class="bar-label">Verfügbare Joker</span>
+              <div class="joker-displays">
+                <wm-remaining-joker-display [jokersMax]="jokers.jdoubleMax"
+                                            [jokersRemaining]="jokers.jdouble"
+                                            [jokerMultiplier]="2"/>
+                <wm-remaining-joker-display [jokersMax]="jokers.jtripleMax"
+                                            [jokersRemaining]="jokers.jtriple"
+                                            [jokerMultiplier]="3"/>
+              </div>
+            </div>
+          }
+        }
+
+        <div class="save-info">
+          @if (isSaving()) {
+            <wm-spinner class="is-saving"/>
+            <span>Wird gespeichert...</span>
+          } @else if (group.lastSavedAt; as lastSave) {
+            <span class="material-symbols-rounded">history</span>
+            <span>{{ mode() === 'bet' ? 'Zuletzt gespeichert' : 'Zuletzt geändert' }} am {{ lastSave | date:'dd.MM.yyyy, HH:mm' }} Uhr</span>
+          }
+        </div>
+
+        <div class="actions">
+          <wm-button secondary (clickEvent)="back()">Abbrechen</wm-button>
           <wm-button [disabled]="isSaving()" (clickEvent)="save()" icon="save">Speichern</wm-button>
         </div>
       </div>
-    </div>
 
-    <form [formGroup]="form">
-      <div class="games" formArrayName="bets">
-        @for (control of form.controls.bets.controls; track $index; let i = $index) {
-          @if (findGame(control.value.game); as game) {
-            <wm-bet-form (disabledChange)="$event ? control.disable(): control.enable()" [game]="game"
-                         [formControlName]="i" [highlight]="highlight() === game.id"
-                         [knockout]="group.isKnockout" [admin]="mode() === 'admin'"/>
+      <form [formGroup]="form">
+        <div class="games" formArrayName="bets">
+          @for (control of form.controls.bets.controls; track $index; let i = $index) {
+            @if (findGame(control.value.game); as game) {
+              <wm-bet-form (disabledChange)="$event ? control.disable(): control.enable()" [game]="game"
+                           [formControlName]="i" [highlight]="highlight() === game.id"
+                           [knockout]="group.isKnockout" [admin]="mode() === 'admin'"/>
+            }
           }
-        }
+        </div>
+      </form>
+    } @else {
+      <div class="error">
+        <span class="material-symbols-rounded">error</span>
+        <h2>Es ist ein Fehler aufgetreten</h2>
+        <p>Bitte lade die Seite neu oder kehre zur Übersicht zurück.</p>
+        <wm-button (clickEvent)="back()">Zur Übersicht</wm-button>
       </div>
-    </form>
-
-  } @else {
-    <h2>Es ist ein Fehler aufgetreten</h2>
-    <p class="sub-heading">Bitte laden Sie die Seite neu oder kehren Sie zur Übersicht zurück.</p>
+    }
   }
-}
+</div>

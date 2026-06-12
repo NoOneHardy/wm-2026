@@ -1,41 +1,73 @@
 @if (game(); as game) {
   <form [formGroup]="formGroup" [class.-highlight]="highlight()" [class.-disabled]="isDisabled"
         [class.-knockout]="knockout()">
-    @if (!isDisabled) {
-      <button class="reset-btn" (pointerup)="reset()">
-        <span class="material-symbols-rounded">delete</span>
-      </button>
-    }
-    <div class="title">
-      <h3>{{ game.timestamp | date:'dd.MM.yyyy' }}</h3>
-      <p class="time">{{ game.timestamp | date:'HH:mm' }} Uhr</p>
+    <div class="head">
+      <span class="timestamp">
+        <span class="material-symbols-rounded">schedule</span>
+        <span>{{ game.timestamp | date:'dd.MM.yyyy' }} · {{ game.timestamp | date:'HH:mm' }} Uhr</span>
+      </span>
+      @if (!isDisabled) {
+        <button type="button" class="reset-btn" (pointerup)="reset()" aria-label="Tipp zurücksetzen">
+          <span class="material-symbols-rounded">delete</span>
+        </button>
+      } @else if (!admin()) {
+        @if (game.result) {
+          <span class="state-chip -done">Beendet</span>
+        } @else {
+          <span class="state-chip -live">Läuft</span>
+        }
+      }
     </div>
 
-    <div class="flag-team-home flag">
-      <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+    <div class="teams">
+      <div class="team">
+        <div class="flag">
+          <img [ngSrc]="game.teamHome.flag" [alt]="game.teamHome.name" fill>
+        </div>
+        <h3 class="name">{{ game.teamHome.name }}</h3>
+      </div>
+
+      <div class="center">
+        @if (isDisabled && !admin()) {
+          <wm-result [result]="game.result" class="result" [large]="knockout()"/>
+        } @else {
+          <span class="vs">vs</span>
+        }
+      </div>
+
+      <div class="team">
+        <div class="flag">
+          <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
+        </div>
+        <h3 class="name">{{ game.teamGuest.name }}</h3>
+      </div>
     </div>
 
-    <h3 class="team-home">{{ game.teamHome.name }}</h3>
-    <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
+    <div class="scores">
+      <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
+      <span class="colon">:</span>
+      <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
+    </div>
 
     @if (!knockout() && !admin()) {
       <div class="joker-form">
-        @for (joker of [1, 2, 3]; track $index) {
-          <div class="joker">
-            <input name="joker" formControlName="joker"
-                   [id]="game.id + '-joker-' + joker"
-                   [value]="joker" type="radio"/>
-            <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
-                   [class.-disabled]="!hasJokersAvailable(joker)"
-                   [class.-fill]="fillJoker(joker)">star</label>
-          </div>
-        }
+        <span class="joker-label">Joker</span>
+        <div class="stars">
+          @for (joker of [1, 2, 3]; track $index) {
+            <div class="joker">
+              <input name="joker" formControlName="joker"
+                     [id]="game.id + '-joker-' + joker"
+                     [value]="joker" type="radio"/>
+              <label [for]="game.id + '-joker-' + joker" class="material-symbols-rounded"
+                     [class.-disabled]="!hasJokersAvailable(joker)"
+                     [class.-fill]="fillJoker(joker)">star</label>
+            </div>
+          }
+        </div>
       </div>
     }
 
     @if (isDisabled && !admin()) {
-      <wm-result [result]="game.result" class="result" [large]="knockout()"/>
-
       @let points = game | points;
       @let totalPoints = points | totalPoints;
 
@@ -51,25 +83,15 @@
       }
     }
 
-    <div class="flag-team-guest flag" [style]="{'--url': 'url(' + game.teamGuest.flag + ')'}">
-      <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
-    </div>
-    <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
-    <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
-
-    @if (knockout()) {
-      <div class="separator">-</div>
-
-      @if (!isDisabled && !admin()) {
-        <wm-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
-          <ng-container wm-content>
-            <div class="prev-games-layout">
-              <wm-team-previous-games [team]="game.teamHome"/>
-              <wm-team-previous-games [team]="game.teamGuest"/>
-            </div>
-          </ng-container>
-        </wm-expandable>
-      }
+    @if (knockout() && !isDisabled && !admin()) {
+      <wm-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
+        <ng-container wm-content>
+          <div class="prev-games-layout">
+            <wm-team-previous-games [team]="game.teamHome"/>
+            <wm-team-previous-games [team]="game.teamGuest"/>
+          </div>
+        </ng-container>
+      </wm-expandable>
     }
   </form>
 }

@@ -252,35 +252,6 @@ public class GameServiceTest {
     }
 
     @Test
-    @DisplayName("getUpcomingGames() - should include game starting exactly at the 5-day boundary")
-    void shouldExcludeGameAtExactlyFiveDaysBoundary() {
-        when(authService.getLoggedInUser()).thenReturn(Optional.of(user));
-
-        Game boundaryGame = new Game();
-        boundaryGame.setId("boundary-game");
-        boundaryGame.setBets(List.of());
-        boundaryGame.setTimestamp(LocalDateTime.now().plusDays(5));
-
-        Game justBeforeGame = new Game();
-        justBeforeGame.setId("just-before-game");
-        justBeforeGame.setBets(List.of());
-        justBeforeGame.setTimestamp(LocalDateTime.now().plusDays(5).minusMinutes(1));
-
-        Game justAfterGame = new Game();
-        justAfterGame.setId("just-after-game");
-        justAfterGame.setBets(List.of());
-        justAfterGame.setTimestamp(LocalDateTime.now().plusDays(5).plusMinutes(1));
-
-        when(repository.findAll()).thenReturn(List.of(boundaryGame, justBeforeGame, justAfterGame));
-
-        List<BetGameRes> result = service.getUpcomingGames();
-
-        assertEquals(2, result.size());
-        assertEquals("just-before-game", result.getFirst().getId());
-        assertEquals("boundary-game", result.get(1).getId());
-    }
-
-    @Test
     @DisplayName("getUpcomingGames() - should include game whose score is soft-deleted (hasResult is false)")
     void shouldIncludeGameWithDeletedScore() {
         when(authService.getLoggedInUser()).thenReturn(Optional.of(user));

@@ -284,12 +284,12 @@ public class UserService {
      */
     public UserRes login(@NotNull LoginReq dto) throws AuthenticationException, UserNotFoundException {
         verificationService.clearExpiredCodes();
-        return repository.findByUsername(dto.getUsername())
+        return repository.findByUsername(dto.getUsername().trim())
                 .map(user -> {
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(
                                     user.getId(),
-                                    dto.getPassword()
+                                    dto.getPassword().trim()
                             )
                     );
                     return mapper.toDto(user);

@@ -1,6 +1,6 @@
-name: build-and-store-docker-image
+name: build-docker-image
 author: no1ha
-description: build-and-store-docker-image
+description: build-docker-image
 inputs:
   project:
     description: 'The project name and folder of image that is built'
@@ -11,13 +11,3 @@ runs:
     - name: 'Build docker image'
       shell: bash
       run: docker build -t wm-2026-${{ inputs.project }} -f ${{ inputs.project }}/Dockerfile .
-    - name: 'Export docker image as tar'
-      shell: bash
-      run: docker save wm-2026-${{ inputs.project }} | gzip > image.tar.gz
-    - name: 'Upload docker image as artifact'
-      uses: actions/upload-artifact@v4
-      with:
-        retention-days: 1
-        path: image.tar.gz
-        name: 'wm-2026-${{ inputs.project }}-${{ github.sha }}'
-        overwrite: true

@@ -2,6 +2,7 @@ package ch.no1hardy.service.service;
 
 import ch.no1hardy.service.SecurityHelper;
 import ch.no1hardy.service.TestUtils;
+import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.verification.VerificationException;
 import ch.no1hardy.service.front.user.CheckRes;
@@ -502,6 +503,94 @@ public class UserServiceTest {
         assertEquals("Silas", existingUser.getFirstname());
         assertEquals("Hardy", existingUser.getLastname());
         assertEquals("oldhashedpassword", existingUser.getPassword());
+    }
+
+    @Test
+    @DisplayName("UserRes update(UserReq) - should update the currently logged-in user")
+    void update03() {
+        UserReq dto = new UserReq();
+        dto.setUsername("No1HardyUpdated");
+        dto.setEmail("silas@test-update.ch");
+        dto.setFirstname("SilasUpdated");
+        dto.setLastname("HardyUpdated");
+        dto.setPassword("newsecurepassword");
+
+        User loggedInUser = new User();
+        loggedInUser.setId("user-id-123");
+        loggedInUser.setUsername("No1Hardy");
+        loggedInUser.setEmail("silas@test.ch");
+        loggedInUser.setFirstname("Silas");
+        loggedInUser.setLastname("Hardy");
+        loggedInUser.setPassword("oldhashedpassword");
+
+        SecurityHelper.mockUserLogin(authService, loggedInUser);
+        Mockito.doReturn(loggedInUser).when(repository).save(ArgumentMatchers.any());
+        Mockito.doReturn(Optional.of(loggedInUser)).when(repository).findById("user-id-123");
+
+        UserRes res = service.update(dto);
+
+        assertNotNull(res);
+        assertEquals("user-id-123", res.getId());
+        assertEquals("No1HardyUpdated", loggedInUser.getUsername());
+        // TODO: Re-enable email update assertion after implementing email change verification
+        // assertEquals("silas@test-update.ch", loggedInUser.getEmail());
+        assertEquals("SilasUpdated", loggedInUser.getFirstname());
+        assertEquals("HardyUpdated", loggedInUser.getLastname());
+        assertNotEquals("oldhashedpassword", loggedInUser.getPassword());
+    }
+
+    @Test
+    @DisplayName("UserRes update(UserReq) - should throw NotLoggedInException when no user is logged in")
+    void update04() {
+        SecurityHelper.mockNoLogin(authService);
+
+        UserReq dto = new UserReq();
+        dto.setUsername("No1HardyUpdated");
+
+        assertThrows(NotLoggedInException.class, () -> service.update(dto));
+        Mockito.verify(repository, Mockito.never()).save(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("UserRes update(UserReq) - should never target another user than the logged-in one")
+    void update05() {
+        User loggedInUser = new User();
+        loggedInUser.setId("user-self");
+        loggedInUser.setUsername("LoggedInUser");
+        loggedInUser.setEmail("self@test.ch");
+        loggedInUser.setFirstname("Self");
+        loggedInUser.setLastname("User");
+        loggedInUser.setPassword("self-hashed-password");
+
+        User otherUser = new User();
+        otherUser.setId("user-other");
+        otherUser.setUsername("OtherUser");
+        otherUser.setEmail("other@test.ch");
+        otherUser.setFirstname("Other");
+        otherUser.setLastname("User");
+        otherUser.setPassword("other-hashed-password");
+
+        SecurityHelper.mockUserLogin(authService, loggedInUser);
+        Mockito.doReturn(Optional.of(loggedInUser)).when(repository).findById("user-self");
+        Mockito.doReturn(Optional.of(otherUser)).when(repository).findById("user-other");
+        Mockito.doAnswer(invocation -> invocation.getArgument(0)).when(repository).save(ArgumentMatchers.any(User.class));
+
+        UserReq dto = new UserReq();
+        dto.setUsername("HackedName");
+        dto.setFirstname("Hacked");
+        dto.setLastname("Hacker");
+
+        UserRes res = service.update(dto);
+
+        assertEquals("user-self", res.getId());
+        assertEquals("HackedName", loggedInUser.getUsername());
+        assertEquals("OtherUser", otherUser.getUsername());
+        assertEquals("Other", otherUser.getFirstname());
+        assertEquals("User", otherUser.getLastname());
+        assertEquals("other-hashed-password", otherUser.getPassword());
+
+        Mockito.verify(repository, Mockito.never()).findById("user-other");
+        Mockito.verify(repository, Mockito.never()).save(otherUser);
     }
 
     @Test

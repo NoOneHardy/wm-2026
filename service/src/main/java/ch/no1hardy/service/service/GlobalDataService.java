@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,6 +29,7 @@ public class GlobalDataService {
         List<Notification> notifications = authService.getLoggedInUser()
                 .map(user -> userService.getNotifications(user)
                         .stream()
+                        .sorted(Comparator.comparing(Notification::getCreatedAt).reversed())
                         .limit(5)
                         .toList())
                 .orElseGet(List::of);

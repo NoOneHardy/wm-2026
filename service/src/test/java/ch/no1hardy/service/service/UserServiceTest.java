@@ -6,6 +6,7 @@ import ch.no1hardy.service.exception.user.NotLoggedInException;
 import ch.no1hardy.service.exception.user.UserNotFoundException;
 import ch.no1hardy.service.exception.verification.VerificationException;
 import ch.no1hardy.service.front.user.CheckRes;
+import ch.no1hardy.service.front.user.LoginReq;
 import ch.no1hardy.service.front.user.UserReq;
 import ch.no1hardy.service.front.user.UserRes;
 import ch.no1hardy.service.front.verification.ResetPasswordReq;
@@ -21,10 +22,13 @@ import ch.no1hardy.service.model.verification.VerificationCodeType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
 
@@ -35,6 +39,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -50,6 +55,9 @@ public class UserServiceTest {
 
     @MockitoBean
     private AuthService authService;
+
+    @MockitoBean
+    private AuthenticationManager authenticationManager;
 
     @MockitoSpyBean
     private VerificationCodeRepository verificationCodeRepository;
@@ -738,6 +746,54 @@ public class UserServiceTest {
         assertNotEquals("oldhashedpassword", user.getPassword());
         assertNotEquals("newsecurepassword", user.getPassword());
         Mockito.verify(verificationCodeRepository, Mockito.times(1)).delete(ArgumentMatchers.any());
+    }
+
+    @Test
+    @DisplayName("login() - should trim leading and trailing whitespace from username before lookup")
+    void login_shouldTrimUsername() {
+        User user = new User();
+        user.setId("user-1");
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.of(user));
+
+        LoginReq req = new LoginReq();
+        req.setUsername("  No1Hardy  ");
+        req.setPassword("password");
+
+        service.login(req);
+
+        verify(repository).findByUsername("No1Hardy");
+        Mockito.verify(repository, Mockito.never()).findByUsername("  No1Hardy  ");
+    }
+
+    @Test
+    @DisplayName("login() - should trim leading and trailing whitespace from password before authentication")
+    void login_shouldTrimPassword() {
+        User user = new User();
+        user.setId("user-1");
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.of(user));
+
+        LoginReq req = new LoginReq();
+        req.setUsername("No1Hardy");
+        req.setPassword("  password  ");
+
+        service.login(req);
+
+        ArgumentCaptor<UsernamePasswordAuthenticationToken> captor = ArgumentCaptor.captor();
+        verify(authenticationManager).authenticate(captor.capture());
+        assertEquals("password", captor.getValue().getCredentials());
+    }
+
+    @Test
+    @DisplayName("login() - should throw BadCredentialsException when trimmed username is not found")
+    void login_shouldThrowWhenTrimmedUsernameNotFound() {
+        when(repository.findByUsername("No1Hardy")).thenReturn(Optional.empty());
+
+        LoginReq req = new LoginReq();
+        req.setUsername("  No1Hardy  ");
+        req.setPassword("password");
+
+        assertThrows(org.springframework.security.authentication.BadCredentialsException.class,
+                () -> service.login(req));
     }
 
     @Test

@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -96,17 +98,22 @@ public class GroupService {
     }
 
     public GroupRes updateResults(String id, List<ResultReq> results) {
-        Group group = repository.findById(id).orElse(null);
-        if (group == null)
-            throw new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden");
+        Group group = repository.findById(id).orElseThrow(() -> new NotFoundException("Group " + id + " not found", "Gruppe '" + id + "' nicht gefunden"));
 
         for (ResultReq result : results.stream().filter(ScoreReq::isValid).toList()) {
-            if (group.getGames().stream().filter(Game::isActive).map(Game::getId).toList().contains(result.getGame())) {
-                try {
-                    gameService.uploadResult(result.getGame(), result);
-                } catch (KnockoutTieException e) {
-                    throw new KnockoutTieException(e.getMessage(), "Diese Gruppe ist eine K.O.-Phase. Spiele können nicht unentschieden enden.");
-                }
+            Optional<Game> gameOptional = group.getGames().stream().filter(g -> g.isActive() && g.getId().equals(result.getGame())).findFirst();
+            if (gameOptional.isEmpty()) continue;
+
+            Game game = gameOptional.get();
+            if (game.getResult() != null && game.getResult().isActive()) {
+                if (Objects.equals(game.getResult().getScoreTeamGuest(), result.getScoreTeamGuest())
+                        && Objects.equals(game.getResult().getScoreTeamHome(), result.getScoreTeamHome())) continue;
+            }
+
+            try {
+                gameService.uploadResult(result.getGame(), result);
+            } catch (KnockoutTieException e) {
+                throw new KnockoutTieException(e.getMessage(), "Diese Gruppe ist eine K.O.-Phase. Spiele können nicht unentschieden enden.");
             }
         }
         return mapper.toDto(group);
@@ -114,6 +121,7 @@ public class GroupService {
 
     /**
      * Calculates the overall percentage of games bet by the logged-in user.
+     *
      * @return the overall percentage of games bet by the logged-in user
      */
     public Double getOverallPercentage() throws NotLoggedInException {
@@ -123,6 +131,7 @@ public class GroupService {
 
     /**
      * Calculates the overall percentage of games bet by the user.
+     *
      * @param user the user for whom to calculate the overall percentage
      * @return the overall percentage of games bet by the user
      */

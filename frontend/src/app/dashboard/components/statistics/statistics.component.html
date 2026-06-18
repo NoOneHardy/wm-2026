@@ -17,7 +17,7 @@
     @for (stat of stats(); track stat) {
       <div class="stat">
         <span>{{ stat.key }}</span>
-        <p class="gradient-text">{{ stat.value }}</p>
+        <p class="gradient-text">{{ stat.value | shortNumber }}</p>
       </div>
     }
   </div>

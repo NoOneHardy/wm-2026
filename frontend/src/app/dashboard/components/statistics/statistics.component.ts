@@ -5,11 +5,13 @@ import {GlobalStatistics} from '../../../model/dashboard/global-statistics'
 import {SpinnerComponent} from '../../../shared/components/spinner/spinner.component'
 import {Store} from '@ngrx/store'
 import {selectIsTournamentLoading} from '../../../shared/store/tournament.feature'
+import {ShortNumberPipe} from '../../../shared/pipes/short-number.pipe'
 
 @Component({
   selector: 'wm-statistics',
   imports: [
-    SpinnerComponent
+    SpinnerComponent,
+    ShortNumberPipe
   ],
   templateUrl: './statistics.component.html',
   styleUrl: './statistics.component.css'

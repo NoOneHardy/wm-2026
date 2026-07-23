@@ -10,29 +10,29 @@ plugins {
   id 'com.github.node-gradle.node' version '7.1.0'
 }
 
-tasks.register('installNodeModules', NpmTask) {
-  description 'Install npm dependencies'
-  group 'lifecycle'
-  args = ['install']
+node {
+  download.set(true)
+  version.set("24.18.0")
+  pnpmVersion.set("11.9.0")
 }
 
-tasks.register('lint', NpmTask) {
+tasks.register('lint', PnpmTask) {
   description 'Lints project'
   group 'lifecycle'
-  dependsOn installNodeModules
+  dependsOn pnpmInstall
   args = ['run', 'lint']
 }
 
-tasks.register('test', NpmTask) {
+tasks.register('test', PnpmTask) {
   description 'Run unit tests'
   group 'lifecycle'
-  dependsOn installNodeModules
+  dependsOn pnpmInstall
   args = ['run', 'test-ci']
 }
 
-tasks.register('ngBuild', NpmTask) {
+tasks.register('ngBuild', PnpmTask) {
   description 'Build frontend'
   group 'lifecycle'
-  dependsOn installNodeModules
+  dependsOn pnpmInstall
   args = ['run', 'build']
 }

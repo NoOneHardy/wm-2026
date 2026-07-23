@@ -1,5 +1,3 @@
-spring.config.import=file:.env[.properties]
-
 server.port=26001
 spring.application.name=service
 

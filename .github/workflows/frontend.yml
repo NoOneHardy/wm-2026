@@ -62,7 +62,7 @@ jobs:
       - name: 'Build image (push on develop)'
         uses: docker/build-push-action@v6
         with:
-          context: frontend
+          context: .
           file: frontend/Dockerfile
           push: ${{ github.ref == 'refs/heads/develop' }}
           tags: ${{ steps.meta.outputs.tags }}

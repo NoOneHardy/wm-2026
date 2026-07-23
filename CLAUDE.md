@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **WM 2026** is a betting game for the FIFA World Cup 2026. It's a full-stack application with a Gradle-based monorepo structure consisting of a frontend (Angular) and backend (Spring Boot) service, along with supporting infrastructure (MySQL database, nginx proxy).
 
 - **Live Demo**: https://wm-dev.no1hardy.ch
-- **Commit Convention**: Follow the types defined in README.md (feat, fix, docs, lint, refactor, test, ci)
+- **Git Conventions**: See `docs/git-conventions.md` for binding conventions on commits, branches, and PRs
 
 ## Architecture
 

@@ -1,0 +1,9 @@
+wm:
+  host:
+    name: http://localhost:26000
+  verification:
+    email:
+      validity: 15
+  joker:
+    double: 10
+    triple: 6

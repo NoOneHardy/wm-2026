@@ -1,4 +1,9 @@
-wm.host.name=http://localhost:26000
-wm.verification.email.validity=15
-wm.joker.double=10
-wm.joker.triple=6
+wm:
+  host:
+    name: http://localhost:26000
+  verification:
+    email:
+      validity: 15
+  joker:
+    double: 10
+    triple: 6

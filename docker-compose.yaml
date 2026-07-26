@@ -6,6 +6,8 @@ services:
     image: nginx
     volumes:
       - './service/storage:/usr/share/nginx/html:ro'
+    ports:
+      - '26009:80'
     restart: unless-stopped
   frontend:
     container_name: 'wm-dev-frontend'
@@ -59,13 +61,12 @@ services:
     build:
       dockerfile: './proxy/Dockerfile'
       context: .
-    ports:
-      - '26000:80'
     volumes:
       - './proxy/default.conf:/etc/nginx/templates/default.conf.template:ro'
       - './proxy/nginx.conf:/etc/nginx/nginx.conf'
     env_file:
       - './proxy/.env'
+    network_mode: 'host'
     restart: unless-stopped
 volumes:
   nm-frontend:

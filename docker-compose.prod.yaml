@@ -25,7 +25,7 @@ services:
     image: docker.no1hardy.ch/wm-2026-proxy:latest
     pull_policy: always
     ports:
-      - '26000:80'
+      - '26000:26000'
     env_file:
       - './proxy/.env'
     restart: unless-stopped

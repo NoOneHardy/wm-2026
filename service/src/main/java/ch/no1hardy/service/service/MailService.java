@@ -26,7 +26,7 @@ public class MailService {
     @Value("${spring.mail.password}")
     private String password;
 
-    @Value("${wm.host.name}")
+    @Value("${beticon.host.name}")
     private String hostName;
 
     private Session createSession() {

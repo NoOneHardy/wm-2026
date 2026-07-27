@@ -45,9 +45,9 @@ import java.util.Optional;
 @EqualsAndHashCode(callSuper = false)
 @RequiredArgsConstructor
 public class UserService {
-    @Value("${wm.verification.email.validity}")
+    @Value("${beticon.verification.email.validity}")
     private Integer emailConfirmationValidity;
-    @Value("${wm.verification.password_reset.validity}")
+    @Value("${beticon.verification.password_reset.validity}")
     private Integer passwordResetValidity;
 
     private final UserRepository repository;

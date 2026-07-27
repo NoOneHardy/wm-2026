@@ -65,6 +65,7 @@
           },
           "defaultConfiguration": "development",
           "options": {
+            "port": 26002,
             "allowedHosts": ["host.docker.internal"]
           }
         },

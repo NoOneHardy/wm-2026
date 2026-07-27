@@ -3,7 +3,7 @@ import {NgOptimizedImage} from '@angular/common'
 import {Team} from '../../../../model/team/team'
 
 @Component({
-  selector: 'wm-team-previous-games',
+  selector: 'bet-team-previous-games',
   imports: [
     NgOptimizedImage
   ],

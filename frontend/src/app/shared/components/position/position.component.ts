@@ -3,7 +3,7 @@ import {Ranking} from '../../../model/leaderboard/ranking'
 import { NgOptimizedImage } from '@angular/common'
 
 @Component({
-  selector: 'wm-position',
+  selector: 'bet-position',
   imports: [
     NgOptimizedImage
   ],

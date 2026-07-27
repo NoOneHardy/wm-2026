@@ -12,7 +12,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations'
 import {NotificationsComponent} from './components/notifications/notifications.component'
 
 @Component({
-  selector: 'wm-header',
+  selector: 'bet-header',
   host: {
     '(document:click)': 'closeMenuOnBlur($event)',
     '(document:keydown.escape)': 'closeMenu()'

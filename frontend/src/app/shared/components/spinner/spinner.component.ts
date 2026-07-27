@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 
 @Component({
-  selector: 'wm-spinner',
+  selector: 'bet-spinner',
   standalone: true,
   template: '',
   styleUrl: './spinner.component.css'

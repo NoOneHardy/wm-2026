@@ -1,12 +1,12 @@
-<wm-side-nav class="side-nav">
+<bet-side-nav class="side-nav">
   <ng-container wm-side-nav-content>
-    <wm-side-nav-item icon="manage_accounts" route="profile">Konto</wm-side-nav-item>
-    <wm-side-nav-item icon="alternate_email" route="notifications">Benachrichtigungen</wm-side-nav-item>
+    <bet-side-nav-item icon="manage_accounts" route="profile">Konto</bet-side-nav-item>
+    <bet-side-nav-item icon="alternate_email" route="notifications">Benachrichtigungen</bet-side-nav-item>
   </ng-container>
   <ng-container wm-side-nav-footer>
-    <wm-side-nav-item icon="logout" (clickAction)="logout()">Abmelden</wm-side-nav-item>
+    <bet-side-nav-item icon="logout" (clickAction)="logout()">Abmelden</bet-side-nav-item>
   </ng-container>
-</wm-side-nav>
+</bet-side-nav>
 <div class="content">
   <router-outlet/>
 </div>

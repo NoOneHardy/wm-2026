@@ -5,7 +5,7 @@ import {FormFieldComponent} from '../form-field/form-field.component'
 
 
 @Component({
-  selector: 'wm-score-form-field',
+  selector: 'bet-score-form-field',
   imports: [
     FormFieldComponent,
     FormsModule

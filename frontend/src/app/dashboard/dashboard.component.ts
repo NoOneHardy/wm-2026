@@ -11,7 +11,7 @@ import {RecentResultsComponent} from './components/recent-results/recent-results
 import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
-  selector: 'wm-dashboard',
+  selector: 'bet-dashboard',
   imports: [
     PositionComponent,
     DecimalPipe,

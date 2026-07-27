@@ -4,7 +4,7 @@ import {MatRipple} from '@angular/material/core'
 import {StadiumComponent} from '../stadium/stadium.component'
 
 @Component({
-  selector: 'wm-hero-section',
+  selector: 'bet-hero-section',
   imports: [
     RouterLink,
     MatRipple,

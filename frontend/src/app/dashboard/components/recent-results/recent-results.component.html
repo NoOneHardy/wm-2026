@@ -1,6 +1,6 @@
 <div class="recent-results">
   @for (game of games(); track game) {
-    <wm-game-preview [game]="game"/>
+    <bet-game-preview [game]="game"/>
   }
   @if (games().length === 0) {
     <div class="no-games">

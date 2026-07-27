@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
-  <wm-user-management-panel heading="Anmelden">
+  <bet-user-management-panel heading="Anmelden">
     <ng-container wm-content>
       <div class="mdc-layout-grid__inner">
         <mat-form-field class="mdc-layout-grid__cell--span-12">
@@ -21,7 +21,7 @@
     </ng-container>
     <ng-container wm-actions>
       <a routerLink="/forgot-password">Passwort vergessen?</a>
-      <wm-button (clickEvent)="login()" submit>Anmelden</wm-button>
+      <bet-button (clickEvent)="login()" submit>Anmelden</bet-button>
     </ng-container>
-  </wm-user-management-panel>
+  </bet-user-management-panel>
 </form>

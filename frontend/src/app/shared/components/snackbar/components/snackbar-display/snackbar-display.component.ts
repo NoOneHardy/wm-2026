@@ -5,7 +5,7 @@ import {SnackbarComponent} from '../../snackbar.component'
 import {SnackbarService} from '../../../../services/snackbar/snackbar.service'
 
 @Component({
-  selector: 'wm-snackbar-display',
+  selector: 'bet-snackbar-display',
   imports: [
     SnackbarComponent
   ],

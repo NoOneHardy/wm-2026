@@ -39,11 +39,11 @@
   <div class="leaderboard-preview">
     <h3>Deine Position</h3>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       <div class="leaderboard">
         @for (position of leaderboardPreview(); track position) {
-          <wm-position
+          <bet-position
             [ranking]="position"
             [class.-current]="position.id === user()?.id"
             [highlight]="position.id === user()?.id"/>
@@ -59,10 +59,10 @@
   <div class="upcoming">
     <h3>Nächste Spiele</h3>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       @if (dashboardData(); as data) {
-        <wm-upcoming-games [games]="data.upcomingGames"/>
+        <bet-upcoming-games [games]="data.upcomingGames"/>
       }
     }
   </div>
@@ -70,13 +70,13 @@
   <div class="recent">
     <h3>Kürzlich gespielt</h3>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       @if (dashboardData(); as data) {
-        <wm-recent-results [games]="data.recentResults"/>
+        <bet-recent-results [games]="data.recentResults"/>
       }
     }
   </div>
 
-  <wm-statistics [globalStats]="dashboardData()?.globalStats" [personalStats]="dashboardData()?.stats"/>
+  <bet-statistics [globalStats]="dashboardData()?.globalStats" [personalStats]="dashboardData()?.stats"/>
 </div>

@@ -12,7 +12,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 
 @Component({
-  selector: 'wm-group-management',
+  selector: 'bet-group-management',
   imports: [
     ReactiveFormsModule,
     ButtonComponent,

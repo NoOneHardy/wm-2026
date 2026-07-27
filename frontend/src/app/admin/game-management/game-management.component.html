@@ -7,7 +7,7 @@
   <section class="admin-card" [formGroup]="formGroup">
     @if (isLoadingOptions()) {
       <div class="loader-wrapper">
-        <wm-spinner/>
+        <bet-spinner/>
       </div>
     } @else {
       @if (!groups().length || teams().length < 2) {
@@ -186,9 +186,9 @@
         </div>
       </div>
 
-      <wm-button icon="add_circle" (clickEvent)="submit()"
+      <bet-button icon="add_circle" (clickEvent)="submit()"
                  [disabled]="isSaving() || !groups().length || teams().length < 2">Spiel erstellen
-      </wm-button>
+      </bet-button>
 
       @if (createdGame(); as game) {
         <div class="entity-preview">

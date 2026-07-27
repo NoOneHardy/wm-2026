@@ -8,7 +8,7 @@
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
-      "prefix": "wm",
+      "prefix": "bet",
       "architect": {
         "build": {
           "builder": "@angular/build:application",

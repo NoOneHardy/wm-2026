@@ -21,7 +21,7 @@ import {ScoreForm} from '../../../model/game/score-form'
 import {RemainingJokerDisplayComponent} from '../remaining-joker-display/remaining-joker-display.component'
 
 @Component({
-  selector: 'wm-group-view',
+  selector: 'bet-group-view',
   imports: [
     DecimalPipe,
     DatePipe,

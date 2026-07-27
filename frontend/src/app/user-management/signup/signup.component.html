@@ -1,5 +1,5 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <wm-user-management-panel heading="Konto erstellen">
+  <bet-user-management-panel heading="Konto erstellen">
     <ng-container wm-content>
       <div class="mdc-layout-grid__inner">
         <mat-form-field
@@ -123,9 +123,9 @@
           @if (isLoading()) {
             <mat-progress-spinner [diameter]="24" mode="indeterminate"/>
           }
-          <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+          <bet-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</bet-button>
         </div>
       </div>
     </ng-container>
-  </wm-user-management-panel>
+  </bet-user-management-panel>
 </form>

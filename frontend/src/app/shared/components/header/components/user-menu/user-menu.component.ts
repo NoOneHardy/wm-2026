@@ -8,7 +8,7 @@ import {logout} from '../../../../../user-management/store/user.actions'
 import {NotificationsComponent} from '../notifications/notifications.component'
 
 @Component({
-  selector: 'wm-user-menu',
+  selector: 'bet-user-menu',
   host: {
     '(document:click)': 'closeDropdownOnBlur($event)',
   },

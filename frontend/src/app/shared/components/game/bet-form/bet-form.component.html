@@ -16,7 +16,7 @@
     </div>
 
     <h3 class="team-home">{{ game.teamHome.name }}</h3>
-    <wm-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
+    <bet-score-form-field [large]="knockout()" class="score-team-home" formControlName="scoreTeamHome"/>
 
     @if (!knockout() && !admin()) {
       <div class="joker-form">
@@ -34,20 +34,20 @@
     }
 
     @if (isDisabled && !admin()) {
-      <wm-result [result]="game.result" class="result" [large]="knockout()"/>
+      <bet-result [result]="game.result" class="result" [large]="knockout()"/>
 
       @let points = game | points;
       @let totalPoints = points | totalPoints;
 
       @if (totalPoints > 0 && points) {
-        <wm-expandable name="Punkteverteilung" class="points" [large]="knockout()">
+        <bet-expandable name="Punkteverteilung" class="points" [large]="knockout()">
           <ng-container wm-content>
-            <wm-point-table [total]="totalPoints" [points]="points" [large]="knockout()"/>
+            <bet-point-table [total]="totalPoints" [points]="points" [large]="knockout()"/>
           </ng-container>
           <ng-container wm-preview>
-            <wm-point-table [total]="totalPoints" [large]="knockout()"/>
+            <bet-point-table [total]="totalPoints" [large]="knockout()"/>
           </ng-container>
-        </wm-expandable>
+        </bet-expandable>
       }
     }
 
@@ -55,20 +55,20 @@
       <img [ngSrc]="game.teamGuest.flag" [alt]="game.teamGuest.name" fill>
     </div>
     <h3 class="team-guest">{{ game.teamGuest.name }}</h3>
-    <wm-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
+    <bet-score-form-field [large]="knockout()" class="score-team-guest" formControlName="scoreTeamGuest"/>
 
     @if (knockout()) {
       <div class="separator">-</div>
 
       @if (!isDisabled && !admin()) {
-        <wm-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
+        <bet-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
           <ng-container wm-content>
             <div class="prev-games-layout">
-              <wm-team-previous-games [team]="game.teamHome"/>
-              <wm-team-previous-games [team]="game.teamGuest"/>
+              <bet-team-previous-games [team]="game.teamHome"/>
+              <bet-team-previous-games [team]="game.teamGuest"/>
             </div>
           </ng-container>
-        </wm-expandable>
+        </bet-expandable>
       }
     }
   </form>

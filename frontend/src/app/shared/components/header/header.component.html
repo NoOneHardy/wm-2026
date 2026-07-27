@@ -3,28 +3,28 @@
     <nav class="nav">
       <a routerLink="/" class="home-link gradient-text">WM 2026</a>
       @if (user()) {
-        <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-        <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
+        <bet-nav-item displayName="Dashboard" icon="home" route="/" exact/>
+        <bet-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
       }
       @if (!user()) {
-        <wm-nav-item displayName="Home" icon="home" route="/" exact/>
+        <bet-nav-item displayName="Home" icon="home" route="/" exact/>
       }
-      <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+      <bet-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
       @if (isAdmin()) {
-        <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
-        <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
-        <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
-        <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
-        <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
+        <bet-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
+        <bet-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
+        <bet-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
+        <bet-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+        <bet-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
       }
     </nav>
     <div class="user-actions">
       @if (user(); as user) {
-        <wm-user-menu [user]="user"/>
+        <bet-user-menu [user]="user"/>
       }
       @if (!user()) {
-        <wm-user-button route="/login" secondary content="Anmelden"/>
-        <wm-user-button route="/signup" content="Registrieren"/>
+        <bet-user-button route="/login" secondary content="Anmelden"/>
+        <bet-user-button route="/signup" content="Registrieren"/>
       }
     </div>
   </header>
@@ -34,7 +34,7 @@
       <a routerLink="/" class="home-link">WM 2026</a>
       <div class="actions">
         @if (user()) {
-          <wm-notifications mobile/>
+          <bet-notifications mobile/>
         }
         <button type="button"
           class="menu-button"
@@ -67,42 +67,42 @@
       <div class="menu-section">
         <p class="section-title">Navigation</p>
         @if (user()) {
-          <wm-nav-item displayName="Dashboard" icon="home" route="/" exact/>
-          <wm-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
-          <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+          <bet-nav-item displayName="Dashboard" icon="home" route="/" exact/>
+          <bet-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
+          <bet-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
         } @else {
-          <wm-nav-item displayName="Home" icon="home" route="/" exact/>
-          <wm-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
+          <bet-nav-item displayName="Home" icon="home" route="/" exact/>
+          <bet-nav-item displayName="Rangliste" icon="bookmark_star" route="/leaderboard"/>
         }
       </div>
       @if (user(); as user) {
         <div class="menu-section">
           <p class="section-title">Konto</p>
           <p class="user-name">{{ user.username }}</p>
-          <wm-nav-item displayName="Einstellungen" icon="manage_accounts" route="/settings"/>
+          <bet-nav-item displayName="Einstellungen" icon="manage_accounts" route="/settings"/>
         </div>
       }
       @if (!user()) {
         <div class="menu-section">
           <p class="section-title">Zugang</p>
-          <wm-nav-item displayName="Anmelden" icon="login" route="/login"/>
-          <wm-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
+          <bet-nav-item displayName="Anmelden" icon="login" route="/login"/>
+          <bet-nav-item gradient displayName="Registrieren" icon="person_add" route="/signup"/>
         </div>
       }
       @if (isAdmin()) {
         <div class="menu-section">
           <p class="section-title">Verwaltung</p>
-          <wm-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
-          <wm-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
-          <wm-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
-          <wm-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
-          <wm-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
+          <bet-nav-item displayName="Teams" icon="flag" route="/admin/teams"/>
+          <bet-nav-item displayName="Gruppen" icon="stacks" route="/admin/groups"/>
+          <bet-nav-item displayName="Spiele" icon="sports_soccer" route="/admin/games"/>
+          <bet-nav-item displayName="Resultate" icon="scoreboard" route="/admin/results"/>
+          <bet-nav-item displayName="Teilnehmer" icon="person" route="/admin/users"/>
         </div>
       }
       @if (user()) {
         <div class="menu-section user-actions">
           <p class="section-title">Aktionen</p>
-          <wm-nav-item displayName="Abmelden" icon="logout" [route]="null" (clickEvent)="logout()"/>
+          <bet-nav-item displayName="Abmelden" icon="logout" [route]="null" (clickEvent)="logout()"/>
         </div>
       }
     </nav>

@@ -29,7 +29,7 @@ import {MatTimepicker, MatTimepickerInput, MatTimepickerToggle} from '@angular/m
 import {ErrorStateMatcher} from '@angular/material/core'
 
 @Component({
-  selector: 'wm-game-management',
+  selector: 'bet-game-management',
   imports: [
     ReactiveFormsModule,
     ButtonComponent,

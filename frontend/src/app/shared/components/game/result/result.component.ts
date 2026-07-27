@@ -2,7 +2,7 @@ import {Component, HostBinding, input} from '@angular/core'
 import {Score} from '../../../../model/game/score'
 
 @Component({
-  selector: 'wm-result',
+  selector: 'bet-result',
   standalone: true,
   templateUrl: './result.component.html',
   styleUrl: './result.component.css'

@@ -8,7 +8,7 @@ import {markNotificationAsRead} from '../../../../../user-management/store/user.
 import {NotificationType} from '../../../../../user-management/model/notification-type'
 
 @Component({
-  selector: 'wm-notifications',
+  selector: 'bet-notifications',
   imports: [
     MatMenu,
     MatMenuTrigger,

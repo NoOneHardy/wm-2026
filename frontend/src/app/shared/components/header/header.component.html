@@ -1,7 +1,7 @@
 @if (isVpL()) {
   <header class="header">
     <nav class="nav">
-      <a routerLink="/" class="home-link gradient-text">WM 2026</a>
+      <a routerLink="/" class="home-link gradient-text">Beticon</a>
       @if (user()) {
         <bet-nav-item displayName="Dashboard" icon="home" route="/" exact/>
         <bet-nav-item displayName="Mein Tippschein" icon="ballot" route="/bets"/>
@@ -31,7 +31,7 @@
 } @else {
   <header class="mobile-header">
     <div class="nav-top">
-      <a routerLink="/" class="home-link">WM 2026</a>
+      <a routerLink="/" class="home-link">Beticon</a>
       <div class="actions">
         @if (user()) {
           <bet-notifications mobile/>

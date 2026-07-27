@@ -9,7 +9,7 @@ button {
   border-radius: .25em;
   box-shadow: 0 .125em .25em 0 #0000003d;
   color: #fff;
-  background-image: var(--wm-gradient-primary-600);
+  background-image: var(--beticon-gradient-primary-600);
   font-size: 1em;
   font-weight: 600;
   cursor: pointer;
@@ -33,12 +33,12 @@ button {
   }
 
   &:disabled {
-    background-image: var(--wm-gradient-primary-200);
+    background-image: var(--beticon-gradient-primary-200);
     cursor: auto;
 
     &.secondary {
-      color: var(--wm-color-neutral-400);
-      background-color: var(--wm-color-neutral-100);
+      color: var(--beticon-color-neutral-400);
+      background-color: var(--beticon-color-neutral-100);
     }
 
     &::after {
@@ -47,9 +47,9 @@ button {
   }
 
   &.secondary {
-    color: var(--wm-color-neutral-500);
+    color: var(--beticon-color-neutral-500);
     background-image: none;
-    background-color: var(--wm-color-neutral-200);
+    background-color: var(--beticon-color-neutral-200);
   }
 
   &:active:not(:disabled) {

@@ -1,4 +1,4 @@
-wm-user-management-panel {
+bet-user-management-panel {
   display: block;
   margin: 0 auto;
   max-width: 56em;
@@ -16,12 +16,12 @@ wm-user-management-panel {
     font-size: .875em;
 
     a {
-      color: var(--wm-color-secondary-600);
+      color: var(--beticon-color-secondary-600);
       text-decoration: none;
       transition: color .2s ease;
 
       &:hover {
-        color: var(--wm-color-secondary-900);
+        color: var(--beticon-color-secondary-900);
       }
     }
   }
@@ -29,14 +29,14 @@ wm-user-management-panel {
   .continue {
     display: flex;
     align-items: center;
-    gap: var(--wm-spacer-3);
+    gap: var(--beticon-spacer-3);
   }
 }
 
 @media screen and (max-width: 992px) {
   .actions {
     flex-direction: column;
-    gap: var(--wm-spacer-1);
+    gap: var(--beticon-spacer-1);
   }
 }
 

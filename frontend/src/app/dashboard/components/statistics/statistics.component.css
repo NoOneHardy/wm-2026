@@ -5,10 +5,10 @@
   .header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: var(--wm-spacer-3);
+    margin-bottom: var(--beticon-spacer-3);
 
     h3 {
-      font: var(--wm-font-h3);
+      font: var(--beticon-font-h3);
     }
 
     .toggle {
@@ -19,7 +19,7 @@
         background-color: transparent;
         border: none;
         font-size: 1.5em;
-        color: var(--wm-color-neutral-400);
+        color: var(--beticon-color-neutral-400);
         cursor: pointer;
       }
     }
@@ -28,28 +28,28 @@
   .stats {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--wm-spacer-4);
+    gap: var(--beticon-spacer-4);
 
     .stat {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      gap: var(--wm-spacer-3);
+      gap: var(--beticon-spacer-3);
       width: 9em;
       height: 9em;
-      padding: var(--wm-spacer-3);
-      background-color: var(--wm-color-white-600);
+      padding: var(--beticon-spacer-3);
+      background-color: var(--beticon-color-white-600);
       box-shadow: 0 0 .5em 0 #0000003d;
       border-radius: .5em;
 
       span {
-        font: var(--wm-font-small-text);
-        color: var(--wm-color-neutral-400);
+        font: var(--beticon-font-small-text);
+        color: var(--beticon-color-neutral-400);
       }
 
       p {
-        font: var(--wm-font-h1);
+        font: var(--beticon-font-h1);
       }
     }
   }

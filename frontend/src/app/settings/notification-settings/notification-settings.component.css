@@ -1,12 +1,12 @@
 h2 {
-  margin-bottom: var(--wm-spacer-5);
+  margin-bottom: var(--beticon-spacer-5);
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: var(--wm-spacer-4);
-  margin-bottom: var(--wm-spacer-4);
+  gap: var(--beticon-spacer-4);
+  margin-bottom: var(--beticon-spacer-4);
 
   .channel {
     display: flex;
@@ -24,6 +24,6 @@ form {
 
 @media screen and (max-width: 768px) {
   h2 {
-    font: var(--wm-font-h3);
+    font: var(--beticon-font-h3);
   }
 }

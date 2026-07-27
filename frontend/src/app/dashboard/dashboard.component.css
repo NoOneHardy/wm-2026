@@ -5,12 +5,12 @@
     'greeting summary'
     'ranking upcoming-games'
     'stats .';
-  gap: var(--wm-spacer-5);
-  padding: var(--wm-spacer-8);
+  gap: var(--beticon-spacer-5);
+  padding: var(--beticon-spacer-8);
 
   h3 {
-    font: var(--wm-font-h3);
-    margin-bottom: var(--wm-spacer-3);
+    font: var(--beticon-font-h3);
+    margin-bottom: var(--beticon-spacer-3);
   }
 
   .greeting {
@@ -26,7 +26,7 @@
     grid-area: summary;
     display: flex;
     place-self: end;
-    gap: var(--wm-spacer-5);
+    gap: var(--beticon-spacer-5);
 
     .summary-item {
       display: flex;
@@ -34,7 +34,7 @@
       gap: .25em;
 
       h2 {
-        font: var(--wm-font-h2);
+        font: var(--beticon-font-h2);
       }
 
       i.material-symbols-rounded {
@@ -42,17 +42,17 @@
         font-size: 2.5em;
 
         &.denied {
-          background-image: linear-gradient(to bottom, var(--wm-color-red-500) 0%, var(--wm-color-red-600) 90%) !important;
+          background-image: linear-gradient(to bottom, var(--beticon-color-red-500) 0%, var(--beticon-color-red-600) 90%) !important;
         }
 
         &.pending {
-          background-image: linear-gradient(to bottom, var(--wm-color-orange-500) 0%, var(--wm-color-orange-600) 90%) !important;
+          background-image: linear-gradient(to bottom, var(--beticon-color-orange-500) 0%, var(--beticon-color-orange-600) 90%) !important;
         }
       }
 
       span {
-        font: var(--wm-font-regular-text);
-        color: var(--wm-color-neutral-400);
+        font: var(--beticon-font-regular-text);
+        color: var(--beticon-color-neutral-400);
         margin-bottom: .25em;
       }
     }
@@ -62,15 +62,15 @@
     grid-area: ranking;
 
     h3 {
-      margin-bottom: var(--wm-spacer-3);
+      margin-bottom: var(--beticon-spacer-3);
     }
 
     .leaderboard {
       display: flex;
-      gap: var(--wm-spacer-1);
+      gap: var(--beticon-spacer-1);
       flex-direction: column;
 
-      wm-position {
+      bet-position {
         max-width: 40em;
 
         &:first-child, &:last-child {
@@ -82,11 +82,11 @@
     }
   }
 
-  wm-upcoming-games {
+  bet-upcoming-games {
     grid-area: upcoming-games;
   }
 
-  wm-statistics {
+  bet-statistics {
     grid-area: stats;
   }
 }
@@ -101,7 +101,7 @@
 
     .summary {
       place-self: start;
-      margin-top: calc((var(--wm-spacer-5) - var(--wm-spacer-3)) * -1);
+      margin-top: calc((var(--beticon-spacer-5) - var(--beticon-spacer-3)) * -1);
     }
   }
 }
@@ -110,19 +110,19 @@
   .dashboard {
     display: flex;
     flex-direction: column;
-    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+    padding: var(--beticon-spacer-6) var(--beticon-spacer-5);
   }
 }
 
 @media screen and (max-width: 576px) {
   .dashboard {
     .greeting h1 {
-      font: var(--wm-font-h2);
+      font: var(--beticon-font-h2);
     }
 
     .summary {
       flex-direction: column;
-      gap: var(--wm-spacer-1);
+      gap: var(--beticon-spacer-1);
     }
   }
 }

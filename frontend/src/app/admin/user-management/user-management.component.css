@@ -9,11 +9,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--wm-spacer-4);
+    gap: var(--beticon-spacer-4);
     flex-wrap: wrap;
-    padding-bottom: var(--wm-spacer-2);
-    border-bottom: 1px solid var(--wm-color-neutral-100);
-    margin-bottom: var(--wm-spacer-3);
+    padding-bottom: var(--beticon-spacer-2);
+    border-bottom: 1px solid var(--beticon-color-neutral-100);
+    margin-bottom: var(--beticon-spacer-3);
 
     mat-form-field {
       width: min(24em, 100%);
@@ -61,19 +61,19 @@
       }
 
       &.-accepted::before {
-        background-color: var(--wm-color-primary-600);
+        background-color: var(--beticon-color-primary-600);
       }
 
       &.-denied::before {
-        background-color: var(--wm-color-red-200);
+        background-color: var(--beticon-color-red-200);
       }
 
       &:hover.-accepted::before {
-        box-shadow: 0 0 .5em 0 var(--wm-color-primary-600);
+        box-shadow: 0 0 .5em 0 var(--beticon-color-primary-600);
       }
 
       &:hover.-denied::before {
-        box-shadow: 0 0 .5em 0 var(--wm-color-red-200);
+        box-shadow: 0 0 .5em 0 var(--beticon-color-red-200);
       }
 
       .avatar {
@@ -91,7 +91,7 @@
           display: flex;
           gap: .5ch;
           font-size: .6em;
-          color: var(--wm-color-neutral-500);
+          color: var(--beticon-color-neutral-500);
         }
       }
 
@@ -112,30 +112,30 @@
           user-select: none;
 
           &.accept {
-            background-color: var(--wm-color-primary-200);
-            color: var(--wm-color-secondary-600);
+            background-color: var(--beticon-color-primary-200);
+            color: var(--beticon-color-secondary-600);
 
             &:hover {
-              background-color: var(--wm-color-primary-400);
+              background-color: var(--beticon-color-primary-400);
             }
           }
 
           &.deny {
-            background-color: var(--wm-color-red-200);
-            color: var(--wm-color-red-600);
+            background-color: var(--beticon-color-red-200);
+            color: var(--beticon-color-red-600);
 
             &:hover {
-              background-color: var(--wm-color-red-400);
+              background-color: var(--beticon-color-red-400);
             }
           }
 
           &:disabled {
-            color: var(--wm-color-neutral-400);
-            background-color: var(--wm-color-neutral-100);
+            color: var(--beticon-color-neutral-400);
+            background-color: var(--beticon-color-neutral-100);
             cursor: auto;
 
             &:hover {
-              background-color: var(--wm-color-neutral-100);
+              background-color: var(--beticon-color-neutral-100);
             }
           }
         }
@@ -146,10 +146,10 @@
 
 @media screen and (max-width: 992px) {
   .user-management {
-    padding: var(--wm-spacer-4);
+    padding: var(--beticon-spacer-4);
 
     h1 {
-      font: var(--wm-font-h2);
+      font: var(--beticon-font-h2);
       word-break: break-all;
     }
 

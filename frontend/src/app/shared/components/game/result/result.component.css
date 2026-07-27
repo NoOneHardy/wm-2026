@@ -2,35 +2,35 @@
 
   &.-large {
     h4 {
-      font: var(--wm-font-regular-text);
+      font: var(--beticon-font-regular-text);
     }
 
     p {
-      font: var(--wm-font-medium-bold);
+      font: var(--beticon-font-medium-bold);
     }
   }
 
   h4 {
-    font: var(--wm-font-small-text);
-    color: var(--wm-color-neutral-500);
+    font: var(--beticon-font-small-text);
+    color: var(--beticon-color-neutral-500);
     text-align: center;
   }
 
   p {
-    font: var(--wm-font-regular-bold);
+    font: var(--beticon-font-regular-bold);
     text-align: center;
-    color: var(--wm-color-neutral-600);
+    color: var(--beticon-color-neutral-600);
   }
 }
 
 @media screen and (max-width: 768px) {
   :host, :host.-large {
     h4 {
-      font: var(--wm-font-small-text);
+      font: var(--beticon-font-small-text);
     }
 
     p {
-      font: var(--wm-font-regular-bold);
+      font: var(--beticon-font-regular-bold);
     }
   }
 }

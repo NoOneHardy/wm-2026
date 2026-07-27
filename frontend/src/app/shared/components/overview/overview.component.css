@@ -1,25 +1,25 @@
 :host {
   display: block;
   width: 100%;
-  padding: var(--wm-spacer-8);
+  padding: var(--beticon-spacer-8);
 
   h1 {
-    margin-bottom: var(--wm-spacer-3);
+    margin-bottom: var(--beticon-spacer-3);
   }
 
   p.sub-heading {
-    margin-bottom: var(--wm-spacer-6);
+    margin-bottom: var(--beticon-spacer-6);
   }
 
   h3 {
-    font: var(--wm-font-h3);
-    margin-bottom: var(--wm-spacer-3);
+    font: var(--beticon-font-h3);
+    margin-bottom: var(--beticon-spacer-3);
   }
 
   .groups {
     display: flex;
-    gap: var(--wm-spacer-5);
-    margin-bottom: var(--wm-spacer-6);
+    gap: var(--beticon-spacer-5);
+    margin-bottom: var(--beticon-spacer-6);
     flex-wrap: wrap;
     width: 100%;
 
@@ -28,14 +28,14 @@
       align-items: center;
       flex-direction: column;
       width: 14em;
-      background-color: var(--wm-color-white-600);
+      background-color: var(--beticon-color-white-600);
       box-shadow: 0 0 .5em 0 #0000003d;
       border-radius: .5em;
-      padding: var(--wm-spacer-3) var(--wm-spacer-4);
+      padding: var(--beticon-spacer-3) var(--beticon-spacer-4);
 
       h3 {
-        font: var(--wm-font-h3);
-        margin-bottom: var(--wm-spacer-1);
+        font: var(--beticon-font-h3);
+        margin-bottom: var(--beticon-spacer-1);
       }
 
       .thumbnail {
@@ -46,10 +46,10 @@
         position: relative;
         height: 11.5em;
         width: 11.5em;
-        background-image: var(--wm-gradient-primary-600);
+        background-image: var(--beticon-gradient-primary-600);
         border-radius: 50%;
         box-shadow: 0 0 .5em 0 #0000003d;
-        margin-bottom: var(--wm-spacer-1);
+        margin-bottom: var(--beticon-spacer-1);
         transition: --group-progress .2s ease;
 
         &::before {
@@ -61,8 +61,8 @@
           background-image: conic-gradient(
             transparent 0%,
             transparent var(--group-progress),
-            var(--wm-color-white-600) var(--group-progress),
-            var(--wm-color-white-600) 100%
+            var(--beticon-color-white-600) var(--group-progress),
+            var(--beticon-color-white-600) 100%
           );
           border-radius: 50%;
         }
@@ -75,7 +75,7 @@
           height: 11.25em;
           padding: 1.375em;
           border-radius: 50%;
-          background-color: var(--wm-color-white-600);
+          background-color: var(--beticon-color-white-600);
 
           .flag {
             display: block;
@@ -91,7 +91,7 @@
             display: grid;
             place-items: center;
             position: relative;
-            color: var(--wm-color-neutral-400);
+            color: var(--beticon-color-neutral-400);
           }
 
           .custom-thumbnail {
@@ -102,7 +102,7 @@
             font-size: 3em;
             font-weight: 700;
             border-radius: 50%;
-            background-color: var(--wm-color-neutral-100);
+            background-color: var(--beticon-color-neutral-100);
           }
 
           .material-symbols-rounded {
@@ -115,7 +115,7 @@
 
       p {
         font-size: 1.25em;
-        margin-bottom: var(--wm-spacer-2);
+        margin-bottom: var(--beticon-spacer-2);
       }
     }
   }
@@ -129,7 +129,7 @@
 
 @media screen and (max-width: 992px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+    padding: var(--beticon-spacer-6) var(--beticon-spacer-5);
 
     h3 {
       text-align: center;
@@ -143,6 +143,6 @@
 
 @media screen and (max-width: 576px) {
   :host {
-    padding: var(--wm-spacer-6) var(--wm-spacer-4);
+    padding: var(--beticon-spacer-6) var(--beticon-spacer-4);
   }
 }

@@ -22,15 +22,15 @@
     cursor: pointer;
 
     .material-symbols-rounded {
-      color: var(--wm-color-primary-600);
+      color: var(--beticon-color-primary-600);
       font-size: 3em;
     }
 
     .text {
-      color: var(--wm-color-white-600);
-      font: var(--wm-font-regular-text);
+      color: var(--beticon-color-white-600);
+      font: var(--beticon-font-regular-text);
       line-height: normal;
-      max-width: var(--wm-spacer-8);
+      max-width: var(--beticon-spacer-8);
     }
   }
 

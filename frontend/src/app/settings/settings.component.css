@@ -1,8 +1,8 @@
 :host {
   display: grid;
   grid-template-columns: 18em 1fr;
-  gap: var(--wm-spacer-8);
-  height: calc(100vh - var(--wm-header-height));
+  gap: var(--beticon-spacer-8);
+  height: calc(100vh - var(--beticon-header-height));
   padding: 8em 0 0 7.5em;
 
   .side-nav {
@@ -10,27 +10,27 @@
   }
 
   .content {
-    padding: var(--wm-spacer-3) 0;
+    padding: var(--beticon-spacer-3) 0;
     height: 100%;
     overflow-y: auto;
   }
 
   @media screen and (max-width: 1200px) {
-    padding: var(--wm-spacer-8) 0 0 var(--wm-spacer-7);
+    padding: var(--beticon-spacer-8) 0 0 var(--beticon-spacer-7);
   }
 
   @media screen and (max-width: 992px) {
     height: auto;
-    padding: var(--wm-spacer-3) var(--wm-spacer-4);
+    padding: var(--beticon-spacer-3) var(--beticon-spacer-4);
     grid-template-columns: 1fr;
-    gap: var(--wm-spacer-5);
+    gap: var(--beticon-spacer-5);
 
     .side-nav {
       margin-bottom: 0;
     }
 
     .content {
-      padding: 0 var(--wm-spacer-3);
+      padding: 0 var(--beticon-spacer-3);
     }
   }
 }

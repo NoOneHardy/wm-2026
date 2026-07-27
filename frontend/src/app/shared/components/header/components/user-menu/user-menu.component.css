@@ -30,7 +30,7 @@
         height: 2.5em;
         padding: 0 1.25em;
         text-decoration: none;
-        color: var(--wm-color-neutral-600);
+        color: var(--beticon-color-neutral-600);
         cursor: pointer;
         transition: background-color .25s ease;
 
@@ -43,7 +43,7 @@
         }
 
         &:hover {
-          background-color: var(--wm-color-neutral-100);
+          background-color: var(--beticon-color-neutral-100);
         }
       }
     }

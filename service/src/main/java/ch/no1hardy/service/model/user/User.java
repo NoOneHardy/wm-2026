@@ -27,7 +27,7 @@ import java.util.Optional;
 
 @Data
 @Entity
-@Table(name = "wm-user")
+@Table(name = "beticon-user")
 @EqualsAndHashCode(callSuper = false)
 public class User extends BaseEntity implements UserDetails {
     /**

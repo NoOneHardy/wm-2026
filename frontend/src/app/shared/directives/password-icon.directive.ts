@@ -1,7 +1,7 @@
 import {AfterViewInit, Directive, effect, ElementRef, inject, signal} from '@angular/core'
 
 @Directive({
-  selector: '[wmPasswordIcon]',
+  selector: '[betPasswordIcon]',
   standalone: true,
   host: {
     '(pointerup)': 'toggleVisibility()',

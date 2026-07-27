@@ -7,7 +7,7 @@
   <section class="admin-card" [formGroup]="formGroup">
     <div class="admin-form-grid">
       <div class="-full">
-        <wm-avatar-upload buttonLabel="Flagge hochladen" formControlName="flag"/>
+        <bet-avatar-upload buttonLabel="Flagge hochladen" formControlName="flag"/>
         @if (hasError(formGroup.get('flag'), 'required')) {
           <p class="admin-error">Bitte eine Flagge auswählen</p>
         }
@@ -34,7 +34,7 @@
       </mat-form-field>
     </div>
 
-    <wm-button icon="add_circle" (clickEvent)="submit()" [disabled]="isSaving()">Team erstellen</wm-button>
+    <bet-button icon="add_circle" (clickEvent)="submit()" [disabled]="isSaving()">Team erstellen</bet-button>
 
     @if (createdTeam(); as team) {
       <div class="entity-preview">

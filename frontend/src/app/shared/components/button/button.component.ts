@@ -2,7 +2,7 @@ import {Component, input, output} from '@angular/core'
 
 
 @Component({
-  selector: 'wm-button',
+  selector: 'bet-button',
   imports: [],
   host: {
     '[style]': 'getWidth()'

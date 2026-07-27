@@ -3,7 +3,7 @@ import {AfterContentInit, Component, ElementRef, inject} from '@angular/core'
 import {SpinnerComponent} from '../spinner/spinner.component'
 
 @Component({
-  selector: 'wm-form-field',
+  selector: 'bet-form-field',
   imports: [
     SpinnerComponent
   ],

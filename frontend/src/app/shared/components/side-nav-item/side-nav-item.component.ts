@@ -2,7 +2,7 @@ import {Component, input, output} from '@angular/core'
 import {RouterLink, RouterLinkActive} from '@angular/router'
 
 @Component({
-  selector: 'wm-side-nav-item',
+  selector: 'bet-side-nav-item',
   imports: [
     RouterLink,
     RouterLinkActive

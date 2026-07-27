@@ -5,7 +5,7 @@ import {verifyEmail} from '../../user-management/store/user.actions'
 import {ActivatedRoute} from '@angular/router'
 
 @Component({
-  selector: 'wm-email-verification',
+  selector: 'bet-email-verification',
   imports: [
     SpinnerComponent
   ],

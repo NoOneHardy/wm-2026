@@ -21,13 +21,13 @@
     border: none;
     font-size: 2em;
     background-color: transparent;
-    color: var(--wm-color-neutral-500);
+    color: var(--beticon-color-neutral-500);
     font-weight: bolder;
     cursor: pointer;
     transition: color .2s ease, transform .2s ease;
 
     &.-disabled {
-      color: var(--wm-color-neutral-200);
+      color: var(--beticon-color-neutral-200);
     }
 
     &:active {
@@ -51,7 +51,7 @@
     font-size: 1em !important;
 
     .form-field {
-      width: var(--wm-spacer-7);
+      width: var(--beticon-spacer-7);
     }
 
     button {
@@ -67,7 +67,7 @@
     font-size: 1em !important;
 
     .form-field {
-      width: var(--wm-spacer-7);
+      width: var(--beticon-spacer-7);
     }
 
     button {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 
 @Component({
-  selector: 'wm-payout-board',
+  selector: 'bet-payout-board',
   imports: [],
   templateUrl: './payout-board.component.html',
   styleUrl: './payout-board.component.css'

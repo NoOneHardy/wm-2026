@@ -1,7 +1,7 @@
 import {Component} from '@angular/core'
 
 @Component({
-  selector: 'wm-stadium',
+  selector: 'bet-stadium',
   templateUrl: './stadium.component.html',
   styleUrl: './stadium.component.css',
   standalone: true

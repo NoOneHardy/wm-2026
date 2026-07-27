@@ -3,13 +3,13 @@
   @if (isLoading()) {
     <p class="sub-heading">Wird geladen...</p>
     <div class="loader-wrapper">
-      <wm-spinner/>
+      <bet-spinner/>
     </div>
   } @else {
     <p class="sub-heading">{{ subHeading }}</p>
     <div class="board">
       @if (leaderboard().length === 0) {
-        <wm-position [ranking]="{
+        <bet-position [ranking]="{
       ranking: 1,
       username: 'Es sind noch keine Spieler in der Rangliste',
       prevRanking: 1,
@@ -19,7 +19,7 @@
       }"/>
       }
       @for (ranking of leaderboard(); track ranking.id) {
-        <wm-position
+        <bet-position
           [ranking]="ranking"
           [class.-sticky]="ranking.id === userPos()?.id"
           [highlight]="ranking.id === userPos()?.id"/>

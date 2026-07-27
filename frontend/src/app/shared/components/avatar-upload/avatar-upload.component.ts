@@ -4,7 +4,7 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
 import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
 
 @Component({
-  selector: 'wm-avatar-upload',
+  selector: 'bet-avatar-upload',
   imports: [
     NgOptimizedImage
   ],

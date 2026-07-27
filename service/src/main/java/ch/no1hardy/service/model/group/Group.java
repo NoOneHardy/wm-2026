@@ -14,7 +14,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "wm-group")
+@Table(name = "beticon-group")
 @EqualsAndHashCode(callSuper = true)
 public class Group extends BaseEntity {
     @NotNull

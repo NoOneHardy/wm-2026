@@ -1,0 +1,40 @@
+server:
+  port: 26001
+
+spring:
+  application:
+    name: 'service'
+  datasource:
+    url: 'jdbc:mysql://${DATABASE_HOST}/beticon'
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PW}
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 5000000
+  mail:
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
+    username: ${SMTP_USER}
+    password: ${SMTP_PW}
+
+security:
+  jwt:
+    secret-key: ${SECRET_KEY}
+    expiration-time: 3600000
+
+beticon:
+  participation:
+    fee: 10
+  verification:
+    email:
+      validity: 5
+    password_reset:
+      validity: 10
+  host:
+    name: ${BASE_URL:https://beticon.no1hardy.ch}
+  joker:
+    double: ${JOKER_DOUBLE:10}
+    triple: ${JOKER_TRIPLE:6}

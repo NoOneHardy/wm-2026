@@ -6,7 +6,7 @@ import {ActivatedRoute} from '@angular/router'
 import {loadGroup} from '../../shared/store/tournament.actions'
 
 @Component({
-  selector: 'wm-result-management',
+  selector: 'bet-result-management',
   imports: [
     GroupViewComponent,
     OverviewComponent

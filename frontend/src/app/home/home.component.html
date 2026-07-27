@@ -1,10 +1,10 @@
-<wm-hero-section/>
+<bet-hero-section/>
 
 <section class="stats">
   <div class="stat">
     <span class="material-symbols-rounded">savings</span>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       <h2 class="gradient-text">{{ stats().jackpot }}</h2>
       <p>Gewinnsumme</p>
@@ -14,7 +14,7 @@
   <div class="stat">
     <span class="material-symbols-rounded">group</span>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       <h2 class="gradient-text">{{ stats().players }}</h2>
       <p>Teilnehmer</p>
@@ -24,7 +24,7 @@
   <div class="stat">
     <span class="material-symbols-rounded">rewarded_ads</span>
     @if (isLoading()) {
-      <wm-spinner/>
+      <bet-spinner/>
     } @else {
       <h2 class="gradient-text">{{ stats().games }}</h2>
       <p>Spiele</p>
@@ -41,7 +41,7 @@
   </div>
 
   <div class="card-grid">
-    <wm-info-card
+    <bet-info-card
       icon="how_to_reg"
       name="In 4 Schritten zur Freischaltung"
     >
@@ -57,7 +57,7 @@
           <span class="step">2</span>
           <div>
             <strong>Teilnahmegebühr bezahlen</strong>
-            <p>Zahle CHF 10.00 via TWINT an <a href="tel:0764404358" class="wm-link"><b>076 440 43 58</b></a> und schreibe deinen Username in die Beschreibung.</p>
+            <p>Zahle CHF 10.00 via TWINT an <a href="tel:0764404358" class="bet-link"><b>076 440 43 58</b></a> und schreibe deinen Username in die Beschreibung.</p>
           </div>
         </li>
         <li>
@@ -75,9 +75,9 @@
           </div>
         </li>
       </ol>
-    </wm-info-card>
+    </bet-info-card>
 
-    <wm-info-card accent
+    <bet-info-card accent
                   icon="leaderboard"
                   name="Wann erscheine ich in der Rangliste?">
       <p>
@@ -90,7 +90,7 @@
           Du kannst den aktuellen Stand deiner Freischaltung jederzeit auf deinem Dashboard einsehen.
         </p>
       </div>
-    </wm-info-card>
+    </bet-info-card>
   </div>
 </section>
 
@@ -98,13 +98,13 @@
   <div class="section-heading">
     <h2>Spielregeln im Überblick</h2>
     <p class="section-copy">
-      So verläuft die WM 2026 bei uns: Erfasse deine Tipps, sammle Punkte und kämpfe um den Sieg. Hier findest du die
+      So verläuft die EM 2028 bei Beticon: Erfasse deine Tipps, sammle Punkte und kämpfe um den Sieg. Hier findest du die
       wichtigsten Regeln und Informationen zu unserem Tippspiel.
     </p>
   </div>
 
   <div class="card-grid">
-    <wm-info-card
+    <bet-info-card
       icon="schedule"
       name="Tipps abgeben">
       <ul class="rule-list">
@@ -115,9 +115,9 @@
           <i>(2:2 nach 120 Minuten = 3:2 für das Siegerteam)</i>
         </li>
       </ul>
-    </wm-info-card>
+    </bet-info-card>
 
-    <wm-info-card accent
+    <bet-info-card accent
                   icon="star"
                   name="Punkte und Joker">
       <ul class="rule-list">
@@ -128,9 +128,9 @@
         <li>Joker multiplizieren die erreichten Punkte mit x2 oder x3.</li>
         <li>Es stehen 14 Doppel-Joker und 8 Triple-Joker zur Verfügung.</li>
       </ul>
-    </wm-info-card>
+    </bet-info-card>
 
-    <wm-info-card accent
+    <bet-info-card accent
                   icon="trophy"
                   name="Rangliste">
       <ul class="rule-list">
@@ -138,15 +138,15 @@
         <li>Nur freigeschaltete und per E-Mail bestätigte Benutzer werden gewertet.</li>
         <li>Bei gleicher Punktzahl teilen sich Spieler denselben Rang.</li>
       </ul>
-    </wm-info-card>
+    </bet-info-card>
 
-    <wm-info-card
+    <bet-info-card
       icon="payments"
       name="Preisgeld">
-      <p>Das gesamte Preisgeld wird aus den Teilnahmegebühren gesammelt und nach Abschluss der WM an die Top 5
+      <p>Das gesamte Preisgeld wird aus den Teilnahmegebühren gesammelt und nach Abschluss der EM an die Top 5
         ausbezahlt.</p>
 
-      <wm-payout-board/>
-    </wm-info-card>
+      <bet-payout-board/>
+    </bet-info-card>
   </div>
 </section>

@@ -3,8 +3,8 @@ a {
   align-items: center;
   gap: .5em;
   padding: .5em 1em;
-  color: var(--wm-color-neutral-500);
-  font: var(--wm-font-regular-text);
+  color: var(--beticon-color-neutral-500);
+  font: var(--beticon-font-regular-text);
   cursor: pointer;
   transition: background-color .25s ease-out, color .25s ease-out, font-weight .1s ease-out;
   text-decoration: none;
@@ -17,14 +17,14 @@ a {
   }
 
   &:hover {
-    background-color: var(--wm-color-neutral-200);
-    color: var(--wm-color-neutral-600);
+    background-color: var(--beticon-color-neutral-200);
+    color: var(--beticon-color-neutral-600);
   }
 
   &.-active {
-    background-color: var(--wm-color-neutral-100);
-    font: var(--wm-font-regular-bold);
-    color: var(--wm-color-neutral-600);
+    background-color: var(--beticon-color-neutral-100);
+    font: var(--beticon-font-regular-bold);
+    color: var(--beticon-color-neutral-600);
 
     .material-symbols-rounded {
       font-variation-settings:

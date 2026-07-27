@@ -5,7 +5,7 @@ import {GamePreviewComponent} from '../../../shared/components/game/game-preview
 import {RouterLink} from '@angular/router'
 
 @Component({
-  selector: 'wm-recent-results',
+  selector: 'bet-recent-results',
   imports: [
     GamePreviewComponent,
     RouterLink

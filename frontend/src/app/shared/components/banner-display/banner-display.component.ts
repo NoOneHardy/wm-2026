@@ -5,7 +5,7 @@ import {User} from '../../../model/user/user'
 import {sendEmailVerificationLink} from '../../../user-management/store/user.actions'
 
 @Component({
-  selector: 'wm-banner-display',
+  selector: 'bet-banner-display',
   imports: [],
   templateUrl: './banner-display.component.html',
   styleUrl: './banner-display.component.css'

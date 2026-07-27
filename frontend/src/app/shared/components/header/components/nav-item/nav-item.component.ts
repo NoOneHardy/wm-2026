@@ -4,7 +4,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
 
 @Component({
-  selector: 'wm-nav-item',
+  selector: 'bet-nav-item',
   imports: [
     RouterLink,
     RouterLinkActive,

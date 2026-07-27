@@ -15,7 +15,7 @@ import {ActivatedRoute, Router} from '@angular/router'
 import {CardGroup} from '../../../model/group/card-group'
 
 @Component({
-  selector: 'wm-overview',
+  selector: 'bet-overview',
   imports: [
     NgOptimizedImage,
     DecimalPipe,

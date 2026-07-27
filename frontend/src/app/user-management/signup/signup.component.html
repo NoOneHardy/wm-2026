@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="submit()">
-  <wm-user-management-panel heading="Konto erstellen">
-    <ng-container wm-content>
+  <bet-user-management-panel heading="Konto erstellen">
+    <ng-container bet-content>
       <div class="mdc-layout-grid__inner">
         <mat-form-field
           class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
@@ -93,7 +93,7 @@
             @if (showPasswordMatchError('password')) {
               <mat-error>Passwörter müssen übereinstimmen</mat-error>
             }
-            <mat-icon matIconSuffix wmPasswordIcon/>
+            <mat-icon matIconSuffix betPasswordIcon/>
           </mat-form-field>
           <mat-form-field
             class="mdc-layout-grid__cell--span-6-desktop mdc-layout-grid__cell--span-4-tablet mdc-layout-grid__cell--span-4-phone mdc-layout-grid__cell--align-top">
@@ -106,13 +106,13 @@
             @if (showPasswordMatchError('confirmPassword')) {
               <mat-error>Passwörter müssen übereinstimmen</mat-error>
             }
-            <mat-icon matIconSuffix wmPasswordIcon/>
+            <mat-icon matIconSuffix betPasswordIcon/>
           </mat-form-field>
         </ng-container>
       </div>
     </ng-container>
 
-    <ng-container wm-actions>
+    <ng-container bet-actions>
       <div class="actions">
         <div class="login">
           <p>Bereits ein Konto?</p>
@@ -123,9 +123,9 @@
           @if (isLoading()) {
             <mat-progress-spinner [diameter]="24" mode="indeterminate"/>
           }
-          <wm-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</wm-button>
+          <bet-button (clickEvent)="submit()" submit [disabled]="isLoading()">Weiter</bet-button>
         </div>
       </div>
     </ng-container>
-  </wm-user-management-panel>
+  </bet-user-management-panel>
 </form>

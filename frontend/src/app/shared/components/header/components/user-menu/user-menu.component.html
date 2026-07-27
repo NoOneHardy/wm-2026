@@ -1,8 +1,8 @@
 @if (user(); as user) {
   <div class="user-menu">
-    <wm-notifications/>
+    <bet-notifications/>
     <div class="dropdown">
-      <wm-user-button (clickButton)="toggleDropdown()" [content]="user.username"/>
+      <bet-user-button (clickButton)="toggleDropdown()" [content]="user.username"/>
       @if (isDropdownExpanded()) {
         <div class="dropdown-content">
           <a routerLink="settings">

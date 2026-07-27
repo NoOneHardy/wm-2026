@@ -1,6 +1,6 @@
 .upcoming-games {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--wm-spacer-3) var(--wm-spacer-4);
-  margin-bottom: var(--wm-spacer-3);
+  gap: var(--beticon-spacer-3) var(--beticon-spacer-4);
+  margin-bottom: var(--beticon-spacer-3);
 }

@@ -1,4 +1,4 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing'
 import {SignupComponent} from './signup.component'
 import {provideHttpClient} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
@@ -60,7 +60,7 @@ describe('SignupComponent', () => {
     expect(component.formGroup.get('passwords')?.get('confirmPassword')).toBeTruthy()
   })
 
-  it('should validate username', () => {
+  it('should validate username', fakeAsync(() => {
     const usernameControl = component.formGroup.get('username')
     expect(usernameControl).toBeTruthy()
     if (!usernameControl) return
@@ -68,17 +68,20 @@ describe('SignupComponent', () => {
     expect(usernameControl.value).toBe('')
     expect(usernameControl.errors?.['required']).toBeTruthy()
     usernameControl.setValue('123')
+    tick()
     expect(usernameControl.errors?.['required']).toBeFalsy()
     expect(usernameControl.errors?.['minlength']).toBeTruthy()
     usernameControl.setValue('No1Hardy')
+    tick()
     expect(usernameControl.errors?.['minlength']).toBeFalsy()
     expect(usernameControl.errors?.['usernameAvailable']).toBeTruthy()
     usernameControl.setValue('NoOneHardy')
+    tick()
     expect(usernameControl.errors?.['usernameAvailable']).toBeFalsy()
     expect(usernameControl.valid).toBeTrue()
-  })
+  }))
 
-  it('should validate email', () => {
+  it('should validate email', fakeAsync(() => {
     const emailControl = component.formGroup.get('email')
     expect(emailControl).toBeTruthy()
     if (!emailControl) return
@@ -86,15 +89,18 @@ describe('SignupComponent', () => {
     expect(emailControl.value).toBe('')
     expect(emailControl.errors?.['required']).toBeTruthy()
     emailControl.setValue('test.ch')
+    tick()
     expect(emailControl.errors?.['required']).toBeFalsy()
     expect(emailControl.errors?.['email']).toBeTruthy()
     emailControl.setValue('test@no1hardy.ch')
+    tick()
     expect(emailControl.errors?.['email']).toBeFalsy()
     expect(emailControl.errors?.['emailAvailable']).toBeTruthy()
     emailControl.setValue('admin@no1hardy.ch')
+    tick()
     expect(emailControl.errors?.['emailAvailable']).toBeFalsy()
     expect(emailControl.valid).toBeTrue()
-  })
+  }))
 
   it('should validate firstname', () => {
     const firstnameControl = component.formGroup.get('firstname')

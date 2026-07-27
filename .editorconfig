@@ -1,0 +1,4 @@
+root = true
+
+[*.gradle.kts]
+indent_size = 2

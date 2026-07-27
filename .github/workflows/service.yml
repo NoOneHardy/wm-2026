@@ -5,19 +5,19 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Install Java
+      - name: 'Install Java'
         uses: actions/setup-java@v4
         with:
           distribution: 'oracle'
-          java-version: '21'
-      - name: Checkout
+          java-version: '25'
+      - name: 'Checkout'
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
             .github
             service
             gradle
-      - name: Java version
+      - name: 'Java version'
         run: java -version
       - name: 'Get configuration'
         uses: ./.github/actions/load-service-config
@@ -31,11 +31,9 @@ jobs:
           smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
           smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
           base_url: ${{ secrets.BASE_URL }}
-      - name: Set up gradle
+      - name: 'Set up gradle'
         uses: gradle/actions/setup-gradle@v4
-      - name: Grant execute permission to gradlew
-        run: chmod +x ./gradlew
-      - name: Testing
+      - name: 'Testing'
         run: ./gradlew :service:test
   build:
     needs: [ test ]
@@ -48,7 +46,7 @@ jobs:
             .github
             service
             gradle
-      - name: 'Get service configuration'
+      - name: 'Get configuration'
         uses: ./.github/actions/load-service-config
         with:
           secret_key: ${{ secrets.SERVICE_CONF_SECRET_KEY }}
@@ -60,14 +58,29 @@ jobs:
           smtp_user: ${{ secrets.SERVICE_CONF_SMTP_USER }}
           smtp_pw: ${{ secrets.SERVICE_CONF_SMTP_PW }}
           base_url: ${{ secrets.BASE_URL }}
-      - name: 'Build docker image'
-        uses: ./.github/actions/build-docker-image
+      - name: 'Set up Docker Buildx'
+        uses: docker/setup-buildx-action@v3
+      - name: 'Log in to docker registry'
+        uses: docker/login-action@v3
         with:
-          project: 'service'
-      - name: 'Publish docker image'
-        if: github.ref_name == 'develop'
-        uses: ./.github/actions/publish-docker-image
+          registry: docker.no1hardy.ch
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+      - name: 'Collect image metadata'
+        id: meta
+        uses: docker/metadata-action@v5
         with:
-          project: 'service'
-          registry_username: ${{ secrets.DOCKER_REGISTRY_USER }}
-          registry_password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          images: docker.no1hardy.ch/${{ github.repository }}/service
+          tags: |
+            type=ref,event=branch
+            type=sha
+      - name: 'Build image (push on develop)'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: service/Dockerfile
+          push: ${{ github.ref == 'refs/heads/develop' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha,scope=service
+          cache-to: type=gha,scope=service,mode=max

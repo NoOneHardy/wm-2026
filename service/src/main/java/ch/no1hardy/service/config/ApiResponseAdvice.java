@@ -3,8 +3,6 @@ package ch.no1hardy.service.config;
 import ch.no1hardy.service.exception.ApiError;
 import ch.no1hardy.service.front.BaseResponse;
 import ch.no1hardy.service.front.GlobalData;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.core.MethodParameter;
@@ -16,6 +14,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @ControllerAdvice
 @AllArgsConstructor
@@ -55,7 +55,7 @@ public class ApiResponseAdvice implements ResponseBodyAdvice<Object> {
             response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
             try {
                 return objectMapper.writeValueAsString(baseResponse);
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 throw new IllegalStateException("Could not serialize API response", e);
             }
         }

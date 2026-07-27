@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class DashboardService {
-    @Value("${wm.participation.fee}")
+    @Value("${beticon.participation.fee}")
     private Integer participationFee;
 
     private final AuthService authService;

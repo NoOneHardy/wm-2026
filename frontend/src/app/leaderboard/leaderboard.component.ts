@@ -8,7 +8,7 @@ import {PositionComponent} from '../shared/components/position/position.componen
 import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
-  selector: 'wm-leaderboard',
+  selector: 'bet-leaderboard',
   imports: [
     PositionComponent,
     SpinnerComponent

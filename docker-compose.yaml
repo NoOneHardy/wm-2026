@@ -1,31 +1,37 @@
-name: 'wm-dev'
+name: 'beticon-dev'
 services:
-  cdn:
-    container_name: 'wm-dev-cdn'
-    hostname: 'wm-dev-cdn'
-    image: nginx
+  proxy:
+    container_name: 'beticon-dev-proxy'
+    hostname: 'beticon-dev-proxy'
+    build:
+      dockerfile: './proxy/Dockerfile'
+      context: .
     volumes:
-      - './service/storage:/usr/share/nginx/html:ro'
+      - './proxy/default.conf:/etc/nginx/templates/default.conf.template:ro'
+      - './proxy/nginx.conf:/etc/nginx/nginx.conf'
+    env_file:
+      - './proxy/.env'
+    network_mode: 'host'
+    restart: unless-stopped
+  service:
+    container_name: 'beticon-dev-service'
+    hostname: 'beticon-dev-service'
+    image: docker.no1hardy.ch/noonehardy/beticon/service:develop
+    ports:
+      - '26001:26001'
+    env_file:
+      - './service/.env'
     restart: unless-stopped
   frontend:
-    container_name: 'wm-dev-frontend'
-    hostname: 'wm-dev-frontend'
-    build:
-      dockerfile: './frontend/Dockerfile'
-      context: .
-      target: setup
-    volumes:
-      - './frontend:/app'
-      - 'nm-frontend:/app/node_modules'
+    container_name: 'beticon-dev-frontend'
+    hostname: 'beticon-dev-frontend'
+    image: docker.no1hardy.ch/noonehardy/beticon/frontend:develop
     ports:
-      - '4200:4200'
-      - '9876:9876'
+      - '26002:80'
     restart: unless-stopped
-    working_dir: '/app'
-    entrypoint: [ 'npm', 'run', 'start' ]
   mysql:
-    container_name: 'wm-dev-mysql'
-    hostname: 'wm-dev-mysql'
+    container_name: 'beticon-dev-mysql'
+    hostname: 'beticon-dev-mysql'
     image: mysql:8.3.0
     ports:
       - '26006:3306'
@@ -35,40 +41,17 @@ services:
       - 'mysql/.env'
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: true
-      MYSQL_DATABASE: wm
+      MYSQL_DATABASE: beticon
     restart: unless-stopped
-  service:
-    container_name: 'wm-dev-service'
-    hostname: 'wm-dev-service'
-    build:
-      dockerfile: './service/Dockerfile'
-      context: .
-      target: setup
-    ports:
-      - '26001:26001'
+  cdn:
+    container_name: 'beticon-dev-cdn'
+    hostname: 'beticon-dev-cdn'
+    image: nginx
     volumes:
-      - './service:/app'
-    env_file:
-      - './service/.env'
-    restart: unless-stopped
-    working_dir: '/app'
-    entrypoint: [ 'gradle', ':bootRun' ]
-  proxy:
-    container_name: 'wm-dev-proxy'
-    hostname: 'wm-dev-proxy'
-    build:
-      dockerfile: './proxy/Dockerfile'
-      context: .
+      - './service/storage:/usr/share/nginx/html:ro'
     ports:
-      - '26000:80'
-    volumes:
-      - './proxy/default.conf:/etc/nginx/templates/default.conf.template:ro'
-      - './proxy/nginx.conf:/etc/nginx/nginx.conf'
-    env_file:
-      - './proxy/.env'
+      - '26009:80'
     restart: unless-stopped
 volumes:
-  nm-frontend:
-    name: 'wm-dev-frontend-node-modules'
   mysql-data:
-    name: 'wm-dev-mysql-data'
+    name: 'beticon-dev-mysql-data'

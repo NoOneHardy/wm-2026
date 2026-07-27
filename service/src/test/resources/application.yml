@@ -1,0 +1,34 @@
+spring:
+  config:
+    import: 'file:.env[.properties]'
+  datasource:
+    url: 'jdbc:h2:mem:testdb'
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  mail:
+    host: ${SMTP_HOST}
+    port: ${SMTP_PORT}
+    username: ${SMTP_USER}
+    password: ${SMTP_PW}
+
+security:
+  jwt:
+    secret-key: ${SECRET_KEY}
+    expiration-time: 3600000
+
+beticon:
+  participation:
+    fee: 10
+  verification:
+    email:
+      validity: 5
+    password_reset:
+      validity: 10
+  host:
+    name: localhost:26000
+  joker:
+    double: 10
+    triple: 6

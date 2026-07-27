@@ -13,7 +13,7 @@ import {PasswordIconDirective} from '../../shared/directives/password-icon.direc
 import {MatFormFieldModule} from '@angular/material/form-field'
 
 @Component({
-  selector: 'wm-login',
+  selector: 'bet-login',
   imports: [
     UserManagementPanelComponent,
     ButtonComponent,

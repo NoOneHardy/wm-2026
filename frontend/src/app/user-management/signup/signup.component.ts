@@ -17,7 +17,7 @@ import {MatIcon} from '@angular/material/icon'
 import {PasswordIconDirective} from '../../shared/directives/password-icon.directive'
 
 @Component({
-  selector: 'wm-signup',
+  selector: 'bet-signup',
   imports: [
     UserManagementPanelComponent,
     ReactiveFormsModule,

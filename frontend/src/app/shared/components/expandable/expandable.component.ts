@@ -2,7 +2,7 @@ import {Component, HostBinding, input} from '@angular/core'
 import {animate, state, style, transition, trigger} from '@angular/animations'
 
 @Component({
-  selector: 'wm-expandable',
+  selector: 'bet-expandable',
   standalone: true,
   templateUrl: './expandable.component.html',
   styleUrl: './expandable.component.css',

@@ -14,3 +14,9 @@ build
 
 # Include run configuration files
 !.idea/runConfigurations
+
+# graphify generated knowledge graph (regenerate with /graphify .)
+graphify-out/
+
+# Claude Code local session lock file
+.claude/scheduled_tasks.lock

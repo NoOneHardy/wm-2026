@@ -1,14 +1,14 @@
-name: 'wm'
+name: 'beticon'
 services:
   frontend:
-    container_name: 'wm-frontend'
-    hostname: 'wm-frontend'
-    image: docker.no1hardy.ch/wm-2026-frontend:latest
+    container_name: 'beticon-frontend'
+    hostname: 'beticon-frontend'
+    image: docker.no1hardy.ch/noonehardy/beticon/frontend:develop
     pull_policy: always
     restart: unless-stopped
   mysql:
-    container_name: 'wm-mysql'
-    hostname: 'wm-mysql'
+    container_name: 'beticon-mysql'
+    hostname: 'beticon-mysql'
     image: mysql:8.3.0
     ports:
       - '26096:3306'
@@ -17,29 +17,29 @@ services:
     env_file:
       - mysql/.env
     environment:
-      MYSQL_DATABASE: wm
+      MYSQL_DATABASE: beticon
     restart: unless-stopped
   proxy:
-    container_name: 'wm-proxy'
-    hostname: 'wm-proxy'
-    image: docker.no1hardy.ch/wm-2026-proxy:latest
+    container_name: 'beticon-proxy'
+    hostname: 'beticon-proxy'
+    image: docker.no1hardy.ch/noonehardy/beticon/proxy:develop
     pull_policy: always
     ports:
-      - '26000:80'
+      - '26000:26000'
     env_file:
       - './proxy/.env'
     restart: unless-stopped
   cdn:
-    container_name: 'wm-cdn'
-    hostname: 'wm-cdn'
+    container_name: 'beticon-cdn'
+    hostname: 'beticon-cdn'
     image: nginx
     volumes:
       - './storage:/usr/share/nginx/html:ro'
     restart: unless-stopped
   service:
-    container_name: 'wm-service'
-    hostname: 'wm-service'
-    image: docker.no1hardy.ch/wm-2026-service:latest
+    container_name: 'beticon-service'
+    hostname: 'beticon-service'
+    image: docker.no1hardy.ch/noonehardy/beticon/service:develop
     pull_policy: always
     env_file:
       - ./service/.env
@@ -48,4 +48,4 @@ services:
     restart: unless-stopped
 volumes:
   mysql-data:
-    name: 'wm-mysql-data'
+    name: 'beticon-mysql-data'

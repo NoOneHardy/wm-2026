@@ -15,7 +15,7 @@ import {toSignal} from '@angular/core/rxjs-interop'
 import {MatFormField, MatInput, MatLabel, MatPrefix} from '@angular/material/input'
 
 @Component({
-  selector: 'wm-user-management',
+  selector: 'bet-user-management',
   imports: [
     NgOptimizedImage,
     MatRipple,

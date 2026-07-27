@@ -15,7 +15,7 @@ import {MatIcon} from '@angular/material/icon'
 import {PasswordIconDirective} from '../../shared/directives/password-icon.directive'
 
 @Component({
-  selector: 'wm-password-reset',
+  selector: 'bet-password-reset',
   imports: [
     UserManagementPanelComponent,
     ReactiveFormsModule,

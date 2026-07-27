@@ -2,7 +2,7 @@ import {Component, HostBinding, input} from '@angular/core'
 import {DetailedPoints} from '../../../../model/game/detailed-points'
 
 @Component({
-  selector: 'wm-point-table',
+  selector: 'bet-point-table',
   standalone: true,
   templateUrl: './point-table.component.html',
   styleUrl: './point-table.component.css'

@@ -5,18 +5,18 @@
     'heading'
     'sub-heading'
     'board';
-  padding: var(--wm-spacer-8);
-  height: calc(100vh - var(--wm-header-height));
+  padding: var(--beticon-spacer-8);
+  height: calc(100vh - var(--beticon-header-height));
   width: 100%;
 
   h1 {
     grid-area: heading;
-    margin-bottom: var(--wm-spacer-3);
+    margin-bottom: var(--beticon-spacer-3);
   }
 
   p.sub-heading {
     grid-area: sub-heading;
-    margin-bottom: var(--wm-spacer-6);
+    margin-bottom: var(--beticon-spacer-6);
   }
 
   .board {
@@ -24,7 +24,7 @@
     grid-area: board;
     display: flex;
     flex-direction: column;
-    gap: var(--wm-spacer-1);
+    gap: var(--beticon-spacer-1);
     width: 100%;
     max-width: 50em;
     height: 100%;
@@ -37,13 +37,13 @@
     }
 
     &::-webkit-scrollbar-track {
-      background-color: var(--wm-color-neutral-100);
+      background-color: var(--beticon-color-neutral-100);
       border-radius: .375em;
       box-shadow: 0 0 .125em 0 #0000003d inset;
     }
 
     &::-webkit-scrollbar-thumb {
-      background-color: var(--wm-color-neutral-200);
+      background-color: var(--beticon-color-neutral-200);
       width: .75em;
       border-radius: .375em;
     }
@@ -54,7 +54,7 @@
 
     }
 
-    wm-position.-sticky {
+    bet-position.-sticky {
       position: sticky;
       top: 0;
       bottom: 0;
@@ -65,17 +65,17 @@
 
 @media screen and (max-width: 992px) {
   .leaderboard {
-    padding: var(--wm-spacer-6) var(--wm-spacer-5);
+    padding: var(--beticon-spacer-6) var(--beticon-spacer-5);
   }
 
   h1 {
-    font: var(--wm-font-h2);
+    font: var(--beticon-font-h2);
   }
 }
 
 @media screen and (max-width: 576px) {
   .leaderboard {
-    padding: var(--wm-spacer-6) var(--wm-spacer-4);
+    padding: var(--beticon-spacer-6) var(--beticon-spacer-4);
     overflow-y: scroll;
 
     p.sub-heading {

@@ -1,10 +1,11 @@
-# WM 2026
+# Beticon
 
-A betting game for the FIFA World Cup 2026.
+A betting game initially developed for the FIFA World Cup 2026.  
+It is currently being maintained and updated for future events.
 
 ## Demo Version
 
-You can find a live demo version here: [https://wm-dev.no1hardy.ch](https://wm-dev.no1hardy.ch)
+You can find a live demo version here: [https://beticon-dev.no1hardy.ch](https://beticon-dev.no1hardy.ch)
 
 ## Commit types
 

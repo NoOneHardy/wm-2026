@@ -41,10 +41,10 @@
 
       @if (totalPoints > 0 && points) {
         <bet-expandable name="Punkteverteilung" class="points" [large]="knockout()">
-          <ng-container wm-content>
+          <ng-container bet-content>
             <bet-point-table [total]="totalPoints" [points]="points" [large]="knockout()"/>
           </ng-container>
-          <ng-container wm-preview>
+          <ng-container bet-preview>
             <bet-point-table [total]="totalPoints" [large]="knockout()"/>
           </ng-container>
         </bet-expandable>
@@ -62,7 +62,7 @@
 
       @if (!isDisabled && !admin()) {
         <bet-expandable class="prev-games" name="Vergangene Spiele" [large]="knockout()">
-          <ng-container wm-content>
+          <ng-container bet-content>
             <div class="prev-games-layout">
               <bet-team-previous-games [team]="game.teamHome"/>
               <bet-team-previous-games [team]="game.teamGuest"/>

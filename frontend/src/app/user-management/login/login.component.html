@@ -1,6 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="login()">
   <bet-user-management-panel heading="Anmelden">
-    <ng-container wm-content>
+    <ng-container bet-content>
       <div class="mdc-layout-grid__inner">
         <mat-form-field class="mdc-layout-grid__cell--span-12">
           <mat-label>Benutzername</mat-label>
@@ -11,7 +11,7 @@
         <mat-form-field class="mdc-layout-grid__cell--span-12">
           <mat-label>Passwort</mat-label>
           <input matInput formControlName="password" type="password">
-          <mat-icon matSuffix wmPasswordIcon/>
+          <mat-icon matSuffix betPasswordIcon/>
           <mat-error>Pflichtfeld</mat-error>
         </mat-form-field>
         @if (userError(); as error) {
@@ -19,7 +19,7 @@
         }
       </div>
     </ng-container>
-    <ng-container wm-actions>
+    <ng-container bet-actions>
       <a routerLink="/forgot-password">Passwort vergessen?</a>
       <bet-button (clickEvent)="login()" submit>Anmelden</bet-button>
     </ng-container>

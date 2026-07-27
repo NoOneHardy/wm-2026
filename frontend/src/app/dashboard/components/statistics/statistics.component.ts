@@ -8,7 +8,7 @@ import {selectIsTournamentLoading} from '../../../shared/store/tournament.featur
 import {ShortNumberPipe} from '../../../shared/pipes/short-number.pipe'
 
 @Component({
-  selector: 'wm-statistics',
+  selector: 'bet-statistics',
   imports: [
     SpinnerComponent,
     ShortNumberPipe

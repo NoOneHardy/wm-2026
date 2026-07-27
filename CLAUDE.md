@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**WM 2026** is a betting game for the FIFA World Cup 2026. It's a full-stack application with a Gradle-based monorepo structure consisting of a frontend (Angular) and backend (Spring Boot) service, along with supporting infrastructure (MySQL database, nginx proxy).
+**Beticon** is a betting game initially developed for the FIFA World Cup 2026, now maintained and updated for future events. It's a full-stack application with a Gradle-based monorepo structure consisting of a frontend (Angular) and backend (Spring Boot) service, along with supporting infrastructure (MySQL database, nginx proxy).
 
-- **Live Demo**: https://wm-dev.no1hardy.ch
+- **Live Demo**: https://beticon-dev.no1hardy.ch
 - **Git Conventions**: See `docs/git-conventions.md` for binding conventions on commits, branches, and PRs
 
 ## Architecture
@@ -43,7 +43,7 @@ The frontend follows **standalone component architecture** with feature modules:
 
 **Styling**: Uses SCSS (theming.scss for Material theming, component-scoped styles).
 
-**Component Naming**: Components use `wm-` prefix and kebab-case (e.g., `wm-dashboard`, `wm-bet-card`).
+**Component Naming**: Components use `bet-` prefix and kebab-case (e.g., `bet-dashboard`, `bet-statistics`).
 
 ### Backend Architecture (Spring Boot 3.4)
 Java 21 backend using Spring Boot with:
@@ -166,7 +166,7 @@ Runs on http://localhost:8080 by default.
   - 2-space indentation
   - Single quotes (template literals allowed)
   - No semicolons
-  - Component selectors use `wm-` prefix in kebab-case
+  - Component selectors use `bet-` prefix in kebab-case
   - Warn on unused variables (except those prefixed with `_`)
   - Angular-specific rules (no input renaming, etc.)
 

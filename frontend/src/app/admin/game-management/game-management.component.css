@@ -1,26 +1,26 @@
 @import '../admin-management.shared.css';
 
-.wm-select-field {
-  --wm-form-field-font-size: 1em;
-  --wm-select-height: calc(1em / 16 / 1.125 * 40);
-  --wm-select-radius: calc(2em / 9);
-  --wm-select-padding-inline: calc(2em / 3);
-  --wm-select-padding-top: calc(2em / 3);
-  --wm-select-padding-bottom: calc(1em / 3);
-  --wm-select-label-size: calc(var(--wm-form-field-font-size) * 1.125);
+.bet-select-field {
+  --bet-form-field-font-size: 1em;
+  --bet-select-height: calc(1em / 16 / 1.125 * 40);
+  --bet-select-radius: calc(2em / 9);
+  --bet-select-padding-inline: calc(2em / 3);
+  --bet-select-padding-top: calc(2em / 3);
+  --bet-select-padding-bottom: calc(1em / 3);
+  --bet-select-label-size: calc(var(--bet-form-field-font-size) * 1.125);
 
   width: 100%;
-  margin-bottom: calc(var(--wm-form-field-font-size) * 1.5 / 1.125);
+  margin-bottom: calc(var(--bet-form-field-font-size) * 1.5 / 1.125);
 }
 
 .option-with-flag {
   display: flex;
   align-items: center;
-  gap: var(--wm-spacer-2);
+  gap: var(--beticon-spacer-2);
   min-width: 0;
 
   &.-trigger {
-    padding-right: var(--wm-spacer-2);
+    padding-right: var(--beticon-spacer-2);
   }
 
   .flag {
@@ -36,18 +36,18 @@
   }
 }
 
-:host ::ng-deep .wm-select-control {
+:host ::ng-deep .bet-select-control {
   .mat-mdc-select-trigger {
     display: flex;
     align-items: flex-end;
     width: 100%;
     min-width: 0;
-    min-height: calc(var(--wm-select-height) - var(--wm-select-padding-top) - var(--wm-select-padding-bottom));
+    min-height: calc(var(--bet-select-height) - var(--bet-select-padding-top) - var(--bet-select-padding-bottom));
   }
 
   .mat-mdc-select-value {
-    color: var(--wm-color-neutral-500);
-    font-size: var(--wm-select-label-size);
+    color: var(--beticon-color-neutral-500);
+    font-size: var(--bet-select-label-size);
     font-weight: 500;
     line-height: 1.25;
     min-width: 0;
@@ -66,18 +66,18 @@
 
   .mat-mdc-select-arrow-wrapper {
     transform: none;
-    margin-left: var(--wm-spacer-2);
+    margin-left: var(--beticon-spacer-2);
   }
 
   .mat-mdc-select-arrow {
-    color: var(--wm-color-neutral-400);
+    color: var(--beticon-color-neutral-400);
   }
 }
 
-:host ::ng-deep .wm-select-field {
+:host ::ng-deep .bet-select-field {
   .mat-mdc-text-field-wrapper.mdc-text-field--filled {
-    background-color: var(--wm-color-neutral-100);
-    border-radius: var(--wm-select-radius);
+    background-color: var(--beticon-color-neutral-100);
+    border-radius: var(--bet-select-radius);
     box-shadow: 0 calc(1em / 9) calc(2em / 9) 0 #0000001a inset;
     overflow: hidden;
     padding-inline: 0;
@@ -96,8 +96,8 @@
     display: flex;
     align-items: flex-end;
     width: 100%;
-    min-height: var(--wm-select-height);
-    padding: var(--wm-select-padding-top) var(--wm-select-padding-inline) var(--wm-select-padding-bottom);
+    min-height: var(--bet-select-height);
+    padding: var(--bet-select-padding-top) var(--bet-select-padding-inline) var(--bet-select-padding-bottom);
   }
 
   .mdc-line-ripple {
@@ -106,9 +106,9 @@
 
   .mdc-floating-label {
     top: .5em;
-    left: var(--wm-select-padding-inline);
-    color: var(--wm-color-neutral-400) !important;
-    font-size: var(--wm-select-label-size);
+    left: var(--bet-select-padding-inline);
+    color: var(--beticon-color-neutral-400) !important;
+    font-size: var(--bet-select-label-size);
     font-weight: 600;
     line-height: 1.1;
     transform: none !important;
@@ -119,7 +119,7 @@
   .mdc-floating-label--float-above {
     top: .3em;
     left: 1.25em;
-    font-size: calc(var(--wm-form-field-font-size) * .5);
+    font-size: calc(var(--bet-form-field-font-size) * .5);
     letter-spacing: 0;
   }
 
@@ -133,51 +133,51 @@
   }
 }
 
-:host ::ng-deep .wm-select-field.mat-mdc-form-field-invalid {
-  --mat-form-field-filled-container-color: var(--wm-color-red-100);
-  --mat-form-field-filled-disabled-container-color: var(--wm-color-red-100);
-  --mat-form-field-filled-focus-label-text-color: var(--wm-color-red-400);
-  --mat-form-field-filled-hover-label-text-color: var(--wm-color-red-400);
-  --mat-form-field-filled-label-text-color: var(--wm-color-red-400);
-  --mat-select-arrow-color: var(--wm-color-red-600);
-  --mat-select-enabled-trigger-text-color: var(--wm-color-red-600);
-  --mat-select-focused-arrow-color: var(--wm-color-red-600);
+:host ::ng-deep .bet-select-field.mat-mdc-form-field-invalid {
+  --mat-form-field-filled-container-color: var(--beticon-color-red-100);
+  --mat-form-field-filled-disabled-container-color: var(--beticon-color-red-100);
+  --mat-form-field-filled-focus-label-text-color: var(--beticon-color-red-400);
+  --mat-form-field-filled-hover-label-text-color: var(--beticon-color-red-400);
+  --mat-form-field-filled-label-text-color: var(--beticon-color-red-400);
+  --mat-select-arrow-color: var(--beticon-color-red-600);
+  --mat-select-enabled-trigger-text-color: var(--beticon-color-red-600);
+  --mat-select-focused-arrow-color: var(--beticon-color-red-600);
 
   .mat-mdc-text-field-wrapper.mdc-text-field--filled {
-    background-color: var(--wm-color-red-100);
+    background-color: var(--beticon-color-red-100);
   }
 
   .mdc-floating-label {
-    color: var(--wm-color-red-400) !important;
+    color: var(--beticon-color-red-400) !important;
   }
 
   .mat-mdc-select-value,
   .mat-mdc-select-arrow {
-    color: var(--wm-color-red-600);
+    color: var(--beticon-color-red-600);
   }
 }
 
-:host ::ng-deep .wm-select-panel {
+:host ::ng-deep .bet-select-panel {
   border-radius: 1rem !important;
-  background-color: var(--wm-color-white-600) !important;
+  background-color: var(--beticon-color-white-600) !important;
   box-shadow: .125em .125em 1.25em 0 #0000005f !important;
-  padding: var(--wm-spacer-2) !important;
+  padding: var(--beticon-spacer-2) !important;
 
   .mat-mdc-option {
     min-height: 3rem;
     border-radius: .75rem;
     margin-top: .125rem;
     margin-bottom: .125rem;
-    color: var(--wm-color-neutral-500);
-    font: var(--wm-font-regular-text);
+    color: var(--beticon-color-neutral-500);
+    font: var(--beticon-font-regular-text);
 
     &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
-      background-color: var(--wm-color-primary-200);
-      color: var(--wm-color-secondary-900);
+      background-color: var(--beticon-color-primary-200);
+      color: var(--beticon-color-secondary-900);
     }
   }
 
-  .wm-select-search-option {
+  .bet-select-search-option {
     min-height: unset;
     padding: 0;
 
@@ -186,18 +186,18 @@
     }
   }
 
-  .wm-select-search {
+  .bet-select-search {
     display: flex;
     align-items: center;
-    gap: var(--wm-spacer-2);
+    gap: var(--beticon-spacer-2);
     width: 100%;
     padding: .75rem 1rem;
     border-radius: .75rem;
-    background-color: var(--wm-color-neutral-100);
+    background-color: var(--beticon-color-neutral-100);
     box-shadow: 0 .125rem .25rem #0000001a inset;
 
     .material-symbols-rounded {
-      color: var(--wm-color-neutral-400);
+      color: var(--beticon-color-neutral-400);
       font-size: 1.25rem;
     }
 
@@ -206,8 +206,8 @@
       border: none;
       outline: none;
       background: transparent;
-      color: var(--wm-color-neutral-500);
-      font: var(--wm-font-regular-text);
+      color: var(--beticon-color-neutral-500);
+      font: var(--beticon-font-regular-text);
     }
   }
 }

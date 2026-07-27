@@ -26,7 +26,7 @@ import {PasswordIconDirective} from '../../shared/directives/password-icon.direc
 import {MatIcon} from '@angular/material/icon'
 
 @Component({
-  selector: 'wm-account-settings',
+  selector: 'bet-account-settings',
   imports: [
     AvatarUploadComponent,
     ReactiveFormsModule,

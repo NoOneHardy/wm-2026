@@ -1,20 +1,20 @@
 :host {
   display: flex;
   flex-direction: column;
-  gap: var(--wm-spacer-3);
-  padding: var(--wm-spacer-5);
-  border: 1px solid var(--wm-color-neutral-200);
+  gap: var(--beticon-spacer-3);
+  padding: var(--beticon-spacer-5);
+  border: 1px solid var(--beticon-color-neutral-200);
   border-radius: 2em;
   background-image: radial-gradient(circle at top right, #57c1521a 0%, transparent 35%), linear-gradient(to bottom, #ffffff, #f9fbf9);
   box-shadow: 0 1.25em 2.5em -2em #00000055;
 
   &.-accent {
-    border-color: var(--wm-color-primary-200);
+    border-color: var(--beticon-color-primary-200);
     background-image: radial-gradient(circle at top right, #57c15233 0%, transparent 35%), linear-gradient(to bottom, #ffffff, #f4fbf4);
   }
 
   h3 {
-    font: var(--wm-font-h4);
+    font: var(--beticon-font-h4);
   }
 
   .card-icon {
@@ -24,10 +24,10 @@
     width: 3.5em;
     height: 3.5em;
     border-radius: 1em;
-    background-image: var(--wm-gradient-primary-200);
+    background-image: var(--beticon-gradient-primary-200);
 
     .material-symbols-rounded {
-      color: var(--wm-color-secondary-900);
+      color: var(--beticon-color-secondary-900);
       font-size: 1.8em;
       font-variation-settings: 'FILL' 1;
     }
@@ -36,7 +36,7 @@
 
 @media screen and (max-width: 768px) {
   :host {
-    padding: var(--wm-spacer-4);
+    padding: var(--beticon-spacer-4);
     border-radius: 1.5em;
   }
 }

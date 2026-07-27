@@ -6,11 +6,11 @@
     </button>
   }
 
-  <wm-form-field class="form-field">
+  <bet-form-field class="form-field">
     <label>__</label>
     <input type="number" min="0" max="999" [value]="value" (input)="onInput(input.value)"
            [disabled]="isDisabled" (blur)="onTouch()" #input>
-  </wm-form-field>
+  </bet-form-field>
 
   @if (!isDisabled) {
     <button class="material-symbols-rounded"

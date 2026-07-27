@@ -17,7 +17,7 @@ import {PointsPipe} from '../../../pipes/points.pipe'
 import {TeamPreviousGamesComponent} from '../team-previous-games/team-previous-games.component'
 
 @Component({
-  selector: 'wm-bet-form',
+  selector: 'bet-bet-form',
   imports: [
     ReactiveFormsModule,
     DatePipe,

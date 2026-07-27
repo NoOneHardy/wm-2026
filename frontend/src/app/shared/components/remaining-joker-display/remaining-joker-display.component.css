@@ -8,13 +8,13 @@
 
     .joker {
       font-variation-settings: 'FILL' 1;
-      color: var(--wm-color-orange-600);
+      color: var(--beticon-color-orange-600);
       font-size: 1em;
     }
   }
 
   .text {
-    color: var(--wm-color-neutral-400);
-    font: var(--wm-font-small-text);
+    color: var(--beticon-color-neutral-400);
+    font: var(--beticon-font-small-text);
   }
 }

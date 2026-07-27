@@ -9,7 +9,7 @@ import {fetchUserInfo} from './user-management/store/user.actions'
 import {BannerDisplayComponent} from './shared/components/banner-display/banner-display.component'
 
 @Component({
-  selector: 'wm-root',
+  selector: 'bet-root',
   imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, BannerDisplayComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

@@ -7,7 +7,7 @@ import {PointService} from '../../../services/point/point.service'
 import {Bet} from '../../../../model/game/bet'
 
 @Component({
-  selector: 'wm-game-preview',
+  selector: 'bet-game-preview',
   imports: [
     DatePipe,
     NgOptimizedImage,

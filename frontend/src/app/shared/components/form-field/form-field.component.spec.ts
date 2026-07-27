@@ -10,7 +10,7 @@ describe('FormFieldComponent', () => {
   beforeEach(async () => {
     [fixture, component] = await configureTestHost({
       imports: [FormFieldComponent],
-      template: '<wm-form-field><input></wm-form-field>'
+      template: '<bet-form-field><input></bet-form-field>'
     })
   })
 
@@ -26,7 +26,7 @@ describe('FormFieldComponent', () => {
   it('should set isPassword to true', async () => {
     [fixture, component] = await configureTestHost({
       imports: [FormFieldComponent],
-      template: '<wm-form-field><input type="password"></wm-form-field>'
+      template: '<bet-form-field><input type="password"></bet-form-field>'
     })
 
     expect(fixture.nativeElement.querySelector('button.show-password-icon')).toBeTruthy()
@@ -35,7 +35,7 @@ describe('FormFieldComponent', () => {
   it('should toggle password visibility', async () => {
     [fixture, component] = await configureTestHost({
       imports: [FormFieldComponent],
-      template: '<wm-form-field><input type="password"></wm-form-field>'
+      template: '<bet-form-field><input type="password"></bet-form-field>'
     })
 
     expect(fixture.nativeElement.querySelector('button.show-password-icon')).toBeTruthy()

@@ -5,7 +5,7 @@ import {DashboardComponent} from '../dashboard/dashboard.component'
 import {HomeComponent} from '../home/home.component'
 
 @Component({
-  selector: 'wm-root',
+  selector: 'bet-root',
   imports: [
     DashboardComponent,
     HomeComponent

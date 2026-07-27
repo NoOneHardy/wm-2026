@@ -5,7 +5,7 @@
     <h2>Konto</h2>
 
     <div [formGroup]="formGroup" class="mdc-layout-grid__inner">
-      <wm-avatar-upload [defaultUrl]="user.avatarUrl" formControlName="avatar"
+      <bet-avatar-upload [defaultUrl]="user.avatarUrl" formControlName="avatar"
                         class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top"/>
 
       <mat-form-field class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top">
@@ -45,7 +45,7 @@
         }
       </mat-form-field>
 
-      <wm-button (clickEvent)="save()">Speichern</wm-button>
+      <bet-button (clickEvent)="save()">Speichern</bet-button>
     </div>
 
     <div [formGroup]="pwGroup" class="mdc-layout-grid__inner">
@@ -72,7 +72,7 @@
           @if (showPasswordMatchError('password')) {
             <mat-error>Passwörter müssen übereinstimmen</mat-error>
           }
-          <mat-icon matIconSuffix wmPasswordIcon/>
+          <mat-icon matIconSuffix betPasswordIcon/>
         </mat-form-field>
         <mat-form-field class="mdc-layout-grid__cell--span-12 mdc-layout-grid__cell--align-top">
           <mat-label>Password bestätigen</mat-label>
@@ -88,10 +88,10 @@
           @if (showPasswordMatchError('confirmPassword')) {
             <mat-error>Passwörter müssen übereinstimmen</mat-error>
           }
-          <mat-icon matIconSuffix wmPasswordIcon/>
+          <mat-icon matIconSuffix betPasswordIcon/>
         </mat-form-field>
       </ng-container>
-      <wm-button class="mdc-layout-grid__cell--span-12" (clickEvent)="changePassword()">Passwort ändern</wm-button>
+      <bet-button class="mdc-layout-grid__cell--span-12" (clickEvent)="changePassword()">Passwort ändern</bet-button>
     </div>
   } @else {
     <h3>Es ist ein Fehler aufgetreten</h3>

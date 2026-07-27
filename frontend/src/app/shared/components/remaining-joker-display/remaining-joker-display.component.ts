@@ -1,7 +1,7 @@
 import {Component, input} from '@angular/core'
 
 @Component({
-  selector: 'wm-remaining-joker-display',
+  selector: 'bet-remaining-joker-display',
   imports: [],
   templateUrl: './remaining-joker-display.component.html',
   styleUrl: './remaining-joker-display.component.css'

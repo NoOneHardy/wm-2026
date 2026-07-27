@@ -1,20 +1,13 @@
-FROM node:22 AS setup
+FROM node:22 AS build
 
 WORKDIR /app
 
 COPY ./frontend ./
 
-RUN npm install
+RUN npm install -g pnpm
+RUN pnpm ci
 
-FROM node:22 AS build
-
-COPY --from=setup /app /app
-
-WORKDIR /app
-
-RUN npm ci
-
-RUN npm run build --prod
+RUN pnpm run build
 
 FROM nginx:1.27.0-alpine AS final
 

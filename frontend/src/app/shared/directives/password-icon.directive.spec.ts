@@ -18,7 +18,7 @@ import {PasswordIconDirective} from './password-icon.directive'
   template: `
     <mat-form-field>
       <input matInput type="password">
-      <mat-icon matSuffix wmPasswordIcon></mat-icon>
+      <mat-icon matSuffix betPasswordIcon></mat-icon>
     </mat-form-field>
   `
 })

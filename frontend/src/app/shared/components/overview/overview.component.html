@@ -32,7 +32,7 @@
 
 <h3>Gruppenphase</h3>
 @if (isLoading()) {
-  <wm-spinner/>
+  <bet-spinner/>
 } @else {
   @let groups = defaultGroups();
 
@@ -53,7 +53,7 @@
           </div>
         </div>
         <p>{{ group.percentage | number:'1.0-2' }}%</p>
-        <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
+        <bet-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</bet-button>
       </div>
     }
   </div>
@@ -61,7 +61,7 @@
 
 <h3>Finalspiele</h3>
 @if (isLoading()) {
-  <wm-spinner/>
+  <bet-spinner/>
 } @else {
   @let groups = knockoutGroups();
   @if (groups.length === 0) {
@@ -85,7 +85,7 @@
           </div>
         </div>
         <p>{{ group.percentage | number:'1.0-2' }}%</p>
-        <wm-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</wm-button>
+        <bet-button full-width (clickEvent)="selectGroup(group.id)">Bearbeiten</bet-button>
       </div>
     }
   </div>

@@ -8,7 +8,7 @@ import {selectHomeData, selectIsHomeLoading} from './store/home.feature'
 import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
 
 @Component({
-  selector: 'wm-home',
+  selector: 'bet-home',
   imports: [
     HeroSectionComponent,
     InfoCardComponent,

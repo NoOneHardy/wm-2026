@@ -5,7 +5,7 @@ spring:
   application:
     name: 'service'
   datasource:
-    url: 'jdbc:mysql://${DATABASE_HOST}/wm'
+    url: 'jdbc:mysql://${DATABASE_HOST}/beticon'
     username: ${DATABASE_USER}
     password: ${DATABASE_PW}
   jpa:
@@ -25,7 +25,7 @@ security:
     secret-key: ${SECRET_KEY}
     expiration-time: 3600000
 
-wm:
+beticon:
   participation:
     fee: 10
   verification:
@@ -34,7 +34,7 @@ wm:
     password_reset:
       validity: 10
   host:
-    name: ${BASE_URL:https://wm.no1hardy.ch}
+    name: ${BASE_URL:https://beticon.no1hardy.ch}
   joker:
     double: ${JOKER_DOUBLE:10}
     triple: ${JOKER_TRIPLE:6}

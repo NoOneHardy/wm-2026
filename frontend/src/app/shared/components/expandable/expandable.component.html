@@ -5,8 +5,8 @@
   </button>
 </div>
 <div class="content" [class.-expanded]="expanded" [@expandable]="expanded ? 'expanded' : 'collapsed'">
-  <ng-content select="[wm-content]"/>
+  <ng-content select="[bet-content]"/>
 </div>
 <div class="preview" [class.-expanded]="expanded" [@expandable]="expanded ? 'collapsed' : 'expanded'">
-  <ng-content select="[wm-preview]"/>
+  <ng-content select="[bet-preview]"/>
 </div>

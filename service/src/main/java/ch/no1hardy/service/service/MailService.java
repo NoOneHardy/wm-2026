@@ -26,7 +26,7 @@ public class MailService {
     @Value("${spring.mail.password}")
     private String password;
 
-    @Value("${wm.host.name}")
+    @Value("${beticon.host.name}")
     private String hostName;
 
     private Session createSession() {
@@ -103,7 +103,7 @@ public class MailService {
                 addParagraph("Nachdem du deine Emailadresse best&auml;tigt hast, wirst du für die manuelle Freischaltung durch einen Administrator vorgemerkt.<br>" +
                         "Du wirst per Email benachrichtigt, sobald dein Account freigeschaltet wurde.<br>" +
                         "In der Zwischenzeit kannst du aber bereits unlimitiert deine <b>Wetten platzieren.</b>") +
-                addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
+                addParagraph("Liebe Gr&uuml;sse,<br><b>Dein Beticon Team</b>");
         return sendMail(user.getEmail(), subject, body);
     }
 
@@ -114,7 +114,7 @@ public class MailService {
         String body = addParagraph("Hallo <b>" + user.getUsername() + "</b>,") +
                 addParagraph("Für dein Konto wurde eine Zurücksetzung des Password beantragt.<br>Sollte dieser Antrag nicht von dir erstellt worden sein, empfehlen wir dir dein Password sicherheitshalber zu ändern und diese Mail zu ignorieren.") +
                 addParagraph("Um dein Password zu ändern, klicke auf den folgenden Link:&nbsp;" + addLink(link, link)) +
-                addParagraph("Liebe Gr&uuml;sse,<br><b>Dein WM-Team 2026</b>");
+                addParagraph("Liebe Gr&uuml;sse,<br><b>Dein Beticon Team</b>");
         return sendMail(user.getEmail(), subject, body);
     }
 }

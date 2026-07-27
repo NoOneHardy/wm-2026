@@ -19,9 +19,9 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class UserHelper {
-    @Value("${wm.joker.double}")
+    @Value("${beticon.joker.double}")
     private Integer doubleJokerLimit;
-    @Value("${wm.joker.triple}")
+    @Value("${beticon.joker.triple}")
     private Integer tripleJokerLimit;
 
     private final AuthService authService;

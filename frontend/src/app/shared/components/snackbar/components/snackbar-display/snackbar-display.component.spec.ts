@@ -38,7 +38,7 @@ describe('SnackbarDisplayComponent', () => {
     service.addMessage({message: 'test'})
     fixture.detectChanges()
 
-    const snackbar = fixture.nativeElement.querySelector('wm-snackbar')
+    const snackbar = fixture.nativeElement.querySelector('bet-snackbar')
     expect(snackbar).toBeTruthy()
     expect(snackbar.innerText).toContain('test')
   })
@@ -48,14 +48,14 @@ describe('SnackbarDisplayComponent', () => {
     service.addMessage({message: 'test'})
     fixture.detectChanges()
 
-    const snackbar = fixture.nativeElement.querySelector('wm-snackbar')
+    const snackbar = fixture.nativeElement.querySelector('bet-snackbar')
     expect(snackbar).toBeTruthy()
     expect(snackbar.innerText).toContain('test')
 
     service.addMessage({message: 'test2'})
     fixture.detectChanges()
 
-    const snackbars = fixture.nativeElement.querySelectorAll('wm-snackbar')
+    const snackbars = fixture.nativeElement.querySelectorAll('bet-snackbar')
     expect(snackbars.length).toEqual(2)
     expect(snackbars[1].innerText).toContain('test2')
   })

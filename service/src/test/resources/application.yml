@@ -19,7 +19,7 @@ security:
     secret-key: ${SECRET_KEY}
     expiration-time: 3600000
 
-wm:
+beticon:
   participation:
     fee: 10
   verification:

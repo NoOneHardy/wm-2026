@@ -1,8 +1,8 @@
-wm-form-field {
-  --wm-form-field-font-size: 1em;
+bet-form-field {
+  --bet-form-field-font-size: 1em;
 
   display: block;
-  margin-bottom: calc(var(--wm-form-field-font-size) * 1.5 / 1.125);
+  margin-bottom: calc(var(--bet-form-field-font-size) * 1.5 / 1.125);
 
   .form-field {
     position: relative;
@@ -11,7 +11,7 @@ wm-form-field {
       label {
         top: .3em;
         left: 1.25em;
-        font-size: calc(var(--wm-form-field-font-size) * .5);
+        font-size: calc(var(--bet-form-field-font-size) * .5);
       }
 
       &:has(input[type="number"]) {
@@ -31,12 +31,12 @@ wm-form-field {
 
     &:has(input.ng-invalid.ng-touched) {
       label, .show-password-icon {
-        color: var(--wm-color-red-400);
+        color: var(--beticon-color-red-400);
       }
 
       input {
-        background-color: var(--wm-color-red-100);
-        color: var(--wm-color-red-600);
+        background-color: var(--beticon-color-red-100);
+        color: var(--beticon-color-red-600);
       }
 
       span {
@@ -55,10 +55,10 @@ wm-form-field {
       top: 50%;
       right: .75em;
       border: none;
-      font-size: calc(var(--wm-form-field-font-size) * 1.5);
+      font-size: calc(var(--bet-form-field-font-size) * 1.5);
       transform: translateY(-50%);
       cursor: pointer;
-      color: var(--wm-color-neutral-400);
+      color: var(--beticon-color-neutral-400);
       background-color: transparent;
       transition: color .2s ease;
     }
@@ -67,8 +67,8 @@ wm-form-field {
       position: absolute;
       top: .5em;
       left: calc(2em / 3);
-      color: var(--wm-color-neutral-400);
-      font-size: calc(var(--wm-form-field-font-size) * 1.125);
+      color: var(--beticon-color-neutral-400);
+      font-size: calc(var(--bet-form-field-font-size) * 1.125);
       font-weight: 600;
       transition: font-size .2s ease, top .2s ease, left .2s ease, color .2s ease;
       pointer-events: none;
@@ -77,14 +77,14 @@ wm-form-field {
     input {
       width: 100%;
       height: calc(1em / 16 / 1.125 * 40);
-      background-color: var(--wm-color-neutral-100);
+      background-color: var(--beticon-color-neutral-100);
       border: none;
       border-radius: calc(2em / 9);
       outline: none;
       padding: calc(2em / 3) calc(2em / 3) calc(1em / 3);
-      font-size: calc(var(--wm-form-field-font-size) * 1.125);
+      font-size: calc(var(--bet-form-field-font-size) * 1.125);
       font-weight: 500;
-      color: var(--wm-color-neutral-500);
+      color: var(--beticon-color-neutral-500);
       box-shadow: 0 calc(1em / 9) calc(2em / 9) 0 #0000001a inset;
       transition: color .2s ease, background-color .2s ease;
 
@@ -103,7 +103,7 @@ wm-form-field {
 
       &:disabled {
         box-shadow: none;
-        color: var(--wm-color-neutral-400);
+        color: var(--beticon-color-neutral-400);
       }
     }
 
@@ -115,7 +115,7 @@ wm-form-field {
       font-size: .75em;
       margin-top: calc(.125em / .75);
       margin-left: calc(.125em / .75);
-      color: var(--wm-color-red-400);
+      color: var(--beticon-color-red-400);
       transition: opacity .2s ease;
     }
 

@@ -1,7 +1,7 @@
 h4 {
-  font: var(--wm-font-h4);
-  color: var(--wm-color-neutral-500);
-  margin-bottom: var(--wm-spacer-2);
+  font: var(--beticon-font-h4);
+  color: var(--beticon-color-neutral-500);
+  margin-bottom: var(--beticon-spacer-2);
 }
 
 .games {
@@ -15,21 +15,21 @@ h4 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: min(var(--wm-spacer-3));
+    gap: min(var(--beticon-spacer-3));
 
     .flag.-small {
-      height: var(--wm-spacer-6);
-      width: var(--wm-spacer-6);
+      height: var(--beticon-spacer-6);
+      width: var(--beticon-spacer-6);
       margin-bottom: 0;
     }
 
     .result {
-      font: var(--wm-font-medium-text);
+      font: var(--beticon-font-medium-text);
       display: flex;
       flex-direction: row;
       flex-wrap: nowrap;
       align-items: center;
-      color: var(--wm-color-neutral-400);
+      color: var(--beticon-color-neutral-400);
       gap: calc(1em / 6);
 
       &.-is-guest {
@@ -37,8 +37,8 @@ h4 {
       }
 
       .-bold {
-        font: var(--wm-font-medium-bold);
-        color: var(--wm-color-neutral-600);
+        font: var(--beticon-font-medium-bold);
+        color: var(--beticon-color-neutral-600);
       }
     }
   }

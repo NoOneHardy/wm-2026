@@ -13,7 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInput} from '@angular/material/input'
 
 @Component({
-  selector: 'wm-team-management',
+  selector: 'bet-team-management',
   imports: [
     ReactiveFormsModule,
     AvatarUploadComponent,

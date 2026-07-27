@@ -6,7 +6,7 @@ import {logout} from '../user-management/store/user.actions'
 import {RouterOutlet} from '@angular/router'
 
 @Component({
-  selector: 'wm-settings',
+  selector: 'bet-settings',
   imports: [
     SideNavComponent,
     SideNavItemComponent,

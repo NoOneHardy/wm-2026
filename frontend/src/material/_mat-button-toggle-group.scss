@@ -3,7 +3,7 @@
 
 @mixin base-overrides() {
   @include mat.button-toggle-overrides((
-    shape: var(--wm-spacer-2),
+    shape: var(--beticon-spacer-2),
     text-color: mat.get-theme-color(m3-theme.$light-theme, neutral, 30),
   ));
 

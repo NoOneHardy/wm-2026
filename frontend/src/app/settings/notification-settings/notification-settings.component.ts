@@ -11,7 +11,7 @@ import {NotificationChannelPipe} from '../../shared/pipes/notification-channel.p
 import {ButtonComponent} from '../../shared/components/button/button.component'
 
 @Component({
-  selector: 'wm-notification-settings',
+  selector: 'bet-notification-settings',
   imports: [
     MatSlideToggle,
     NotificationTypePipe,

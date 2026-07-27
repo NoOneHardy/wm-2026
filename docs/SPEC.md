@@ -317,11 +317,11 @@ There are five types of movement:
 
 | # | Type      | Description                   | Icon                       | Color                                                                                                                 | Rank         |
 |---|-----------|-------------------------------|----------------------------|-----------------------------------------------------------------------------------------------------------------------|--------------|
-| 1 | far down  | The user has moved down a lot | keyboard_double_arrow_down | --wm-color-red <div style="display: inline-block; height: 10px; width: 10px; background-color: #DF2935;"></div>       | -5 or lower  |
-| 2 | down      | The user has moved down       | keyboard_arrow_down        | --wm-color-red-dark <div style="display: inline-block; height: 10px; width: 10px; background-color: #A0001C;"></div>  | -1 until -4  |
-| 3 | no change | The user has not moved        | equal                      | --wm-color-orange-600 <div style="display: inline-block; height: 10px; width: 10px; background-color: #FFAC59"></div> | 0            |
-| 4 | up        | The user has moved up         | keyboard_arrow_up          | --wm-color-secondary <div style="display: inline-block; height: 10px; width: 10px; background-color: #29873D"></div>  | +1 until +4  |
-| 5 | far up    | The user has moved up a lot   | keyboard_double_arrow_up   | --wm-color-primary <div style="display: inline-block; height: 10px; width: 10px; background-color: #57C152"></div>    | +5 or higher |
+| 1 | far down  | The user has moved down a lot | keyboard_double_arrow_down | --beticon-color-red <div style="display: inline-block; height: 10px; width: 10px; background-color: #DF2935;"></div>       | -5 or lower  |
+| 2 | down      | The user has moved down       | keyboard_arrow_down        | --beticon-color-red-dark <div style="display: inline-block; height: 10px; width: 10px; background-color: #A0001C;"></div>  | -1 until -4  |
+| 3 | no change | The user has not moved        | equal                      | --beticon-color-orange-600 <div style="display: inline-block; height: 10px; width: 10px; background-color: #FFAC59"></div> | 0            |
+| 4 | up        | The user has moved up         | keyboard_arrow_up          | --beticon-color-secondary <div style="display: inline-block; height: 10px; width: 10px; background-color: #29873D"></div>  | +1 until +4  |
+| 5 | far up    | The user has moved up a lot   | keyboard_double_arrow_up   | --beticon-color-primary <div style="display: inline-block; height: 10px; width: 10px; background-color: #57C152"></div>    | +5 or higher |
 
 ### 5.4 Top 3
 

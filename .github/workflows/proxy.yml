@@ -33,7 +33,7 @@ jobs:
         with:
           context: .
           file: proxy/Dockerfile
-          push: ${{ github.ref == 'refs/head/develop' }}
+          push: ${{ github.ref == 'refs/heads/develop' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=proxy

@@ -1,6 +1,6 @@
 @startuml erd
 
-title ERD WM 2026
+title ERD Beticon
 
 entity user {
     * **id: int**

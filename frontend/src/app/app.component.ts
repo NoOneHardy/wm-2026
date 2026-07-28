@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core'
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {RouterOutlet} from '@angular/router'
 import {HeaderComponent} from './shared/material-api'
 import {
@@ -12,6 +12,7 @@ import {BannerDisplayComponent} from './shared/components/banner-display/banner-
   selector: 'bet-root',
   imports: [RouterOutlet, HeaderComponent, SnackbarDisplayComponent, BannerDisplayComponent],
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {

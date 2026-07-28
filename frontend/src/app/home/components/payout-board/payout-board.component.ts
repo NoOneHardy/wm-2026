@@ -1,9 +1,10 @@
-import { Component } from '@angular/core'
+import { Component, ChangeDetectionStrategy } from '@angular/core'
 
 @Component({
   selector: 'bet-payout-board',
   imports: [],
   templateUrl: './payout-board.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './payout-board.component.css'
 })
 export class PayoutBoardComponent {

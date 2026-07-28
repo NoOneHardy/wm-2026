@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit} from '@angular/core'
+import {Component, computed, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {PositionComponent} from '../shared/components/position/position.component'
@@ -21,6 +21,7 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
     SpinnerComponent
   ],
   templateUrl: './dashboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {

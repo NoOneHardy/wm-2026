@@ -1,4 +1,4 @@
-import {Component, HostBinding, input} from '@angular/core'
+import {Component, HostBinding, input, ChangeDetectionStrategy} from '@angular/core'
 import {animate, state, style, transition, trigger} from '@angular/animations'
 
 @Component({
@@ -6,6 +6,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations'
   standalone: true,
   templateUrl: './expandable.component.html',
   styleUrl: './expandable.component.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('expandable', [
       state('collapsed', style({

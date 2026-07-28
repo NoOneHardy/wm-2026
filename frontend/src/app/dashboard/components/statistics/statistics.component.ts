@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, signal, Signal} from '@angular/core'
+import {Component, computed, inject, input, signal, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {Statistics} from '../../../model/dashboard/statistics'
 import {GlobalStatistics} from '../../../model/dashboard/global-statistics'
 
@@ -14,6 +14,7 @@ import {ShortNumberPipe} from '../../../shared/pipes/short-number.pipe'
     ShortNumberPipe
   ],
   templateUrl: './statistics.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './statistics.component.css'
 })
 export class StatisticsComponent {

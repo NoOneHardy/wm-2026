@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnInit, Signal} from '@angular/core'
+import {Component, effect, inject, OnInit, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {MatSlideToggle} from '@angular/material/slide-toggle'
 import {Store} from '@ngrx/store'
 import {fetchNotificationPreferences, updateNotificationPreferences} from '../../user-management/store/user.actions'
@@ -20,6 +20,7 @@ import {ButtonComponent} from '../../shared/components/button/button.component'
     ButtonComponent
   ],
   templateUrl: './notification-settings.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './notification-settings.component.css'
 })
 export default class NotificationSettingsComponent implements OnInit {

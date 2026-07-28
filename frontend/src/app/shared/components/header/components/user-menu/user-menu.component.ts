@@ -1,4 +1,4 @@
-import {Component, ElementRef, inject, input, signal} from '@angular/core'
+import {Component, ElementRef, inject, input, signal, ChangeDetectionStrategy} from '@angular/core'
 import {User} from '../../../../../model/user/user'
 import {RouterLink} from '@angular/router'
 
@@ -18,6 +18,7 @@ import {NotificationsComponent} from '../notifications/notifications.component'
     NotificationsComponent
   ],
   templateUrl: './user-menu.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-menu.component.css'
 })
 export class UserMenuComponent {

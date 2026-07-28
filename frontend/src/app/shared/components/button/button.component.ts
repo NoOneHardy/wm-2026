@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core'
+import {Component, input, output, ChangeDetectionStrategy} from '@angular/core'
 
 
 @Component({
@@ -8,6 +8,7 @@ import {Component, input, output} from '@angular/core'
     '[style]': 'getWidth()'
   },
   templateUrl: './button.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './button.component.css'
 })
 export class ButtonComponent {

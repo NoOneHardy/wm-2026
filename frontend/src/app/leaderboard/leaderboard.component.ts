@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, Signal} from '@angular/core'
+import {Component, computed, inject, OnInit, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {getLeaderboard} from '../shared/store/tournament.actions'
 import {selectIsTournamentLoading, selectLeaderboard} from '../shared/store/tournament.feature'
@@ -14,6 +14,7 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
     SpinnerComponent
   ],
   templateUrl: './leaderboard.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './leaderboard.component.css'
 })
 export class LeaderboardComponent implements OnInit {

@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, input, OnInit, Signal} from '@angular/core'
+import {Component, computed, effect, inject, input, OnInit, Signal, ChangeDetectionStrategy} from '@angular/core'
 import { DecimalPipe, NgOptimizedImage } from '@angular/common'
 import {ButtonComponent} from '../button/button.component'
 import {Store} from '@ngrx/store'
@@ -23,6 +23,7 @@ import {CardGroup} from '../../../model/group/card-group'
     SpinnerComponent
   ],
   templateUrl: './overview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent implements OnInit {

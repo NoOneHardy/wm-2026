@@ -1,4 +1,4 @@
-import {Component, computed, inject, input} from '@angular/core'
+import {Component, computed, inject, input, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectNotifications} from '../../../../../user-management/store/user.feature'
 import {MatMenu, MatMenuTrigger} from '@angular/material/menu'
@@ -16,6 +16,7 @@ import {NotificationType} from '../../../../../user-management/model/notificatio
     MatRipple
   ],
   templateUrl: './notifications.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './notifications.component.css'
 })
 export class NotificationsComponent {

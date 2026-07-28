@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core'
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
 import {Store} from '@ngrx/store'
 import {verifyEmail} from '../../user-management/store/user.actions'
@@ -10,6 +10,7 @@ import {ActivatedRoute} from '@angular/router'
     SpinnerComponent
   ],
   templateUrl: './email-verification.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './email-verification.component.css'
 })
 export default class EmailVerificationComponent implements OnInit {

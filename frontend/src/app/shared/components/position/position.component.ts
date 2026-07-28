@@ -1,4 +1,4 @@
-import {Component, computed, input} from '@angular/core'
+import {Component, computed, input, ChangeDetectionStrategy} from '@angular/core'
 import {Ranking} from '../../../model/leaderboard/ranking'
 import { NgOptimizedImage } from '@angular/common'
 
@@ -8,6 +8,7 @@ import { NgOptimizedImage } from '@angular/common'
     NgOptimizedImage
   ],
   templateUrl: './position.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './position.component.css'
 })
 export class PositionComponent {

@@ -1,9 +1,9 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
-
 import {RequestPasswordResetComponent} from './request-password-reset.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectIsUserLoading} from '../../user-management/store/user.feature'
 import {requestPasswordResetLink} from '../../user-management/store/user.actions'
+import {vi} from 'vitest'
 
 describe('RequestPasswordResetComponent', () => {
   let component: RequestPasswordResetComponent
@@ -31,12 +31,12 @@ describe('RequestPasswordResetComponent', () => {
     store.refreshState()
     fixture.detectChanges()
 
-    expect(component.isLoading()).toBeFalse()
+    expect(component.isLoading()).toBe(false)
 
     store.overrideSelector(selectIsUserLoading, true)
     store.refreshState()
     fixture.detectChanges()
-    expect(component.isLoading()).toBeTrue()
+    expect(component.isLoading()).toBe(true)
   })
 
   it('should have initial state as FORM', () => {
@@ -44,13 +44,13 @@ describe('RequestPasswordResetComponent', () => {
   })
 
   it('should not submit if form is invalid', () => {
-    const spy = spyOn(component['store'], 'dispatch')
+    const spy = vi.spyOn(component['store'], 'dispatch')
     component.submit()
     expect(spy).not.toHaveBeenCalled()
   })
 
   it('should call dispatch requestPasswordResetLink action on valid form submission', () => {
-    const spy = spyOn(component['store'], 'dispatch')
+    const spy = vi.spyOn(component['store'], 'dispatch')
     component.formGroup.controls.email.setValue('silas@test.ch')
     component.submit()
     expect(spy).toHaveBeenCalledWith(requestPasswordResetLink({email: 'silas@test.ch'}))

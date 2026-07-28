@@ -3,7 +3,7 @@ import {TestBed} from '@angular/core/testing'
 import {AdminService} from './admin.service'
 import {HttpTestingController, provideHttpClientTesting} from '@angular/common/http/testing'
 import {User} from '../model/user/user'
-import {provideHttpClient} from '@angular/common/http'
+import {provideHttpClient, withXhr} from '@angular/common/http'
 import {mockUser1} from '../model/mock/user.mock'
 import {ServiceError} from '../model/error'
 import {provideMockStore} from '@ngrx/store/testing'
@@ -18,7 +18,7 @@ describe('AdminService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting(), provideMockStore()]
+      providers: [provideHttpClient(withXhr()), provideHttpClientTesting(), provideMockStore()]
     })
     service = TestBed.inject(AdminService)
     httpMock = TestBed.inject(HttpTestingController)
@@ -157,7 +157,7 @@ describe('AdminService', () => {
 
     const req = httpMock.expectOne('/api/team/flag')
     expect(req.request.method).toBe('POST')
-    expect(req.request.body instanceof FormData).toBeTrue()
+    expect(req.request.body instanceof FormData).toBe(true)
     flushApiResponse(req, '/cdn/flags/flag.png')
   })
 })

@@ -1,7 +1,7 @@
 import {TestBed} from '@angular/core/testing'
 
 import {LeaderboardService} from './leaderboard.service'
-import {provideHttpClient} from '@angular/common/http'
+import {provideHttpClient, withXhr} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
 
 describe('LeaderboardService', () => {
@@ -9,7 +9,7 @@ describe('LeaderboardService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideMockStore()]
+      providers: [provideHttpClient(withXhr()), provideMockStore()]
     })
     service = TestBed.inject(LeaderboardService)
   })

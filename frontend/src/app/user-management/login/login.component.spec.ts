@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 
 import {LoginComponent} from './login.component'
 import {provideMockStore} from '@ngrx/store/testing'
@@ -47,13 +48,13 @@ describe('LoginComponent', () => {
   })
 
   it('should mark form as touched on login', () => {
-    spyOn(component.formGroup, 'markAllAsTouched')
+    vi.spyOn(component.formGroup, 'markAllAsTouched')
     component.login()
     expect(component.formGroup.markAllAsTouched).toHaveBeenCalled()
   })
 
   it('should call login on click', () => {
-    spyOn(component, 'login')
+    vi.spyOn(component, 'login')
     fixture.nativeElement.querySelector('bet-button button').click()
     fixture.detectChanges()
     expect(component.login).toHaveBeenCalled()

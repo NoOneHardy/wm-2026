@@ -1,6 +1,7 @@
 // noinspection DuplicatedCode
 
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 
 import {BetFormComponent} from './bet-form.component'
 import {BetGame} from '../../../../model/game/bet-game'
@@ -104,8 +105,8 @@ describe('BetFormComponent', () => {
   })
 
   it('should evaluate whether a game has started', () => {
-    jasmine.clock().install()
-    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00+02:00'))
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2025-06-23T20:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -113,7 +114,7 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.hasStarted()).toBe(false)
 
-    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00+02:00'))
+    vi.setSystemTime(new Date('2025-06-23T22:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -121,12 +122,12 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.hasStarted()).toBe(true)
 
-    jasmine.clock().uninstall()
+    vi.useRealTimers()
   })
 
   it('should disable form when game has started', () => {
-    jasmine.clock().install()
-    jasmine.clock().mockDate(new Date('2025-06-23T20:00:00+02:00'))
+    vi.useFakeTimers()
+    vi.setSystemTime(new Date('2025-06-23T20:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -134,7 +135,7 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.isDisabled).toBe(false)
 
-    jasmine.clock().mockDate(new Date('2025-06-23T22:00:00+02:00'))
+    vi.setSystemTime(new Date('2025-06-23T22:00:00+02:00'))
     fixture.componentRef.setInput('game', {
       ...mockGame,
       timestamp: new Date('2025-06-23T22:00:00')
@@ -142,7 +143,7 @@ describe('BetFormComponent', () => {
     fixture.detectChanges()
     expect(component.isDisabled).toBe(true)
 
-    jasmine.clock().uninstall()
+    vi.useRealTimers()
   })
 
   it('should disable form when game has result', () => {
@@ -231,11 +232,11 @@ describe('BetFormComponent', () => {
   })
 
   it('should return true if checked joker is 1', () => {
-    expect(component.hasJokersAvailable(1)).toBeTrue()
+    expect(component.hasJokersAvailable(1)).toBe(true)
   })
 
   it('should return true if checked joker is 2 and available jokers are greater than 0', () => {
-    expect(component.hasJokersAvailable(2)).toBeTrue()
+    expect(component.hasJokersAvailable(2)).toBe(true)
   })
 
   it('should return false if checked joker is 2 and available jokers are 0', () => {
@@ -246,11 +247,11 @@ describe('BetFormComponent', () => {
       jtripleMax: 6
     })
     mockStore.refreshState()
-    expect(component.hasJokersAvailable(2)).toBeFalse()
+    expect(component.hasJokersAvailable(2)).toBe(false)
   })
 
   it('should return true if checked joker is 3 and available jokers are greater than 0', () => {
-    expect(component.hasJokersAvailable(3)).toBeTrue()
+    expect(component.hasJokersAvailable(3)).toBe(true)
   })
 
   it('should return false if checked joker is 3 and available jokers are 0', () => {
@@ -261,15 +262,15 @@ describe('BetFormComponent', () => {
       jtripleMax: 6
     })
     mockStore.refreshState()
-    expect(component.hasJokersAvailable(3)).toBeFalse()
+    expect(component.hasJokersAvailable(3)).toBe(false)
   })
 
   it('should return false if checked joker is not 1, 2 or 3', () => {
-    expect(component.hasJokersAvailable(4)).toBeFalse()
+    expect(component.hasJokersAvailable(4)).toBe(false)
   })
 
   it('should grant a joker if joker has changed and was limited', () => {
-    const spy = spyOn(mockStore, 'dispatch')
+    const spy = vi.spyOn(mockStore, 'dispatch')
 
     expect(component['value'].joker).toBe(3)
     component.formGroup.controls.joker.setValue(2)
@@ -284,7 +285,7 @@ describe('BetFormComponent', () => {
   })
 
   it('should revoke a joker if joker has changed and was limited', () => {
-    const spy = spyOn(mockStore, 'dispatch')
+    const spy = vi.spyOn(mockStore, 'dispatch')
 
     component.formGroup.controls.joker.setValue(2)
     fixture.detectChanges()
@@ -298,7 +299,7 @@ describe('BetFormComponent', () => {
   })
 
   it('should not revoke or grant a joker if joker has not changed', () => {
-    const spy = spyOn(mockStore, 'dispatch')
+    const spy = vi.spyOn(mockStore, 'dispatch')
 
     component.formGroup.setValue({
       scoreTeamHome: 1,
@@ -311,7 +312,7 @@ describe('BetFormComponent', () => {
   })
 
   it('should not revoke or grant a joker if joker is 1', () => {
-    const spy = spyOn(mockStore, 'dispatch')
+    const spy = vi.spyOn(mockStore, 'dispatch')
 
     component.formGroup.controls.joker.setValue(1)
     fixture.detectChanges()
@@ -327,46 +328,46 @@ describe('BetFormComponent', () => {
   })
 
   it('should parse admin input to boolean', () => {
-    expect(component.admin()).toBeFalse()
+    expect(component.admin()).toBe(false)
 
     fixture.componentRef.setInput('admin', true)
     fixture.detectChanges()
-    expect(component.admin()).toBeTrue()
+    expect(component.admin()).toBe(true)
 
     fixture.componentRef.setInput('admin', false)
     fixture.detectChanges()
-    expect(component.admin()).toBeFalse()
+    expect(component.admin()).toBe(false)
 
     fixture.componentRef.setInput('admin', '')
     fixture.detectChanges()
-    expect(component.admin()).toBeTrue()
+    expect(component.admin()).toBe(true)
   })
 
   it('should not disable form if admin', () => {
-    expect(component.isDisabled).toBeFalse()
+    expect(component.isDisabled).toBe(false)
 
     const game = {...mockGame}
     game.timestamp = new Date(2025, 4, 1)
     fixture.componentRef.setInput('game', game)
     fixture.detectChanges()
-    expect(component.hasStarted()).toBeTrue()
-    expect(component.isDisabled).toBeTrue()
+    expect(component.hasStarted()).toBe(true)
+    expect(component.isDisabled).toBe(true)
 
     fixture.componentRef.setInput('admin', true)
     fixture.detectChanges()
-    expect(component.isDisabled).toBeFalse()
+    expect(component.isDisabled).toBe(false)
   })
 
   it('should disable form if not admin and game has started', () => {
-    expect(component.isDisabled).toBeFalse()
-    expect(component.hasStarted()).toBeFalse()
+    expect(component.isDisabled).toBe(false)
+    expect(component.hasStarted()).toBe(false)
 
     const game = {...mockGame}
     game.timestamp = new Date(2025, 4, 1)
     fixture.componentRef.setInput('game', game)
     fixture.detectChanges()
-    expect(component.hasStarted()).toBeTrue()
-    expect(component.isDisabled).toBeTrue()
+    expect(component.hasStarted()).toBe(true)
+    expect(component.isDisabled).toBe(true)
   })
 
   it('should disable form if not admin and game has result', () => {
@@ -379,11 +380,11 @@ describe('BetFormComponent', () => {
     }
     fixture.componentRef.setInput('game', game)
     fixture.detectChanges()
-    expect(component.isDisabled).toBeTrue()
+    expect(component.isDisabled).toBe(true)
   })
 
   it('should reset form', () => {
-    const spy = spyOn(component.formGroup, 'reset')
+    const spy = vi.spyOn(component.formGroup, 'reset')
 
     component.reset()
     expect(spy).toHaveBeenCalled()

@@ -37,7 +37,7 @@ describe('isLoggedInGuard', () => {
 
   it('should return true if user is logged in', () => {
     subscribeToGuard()
-    expect(result).toBeTrue()
+    expect(result).toBe(true)
   })
 
   it('should return a url tree for "/" if user is not logged in', () => {
@@ -71,6 +71,6 @@ describe('isLoggedInGuard', () => {
     store.overrideSelector(selectIsUserLoading, false)
     store.overrideSelector(selectUser, {...mockUser})
     store.refreshState()
-    expect(result).toBeTrue()
+    expect(result).toBe(true)
   })
 })

@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import NotificationSettingsComponent from './notification-settings.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {selectNotificationPreferences} from '../../user-management/store/user.feature'
@@ -89,13 +90,13 @@ describe('EmailSettingsComponent', () => {
       channel: NotificationChannel.EMAIL,
       selected: true
     })
-    expect(emailGroupPreferences[0].controls.enabled.value).toBeTrue()
+    expect(emailGroupPreferences[0].controls.enabled.value).toBe(true)
     expect(emailGroupPreferences[1].controls.data.value).toEqual({
       type: NotificationType.NEW_GAME,
       channel: NotificationChannel.EMAIL,
       selected: false
     })
-    expect(emailGroupPreferences[1].controls.enabled.value).toBeFalse()
+    expect(emailGroupPreferences[1].controls.enabled.value).toBe(false)
 
     const inAppGroupPreferences = inAppGroup.controls.preferences.controls
     expect(inAppGroupPreferences[0].controls.data.value).toEqual({
@@ -103,11 +104,11 @@ describe('EmailSettingsComponent', () => {
       channel: NotificationChannel.IN_APP,
       selected: true
     })
-    expect(inAppGroupPreferences[0].controls.enabled.value).toBeTrue()
+    expect(inAppGroupPreferences[0].controls.enabled.value).toBe(true)
   })
 
   it('should dispatch updated preferences on save', () => {
-    const spy = spyOn(store, 'dispatch')
+    const spy = vi.spyOn(store, 'dispatch')
 
     const mockPreferences: NotificationPreference[] = [
       {
@@ -127,7 +128,7 @@ describe('EmailSettingsComponent', () => {
 
     component.save()
 
-    expect(spy).toHaveBeenCalledOnceWith(updateNotificationPreferences({preferences: mockPreferences}))
+    expect(spy).toHaveBeenCalledExactlyOnceWith(updateNotificationPreferences({preferences: mockPreferences}))
   })
 
   it('should update form controls when channel is disabled', () => {
@@ -155,8 +156,8 @@ describe('EmailSettingsComponent', () => {
     fixture.detectChanges()
 
     const emailPreferences = emailGroup.controls.preferences.controls
-    expect(emailPreferences[0].controls.enabled.value).toBeFalse()
-    expect(emailPreferences[1].controls.enabled.value).toBeFalse()
+    expect(emailPreferences[0].controls.enabled.value).toBe(false)
+    expect(emailPreferences[1].controls.enabled.value).toBe(false)
   })
 
   it('should update form controls when channel is enabled', () => {
@@ -184,8 +185,8 @@ describe('EmailSettingsComponent', () => {
     fixture.detectChanges()
 
     const emailPreferences = emailGroup.controls.preferences.controls
-    expect(emailPreferences[0].controls.enabled.value).toBeTrue()
-    expect(emailPreferences[1].controls.enabled.value).toBeTrue()
+    expect(emailPreferences[0].controls.enabled.value).toBe(true)
+    expect(emailPreferences[1].controls.enabled.value).toBe(true)
   })
 
   it('should reset form on notification preferences change', () => {

@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 
 import {NotificationsComponent} from './notifications.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
@@ -52,28 +53,28 @@ describe('NotificationsComponent', () => {
   })
 
   it('should map mobile input to boolean', () => {
-    expect(component.mobile()).toBeFalse()
+    expect(component.mobile()).toBe(false)
     fixture.componentRef.setInput('mobile', '')
     fixture.detectChanges()
-    expect(component.mobile()).toBeTrue()
+    expect(component.mobile()).toBe(true)
     fixture.componentRef.setInput('mobile', false)
     fixture.detectChanges()
-    expect(component.mobile()).toBeFalse()
+    expect(component.mobile()).toBe(false)
     fixture.componentRef.setInput('mobile', true)
     fixture.detectChanges()
-    expect(component.mobile()).toBeTrue()
+    expect(component.mobile()).toBe(true)
   })
 
   it('should call mark as read from store', () => {
-    const spy = spyOn(store, 'dispatch')
+    const spy = vi.spyOn(store, 'dispatch')
     expect(spy).not.toHaveBeenCalled()
 
     component.markAsRead('asdfsaf')
-    expect(spy).toHaveBeenCalledOnceWith(markNotificationAsRead({id: 'asdfsaf'}))
+    expect(spy).toHaveBeenCalledExactlyOnceWith(markNotificationAsRead({id: 'asdfsaf'}))
   })
 
   it('should map notifications length to boolean', () => {
-    expect(component.hasNotifications()).toBeFalse()
+    expect(component.hasNotifications()).toBe(false)
 
     store.overrideSelector(selectNotifications, [{
       id: 'not-1',
@@ -84,7 +85,7 @@ describe('NotificationsComponent', () => {
     }])
     store.refreshState()
     fixture.detectChanges()
-    expect(component.hasNotifications()).toBeTrue()
+    expect(component.hasNotifications()).toBe(true)
   })
 
   it('should return correct icon for notification type', () => {

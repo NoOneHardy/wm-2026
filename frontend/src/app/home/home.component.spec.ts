@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import {HomeComponent} from './home.component'
 import {provideRouter} from '@angular/router'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
@@ -24,7 +25,7 @@ describe('HomeComponent', () => {
     })
     fixture = TestBed.createComponent(HomeComponent)
     component = fixture.componentInstance
-    spyOn(store, 'dispatch')
+    vi.spyOn(store, 'dispatch')
     fixture.detectChanges()
   })
 
@@ -33,7 +34,7 @@ describe('HomeComponent', () => {
   })
 
   it('should load home data on init', () => {
-    expect(store.dispatch).toHaveBeenCalledOnceWith(loadHomeData())
+    expect(store.dispatch).toHaveBeenCalledExactlyOnceWith(loadHomeData())
   })
 
   it('should expose formatted stats from the store', () => {

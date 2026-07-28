@@ -98,8 +98,8 @@ describe('OverviewComponent', () => {
 
   it('should separate knockout groups', () => {
     loadMockGroups()
-    expect(component.knockoutGroups()).toHaveSize(2)
-    expect(component.defaultGroups()).toHaveSize(2)
+    expect(component.knockoutGroups()).toHaveLength(2)
+    expect(component.defaultGroups()).toHaveLength(2)
   })
 
   it('should sort default groups', () => {

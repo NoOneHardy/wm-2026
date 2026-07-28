@@ -66,6 +66,6 @@ describe('isAdminGuard', () => {
     store.overrideSelector(selectIsUserLoading, false)
     store.overrideSelector(selectIsAdmin, true)
     store.refreshState()
-    expect(result).toBeTrue()
+    expect(result).toBe(true)
   })
 })

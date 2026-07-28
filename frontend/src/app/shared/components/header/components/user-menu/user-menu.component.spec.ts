@@ -31,11 +31,11 @@ describe('UserMenuComponent', () => {
   })
 
   it('should toggle dropdown visibility', () => {
-    expect(component.isDropdownExpanded()).toBeFalse()
+    expect(component.isDropdownExpanded()).toBe(false)
     component.toggleDropdown()
-    expect(component.isDropdownExpanded()).toBeTrue()
+    expect(component.isDropdownExpanded()).toBe(true)
     component.toggleDropdown()
-    expect(component.isDropdownExpanded()).toBeFalse()
+    expect(component.isDropdownExpanded()).toBe(false)
   })
 
   it('should not display anything if user is null', () => {
@@ -45,6 +45,6 @@ describe('UserMenuComponent', () => {
   it('should display user name if user is not null', () => {
     fixture.componentRef.setInput('user', user)
     fixture.detectChanges()
-    expect(fixture.nativeElement.querySelector('bet-user-button')?.innerText).toContain('User1')
+    expect(fixture.nativeElement.querySelector('bet-user-button')?.textContent).toContain('User1')
   })
 })

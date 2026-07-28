@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import {PasswordResetComponent} from './password-reset.component'
 import {ActivatedRoute, provideRouter, Router} from '@angular/router'
 import {provideMockStore} from '@ngrx/store/testing'
@@ -41,8 +42,8 @@ describe('PasswordResetComponent', () => {
   it('should not set code and navigate away if no code is present', () => {
     const router = TestBed.inject(Router)
     const route = TestBed.inject(ActivatedRoute)
-    spyOn(router, 'navigateByUrl')
-    spyOn(route.snapshot.queryParamMap, 'get').and.returnValue(null)
+    vi.spyOn(router, 'navigateByUrl').mockImplementation(() => Promise.resolve(true))
+    vi.spyOn(route.snapshot.queryParamMap, 'get').mockReturnValue(null)
 
     fixture = TestBed.createComponent(PasswordResetComponent)
     component = fixture.componentInstance
@@ -53,7 +54,7 @@ describe('PasswordResetComponent', () => {
   })
 
   it('should call store to reset password', () => {
-    const spy = spyOn(component['store'], 'dispatch')
+    const spy = vi.spyOn(component['store'], 'dispatch')
     component.formGroup.setValue({password: 'newpassword', confirmPassword: 'newpassword'})
     component.resetPassword()
     expect(spy).toHaveBeenCalledWith(resetPassword({
@@ -63,7 +64,7 @@ describe('PasswordResetComponent', () => {
   })
 
   it('should not call store to reset password if form is invalid', () => {
-    const spy = spyOn(component['store'], 'dispatch')
+    const spy = vi.spyOn(component['store'], 'dispatch')
     component.formGroup.setValue({password: 'short', confirmPassword: 'short'})
     component.resetPassword()
     expect(spy).not.toHaveBeenCalled()

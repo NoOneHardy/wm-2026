@@ -1,4 +1,5 @@
 import {TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 
 import {SnackbarService} from './snackbar.service'
 import {provideMockStore} from '@ngrx/store/testing'
@@ -31,29 +32,29 @@ describe('SnackbarService', () => {
   })
 
   it('should remove a message after 5000ms', () => {
-    jasmine.clock().install()
+    vi.useFakeTimers()
     const message: SnackbarMessage = {message: 'Test message', type: 'success'}
     service.addMessage(message)
     expect(service.messages()).toEqual([message])
 
-    jasmine.clock().tick(5000)
+    vi.advanceTimersByTime(5000)
     expect(service.messages()).toEqual([])
-    jasmine.clock().uninstall()
+    vi.useRealTimers()
   })
 
   it('should remove a message after custom duration', () => {
-    jasmine.clock().install()
+    vi.useFakeTimers()
     const message: SnackbarMessage = {message: 'Test message', duration: 1000}
     service.addMessage(message)
     expect(service.messages()).toEqual([message])
 
-    jasmine.clock().tick(1000)
+    vi.advanceTimersByTime(1000)
     expect(service.messages()).toEqual([])
-    jasmine.clock().uninstall()
+    vi.useRealTimers()
   })
 
   it('should handle multiple messages with different durations', () => {
-    jasmine.clock().install()
+    vi.useFakeTimers()
     const message: SnackbarMessage = {message: 'Test message', duration: 1000}
     service.addMessage(message)
     expect(service.messages()).toEqual([message])
@@ -62,11 +63,11 @@ describe('SnackbarService', () => {
     service.addMessage(message2)
     expect(service.messages()).toEqual([message, message2])
 
-    jasmine.clock().tick(1000)
+    vi.advanceTimersByTime(1000)
     expect(service.messages()).toEqual([message2])
 
-    jasmine.clock().tick(6000)
+    vi.advanceTimersByTime(6000)
     expect(service.messages()).toEqual([])
-    jasmine.clock().uninstall()
+    vi.useRealTimers()
   })
 })

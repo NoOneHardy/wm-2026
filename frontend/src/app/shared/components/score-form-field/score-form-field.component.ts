@@ -1,6 +1,6 @@
-import {Component, input} from '@angular/core'
+import {Component, input, ChangeDetectionStrategy} from '@angular/core'
 import {ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR} from '@angular/forms'
-import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
+import {OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
 import {FormFieldComponent} from '../form-field/form-field.component'
 
 
@@ -16,11 +16,14 @@ import {FormFieldComponent} from '../form-field/form-field.component'
     multi: true
   }],
   templateUrl: './score-form-field.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './score-form-field.component.css'
 })
 export class ScoreFormFieldComponent implements ControlValueAccessor {
-  onChange: OnChangeFn<number | null> = EMPTY_METHOD
-  onTouch: OnTouchFn = EMPTY_METHOD
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: OnChangeFn<number | null> = () => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouch: OnTouchFn = () => {}
 
   isLarge = input<boolean, boolean | ''>(false, {
     transform: (v) => v === '' || v,

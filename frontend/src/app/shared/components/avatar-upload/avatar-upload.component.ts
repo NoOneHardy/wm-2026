@@ -1,7 +1,7 @@
-import {Component, input} from '@angular/core'
+import {Component, input, ChangeDetectionStrategy} from '@angular/core'
 import {NgOptimizedImage} from '@angular/common'
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms'
-import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
+import {OnChangeFn, OnTouchFn} from '../../helper/control-value-accessor'
 
 @Component({
   selector: 'bet-avatar-upload',
@@ -10,6 +10,7 @@ import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../helper/control-value-ac
   ],
   templateUrl: './avatar-upload.component.html',
   styleUrl: './avatar-upload.component.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: AvatarUploadComponent, multi: true }
   ]
@@ -23,8 +24,10 @@ export class AvatarUploadComponent implements ControlValueAccessor {
   })
   buttonLabel = input<string>('Profilbild ändern')
 
-  private onTouch: OnTouchFn = EMPTY_METHOD
-  private onChange: OnChangeFn<File | null> = EMPTY_METHOD
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onTouch: OnTouchFn = () => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  private onChange: OnChangeFn<File | null> = () => {}
   protected _url: string | null = null
 
   onInputChange(event: Event): void {

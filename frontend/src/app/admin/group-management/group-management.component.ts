@@ -1,8 +1,8 @@
-import {Component, computed, DestroyRef, inject, OnInit, signal} from '@angular/core'
+import {Component, computed, DestroyRef, inject, OnInit, signal, ChangeDetectionStrategy} from '@angular/core'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {AdminService} from '../admin.service'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
@@ -20,6 +20,7 @@ import {MatInput} from '@angular/material/input'
     MatInput,
   ],
   templateUrl: './group-management.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './group-management.component.css'
 })
 export class GroupManagementComponent implements OnInit {
@@ -106,5 +107,7 @@ export class GroupManagementComponent implements OnInit {
     })
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

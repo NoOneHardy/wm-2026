@@ -1,4 +1,4 @@
-import {Component, inject, Signal} from '@angular/core'
+import {Component, inject, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avatar-upload.component'
 import {Store} from '@ngrx/store'
 import {selectIsUserLoading, selectUser} from '../../user-management/store/user.feature'
@@ -15,7 +15,7 @@ import {UpdateUser, User} from '../../model/user/user'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {UserValidatorService} from '../../user-management/signup/validators/user-validator.service'
 
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {updateUser, uploadAvatar} from '../../user-management/store/user.actions'
 import {passwordMatch} from '../../user-management/signup/validators/password-validator'
 import {MatFormFieldModule} from '@angular/material/form-field'
@@ -38,6 +38,7 @@ import {MatIcon} from '@angular/material/icon'
     MatIcon
   ],
   templateUrl: './account-settings.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './account-settings.component.css'
 })
 export default class AccountSettingsComponent {
@@ -118,13 +119,13 @@ export default class AccountSettingsComponent {
 
   passwordErrorStateMatcher: ErrorStateMatcher = {
     isErrorState: (control: AbstractControl | null, _: FormGroupDirective | NgForm | null): boolean => {
-      return !!control && (hasError(control) || this.showPasswordMatchError('password'))
+      return !!control && (hasErrorFn(control) || this.showPasswordMatchError('password'))
     }
   }
 
   confirmPasswordErrorStateMatcher: ErrorStateMatcher = {
     isErrorState: (control: AbstractControl | null, _: FormGroupDirective | NgForm | null): boolean => {
-      return !!control && (hasError(control) || this.showPasswordMatchError('confirmPassword'))
+      return !!control && (hasErrorFn(control) || this.showPasswordMatchError('confirmPassword'))
     }
   }
 
@@ -132,8 +133,10 @@ export default class AccountSettingsComponent {
     const changedGroup = this.pwGroup.get('changed')
     if (!changedGroup) return false
 
-    return hasError(changedGroup, 'passwordMatch') && !hasError(changedGroup.get(formField))
+    return hasErrorFn(changedGroup, 'passwordMatch') && !hasErrorFn(changedGroup.get(formField))
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

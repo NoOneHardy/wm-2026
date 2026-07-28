@@ -1,9 +1,9 @@
-import {Component, DestroyRef, inject, signal} from '@angular/core'
+import {Component, DestroyRef, inject, signal, ChangeDetectionStrategy} from '@angular/core'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
 import {AvatarUploadComponent} from '../../shared/components/avatar-upload/avatar-upload.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {NgOptimizedImage} from '@angular/common'
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {AdminService} from '../admin.service'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {finalize, switchMap} from 'rxjs'
@@ -23,6 +23,7 @@ import {MatInput} from '@angular/material/input'
     MatInput
   ],
   templateUrl: './team-management.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './team-management.component.css'
 })
 export class TeamManagementComponent {
@@ -77,5 +78,7 @@ export class TeamManagementComponent {
     })
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

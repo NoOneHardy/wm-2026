@@ -1,8 +1,8 @@
-import {Component, inject, OnInit} from '@angular/core'
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {UserManagementPanelComponent} from '../user-management-panel/user-management-panel.component'
 import {ButtonComponent} from '../../shared/material-api'
 import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms'
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {Store} from '@ngrx/store'
 import {resetError, userLogin} from '../store/user.actions'
 import {selectError} from '../store/user.feature'
@@ -26,6 +26,7 @@ import {MatFormFieldModule} from '@angular/material/form-field'
     PasswordIconDirective
   ],
   templateUrl: './login.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './login.component.css'
 })
 export class LoginComponent implements OnInit {
@@ -59,5 +60,7 @@ export class LoginComponent implements OnInit {
     this.store.dispatch(userLogin(data))
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

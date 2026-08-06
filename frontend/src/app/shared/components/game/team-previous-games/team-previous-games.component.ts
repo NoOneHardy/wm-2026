@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core'
+import {Component, input, ChangeDetectionStrategy} from '@angular/core'
 import {NgOptimizedImage} from '@angular/common'
 import {Team} from '../../../../model/team/team'
 
@@ -8,6 +8,7 @@ import {Team} from '../../../../model/team/team'
     NgOptimizedImage
   ],
   templateUrl: './team-previous-games.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './team-previous-games.component.css'
 })
 export class TeamPreviousGamesComponent {

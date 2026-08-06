@@ -3,7 +3,7 @@ import {provideRouter} from '@angular/router'
 import {de} from 'date-fns/locale/de'
 import localeDeCh from '@angular/common/locales/de-CH'
 import {routes} from './app.routes'
-import {provideHttpClient} from '@angular/common/http'
+import {provideHttpClient, withXhr} from '@angular/common/http'
 import {provideState, provideStore} from '@ngrx/store'
 import {userFeature} from './user-management/store/user.feature'
 import {provideEffects} from '@ngrx/effects'
@@ -29,7 +29,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({eventCoalescing: true}),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withXhr()),
     provideStore(),
     provideState(userFeature),
     provideState(tournamentFeature),

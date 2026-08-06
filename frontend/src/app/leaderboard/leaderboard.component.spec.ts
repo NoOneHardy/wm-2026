@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 
 import {LeaderboardComponent} from './leaderboard.component'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
@@ -37,7 +38,7 @@ describe('LeaderboardComponent', () => {
   })
 
   it('should load leaderboard from store', () => {
-    const spy = spyOn(store, 'dispatch')
+    const spy = vi.spyOn(store, 'dispatch')
     component.ngOnInit()
     expect(spy).toHaveBeenCalledWith(getLeaderboard())
     expect(component.leaderboard()).toEqual([])

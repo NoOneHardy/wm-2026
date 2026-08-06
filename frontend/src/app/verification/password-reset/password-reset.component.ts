@@ -1,7 +1,7 @@
-import {Component, inject, OnInit} from '@angular/core'
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {UserManagementPanelComponent} from '../../user-management/user-management-panel/user-management-panel.component'
 import {FormControl, FormGroup, FormGroupDirective, NgForm, ReactiveFormsModule, Validators} from '@angular/forms'
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {passwordMatch} from '../../user-management/signup/validators/password-validator'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {Store} from '@ngrx/store'
@@ -26,6 +26,7 @@ import {PasswordIconDirective} from '../../shared/directives/password-icon.direc
     PasswordIconDirective
   ],
   templateUrl: './password-reset.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './password-reset.component.css'
 })
 export class PasswordResetComponent implements OnInit {
@@ -68,19 +69,21 @@ export class PasswordResetComponent implements OnInit {
 
   passwordErrorStateMatcher: ErrorStateMatcher = {
     isErrorState: (control: FormControl | null, _: FormGroupDirective | NgForm | null): boolean => {
-      return !!control && (hasError(control) || this.showPasswordMatchError('password'))
+      return !!control && (hasErrorFn(control) || this.showPasswordMatchError('password'))
     }
   }
 
   confirmPasswordErrorStateMatcher: ErrorStateMatcher = {
     isErrorState: (control: FormControl | null, _: FormGroupDirective | NgForm | null): boolean => {
-      return !!control && (hasError(control) || this.showPasswordMatchError('confirmPassword'))
+      return !!control && (hasErrorFn(control) || this.showPasswordMatchError('confirmPassword'))
     }
   }
 
   showPasswordMatchError(formField: 'password' | 'confirmPassword'): boolean {
-    return hasError(this.formGroup, 'passwordMatch') && !hasError(this.formGroup.get(formField))
+    return hasErrorFn(this.formGroup, 'passwordMatch') && !hasErrorFn(this.formGroup.get(formField))
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

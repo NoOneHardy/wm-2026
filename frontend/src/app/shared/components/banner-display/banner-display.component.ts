@@ -1,4 +1,4 @@
-import {Component, inject, Signal} from '@angular/core'
+import {Component, inject, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../../../user-management/store/user.feature'
 import {User} from '../../../model/user/user'
@@ -8,6 +8,7 @@ import {sendEmailVerificationLink} from '../../../user-management/store/user.act
   selector: 'bet-banner-display',
   imports: [],
   templateUrl: './banner-display.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './banner-display.component.css'
 })
 export class BannerDisplayComponent {

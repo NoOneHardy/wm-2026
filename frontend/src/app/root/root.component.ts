@@ -1,4 +1,4 @@
-import {Component, computed, inject} from '@angular/core'
+import {Component, computed, inject, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectUser} from '../user-management/store/user.feature'
 import {DashboardComponent} from '../dashboard/dashboard.component'
@@ -11,6 +11,7 @@ import {HomeComponent} from '../home/home.component'
     HomeComponent
   ],
   templateUrl: './root.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './root.component.css'
 })
 export class RootComponent {

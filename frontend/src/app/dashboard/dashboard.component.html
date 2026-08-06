@@ -78,5 +78,5 @@
     }
   </div>
 
-  <bet-statistics [globalStats]="dashboardData()?.globalStats" [personalStats]="dashboardData()?.stats"/>
+  <bet-statistics [globalStats]="$safeNavigationMigration(dashboardData()?.globalStats)" [personalStats]="$safeNavigationMigration(dashboardData()?.stats)"/>
 </div>

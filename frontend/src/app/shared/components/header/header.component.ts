@@ -1,4 +1,4 @@
-import {Component, computed, ElementRef, inject, OnInit} from '@angular/core'
+import {Component, computed, ElementRef, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {NavItemComponent} from './components/nav-item/nav-item.component'
 import {UserMenuComponent} from './components/user-menu/user-menu.component'
 import {EventType, Router, RouterLink} from '@angular/router'
@@ -26,6 +26,7 @@ import {NotificationsComponent} from './components/notifications/notifications.c
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   animations: [
     trigger('expandable', [
       state('collapsed', style({

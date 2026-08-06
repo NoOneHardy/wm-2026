@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, ChangeDetectionStrategy} from '@angular/core'
 import {ComponentFixture, TestBed} from '@angular/core/testing'
 import {By} from '@angular/platform-browser'
 import {MatFormFieldModule} from '@angular/material/form-field'
@@ -15,6 +15,7 @@ import {PasswordIconDirective} from './password-icon.directive'
     MatIcon,
     PasswordIconDirective
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   template: `
     <mat-form-field>
       <input matInput type="password">
@@ -55,7 +56,7 @@ describe('PasswordIconDirective', () => {
 
     expect(directive).toBeTruthy()
     expect(directive['input']()).toBe(getInput())
-    expect(directive.isVisible()).toBeFalse()
+    expect(directive.isVisible()).toBe(false)
     expect(getInput().type).toBe('password')
     expect(getIcon().textContent?.trim()).toBe('visibility')
   })
@@ -66,14 +67,14 @@ describe('PasswordIconDirective', () => {
     icon.dispatchEvent(new Event('pointerup'))
     fixture.detectChanges()
 
-    expect(getDirective().isVisible()).toBeTrue()
+    expect(getDirective().isVisible()).toBe(true)
     expect(getInput().type).toBe('text')
     expect(icon.textContent?.trim()).toBe('visibility_off')
 
     icon.dispatchEvent(new Event('pointerup'))
     fixture.detectChanges()
 
-    expect(getDirective().isVisible()).toBeFalse()
+    expect(getDirective().isVisible()).toBe(false)
     expect(getInput().type).toBe('password')
     expect(icon.textContent?.trim()).toBe('visibility')
   })

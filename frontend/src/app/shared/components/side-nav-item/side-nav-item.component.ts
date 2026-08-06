@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core'
+import {Component, input, output, ChangeDetectionStrategy} from '@angular/core'
 import {RouterLink, RouterLinkActive} from '@angular/router'
 
 @Component({
@@ -8,6 +8,7 @@ import {RouterLink, RouterLinkActive} from '@angular/router'
     RouterLinkActive
   ],
   templateUrl: './side-nav-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './side-nav-item.component.css'
 })
 export class SideNavItemComponent {

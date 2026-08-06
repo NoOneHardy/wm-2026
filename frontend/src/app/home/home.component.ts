@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit} from '@angular/core'
+import {Component, computed, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {InfoCardComponent} from './components/info-card/info-card.component'
 import {PayoutBoardComponent} from './components/payout-board/payout-board.component'
@@ -16,6 +16,7 @@ import {SpinnerComponent} from '../shared/components/spinner/spinner.component'
     SpinnerComponent
   ],
   templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {

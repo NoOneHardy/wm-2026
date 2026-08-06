@@ -1,4 +1,4 @@
-import {Component, computed, inject, OnInit, Signal} from '@angular/core'
+import {Component, computed, inject, OnInit, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {selectIsAdminLoading, selectUsers} from '../store/admin.feature'
 import {NgOptimizedImage} from '@angular/common'
@@ -30,6 +30,7 @@ import {MatFormField, MatInput, MatLabel, MatPrefix} from '@angular/material/inp
     MatPrefix
   ],
   templateUrl: './user-management.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './user-management.component.css'
 })
 export class UserManagementComponent implements OnInit {
@@ -95,5 +96,7 @@ export class UserManagementComponent implements OnInit {
     this.store.dispatch(denyUser({id}))
   }
 
-  protected readonly UserApplicationStatus = UserApplicationStatus
+  protected get UserApplicationStatus(): typeof UserApplicationStatus {
+    return UserApplicationStatus
+  }
 }

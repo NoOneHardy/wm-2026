@@ -1,4 +1,4 @@
-import {Component} from '@angular/core'
+import {Component, ChangeDetectionStrategy} from '@angular/core'
 import {RouterLink} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
 import {StadiumComponent} from '../stadium/stadium.component'
@@ -11,6 +11,7 @@ import {StadiumComponent} from '../stadium/stadium.component'
     StadiumComponent
   ],
   templateUrl: './hero-section.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './hero-section.component.css'
 })
 export class HeroSectionComponent {

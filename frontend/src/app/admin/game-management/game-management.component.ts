@@ -1,4 +1,4 @@
-import {Component, computed, DestroyRef, ElementRef, inject, OnInit, Signal, signal, viewChild} from '@angular/core'
+import {Component, computed, DestroyRef, ElementRef, inject, OnInit, Signal, signal, viewChild, ChangeDetectionStrategy} from '@angular/core'
 import {
   AbstractControl,
   FormControl,
@@ -16,7 +16,7 @@ import {finalize, forkJoin} from 'rxjs'
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop'
 import {GroupOption} from '../model/group-option'
 import {LightTeam} from '../../model/team/light-team'
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {BetGame} from '../../model/game/bet-game'
 import {SnackbarService} from '../../shared/services/snackbar/snackbar.service'
 import {SpinnerComponent} from '../../shared/components/spinner/spinner.component'
@@ -47,6 +47,7 @@ import {ErrorStateMatcher} from '@angular/material/core'
     MatTimepicker
   ],
   templateUrl: './game-management.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './game-management.component.css'
 })
 export class GameManagementComponent implements OnInit {
@@ -205,7 +206,7 @@ export class GameManagementComponent implements OnInit {
 
   guestTeamErrorStateMatcher: ErrorStateMatcher = {
     isErrorState(control: AbstractControl | null, form: FormGroupDirective | NgForm | null): boolean {
-      return !!control && (hasError(control) || form?.hasError('sameTeams') || false)
+      return !!control && (hasErrorFn(control) || form?.hasError('sameTeams') || false)
     }
   }
 
@@ -230,5 +231,7 @@ export class GameManagementComponent implements OnInit {
     return date.toISOString()
   }
 
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

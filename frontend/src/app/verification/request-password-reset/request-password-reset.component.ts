@@ -1,11 +1,11 @@
-import {Component, inject} from '@angular/core'
+import {Component, inject, ChangeDetectionStrategy} from '@angular/core'
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'
 import {Store} from '@ngrx/store'
 import {requestPasswordResetLink} from '../../user-management/store/user.actions'
 import {UserManagementPanelComponent} from '../../user-management/user-management-panel/user-management-panel.component'
 import {ButtonComponent} from '../../shared/components/button/button.component'
 import {RouterLink} from '@angular/router'
-import {hasError} from '../../shared/helper/form-field-error'
+import {hasError as hasErrorFn} from '../../shared/helper/form-field-error'
 import {selectIsUserLoading} from '../../user-management/store/user.feature'
 import {MatInput} from '@angular/material/input'
 import {MatFormFieldModule} from '@angular/material/form-field'
@@ -26,6 +26,7 @@ enum STATE {
     MatInput
   ],
   templateUrl: './request-password-reset.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './request-password-reset.component.css'
 })
 export class RequestPasswordResetComponent {
@@ -51,5 +52,7 @@ export class RequestPasswordResetComponent {
   }
 
   protected readonly STATE = STATE
-  protected readonly hasError = hasError
+  protected get hasError(): typeof hasErrorFn {
+    return hasErrorFn
+  }
 }

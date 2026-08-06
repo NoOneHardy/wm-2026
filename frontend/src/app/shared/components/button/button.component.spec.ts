@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
+import { vi } from 'vitest'
 
 import { ButtonComponent } from './button.component'
 
@@ -26,19 +27,19 @@ describe('ButtonComponent', () => {
   })
 
   it('should map \'\' to true', () => {
-    expect(component.secondary()).toBeFalse()
+    expect(component.secondary()).toBe(false)
     fixture.componentRef.setInput('secondary', '')
-    expect(component.secondary()).toBeTrue()
+    expect(component.secondary()).toBe(true)
   })
 
   it('should map false to false', () => {
     fixture.componentRef.setInput('secondary', false)
-    expect(component.secondary()).toBeFalse()
+    expect(component.secondary()).toBe(false)
   })
 
   it('should map true to true', () => {
     fixture.componentRef.setInput('secondary', true)
-    expect(component.secondary()).toBeTrue()
+    expect(component.secondary()).toBe(true)
   })
 
   it('should have output for click event', () => {
@@ -50,13 +51,13 @@ describe('ButtonComponent', () => {
   })
 
   it('should emit click', () => {
-    const spy = spyOn(component.clickEvent, 'emit')
+    const spy = vi.spyOn(component.clickEvent, 'emit')
     component.click(new Event('click'))
     expect(spy).toHaveBeenCalled()
   })
 
   it('should emit click event on button click', () => {
-    const spy = spyOn(component.clickEvent, 'emit')
+    const spy = vi.spyOn(component.clickEvent, 'emit')
     fixture.nativeElement.querySelector('button').click()
     expect(spy).toHaveBeenCalled()
   })
@@ -78,13 +79,13 @@ describe('ButtonComponent', () => {
   })
 
   it('should stop propagation on click', () => {
-    const spy = spyOn(Event.prototype, 'stopPropagation')
+    const spy = vi.spyOn(Event.prototype, 'stopPropagation')
     component.click(new Event('click'))
     expect(spy).toHaveBeenCalled()
   })
 
   it('should prevent default on click', () => {
-    const spy = spyOn(Event.prototype, 'preventDefault')
+    const spy = vi.spyOn(Event.prototype, 'preventDefault')
     component.click(new Event('click'))
     expect(spy).toHaveBeenCalled()
   })
@@ -104,28 +105,28 @@ describe('ButtonComponent', () => {
   })
 
   it('should map \'\' to true', () => {
-    expect(component.disabled()).toBeFalse()
+    expect(component.disabled()).toBe(false)
     fixture.componentRef.setInput('disabled', '')
-    expect(component.disabled()).toBeTrue()
+    expect(component.disabled()).toBe(true)
   })
 
   it('should map false to false', () => {
     fixture.componentRef.setInput('disabled', false)
-    expect(component.disabled()).toBeFalse()
+    expect(component.disabled()).toBe(false)
   })
 
   it('should map true to true', () => {
     fixture.componentRef.setInput('disabled', true)
-    expect(component.disabled()).toBeTrue()
+    expect(component.disabled()).toBe(true)
   })
 
   it('should have a default enabled state', () => {
-    expect(fixture.nativeElement.querySelector('button').disabled).toBeFalse()
+    expect(fixture.nativeElement.querySelector('button').disabled).toBe(false)
   })
 
   it('should be disabled', () => {
     fixture.componentRef.setInput('disabled', true)
     fixture.detectChanges()
-    expect(fixture.nativeElement.querySelector('button').disabled).toBeTrue()
+    expect(fixture.nativeElement.querySelector('button').disabled).toBe(true)
   })
 })

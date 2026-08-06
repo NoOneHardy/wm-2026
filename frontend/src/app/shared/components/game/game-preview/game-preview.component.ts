@@ -1,4 +1,4 @@
-import {Component, computed, inject, input, Signal} from '@angular/core'
+import {Component, computed, inject, input, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {BetGame} from '../../../../model/game/bet-game'
 import { DatePipe, NgOptimizedImage } from '@angular/common'
 import {ButtonComponent} from '../../button/button.component'
@@ -14,6 +14,7 @@ import {Bet} from '../../../../model/game/bet'
     ButtonComponent
   ],
   templateUrl: './game-preview.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './game-preview.component.css'
 })
 export class GamePreviewComponent {

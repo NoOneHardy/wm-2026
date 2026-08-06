@@ -1,6 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing'
-
-import { ScoreFormFieldComponent } from './score-form-field.component'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {ScoreFormFieldComponent} from './score-form-field.component'
 
 describe('ScoreFormFieldComponent', () => {
   let component: ScoreFormFieldComponent

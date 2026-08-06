@@ -1,5 +1,5 @@
 import {TestBed} from '@angular/core/testing'
-import {provideHttpClient} from '@angular/common/http'
+import {provideHttpClient, withXhr} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
 import {HomeService} from './home.service'
 
@@ -8,7 +8,7 @@ describe('HomeService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideMockStore()]
+      providers: [provideHttpClient(withXhr()), provideMockStore()]
     })
     service = TestBed.inject(HomeService)
   })

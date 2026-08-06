@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import {UserButtonComponent} from './user-button.component'
 import {provideRouter} from '@angular/router'
 
@@ -23,7 +24,7 @@ describe('UserButtonComponent', () => {
   })
 
   it('should emit on click no matter if it\'s a button or a link', () => {
-    const clickSpy = spyOn(component.clickButton, 'emit')
+    const clickSpy = vi.spyOn(component.clickButton, 'emit')
     expect(clickSpy).not.toHaveBeenCalled()
 
     // Button
@@ -52,12 +53,12 @@ describe('UserButtonComponent', () => {
     fixture.detectChanges()
 
     // Button
-    expect(fixture.nativeElement.querySelector('.button')?.innerText).toBe('Hello World!')
+    expect(fixture.nativeElement.querySelector('.button')?.textContent?.trim()).toBe('Hello World!')
 
     // Link
     fixture.componentRef.setInput('route', '/')
     fixture.detectChanges()
-    expect(fixture.nativeElement.querySelector('.button')?.innerText).toBe('Hello World!')
+    expect(fixture.nativeElement.querySelector('.button')?.textContent?.trim()).toBe('Hello World!')
   })
 
   it('should have class secondary if empty string is given', () => {

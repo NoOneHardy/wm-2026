@@ -1,4 +1,4 @@
-import {Component, input, output} from '@angular/core'
+import {Component, input, output, ChangeDetectionStrategy} from '@angular/core'
 
 import {RouterLink, RouterLinkActive} from '@angular/router'
 import {MatRipple} from '@angular/material/core'
@@ -11,6 +11,7 @@ import {MatRipple} from '@angular/material/core'
     MatRipple
   ],
   templateUrl: './nav-item.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './nav-item.component.css'
 })
 export class NavItemComponent {

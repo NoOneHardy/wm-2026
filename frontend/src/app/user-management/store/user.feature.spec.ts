@@ -34,30 +34,30 @@ describe('UserFeature', () => {
 
   it('should return whether a user is admin', () => {
     let state = initialState
-    expect(selectIsAdmin.projector(state.user)).toBeFalse()
+    expect(selectIsAdmin.projector(state.user)).toBe(false)
     state = store.reducer(state, userLoggedIn({
       ...mockUser,
       role: Role.ADMIN
     }))
-    expect(selectIsAdmin.projector(state.user)).toBeTrue()
+    expect(selectIsAdmin.projector(state.user)).toBe(true)
     state = store.reducer(state, userLoggedIn(mockUser))
-    expect(selectIsAdmin.projector(state.user)).toBeFalse()
+    expect(selectIsAdmin.projector(state.user)).toBe(false)
   })
 
   it('should set isUserLoading to true on markNotificationAsRead', () => {
     let state = initialState
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
     state = store.reducer(state, markNotificationAsRead({id: 'asdf'}))
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
   })
 
   it('should set isUserLoading to false on markedNotificationAsRead', () => {
     let state = initialState
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
     state = store.reducer(state, markNotificationAsRead({id: 'asdf'}))
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
     state = store.reducer(state, markedNotificationAsRead())
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
   })
 
   it('should update the user notifications', () => {
@@ -73,7 +73,7 @@ describe('UserFeature', () => {
       }]
     }))
 
-    expect(state.notifications).toHaveSize(1)
+    expect(state.notifications).toHaveLength(1)
     expect(state.notifications).toEqual([{
       id: 'not-1',
       title: 'WOW',
@@ -85,10 +85,10 @@ describe('UserFeature', () => {
 
   it('should set isUserLoading to true on requestPasswordResetLink', () => {
     let state = initialState
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
     state = store.reducer(state, requestPasswordResetLink({email: 'silas@test.ch'}))
 
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
   })
 
   it('should set isUserLoading to false on requestedPasswordResetLink', () => {
@@ -96,17 +96,17 @@ describe('UserFeature', () => {
       ...initialState,
       isUserLoading: true
     }
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
     state = store.reducer(state, passwordResetLinkRequested({isSent: true}))
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
   })
 
   it('should set isUserLoading to true on resetPassword', () => {
     let state = initialState
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
     state = store.reducer(state, resetPassword({code: '123', newPassword: '123'}))
 
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
   })
 
   it('should set isUserLoading to false on passwordResetDone', () => {
@@ -114,9 +114,9 @@ describe('UserFeature', () => {
       ...initialState,
       isUserLoading: true
     }
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
     state = store.reducer(state, passwordResetDone({success: true}))
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
   })
 
   it('should set isUserLoading to false on createUserFailed', () => {
@@ -124,8 +124,8 @@ describe('UserFeature', () => {
       ...initialState,
       isUserLoading: true
     }
-    expect(state.isUserLoading).toBeTrue()
+    expect(state.isUserLoading).toBe(true)
     state = store.reducer(state, createUserFailed())
-    expect(state.isUserLoading).toBeFalse()
+    expect(state.isUserLoading).toBe(false)
   })
 })

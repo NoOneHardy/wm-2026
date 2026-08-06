@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core'
+import {Component, inject, OnInit, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {GroupViewComponent} from '../../shared/components/group-view/group-view.component'
 import {OverviewComponent} from '../../shared/components/overview/overview.component'
@@ -11,6 +11,7 @@ import {loadGroup} from '../../shared/store/tournament.actions'
     GroupViewComponent,
     OverviewComponent
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './result-management.component.html'
 })
 export class ResultManagementComponent implements OnInit {

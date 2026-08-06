@@ -1,4 +1,4 @@
-import {Component, input} from '@angular/core'
+import {Component, input, ChangeDetectionStrategy} from '@angular/core'
 import {BetGame} from '../../../model/game/bet-game'
 import {GamePreviewComponent} from '../../../shared/components/game/game-preview/game-preview.component'
 
@@ -11,6 +11,7 @@ import {RouterLink} from '@angular/router'
     RouterLink
   ],
   templateUrl: './upcoming-games.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './upcoming-games.component.css'
 })
 export class UpcomingGamesComponent {

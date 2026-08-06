@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, ElementRef, inject} from '@angular/core'
+import {AfterContentInit, Component, ElementRef, inject, ChangeDetectionStrategy} from '@angular/core'
 
 import {SpinnerComponent} from '../spinner/spinner.component'
 
@@ -7,6 +7,7 @@ import {SpinnerComponent} from '../spinner/spinner.component'
   imports: [
     SpinnerComponent
   ],
+  changeDetection: ChangeDetectionStrategy.Eager,
   templateUrl: './form-field.component.html'
 })
 export class FormFieldComponent implements AfterContentInit {

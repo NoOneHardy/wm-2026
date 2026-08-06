@@ -1,4 +1,4 @@
-import {Component, effect, inject, input, Signal} from '@angular/core'
+import {Component, effect, inject, input, Signal, ChangeDetectionStrategy} from '@angular/core'
 import {Store} from '@ngrx/store'
 import {
   selectActiveGroup,
@@ -32,6 +32,7 @@ import {RemainingJokerDisplayComponent} from '../remaining-joker-display/remaini
     RemainingJokerDisplayComponent
   ],
   templateUrl: './group-view.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './group-view.component.css'
 })
 export class GroupViewComponent {

@@ -18,14 +18,14 @@ describe('HomeFeature', () => {
 
   it('should set isHomeLoading to true when loading data', () => {
     let state = initialState
-    expect(state.isHomeLoading).toBeFalse()
+    expect(state.isHomeLoading).toBe(false)
     state = store.reducer(state, loadHomeData())
-    expect(state.isHomeLoading).toBeTrue()
+    expect(state.isHomeLoading).toBe(true)
   })
 
   it('should store data and stop loading when data has been loaded', () => {
     let state = store.reducer(initialState, loadHomeData())
-    expect(state.isHomeLoading).toBeTrue()
+    expect(state.isHomeLoading).toBe(true)
     state = store.reducer(state, homeDataLoaded({
       data: {
         jackpot: 210,
@@ -33,7 +33,7 @@ describe('HomeFeature', () => {
         games: 35
       }
     }))
-    expect(state.isHomeLoading).toBeFalse()
+    expect(state.isHomeLoading).toBe(false)
     expect(state.homeData).toEqual({
       jackpot: 210,
       players: 42,
@@ -43,8 +43,8 @@ describe('HomeFeature', () => {
 
   it('should stop loading when loading data fails', () => {
     let state = store.reducer(initialState, loadHomeData())
-    expect(state.isHomeLoading).toBeTrue()
+    expect(state.isHomeLoading).toBe(true)
     state = store.reducer(state, homeDataLoadFailed())
-    expect(state.isHomeLoading).toBeFalse()
+    expect(state.isHomeLoading).toBe(false)
   })
 })

@@ -2,7 +2,6 @@
 const eslint = require('@eslint/js')
 const tseslint = require('typescript-eslint')
 const angular = require('angular-eslint')
-const stylistic = require('@stylistic/eslint-plugin')
 
 module.exports = tseslint.config(
   {
@@ -13,9 +12,6 @@ module.exports = tseslint.config(
       ...tseslint.configs.stylistic,
       ...angular.configs.tsRecommended,
     ],
-    plugins: {
-      '@stylistic': stylistic
-    },
     processor: angular.processInlineTemplates,
     rules: {
       'indent': ['error', 2],
@@ -31,16 +27,17 @@ module.exports = tseslint.config(
           style: 'kebab-case',
         },
       ],
-      '@stylistic/quotes': [
+      'quotes': [
         'error',
         'single',
-        {'allowTemplateLiterals': 'always'}
+        {'allowTemplateLiterals': true}
       ],
-      '@stylistic/semi': [
+      'semi': [
         'error',
         'never'
       ],
-      '@angular-eslint/no-input-rename': 'off'
+      '@angular-eslint/no-input-rename': 'off',
+      '@angular-eslint/prefer-on-push-component-change-detection': 'off'
     },
   },
   {

@@ -1,6 +1,7 @@
-import {ComponentFixture, TestBed, fakeAsync, tick} from '@angular/core/testing'
+import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import {SignupComponent} from './signup.component'
-import {provideHttpClient} from '@angular/common/http'
+import {provideHttpClient, withXhr} from '@angular/common/http'
 import {provideMockStore} from '@ngrx/store/testing'
 import {EffectRef, Injectable} from '@angular/core'
 import {of} from 'rxjs'
@@ -34,7 +35,7 @@ describe('SignupComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [SignupComponent],
-      providers: [provideHttpClient(), provideMockStore(), {
+      providers: [provideHttpClient(withXhr()), provideMockStore(), {
         provide: UserValidatorService,
         useExisting: MockUserValidatorService
       }]
@@ -60,7 +61,7 @@ describe('SignupComponent', () => {
     expect(component.formGroup.get('passwords')?.get('confirmPassword')).toBeTruthy()
   })
 
-  it('should validate username', fakeAsync(() => {
+  it('should validate username', async () => {
     const usernameControl = component.formGroup.get('username')
     expect(usernameControl).toBeTruthy()
     if (!usernameControl) return
@@ -68,20 +69,20 @@ describe('SignupComponent', () => {
     expect(usernameControl.value).toBe('')
     expect(usernameControl.errors?.['required']).toBeTruthy()
     usernameControl.setValue('123')
-    tick()
+    await Promise.resolve()
     expect(usernameControl.errors?.['required']).toBeFalsy()
     expect(usernameControl.errors?.['minlength']).toBeTruthy()
     usernameControl.setValue('No1Hardy')
-    tick()
+    await Promise.resolve()
     expect(usernameControl.errors?.['minlength']).toBeFalsy()
     expect(usernameControl.errors?.['usernameAvailable']).toBeTruthy()
     usernameControl.setValue('NoOneHardy')
-    tick()
+    await Promise.resolve()
     expect(usernameControl.errors?.['usernameAvailable']).toBeFalsy()
-    expect(usernameControl.valid).toBeTrue()
-  }))
+    expect(usernameControl.valid).toBe(true)
+  })
 
-  it('should validate email', fakeAsync(() => {
+  it('should validate email', async () => {
     const emailControl = component.formGroup.get('email')
     expect(emailControl).toBeTruthy()
     if (!emailControl) return
@@ -89,18 +90,18 @@ describe('SignupComponent', () => {
     expect(emailControl.value).toBe('')
     expect(emailControl.errors?.['required']).toBeTruthy()
     emailControl.setValue('test.ch')
-    tick()
+    await Promise.resolve()
     expect(emailControl.errors?.['required']).toBeFalsy()
     expect(emailControl.errors?.['email']).toBeTruthy()
     emailControl.setValue('test@no1hardy.ch')
-    tick()
+    await Promise.resolve()
     expect(emailControl.errors?.['email']).toBeFalsy()
     expect(emailControl.errors?.['emailAvailable']).toBeTruthy()
     emailControl.setValue('admin@no1hardy.ch')
-    tick()
+    await Promise.resolve()
     expect(emailControl.errors?.['emailAvailable']).toBeFalsy()
-    expect(emailControl.valid).toBeTrue()
-  }))
+    expect(emailControl.valid).toBe(true)
+  })
 
   it('should validate firstname', () => {
     const firstnameControl = component.formGroup.get('firstname')
@@ -114,7 +115,7 @@ describe('SignupComponent', () => {
     expect(firstnameControl.errors?.['minlength']).toBeTruthy()
     firstnameControl.setValue('Silas')
     expect(firstnameControl.errors?.['minlength']).toBeFalsy()
-    expect(firstnameControl.valid).toBeTrue()
+    expect(firstnameControl.valid).toBe(true)
   })
 
   it('should validate lastname', () => {
@@ -129,7 +130,7 @@ describe('SignupComponent', () => {
     expect(lastnameControl.errors?.['minlength']).toBeTruthy()
     lastnameControl.setValue('Hardegger')
     expect(lastnameControl.errors?.['minlength']).toBeFalsy()
-    expect(lastnameControl.valid).toBeTrue()
+    expect(lastnameControl.valid).toBe(true)
   })
 
   it('should validate password fields', () => {
@@ -148,7 +149,7 @@ describe('SignupComponent', () => {
       }
       passwordControl.setValue('password')
       expect(passwordControl.errors?.['minlength']).toBeFalsy()
-      expect(passwordControl.valid).toBeTrue()
+      expect(passwordControl.valid).toBe(true)
 
     })
   })
@@ -171,7 +172,7 @@ describe('SignupComponent', () => {
     expect(passwordGroup.errors?.['passwordMatch']).toBeTruthy()
     passwordControl.setValue('password')
     confirmControl.setValue('password')
-    expect(passwordGroup.valid).toBeTrue()
+    expect(passwordGroup.valid).toBe(true)
   })
 
   it('should surface passwordMatch on the password field', () => {
@@ -190,13 +191,13 @@ describe('SignupComponent', () => {
     passwordControl.markAsTouched()
     confirmControl.markAsTouched()
 
-    expect(component.showPasswordMatchError('password')).toBeTrue()
-    expect(component.showPasswordMatchError('confirmPassword')).toBeTrue()
-    expect(component.passwordErrorStateMatcher.isErrorState(passwordControl as FormControl, null)).toBeTrue()
+    expect(component.showPasswordMatchError('password')).toBe(true)
+    expect(component.showPasswordMatchError('confirmPassword')).toBe(true)
+    expect(component.passwordErrorStateMatcher.isErrorState(passwordControl as FormControl, null)).toBe(true)
   })
 
   it('should dispatch user create action', () => {
-    const spy = spyOn(component['store'], 'dispatch').and.callFake(() => {
+    const spy = vi.spyOn(component['store'], 'dispatch').mockImplementation(() => {
       return null as unknown as EffectRef
     })
     component.formGroup.setValue({

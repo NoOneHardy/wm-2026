@@ -1,4 +1,5 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing'
+import {vi} from 'vitest'
 import {MockStore, provideMockStore} from '@ngrx/store/testing'
 import {UserManagementComponent} from './user-management.component'
 import {selectUsers} from '../store/admin.feature'
@@ -38,7 +39,7 @@ describe('UserManagementComponent', () => {
   })
 
   it('should load users on init', () => {
-    spyOn(store, 'dispatch')
+    vi.spyOn(store, 'dispatch')
     component.ngOnInit()
     expect(store.dispatch).toHaveBeenCalledWith(loadUsers())
   })
@@ -69,34 +70,34 @@ describe('UserManagementComponent', () => {
     mockUser.userApplicationStatus = UserApplicationStatus.ACCEPTED
     mockUser.applicationReviewedAt = new Date('2025-06-19T17:04:00')
 
-    expect(component.isAccepted(mockUser)).toBeTrue()
+    expect(component.isAccepted(mockUser)).toBe(true)
 
     mockUser.userApplicationStatus = UserApplicationStatus.PENDING
-    expect(component.isAccepted(mockUser)).toBeFalse()
+    expect(component.isAccepted(mockUser)).toBe(false)
 
     mockUser.userApplicationStatus = UserApplicationStatus.DENIED
-    expect(component.isAccepted(mockUser)).toBeFalse()
+    expect(component.isAccepted(mockUser)).toBe(false)
 
     mockUser.userApplicationStatus = UserApplicationStatus.ACCEPTED
     mockUser.applicationReviewedAt = null
-    expect(component.isAccepted(mockUser)).toBeFalse()
+    expect(component.isAccepted(mockUser)).toBe(false)
   })
 
   it('should evaluate whether the user is denied', () => {
     mockUser.userApplicationStatus = UserApplicationStatus.DENIED
     mockUser.applicationReviewedAt = new Date('2025-06-19T17:04:00')
 
-    expect(component.isDenied(mockUser)).toBeTrue()
+    expect(component.isDenied(mockUser)).toBe(true)
 
     mockUser.userApplicationStatus = UserApplicationStatus.PENDING
-    expect(component.isDenied(mockUser)).toBeFalse()
+    expect(component.isDenied(mockUser)).toBe(false)
 
     mockUser.userApplicationStatus = UserApplicationStatus.ACCEPTED
-    expect(component.isDenied(mockUser)).toBeFalse()
+    expect(component.isDenied(mockUser)).toBe(false)
 
     mockUser.userApplicationStatus = UserApplicationStatus.DENIED
     mockUser.applicationReviewedAt = null
-    expect(component.isDenied(mockUser)).toBeFalse()
+    expect(component.isDenied(mockUser)).toBe(false)
   })
 
   it('should sort users by application status and username', () => {
@@ -307,14 +308,14 @@ describe('UserManagementComponent', () => {
   })
 
   it('should call confirmUser action on accept', () => {
-    spyOn(store, 'dispatch')
+    vi.spyOn(store, 'dispatch')
     const userId = 'test-user-id'
     component.accept(userId)
     expect(store.dispatch).toHaveBeenCalledWith(confirmUser({id: userId}))
   })
 
   it('should call denyUser action on deny', () => {
-    spyOn(store, 'dispatch')
+    vi.spyOn(store, 'dispatch')
     const userId = 'test-user-id'
     component.deny(userId)
     expect(store.dispatch).toHaveBeenCalledWith(denyUser({id: userId}))

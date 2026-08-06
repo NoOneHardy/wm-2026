@@ -1,8 +1,8 @@
-import {Component, computed, effect, inject, input, output} from '@angular/core'
+import {Component, computed, effect, inject, input, output, ChangeDetectionStrategy} from '@angular/core'
 import {BetGame} from '../../../../model/game/bet-game'
 import {ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule} from '@angular/forms'
 import {BetForm} from '../../../../model/game/bet-form'
-import {EMPTY_METHOD, OnChangeFn, OnTouchFn} from '../../../helper/control-value-accessor'
+import {OnChangeFn, OnTouchFn} from '../../../helper/control-value-accessor'
 import {DatePipe, NgOptimizedImage} from '@angular/common'
 import {ScoreFormFieldComponent} from '../../score-form-field/score-form-field.component'
 import {toSignal} from '@angular/core/rxjs-interop'
@@ -32,6 +32,7 @@ import {TeamPreviousGamesComponent} from '../team-previous-games/team-previous-g
   ],
   templateUrl: './bet-form.component.html',
   styleUrl: './bet-form.component.css',
+  changeDetection: ChangeDetectionStrategy.Eager,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -81,8 +82,10 @@ export class BetFormComponent implements ControlValueAccessor {
 
   valueChanges = toSignal(this.formGroup.valueChanges)
 
-  onChange: OnChangeFn<BetForm> = EMPTY_METHOD
-  onTouch: OnTouchFn = EMPTY_METHOD
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onChange: OnChangeFn<BetForm> = () => {}
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onTouch: OnTouchFn = () => {}
 
   constructor() {
     effect(() => {

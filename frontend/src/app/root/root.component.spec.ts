@@ -44,7 +44,7 @@ describe('RootComponent', () => {
     store.overrideSelector(selectUser, null)
     store.refreshState()
     fixture.detectChanges()
-    expect(component.isLoggedIn()).toBeFalse()
+    expect(component.isLoggedIn()).toBe(false)
   })
 
   it('should update user when store emits a new user', () => {
@@ -58,6 +58,6 @@ describe('RootComponent', () => {
     store.overrideSelector(selectUser, mockUser)
     store.refreshState()
     fixture.detectChanges()
-    expect(component.isLoggedIn()).toBeTrue()
+    expect(component.isLoggedIn()).toBe(true)
   })
 })

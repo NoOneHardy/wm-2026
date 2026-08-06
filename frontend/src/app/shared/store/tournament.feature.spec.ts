@@ -89,17 +89,17 @@ describe('TournamentFeature', () => {
 
   it('should start loading when selecting a group', () => {
     let state = initialState
-    expect(state.isTournamentLoading).toBeFalse()
+    expect(state.isTournamentLoading).toBe(false)
     state = store.reducer(state, loadGroup({groupId: 'group-1'}))
-    expect(state.isTournamentLoading).toBeTrue()
+    expect(state.isTournamentLoading).toBe(true)
   })
 
   it('should stop loading when group has been loaded', () => {
     let state = initialState
     state = store.reducer(state, loadGroup({groupId: 'group-1'}))
-    expect(state.isTournamentLoading).toBeTrue()
+    expect(state.isTournamentLoading).toBe(true)
     state = store.reducer(state, groupLoaded({group: mockGroup}))
-    expect(state.isTournamentLoading).toBeFalse()
+    expect(state.isTournamentLoading).toBe(false)
   })
 
   it('should reset active group when loading overview groups', () => {
@@ -118,23 +118,23 @@ describe('TournamentFeature', () => {
 
   it('should start loading when saving results', () => {
     let state = initialState
-    expect(state.isTournamentSaving).toBeFalse()
+    expect(state.isTournamentSaving).toBe(false)
     state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
-    expect(state.isTournamentSaving).toBeTrue()
+    expect(state.isTournamentSaving).toBe(true)
   })
 
   it('should stop loading when results have been saved', () => {
     let state = initialState
     state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
-    expect(state.isTournamentSaving).toBeTrue()
+    expect(state.isTournamentSaving).toBe(true)
     state = store.reducer(state, resultsSaved({group: mockGroup}))
-    expect(state.isTournamentSaving).toBeFalse()
+    expect(state.isTournamentSaving).toBe(false)
   })
 
   it('should update group and available jokers when results have been saved', () => {
     let state = initialState
     state = store.reducer(state, saveResults({groupId: 'group-1', results: []}))
-    expect(state.isTournamentSaving).toBeTrue()
+    expect(state.isTournamentSaving).toBe(true)
     state = store.reducer(state, resultsSaved({group: mockGroup}))
     expect(state.activeGroup).toEqual(mockGroup)
     expect(state.availableJokers).toEqual(mockGroup.availableJokers)

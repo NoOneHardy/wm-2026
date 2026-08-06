@@ -1,9 +1,10 @@
-import {Component, input} from '@angular/core'
+import {Component, input, ChangeDetectionStrategy} from '@angular/core'
 
 @Component({
   selector: 'bet-remaining-joker-display',
   imports: [],
   templateUrl: './remaining-joker-display.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './remaining-joker-display.component.css'
 })
 export class RemainingJokerDisplayComponent {

@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Live Demo**: https://beticon-dev.no1hardy.ch
 - **Git Conventions**: See `docs/git-conventions.md` for binding conventions on commits, branches, and PRs
+- **Architecture Decisions**: See `docs/architecture/0001-microservice-split.md` for the target microservice split
 
 ## Architecture
 
